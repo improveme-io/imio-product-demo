@@ -1,9 +1,28 @@
-import { withClerkMiddleware } from "@clerk/nextjs/server";
+import { getAuth, withClerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// NOTE: we don't use the request parameter, but this is how you can access it
-export default withClerkMiddleware((_req: NextRequest) => {
+const publicPaths = ["/"];
+
+const isPublic = (path: string) => {
+  return publicPaths.find((x) =>
+    path.match(new RegExp(`^${x}$`.replace("*$", "($|/)")))
+  );
+};
+
+export default withClerkMiddleware((request: NextRequest) => {
+  if (isPublic(request.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+  // if the user is not signed in redirect them to the sign in page.
+  const { userId } = getAuth(request);
+
+  // TODO: look into this a bit when working on the sign up / creation flow
+  if (!userId) {
+    const signInUrl = new URL("/", request.url);
+    signInUrl.searchParams.set("redirect_url", request.url);
+    return NextResponse.redirect(signInUrl);
+  }
   return NextResponse.next();
 });
 
