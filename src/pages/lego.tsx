@@ -52,18 +52,12 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { UserIcon } from "lucide-react";
 
-const AddFeedbackAuthor: NextPage = () => {
+const AddFeedbackAuthor = () => {
   return (
     <section className="px-2 py-2">
       <h2 className="flex text-xl">
