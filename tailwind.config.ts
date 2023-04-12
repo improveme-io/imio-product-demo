@@ -8,6 +8,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        "dm-sans": ["DM Sans", "sans-serif"],
+        "dm-mono": ["DM Mono", "monospace"],
       },
       keyframes: {
         "accordion-down": {
