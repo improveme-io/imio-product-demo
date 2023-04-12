@@ -50,12 +50,12 @@
 
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useUser } from "@clerk/nextjs";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 
 import { UserIcon, SendIcon, StepForwardIcon } from "lucide-react";
 
@@ -114,8 +114,6 @@ const IntroParagraph = () => {
 };
 
 const Lego: NextPage = () => {
-  const user = useUser();
-
   return (
     <>
       <Head>
@@ -129,14 +127,15 @@ const Lego: NextPage = () => {
       <main className="items-left justify-left flex min-h-screen flex-col">
         <div className="container flex flex-col px-4 pb-8 pt-4 ">
           <header className="pb-8">
-            <p className="text-l mt-0">Create Feedback Request</p>
+            <p className="text-l mb-1 mt-0">Create Feedback Request</p>
             <h1 className="text-3xl font-extrabold tracking-tight">
-              Hello {user.user?.firstName ?? "You"}
+              General Feedback Data
             </h1>
           </header>
           <FeedbackAuthorList />
           <IntroParagraph />
         </div>
+        <Separator className="my-4" />
         <footer className="container flex justify-end px-8 pb-16 pt-8">
           <Button size="lg">
             <StepForwardIcon className="mr-2" />
