@@ -56,6 +56,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { UserIcon, SendIcon, StepForwardIcon } from "lucide-react";
 
@@ -125,23 +126,39 @@ const Lego: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="items-left justify-left flex min-h-screen flex-col">
-        <div className="container flex flex-col px-4 pb-8 pt-4 ">
-          <header className="pb-8">
-            <p className="text-l mb-1 mt-0">Create Feedback Request</p>
-            <h1 className="text-3xl font-extrabold tracking-tight">
-              General Feedback Data
-            </h1>
-          </header>
-          <FeedbackAuthorList />
-          <IntroParagraph />
-        </div>
-        <Separator className="my-4" />
-        <footer className="container flex justify-end px-8 pb-16 pt-8">
-          <Button size="lg">
-            <StepForwardIcon className="mr-2" />
-            Start Adding Feedback Items…
-          </Button>
-        </footer>
+        <Tabs>
+          <TabsList>
+            <TabsTrigger value="SETUP">Feedback Setup</TabsTrigger>
+            <TabsTrigger value="ITEMS">Feedback Items</TabsTrigger>
+          </TabsList>
+          <div className="container flex flex-col px-4 pb-8 pt-4 ">
+            <TabsContent className="mt-0 border-none p-0" value="ITEMS">
+              <header className="pb-8">
+                <p className="text-l mb-1 mt-0">Create Feedback Request</p>
+                <h1 className="text-3xl font-extrabold tracking-tight">
+                  Feedback Items
+                </h1>
+              </header>
+            </TabsContent>
+            <TabsContent className="mt-0 border-none p-0" value="SETUP">
+              <header className="pb-8">
+                <p className="text-l mb-1 mt-0">Create Feedback Request</p>
+                <h1 className="text-3xl font-extrabold tracking-tight">
+                  Feedback Setup
+                </h1>
+              </header>
+              <FeedbackAuthorList />
+              <IntroParagraph />
+            </TabsContent>
+          </div>
+          <Separator className="my-4" />
+          <footer className="container flex justify-end px-8 pb-16 pt-8">
+            <Button size="lg">
+              <StepForwardIcon className="mr-2" />
+              Start Adding Feedback Items…
+            </Button>
+          </footer>
+        </Tabs>
       </main>
     </>
   );
