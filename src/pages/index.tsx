@@ -7,6 +7,7 @@ import {
   SignUpButton,
   useUser,
 } from "@clerk/nextjs";
+import { ToyBrick } from "lucide-react";
 
 import { api } from "~/utils/api";
 
@@ -67,6 +68,17 @@ const Home: NextPage = () => {
                   <div className="text-lg">
                     Request, author and own your feedback. It&lsquo;s that
                     simple.
+                  </div>
+                </Link>
+                <Link
+                  className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                  href="/lego"
+                >
+                  <h3 className="text-2xl font-bold">Lego →</h3>
+                  <div className="text-lg">
+                    Beatles in the background, Lego in my hands. Oh, it&lsquo;s
+                    time, it&lsquo;s time to be a child again.
+                    <ToyBrick />
                   </div>
                 </Link>
               </>

@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 
-const Home: NextPage = () => {
+const Create: NextPage = () => {
   const user = useUser();
 
   return (
@@ -29,4 +29,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Create;
