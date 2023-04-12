@@ -165,40 +165,42 @@ const EditButton = () => {
 };
 
 const GeneralSettingsSummary = () => {
-  return(      <div className="rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
-  <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
-    <div className="col-span-3">
-      <h4 className="flex">
-        <UserIcon className="mr-2" />
-        Feedback Authors
-      </h4>
-      <ul className="grid-span-3 mt-4">
-        {UserItem("TB", "Todd Burchik")}
-        {UserItem("MF", "Mihaly Füredi")}
-      </ul>
+  return (
+    <div className="rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
+      <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
+        <div className="col-span-3">
+          <h4 className="flex">
+            <UserIcon className="mr-2" />
+            Feedback Authors
+          </h4>
+          <ul className="grid-span-3 mt-4">
+            {UserItem("TB", "Todd Burchik")}
+            {UserItem("MF", "Mihaly Füredi")}
+          </ul>
+        </div>
+        <div className="col-span-1 flex justify-end">
+          <EditButton />
+        </div>
+      </section>
+      <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
+        <div className="col-span-3">
+          <h4 className="flex">
+            <UserIcon className="mr-2" />
+            Introductory Paragraph
+          </h4>
+          <p className="grid-span-3 mt-4">
+            I gather feedback regularly after meaningful work interactions. I
+            ask you to use prose and hope that you’ll have more to say than 260
+            characters.
+          </p>
+        </div>
+        <div className="col-span-1 flex justify-end">
+          <EditButton />
+        </div>
+      </section>
     </div>
-    <div className="col-span-1 flex justify-end">
-      <EditButton />
-    </div>
-  </section>
-  <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
-    <div className="col-span-3">
-      <h4 className="flex">
-        <UserIcon className="mr-2" />
-        Introductory Paragraph
-      </h4>
-      <p className="grid-span-3 mt-4">
-        I gather feedback regularly after meaningful work interactions. I
-        ask you to use prose and hope that you’ll have more to say than
-        260 characters.
-      </p>
-    </div>
-    <div className="col-span-1 flex justify-end">
-      <EditButton />
-    </div>
-  </section>
-</div>)
-}
+  );
+};
 
 const FeedbackItems = () => {
   return (
