@@ -66,7 +66,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { UserIcon, SendIcon, StepForwardIcon, EditIcon } from "lucide-react";
+import {
+  UserIcon,
+  SendIcon,
+  StepForwardIcon,
+  EditIcon,
+  PuzzleIcon,
+} from "lucide-react";
 
 const FeedbackAuthorList = () => {
   return (
@@ -180,7 +186,7 @@ const GeneralSettingsSummary = () => {
             <UserIcon className="mr-2" />
             Feedback Authors
           </h4>
-          <ul className="grid-span-3 mt-4">
+          <ul className="grid-span-3 mt-4 pl-8">
             {UserItem("TB", "Todd Burchik")}
             {UserItem("MF", "Mihaly Füredi")}
           </ul>
@@ -192,10 +198,10 @@ const GeneralSettingsSummary = () => {
       <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
         <div className="col-span-3">
           <h4 className="flex">
-            <UserIcon className="mr-2" />
+            <SendIcon className="mr-2" />
             Introductory Paragraph
           </h4>
-          <p className="grid-span-3 mt-4">
+          <p className="grid-span-3 mt-4 pl-8">
             I gather feedback regularly after meaningful work interactions. I
             ask you to use prose and hope that you’ll have more to say than 260
             characters.
@@ -213,25 +219,22 @@ const FeedbackItems = () => {
   return (
     <>
       <h2 className="mb-4 mt-8 flex text-xl">
-        <UserIcon className="mr-2" />
+        <PuzzleIcon className="mr-2" />
         Feedback Items
       </h2>
-      <p>
+      <p className="w-4/6 px-3 py-1 pl-8">
         Feedback authors will be presented with several Feedback Items. Feedback
         items generally consist of a prompt and some kind of input provided by
         the author. Most commonly, a question and prose written as an answer.
       </p>
       <section className="mt-6 rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
-        <h3 className="flex">
-          {/* <UserIcon className="mr-2" /> */}
-          Add Feedback Item
-        </h3>
+        <h3 className="flex text-xl">Add Feedback Item</h3>
         <div className="my-4">
           <div className="mb-4 flex flex-grow flex-col">
             <Label>Type</Label>
             <div className="flex">
               <Select defaultValue="PROSE">
-                <SelectTrigger disabled className="w-45">
+                <SelectTrigger disabled className="w-96">
                   <SelectValue placeholder="Select Feedback Item Type…" />
                 </SelectTrigger>
                 <SelectContent>
@@ -242,7 +245,7 @@ const FeedbackItems = () => {
                   <SelectItem value="VIDEO">Video</SelectItem>
                 </SelectContent>
               </Select>
-              <p className="w-[400px] px-3 py-1 text-xs">
+              <p className="w-96 px-3 py-1 text-xs">
                 The author will be shown the propt you’ve defined and will be
                 asked to answer in prose at a minimum of 240 characters.
               </p>
@@ -252,11 +255,11 @@ const FeedbackItems = () => {
             <Label>Prompt</Label>
             <Input
               type="text"
-              placeholder="What do you wish @Mihaly would change in the future?"
+              placeholder="What do you wish {Author} would change in the future?"
             />
           </div>
           <div className="mt-8 flex justify-end">
-            <Button variant={"ghost"} className="mr-4">
+            <Button variant={"ghost"} className="mr-2">
               Dismiss
             </Button>
             <Button>Save</Button>
