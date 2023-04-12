@@ -52,36 +52,45 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { UserIcon } from "lucide-react";
 
-const AddFeedbackAuthor = () => {
+const FeedbackAuthorList = () => {
   return (
-    <section className="px-2 py-2">
-      <h2 className="flex text-xl">
-        <UserIcon className="mr-3" />
+    <section className="px-4 py-4">
+      <h2 className="mb-4 flex text-xl">
+        <UserIcon className="mr-2" />
         Feedback Author
       </h2>
-      <section className="px-4 py-8">
-        <h3> Who is the person you’d like to get feedback from?</h3>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col justify-end">
-            <div className="pt-4">
-              <label>Name</label>
-              <Input type="text" placeholder="Todd Burchik" />
-            </div>
-            <div className="pt-4">
-              <label>E-Mail Address</label>
-              <Input type="email" placeholder="todd@burchik.com" />
-            </div>
+      <EditFeedbackAuthor />
+    </section>
+  );
+};
+
+const EditFeedbackAuthor = () => {
+  return (
+    <section className="rounded-lg border border-slate-100 px-8 py-8">
+      <h3> Who is the person you’d like to get feedback from?</h3>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col justify-end">
+          <div className="pt-4">
+            <Label>Name</Label>
+            <Input type="text" placeholder="Todd Burchik" />
           </div>
-          <div className="flex flex-wrap content-end justify-end">
-            <Button size={"lg"}>Add more Authors…</Button>
+          <div className="pt-4">
+            <Label>E-Mail Address</Label>
+            <Input type="email" placeholder="todd@burchik.com" />
           </div>
         </div>
-      </section>
+        <div className="flex flex-wrap content-end justify-end">
+          <Button disabled size={"lg"}>
+            Add more Authors…
+          </Button>
+        </div>
+      </div>
     </section>
   );
 };
@@ -109,7 +118,7 @@ const Lego: NextPage = () => {
               Hello {user.user?.primaryEmailAddress?.emailAddress ?? "you"}
             </h1>
           </header>
-          <AddFeedbackAuthor />
+          <FeedbackAuthorList />
         </div>
       </main>
     </>
