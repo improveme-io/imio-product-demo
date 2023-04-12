@@ -58,6 +58,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { UserIcon, SendIcon, StepForwardIcon, EditIcon } from "lucide-react";
 
@@ -210,11 +217,52 @@ const FeedbackItems = () => {
         Feedback Items
       </h2>
       <p>
-        Feedback authors will be presented with several Feedback Items.
-        Feedback items generally consist of a prompt and some kind of input
-        provided by the author. Most commonly, a question and prose written as
-        an answer.
+        Feedback authors will be presented with several Feedback Items. Feedback
+        items generally consist of a prompt and some kind of input provided by
+        the author. Most commonly, a question and prose written as an answer.
       </p>
+      <section className="mt-6 rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
+        <h3 className="flex">
+          {/* <UserIcon className="mr-2" /> */}
+          Add Feedback Item
+        </h3>
+        <div className="my-4">
+          <div className="mb-4 flex flex-grow flex-col">
+            <Label>Type</Label>
+            <div className="flex">
+              <Select defaultValue="PROSE">
+                <SelectTrigger disabled className="w-45">
+                  <SelectValue placeholder="Select Feedback Item Type…" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="PROSE">Prose</SelectItem>
+                  <SelectItem value="SHORT_PROSE">
+                    Short Prose (240 char max)
+                  </SelectItem>
+                  <SelectItem value="VIDEO">Video</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="w-[400px] px-3 py-1 text-xs">
+                The author will be shown the propt you’ve defined and will be
+                asked to answer in prose at a minimum of 240 characters.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-grow flex-col">
+            <Label>Prompt</Label>
+            <Input
+              type="text"
+              placeholder="What do you wish @Mihaly would change in the future?"
+            />
+          </div>
+          <div className="mt-8 flex justify-end">
+            <Button variant={"ghost"} className="mr-4">
+              Dismiss
+            </Button>
+            <Button>Save</Button>
+          </div>
+        </div>
+      </section>
     </>
   );
 };
