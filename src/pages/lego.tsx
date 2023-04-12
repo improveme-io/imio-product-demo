@@ -140,7 +140,7 @@ const StepSetup = () => {
       <FeedbackAuthorList />
       <IntroParagraph />
       <Separator className="my-4" />
-      <footer className="container flex justify-end px-8 pb-16 pt-8">
+      <footer className="container flex justify-end pb-16 pl-8 pt-8">
         <Button size="lg">
           <StepForwardIcon className="mr-2" />
           Start Adding Feedback Items…
@@ -180,7 +180,7 @@ const EditButton = () => {
 const GeneralSettingsSummary = () => {
   return (
     <div className="rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
-      <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
+      <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-50 dark:hover:border-slate-500">
         <div className="col-span-3">
           <h4 className="flex">
             <UserIcon className="mr-2" />
@@ -195,7 +195,7 @@ const GeneralSettingsSummary = () => {
           <EditButton />
         </div>
       </section>
-      <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
+      <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-50 dark:hover:border-slate-500">
         <div className="col-span-3">
           <h4 className="flex">
             <SendIcon className="mr-2" />
@@ -215,7 +215,7 @@ const GeneralSettingsSummary = () => {
   );
 };
 
-const FeedbackItems = () => {
+const FeedbackItemList = () => {
   return (
     <>
       <h2 className="mb-4 mt-8 flex text-xl">
@@ -227,46 +227,81 @@ const FeedbackItems = () => {
         items generally consist of a prompt and some kind of input provided by
         the author. Most commonly, a question and prose written as an answer.
       </p>
-      <section className="mt-6 rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
-        <h3 className="flex text-xl">Add Feedback Item</h3>
-        <div className="my-4">
-          <div className="mb-4 flex flex-grow flex-col">
-            <Label>Type</Label>
-            <div className="flex">
-              <Select defaultValue="PROSE">
-                <SelectTrigger disabled className="w-96">
-                  <SelectValue placeholder="Select Feedback Item Type…" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="PROSE">Prose</SelectItem>
-                  <SelectItem value="SHORT_PROSE">
-                    Short Prose (240 char max)
-                  </SelectItem>
-                  <SelectItem value="VIDEO">Video</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="w-96 px-3 py-1 text-xs">
-                The author will be shown the propt you’ve defined and will be
-                asked to answer in prose at a minimum of 240 characters.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-grow flex-col">
-            <Label>Prompt</Label>
-            <Input
-              type="text"
-              placeholder="What do you wish {Author} would change in the future?"
-            />
-          </div>
-          <div className="mt-8 flex justify-end">
-            <Button variant={"ghost"} className="mr-2">
-              Dismiss
-            </Button>
-            <Button>Save</Button>
+      <FeedbackItem />
+      <AddFeedbackItem />
+      <Button disabled variant={"outline"} className="my-5 w-full">
+        Add New Feedback Item (1 left)
+      </Button>
+    </>
+  );
+};
+
+const AddFeedbackItem = () => {
+  return (
+    <section className="mt-6 rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
+      <h3 className="flex text-xl">Add Feedback Item</h3>
+      <div className="my-4">
+        <div className="mb-4 flex flex-grow flex-col">
+          <Label>Type</Label>
+          <div className="flex">
+            <Select defaultValue="PROSE">
+              <SelectTrigger disabled className="w-96">
+                <SelectValue placeholder="Select Feedback Item Type…" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="PROSE">Prose</SelectItem>
+                <SelectItem value="SHORT_PROSE">
+                  Short Prose (240 char max)
+                </SelectItem>
+                <SelectItem value="VIDEO">Video</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="w-96 px-3 py-1 text-xs">
+              The author will be shown the propt you’ve defined and will be
+              asked to answer in prose at a minimum of 240 characters.
+            </p>
           </div>
         </div>
-      </section>
-    </>
+        <div className="flex flex-grow flex-col">
+          <Label>Prompt</Label>
+          <Input
+            type="text"
+            placeholder="What do you wish {Author} would change in the future?"
+          />
+        </div>
+        <div className="mt-8 flex justify-end">
+          <Button variant={"ghost"} className="mr-2">
+            Discard
+          </Button>
+          <Button>Save</Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const FeedbackItem = () => {
+  return (
+    <section className="group mt-6 rounded-lg border border-slate-100 px-8 py-8 hover:bg-slate-50 dark:border-slate-600">
+      <div className="flex justify-between">
+        <h3 className="flex text-xl">
+          What do you wish Mihaly would do more of in the future or keep doing?
+        </h3>
+        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
+          <Button variant={"outline"}>
+            <EditIcon className="mr-2 h-4 w-4" />
+            Edit
+          </Button>
+          <Button variant={"destructive_outline"}>Remove</Button>
+        </div>
+      </div>
+      <div className="my-4 flex gap-4">
+        <div className="mb-4 flex flex-grow flex-col">
+          <Label>Type</Label>
+          <div>Prose</div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -281,9 +316,9 @@ const StepItems = () => {
         </h1>
       </header>
       <GeneralSettingsSummary />
-      <FeedbackItems />
+      <FeedbackItemList />
       <Separator className="my-4" />
-      <footer className="container flex justify-end px-8 pb-16 pt-8">
+      <footer className="container flex justify-end pb-16 pl-8 pt-8">
         <Button size="lg">
           <StepForwardIcon className="mr-2" />
           Review Request…
