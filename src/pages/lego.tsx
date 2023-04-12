@@ -55,12 +55,13 @@ import { useUser } from "@clerk/nextjs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
-import { UserIcon } from "lucide-react";
+import { UserIcon, SendIcon, StepForwardIcon } from "lucide-react";
 
 const FeedbackAuthorList = () => {
   return (
-    <section className="px-4 py-4">
+    <section className="px-4 pb-8 pt-4">
       <h2 className="mb-4 flex text-xl">
         <UserIcon className="mr-2" />
         Feedback Author
@@ -74,22 +75,39 @@ const EditFeedbackAuthor = () => {
   return (
     <section className="rounded-lg border border-slate-100 px-8 py-8">
       <h3> Who is the person you’d like to get feedback from?</h3>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col justify-end">
-          <div className="pt-4">
-            <Label>Name</Label>
-            <Input type="text" placeholder="Todd Burchik" />
-          </div>
-          <div className="pt-4">
-            <Label>E-Mail Address</Label>
-            <Input type="email" placeholder="todd@burchik.com" />
-          </div>
+      <div className="flex flex-wrap items-end justify-between pt-8">
+        <div className="mr-6 flex flex-grow flex-col">
+          <Label>E-Mail Address</Label>
+          <Input type="email" placeholder="todd@burchik.com" />
         </div>
-        <div className="flex flex-wrap content-end justify-end">
-          <Button disabled size={"lg"}>
-            Add more Authors…
-          </Button>
+        <div className="mr-6 flex flex-grow flex-col">
+          <Label>Name</Label>
+          <Input type="text" placeholder="Todd Burchik" />
         </div>
+        <Button className="flex-grow-0" disabled variant={"outline"}>
+          Add more Authors…
+        </Button>
+      </div>
+    </section>
+  );
+};
+
+const IntroParagraph = () => {
+  return (
+    <section className="px-4 py-4">
+      <h2 className="mb-4 flex text-xl">
+        <SendIcon className="mr-2" />
+        Introductory Paragraph
+      </h2>
+      <div className="flex flex-col py-8 pl-8 pr-0">
+        <Label>
+          Write some text to explain on a personal level what kind of feedback
+          you are asking for and why.
+        </Label>
+        <Textarea
+          className="mt-2 h-96 font-dm-mono text-xl"
+          placeholder="Type your message here."
+        />
       </div>
     </section>
   );
@@ -109,17 +127,22 @@ const Lego: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="items-left justify-left flex min-h-screen flex-col">
-        <div className="container flex flex-col gap-12 px-4 py-4 ">
-          <header>
-            <p className="text-l mt-0 tracking-tight">
-              Create Feedback Request
-            </p>
+        <div className="container flex flex-col px-4 pb-8 pt-4 ">
+          <header className="pb-8">
+            <p className="text-l mt-0">Create Feedback Request</p>
             <h1 className="text-3xl font-extrabold tracking-tight">
-              Hello {user.user?.primaryEmailAddress?.emailAddress ?? "you"}
+              Hello {user.user?.firstName ?? "You"}
             </h1>
           </header>
           <FeedbackAuthorList />
+          <IntroParagraph />
         </div>
+        <footer className="container flex justify-end px-8 pb-16 pt-8">
+          <Button size="lg">
+            <StepForwardIcon className="mr-2" />
+            Start Adding Feedback Items…
+          </Button>
+        </footer>
       </main>
     </>
   );
