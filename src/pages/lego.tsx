@@ -50,6 +50,7 @@
 
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useUser } from "@clerk/nextjs";
 
 import {
   Accordion,
@@ -57,48 +58,64 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+import { UserIcon } from "lucide-react";
+
+const AddFeedbackAuthor: NextPage = () => {
+  return (
+    <section className="px-2 py-2">
+      <h2 className="flex text-xl">
+        <UserIcon className="mr-3" />
+        Feedback Author
+      </h2>
+      <section className="px-4 py-8">
+        <h3> Who is the person you’d like to get feedback from?</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col justify-end">
+            <div className="pt-4">
+              <label>Name</label>
+              <Input type="text" placeholder="Todd Burchik" />
+            </div>
+            <div className="pt-4">
+              <label>E-Mail Address</label>
+              <Input type="email" placeholder="todd@burchik.com" />
+            </div>
+          </div>
+          <div className="flex flex-wrap content-end justify-end">
+            <Button size={"lg"}>Add more Authors…</Button>
+          </div>
+        </div>
+      </section>
+    </section>
+  );
+};
 
 const Lego: NextPage = () => {
+  const user = useUser();
+
   return (
     <>
       <Head>
-        <title>lego me</title>
+        <title>LEGO Home</title>
         <meta
           name="description"
           content="beatles in the background, bricks in my hands, oh time, oh time to be a child again"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-gray-200 to-gray-800">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            lego <span className="text-[hsl(280,100%,70%)]">ME</span> Daddy
-          </h1>
-          <p className="text-3xl tracking-tight text-white">accordion demo</p>
-          {/* ACCORDION DEMO START */}
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Is it accessible?</AccordionTrigger>
-              <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Is it styled?</AccordionTrigger>
-              <AccordionContent>
-                Yes. It comes with default styles that matches the other
-                components&lsquo; aesthetic.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Is it animated?</AccordionTrigger>
-              <AccordionContent>
-                Yes. It&lsquo;s animated by default, but you can disable it if
-                you prefer.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          {/* ACCORDION DEMO END */}
+      <main className="items-left justify-left flex min-h-screen flex-col">
+        <div className="container flex flex-col gap-12 px-4 py-4 ">
+          <header>
+            <p className="text-l mt-0 tracking-tight">
+              Create Feedback Request
+            </p>
+            <h1 className="text-3xl font-extrabold tracking-tight">
+              Hello {user.user?.primaryEmailAddress?.emailAddress ?? "you"}
+            </h1>
+          </header>
+          <AddFeedbackAuthor />
         </div>
       </main>
     </>
