@@ -57,8 +57,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { UserIcon, SendIcon, StepForwardIcon } from "lucide-react";
+import { UserIcon, SendIcon, StepForwardIcon, EditIcon } from "lucide-react";
 
 const FeedbackAuthorList = () => {
   return (
@@ -74,7 +75,7 @@ const FeedbackAuthorList = () => {
 
 const EditFeedbackAuthor = () => {
   return (
-    <section className="rounded-lg border border-slate-100 px-8 py-8">
+    <section className="rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
       <h3> Who is the person you’d like to get feedback from?</h3>
       <div className="flex flex-wrap items-end justify-between pt-8">
         <div className="mr-6 flex flex-grow flex-col">
@@ -114,11 +115,136 @@ const IntroParagraph = () => {
   );
 };
 
+const StepSetup = () => {
+  return (
+    <>
+      <header className="pb-8">
+        <p className="text-l mb-1 mt-0">Create Feedback Request</p>
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          Feedback Setup
+        </h1>
+      </header>
+      <FeedbackAuthorList />
+      <IntroParagraph />
+      <Separator className="my-4" />
+      <footer className="container flex justify-end px-8 pb-16 pt-8">
+        <Button size="lg">
+          <StepForwardIcon className="mr-2" />
+          Start Adding Feedback Items…
+        </Button>
+      </footer>
+    </>
+  );
+};
+
+const UserItem = (fallbackUserName: string, userName: string) => {
+  const fallback = fallbackUserName;
+  const user = userName;
+  return (
+    <li className="mr-6 inline-flex">
+      <Avatar className="mr-2 h-6 w-6 text-xs text-slate-500">
+        <AvatarImage></AvatarImage>
+        <AvatarFallback>{fallback}</AvatarFallback>
+      </Avatar>
+      {user}
+    </li>
+  );
+};
+
+const EditButton = () => {
+  return (
+    <Button
+      className="ml-5 opacity-0 group-hover:opacity-100"
+      variant={"ghost"}
+      size={"sm"}
+    >
+      <EditIcon className="mr-2 h-4 w-4" />
+      Edit
+    </Button>
+  );
+};
+
+const GeneralSettingsSummary = () => {
+  return(      <div className="rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
+  <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
+    <div className="col-span-3">
+      <h4 className="flex">
+        <UserIcon className="mr-2" />
+        Feedback Authors
+      </h4>
+      <ul className="grid-span-3 mt-4">
+        {UserItem("TB", "Todd Burchik")}
+        {UserItem("MF", "Mihaly Füredi")}
+      </ul>
+    </div>
+    <div className="col-span-1 flex justify-end">
+      <EditButton />
+    </div>
+  </section>
+  <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-200 dark:hover:border-slate-600">
+    <div className="col-span-3">
+      <h4 className="flex">
+        <UserIcon className="mr-2" />
+        Introductory Paragraph
+      </h4>
+      <p className="grid-span-3 mt-4">
+        I gather feedback regularly after meaningful work interactions. I
+        ask you to use prose and hope that you’ll have more to say than
+        260 characters.
+      </p>
+    </div>
+    <div className="col-span-1 flex justify-end">
+      <EditButton />
+    </div>
+  </section>
+</div>)
+}
+
+const FeedbackItems = () => {
+  return (
+    <>
+      <h2 className="mb-4 mt-8 flex text-xl">
+        <UserIcon className="mr-2" />
+        Feedback Items
+      </h2>
+      <p>
+        Feedback authors will be presented with several Feedback Items.
+        Feedback items generally consist of a prompt and some kind of input
+        provided by the author. Most commonly, a question and prose written as
+        an answer.
+      </p>
+    </>
+  );
+};
+
+const StepItems = () => {
+  return (
+    <>
+      <header className="pb-8">
+        <p className="text-l mb-1 mt-0">Create Feedback Request</p>
+        <h1 className="opa group text-3xl font-extrabold tracking-tight">
+          Feedback from Todd & Mihaly
+          <EditButton />
+        </h1>
+      </header>
+      <GeneralSettingsSummary />
+      <FeedbackItems />
+      <Separator className="my-4" />
+      <footer className="container flex justify-end px-8 pb-16 pt-8">
+        <Button size="lg">
+          <StepForwardIcon className="mr-2" />
+          Review Request…
+        </Button>
+      </footer>
+    </>
+  );
+};
+
 const Lego: NextPage = () => {
   return (
     <>
       <Head>
-        <title>LEGO Home</title>
+        <title>UI LEGO Home</title>
         <meta
           name="description"
           content="beatles in the background, bricks in my hands, oh time, oh time to be a child again"
@@ -126,38 +252,25 @@ const Lego: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="items-left justify-left flex min-h-screen flex-col">
-        <Tabs>
+        <Tabs defaultValue="ITEMS">
           <TabsList>
-            <TabsTrigger value="SETUP">Feedback Setup</TabsTrigger>
-            <TabsTrigger value="ITEMS">Feedback Items</TabsTrigger>
+            <TabsTrigger value="DASHBOARD" disabled>
+              0. Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="SETUP">1. General Setup</TabsTrigger>
+            <TabsTrigger value="ITEMS">2. Feedback Items</TabsTrigger>
+            <TabsTrigger value="REVIEW" disabled>
+              3. Review Request
+            </TabsTrigger>
           </TabsList>
           <div className="container flex flex-col px-4 pb-8 pt-4 ">
             <TabsContent className="mt-0 border-none p-0" value="ITEMS">
-              <header className="pb-8">
-                <p className="text-l mb-1 mt-0">Create Feedback Request</p>
-                <h1 className="text-3xl font-extrabold tracking-tight">
-                  Feedback Items
-                </h1>
-              </header>
+              <StepItems />
             </TabsContent>
             <TabsContent className="mt-0 border-none p-0" value="SETUP">
-              <header className="pb-8">
-                <p className="text-l mb-1 mt-0">Create Feedback Request</p>
-                <h1 className="text-3xl font-extrabold tracking-tight">
-                  Feedback Setup
-                </h1>
-              </header>
-              <FeedbackAuthorList />
-              <IntroParagraph />
+              <StepSetup />
             </TabsContent>
           </div>
-          <Separator className="my-4" />
-          <footer className="container flex justify-end px-8 pb-16 pt-8">
-            <Button size="lg">
-              <StepForwardIcon className="mr-2" />
-              Start Adding Feedback Items…
-            </Button>
-          </footer>
         </Tabs>
       </main>
     </>
