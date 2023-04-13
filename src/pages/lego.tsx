@@ -236,6 +236,7 @@ const Dashboard = () => {
           <EditButton />
         </h1>
         <Button className="my-6" size={"lg"}>
+          <LeafIcon className="mr-2" />
           Request New Feedback
         </Button>
       </header>
