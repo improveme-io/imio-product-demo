@@ -77,6 +77,7 @@ import {
   TrashIcon,
   LeafIcon,
   InboxIcon,
+  CheckIcon,
 } from "lucide-react";
 
 import { useUser } from "@clerk/nextjs";
@@ -270,7 +271,8 @@ const Contribution = (
   const requesterName = requesterNameTxt;
   return (
     <div className="group mb-4 flex flex-grow flex-col rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
-      <div className="mb-4 flex">
+      <div className="mb-4 flex items-center">
+        <CheckIcon className="mr-2 h-5 w-5 text-green-500" />
         {UserItem(requesterInitials, requesterName)}
       </div>
       <Label>{requestName}</Label>
