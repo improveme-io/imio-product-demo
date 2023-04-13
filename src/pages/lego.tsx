@@ -73,6 +73,9 @@ import {
   EditIcon,
   PuzzleIcon,
   UploadCloudIcon,
+  ViewIcon,
+  TrashIcon,
+  LeafIcon,
 } from "lucide-react";
 
 import { useUser } from "@clerk/nextjs";
@@ -222,8 +225,7 @@ const Dashboard = () => {
   const user = useUser();
   return (
     <>
-      <header className="pb-8">
-        <p className="text-l mb-1 mt-0">improveme.io</p>
+      <header className="flex justify-between pb-8">
         <h1 className="group flex text-3xl font-extrabold tracking-tight">
           Hello{" "}
           <Avatar className="mx-2 text-xl text-slate-500">
@@ -233,15 +235,17 @@ const Dashboard = () => {
           {user.user?.firstName ?? "You"}
           <EditButton />
         </h1>
+        <Button className="my-6" size={"lg"}>
+          Request New Feedback
+        </Button>
       </header>
-      <Button className="my-16" size={"lg"}>
-        Request New Feedback
-      </Button>
       <h2 className="mb-4 mt-8 flex text-xl">
-        <PuzzleIcon className="mr-2" />
+        <LeafIcon className="mr-2" />
         Feedback Requests
       </h2>
-      <FeedbackRequestItem />
+      {FeedbackRequestItem("Quarterly Feedback Q2")}
+      {FeedbackRequestItem("Quarterly Feedback Q1")}
+      {FeedbackRequestItem("First 100 days")}
     </>
   );
 };
@@ -311,27 +315,34 @@ const AddFeedbackItem = () => {
   );
 };
 
-const FeedbackRequestItem = () => {
+const FeedbackRequestItem = (requestName: string) => {
+  const name = requestName;
   return (
     <section className="group mt-6 rounded-lg border border-slate-100 px-8 py-8 hover:bg-slate-50 dark:border-slate-600">
       <div className="flex justify-between">
-        <h3 className="flex text-xl">Feedback Request Name</h3>
+        <h3 className="flex text-xl">{name}</h3>
         <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
-          <Button variant={"outline"}>
+          <Button variant={"ghost"} className="text-red-500">
+            <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
+            Delete
+          </Button>
+          <Button variant={"ghost"}>
             <EditIcon className="mr-2 h-4 w-4" />
             Edit
           </Button>
-          <Button variant={"destructive_outline"}>Remove</Button>
+          <Button variant={"outline"}>
+            <ViewIcon className="mr-2 h-4 w-4" />
+            Preview
+          </Button>
         </div>
       </div>
       <div className="my-4 flex gap-4">
         <div className="mb-4 flex flex-grow flex-col">
           <Label>Authors</Label>
-          <div className="username mx-2">
-            <Avatar className="text-xl text-slate-500">
-              <AvatarImage></AvatarImage>
-              <AvatarFallback>KG</AvatarFallback>
-            </Avatar>
+          <div className="mt-2 flex">
+            {UserItem("TB", "Todd Burchik")}
+            {UserItem("MF", "Mihaly Füredi")}
+            {UserItem("BG", "Brooke Gazdag")}
           </div>
         </div>
       </div>
