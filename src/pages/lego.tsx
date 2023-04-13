@@ -74,6 +74,8 @@ import {
   PuzzleIcon,
 } from "lucide-react";
 
+import { useUser } from "@clerk/nextjs";
+
 const FeedbackAuthorList = () => {
   return (
     <section className="px-4 pb-8 pt-4">
@@ -310,7 +312,7 @@ const StepItems = () => {
     <>
       <header className="pb-8">
         <p className="text-l mb-1 mt-0">Create Feedback Request</p>
-        <h1 className="opa group text-3xl font-extrabold tracking-tight">
+        <h1 className="group text-3xl font-extrabold tracking-tight">
           Feedback from Todd & Mihaly
           <EditButton />
         </h1>
@@ -324,6 +326,43 @@ const StepItems = () => {
           Review Request…
         </Button>
       </footer>
+    </>
+  );
+};
+
+const Introduction = () => {
+  const user = useUser();
+  return (
+    <section className="rounded-lg border border-slate-100 px-4 px-8 py-4 py-8 dark:border-slate-600">
+      <h2 className="mb-4 flex content-center items-baseline text-xl">
+        <Avatar className="mx-2 text-slate-500">
+          <AvatarImage></AvatarImage>
+          <AvatarFallback>KG</AvatarFallback>
+        </Avatar>{" "}
+        {user.user?.fullName ?? "You"}
+      </h2>
+      <div className="flex py-4 pl-4 pr-0">
+        <p className="max-w-xl">
+          I gather feedback regularly after meaningful work interactions. I ask
+          you to use prose and hope that you’ll have more to say than 260
+          characters.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+const RequestView = () => {
+  const user = useUser();
+  return (
+    <>
+      <header className="pb-8">
+        <p className="text-l mb-1 mt-0">Create Feedback Request</p>
+        <h1 className="group text-3xl font-extrabold tracking-tight">
+          Feedback Request from {user.user?.firstName ?? "You"}
+        </h1>
+      </header>
+      <Introduction />
     </>
   );
 };
@@ -347,9 +386,7 @@ const Lego: NextPage = () => {
             </TabsTrigger>
             <TabsTrigger value="SETUP">1. General Setup</TabsTrigger>
             <TabsTrigger value="ITEMS">2. Feedback Items</TabsTrigger>
-            <TabsTrigger value="REVIEW" disabled>
-              3. Review Request
-            </TabsTrigger>
+            <TabsTrigger value="REVIEW">3. Review Request</TabsTrigger>
           </TabsList>
           <div className="container flex flex-col px-4 pb-8 pt-4 ">
             <TabsContent className="mt-0 border-none p-0" value="ITEMS">
@@ -357,6 +394,9 @@ const Lego: NextPage = () => {
             </TabsContent>
             <TabsContent className="mt-0 border-none p-0" value="SETUP">
               <StepSetup />
+            </TabsContent>
+            <TabsContent className="mt-0 border-none p-0" value="REVIEW">
+              <RequestView />
             </TabsContent>
           </div>
         </Tabs>
