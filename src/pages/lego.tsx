@@ -479,14 +479,14 @@ const FeedbackItemProseReadOnly = (
 const SubmitRequestView = () => {
   const prompt1 =
     "What do you wish Mihaly would do more of in the future or keep doing?";
-  const answer1 = `Generally, I&apos;m glad to be working in a more collaborative scenario than I was used to before, on a project with a much bigger scope than something one can manage or accomplish by themselves. This is of course relatively unspecific to the company itself. What makes this especially good in this case is the quality of the work and the intellect of the coworkers: it is genuinely amazing to work with people who are very good at what they do and have enough security in their fields to admit also what they don&apos;t know. This is something that is very rare and greatly refreshing.
+  const answer1 = `Generally, I am glad to be working in a more collaborative scenario than I was used to before, on a project with a much bigger scope than something one can manage or accomplish by themselves. This is of course relatively unspecific to the company itself. What makes this especially good in this case is the quality of the work and the intellect of the coworkers: it is genuinely amazing to work with people who are very good at what they do and have enough security in their fields to admit also what they dont know. This is something that is very rare and greatly refreshing.
 
-  Another positive and important aspect is having responsibility and decision-making power, which gives me a chance for me to feel that what we&apos;re working on is as much my creation as anyone else&apos;s. 
+  Another positive and important aspect is having responsibility and decision-making power, which gives me a chance for me to feel that what we are working on is as much my creation as anyone elses. 
   
-  It of course goes without saying that I&apos;m also quite happy with the people-friendly work environment - flexible hours, snacks, nice office, etc.
+  It of course goes without saying that I am also quite happy with the people-friendly work environment - flexible hours, snacks, nice office, etc.
   `;
   const prompt2 = "What do you wish Mihaly would change in the future?";
-  const answer2 = `I feel that decision making process lacks structure sometimes, esp. concerning the UX/UI department – but since we&apos;re now actively working to change that, I don&apos;t see it as a huge problem.
+  const answer2 = `I feel that decision making process lacks structure sometimes, esp. concerning the UX/UI department – but since we are now actively working to change that, I do not see it as a huge problem.
 
   The company currently really lacks comprehensive marketing and branding strategies, which feels OK now, but I feel it could hurt in the long run.`;
 
@@ -494,8 +494,8 @@ const SubmitRequestView = () => {
     <>
       <header className="pb-8">
         <div className="mb-8 rounded-md border border-slate-100 bg-white px-3 py-2 text-xs drop-shadow dark:border-slate-700 dark:bg-slate-800">
-          This feedback has been finalized and submitted. You can't change it
-          anymore.
+          This feedback has been finalized and submitted. You can&apos;t change
+          it anymore.
         </div>
         <h1 className="group text-3xl font-extrabold tracking-tight">
           Your Feedback to FIRSTNAME
