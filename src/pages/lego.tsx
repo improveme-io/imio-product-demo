@@ -72,6 +72,7 @@ import {
   StepForwardIcon,
   EditIcon,
   PuzzleIcon,
+  UploadCloudIcon,
 } from "lucide-react";
 
 import { useUser } from "@clerk/nextjs";
@@ -333,7 +334,7 @@ const StepItems = () => {
 const Introduction = () => {
   const user = useUser();
   return (
-    <section className="rounded-lg border border-slate-100 px-4 px-8 py-4 py-8 dark:border-slate-600">
+    <section className="mb-16 rounded-lg border border-slate-100 px-4 px-8 py-4 py-8 dark:border-slate-600">
       <h2 className="mb-4 flex content-center items-baseline text-xl">
         <Avatar className="mx-2 text-slate-500">
           <AvatarImage></AvatarImage>
@@ -352,6 +353,24 @@ const Introduction = () => {
   );
 };
 
+const FeedbackItemProse = (promptText: string) => {
+  const prompt = promptText;
+  return (
+    <section className="group mt-6 ">
+      <div className="flex justify-between">
+        <h3 className="flex px-8 text-xl">{prompt}</h3>
+      </div>
+      <div className="flex flex-col py-8 pl-8 pr-0">
+        <Label>Please answer in prose, at a minimum of 240 characters.</Label>
+        <Textarea
+          className="mt-2 h-96 font-dm-mono text-xl"
+          placeholder="Type your message here."
+        />
+      </div>
+    </section>
+  );
+};
+
 const RequestView = () => {
   const user = useUser();
   return (
@@ -363,6 +382,16 @@ const RequestView = () => {
         </h1>
       </header>
       <Introduction />
+      {FeedbackItemProse(
+        "What do you wish Mihaly would do more of in the future or keep doing?"
+      )}
+      {FeedbackItemProse("What do you wish Mihaly would change in the future?")}
+      <footer className="container flex justify-end pb-16 pl-8 pt-8">
+        <Button size="lg">
+          <UploadCloudIcon className="mr-2" />
+          Create Feedback Request
+        </Button>
+      </footer>
     </>
   );
 };
