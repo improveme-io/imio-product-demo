@@ -242,13 +242,6 @@ const Dashboard = () => {
         </Button>
       </header>
       <h2 className="mb-4 mt-8 flex text-xl">
-        <LeafIcon className="mr-2" />
-        Your Feedback Requests
-      </h2>
-      {FeedbackRequestItem("Quarterly Feedback Q2")}
-      {FeedbackRequestItem("Quarterly Feedback Q1")}
-      {FeedbackRequestItem("First 100 days")}
-      <h2 className="mb-4 mt-8 flex text-xl">
         <InboxIcon className="mr-2" />
         Your Contributions
       </h2>
@@ -256,6 +249,13 @@ const Dashboard = () => {
         {Contribution("First 100 Days Peer Feedback", "TB", "Todd Burchik")}
         {Contribution("Q1 Peer Feedback", "MF", "Mihaly Füredi")}
       </section>
+      <h2 className="mb-4 mt-8 flex text-xl">
+        <LeafIcon className="mr-2" />
+        Your Feedback Requests
+      </h2>
+      {FeedbackRequestItem("Quarterly Feedback Q2")}
+      {FeedbackRequestItem("Quarterly Feedback Q1")}
+      {FeedbackRequestItem("First 100 days")}
     </>
   );
 };
