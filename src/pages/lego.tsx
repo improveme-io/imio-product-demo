@@ -72,6 +72,7 @@ import {
   StepForwardIcon,
   EditIcon,
   PuzzleIcon,
+  UploadCloudIcon,
 } from "lucide-react";
 
 import { useUser } from "@clerk/nextjs";
@@ -385,6 +386,12 @@ const RequestView = () => {
         "What do you wish Mihaly would do more of in the future or keep doing?"
       )}
       {FeedbackItemProse("What do you wish Mihaly would change in the future?")}
+      <footer className="container flex justify-end pb-16 pl-8 pt-8">
+        <Button size="lg">
+          <UploadCloudIcon className="mr-2" />
+          Create Feedback Request
+        </Button>
+      </footer>
     </>
   );
 };
