@@ -247,8 +247,15 @@ const Dashboard = () => {
         Your Contributions
       </h2>
       <section className="grid grid-cols-3 gap-2">
-        {Contribution("First 100 Days Peer Feedback", "TB", "Todd Burchik")}
-        {Contribution("Q1 Peer Feedback", "MF", "Mihaly Füredi")}
+        {Contribution(
+          "First 100 Days Peer Feedback",
+          "TB",
+          "Todd Burchik",
+          false
+        )}
+        {Contribution("Q1 Peer Feedback", "MF", "Mihaly Füredi", true)}
+        {Contribution("Q1 Peer Feedback", "BG", "Brooke Gazdag", true)}
+        {Contribution("Q1 Peer Feedback", "RD", "Ronald Ducklington", true)}
       </section>
       <h2 className="mb-4 mt-8 flex text-xl">
         <LeafIcon className="mr-2" />
@@ -264,25 +271,38 @@ const Dashboard = () => {
 const Contribution = (
   requestNameTxt: string,
   requesterInitialsTxt: string,
-  requesterNameTxt: string
+  requesterNameTxt: string,
+  doneBool: boolean
 ) => {
   const requestName = requestNameTxt;
   const requesterInitials = requesterInitialsTxt;
   const requesterName = requesterNameTxt;
+  const done = doneBool;
   return (
     <div className="group mb-4 flex flex-grow flex-col rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
       <div className="mb-4 flex items-center">
         {UserItem(requesterInitials, requesterName)}
-        <CheckIcon className="ml-auto h-5 w-5 text-green-500" />
+        {done ? (
+          <CheckIcon className="ml-auto h-5 w-5 text-green-500" />
+        ) : (
+          <></>
+        )}
       </div>
       <Label>{requestName}</Label>
-      <Button
-        variant={"outline"}
-        className="mt-4 opacity-0 hover:bg-slate-50 group-hover:opacity-100"
-      >
-        <ViewIcon className="mr-2" />
-        View
-      </Button>
+      {done ? (
+        <Button
+          variant={"outline"}
+          className="mt-4 opacity-0 hover:bg-slate-50 group-hover:opacity-100"
+        >
+          <ViewIcon className="mr-2" />
+          View
+        </Button>
+      ) : (
+        <Button className="mt-4">
+          <EditIcon className="mr-2" />
+          Author Feedback
+        </Button>
+      )}
     </div>
   );
 };
