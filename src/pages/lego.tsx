@@ -76,6 +76,7 @@ import {
   ViewIcon,
   TrashIcon,
   LeafIcon,
+  InboxIcon,
 } from "lucide-react";
 
 import { useUser } from "@clerk/nextjs";
@@ -242,12 +243,42 @@ const Dashboard = () => {
       </header>
       <h2 className="mb-4 mt-8 flex text-xl">
         <LeafIcon className="mr-2" />
-        Feedback Requests
+        Your Feedback Requests
       </h2>
       {FeedbackRequestItem("Quarterly Feedback Q2")}
       {FeedbackRequestItem("Quarterly Feedback Q1")}
       {FeedbackRequestItem("First 100 days")}
+      <h2 className="mb-4 mt-8 flex text-xl">
+        <InboxIcon className="mr-2" />
+        Your Contributions
+      </h2>
+      <section className="grid grid-cols-3 gap-2">
+        {Contribution("First 100 Days Peer Feedback", "TB", "Todd Burchik")}
+        {Contribution("Q1 Peer Feedback", "MF", "Mihaly Füredi")}
+      </section>
     </>
+  );
+};
+
+const Contribution = (
+  requestNameTxt: string,
+  requesterInitialsTxt: string,
+  requesterNameTxt: string
+) => {
+  const requestName = requestNameTxt;
+  const requesterInitials = requesterInitialsTxt;
+  const requesterName = requesterNameTxt;
+  return (
+    <div className="mb-4 flex flex-grow flex-col rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
+      <div className="mb-4 flex">
+        {UserItem(requesterInitials, requesterName)}
+      </div>
+      <Label>{requestName}</Label>
+      <Button variant={"outline"} className="mt-4">
+        <ViewIcon className="mr-2" />
+        View
+      </Button>
+    </div>
   );
 };
 
