@@ -269,12 +269,15 @@ const Contribution = (
   const requesterInitials = requesterInitialsTxt;
   const requesterName = requesterNameTxt;
   return (
-    <div className="mb-4 flex flex-grow flex-col rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
+    <div className="group mb-4 flex flex-grow flex-col rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
       <div className="mb-4 flex">
         {UserItem(requesterInitials, requesterName)}
       </div>
       <Label>{requestName}</Label>
-      <Button variant={"outline"} className="mt-4">
+      <Button
+        variant={"outline"}
+        className="mt-4 opacity-0 hover:bg-slate-50 group-hover:opacity-100"
+      >
         <ViewIcon className="mr-2" />
         View
       </Button>
