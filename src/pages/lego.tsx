@@ -241,7 +241,7 @@ const Dashboard = () => {
         <PuzzleIcon className="mr-2" />
         Feedback Requests
       </h2>
-      <FeedbackItem />
+      <FeedbackRequestItem />
     </>
   );
 };
