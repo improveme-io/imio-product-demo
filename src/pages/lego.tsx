@@ -76,6 +76,7 @@ import {
   ViewIcon,
   TrashIcon,
   LeafIcon,
+  SproutIcon,
   InboxIcon,
   CheckIcon,
 } from "lucide-react";
@@ -264,6 +265,13 @@ const Dashboard = () => {
       {FeedbackRequestItem("Quarterly Feedback Q2")}
       {FeedbackRequestItem("Quarterly Feedback Q1")}
       {FeedbackRequestItem("First 100 days")}
+      <h2 className="mb-4 mt-8 flex text-xl">
+        <SproutIcon className="mr-2" />
+        Feedback Requests Shared with You
+      </h2>
+      <p className="my-32 text-center">
+        There are no Feedback Requests shared with you yet.
+      </p>
     </>
   );
 };
