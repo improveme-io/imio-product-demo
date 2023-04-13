@@ -92,7 +92,7 @@ const FeedbackAuthorList = () => {
 const EditFeedbackAuthor = () => {
   return (
     <section className="rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
-      <h3> Who is the person you’d like to get feedback from?</h3>
+      <h3> Who is the person you'd like to get feedback from?</h3>
       <div className="flex flex-wrap items-end justify-between pt-8">
         <div className="mr-6 flex flex-grow flex-col">
           <Label>E-Mail Address</Label>
@@ -206,7 +206,7 @@ const GeneralSettingsSummary = () => {
           </h4>
           <p className="grid-span-3 mt-4 pl-8">
             I gather feedback regularly after meaningful work interactions. I
-            ask you to use prose and hope that you’ll have more to say than 260
+            ask you to use prose and hope that you'll have more to say than 260
             characters.
           </p>
         </div>
@@ -260,7 +260,7 @@ const AddFeedbackItem = () => {
               </SelectContent>
             </Select>
             <p className="w-96 px-3 py-1 text-xs">
-              The author will be shown the propt you’ve defined and will be
+              The author will be shown the propt you've defined and will be
               asked to answer in prose at a minimum of 240 characters.
             </p>
           </div>
@@ -343,9 +343,9 @@ const Introduction = () => {
         {user.user?.fullName ?? "You"}
       </h2>
       <div className="flex py-4 pl-4 pr-0">
-        <p className="max-w-xl">
+        <p className="max-w-lg">
           I gather feedback regularly after meaningful work interactions. I ask
-          you to use prose and hope that you’ll have more to say than 260
+          you to use prose and hope that you'll have more to say than 260
           characters.
         </p>
       </div>
@@ -396,6 +396,72 @@ const RequestView = () => {
   );
 };
 
+const FeedbackItemProseReadOnly = (
+  promptText: string,
+  feedbackText: string
+) => {
+  const prompt = promptText;
+  const feedback = feedbackText;
+  return (
+    <section className="group mt-6 ">
+      <div className="flex justify-between">
+        <h3 className="flex px-8 font-medium">{prompt}</h3>
+      </div>
+      <div className="flex py-8 pl-8 pr-0">
+        <div className="mr-4 flex items-baseline gap-2 ">
+          <Avatar className="mx-2 text-slate-500">
+            <AvatarImage></AvatarImage>
+            <AvatarFallback>TB</AvatarFallback>
+          </Avatar>
+          {/* Todd Burchik */}
+        </div>
+        <p className="max-w-2xl">{feedback}</p>
+      </div>
+    </section>
+  );
+};
+
+const SubmitRequestView = () => {
+  const prompt1 =
+    "What do you wish Mihaly would do more of in the future or keep doing?";
+  const answer1 = `Generally, I'm glad to be working in a more collaborative scenario than I was used to before, on a project with a much bigger scope than something one can manage or accomplish by themselves. This is of course relatively unspecific to the company itself. What makes this especially good in this case is the quality of the work and the intellect of the coworkers: it is genuinely amazing to work with people who are very good at what they do and have enough security in their fields to admit also what they don't know. This is something that is very rare and greatly refreshing.
+
+  Another positive and important aspect is having responsibility and decision-making power, which gives me a chance for me to feel that what we're working on is as much my creation as anyone else's. 
+  
+  It of course goes without saying that I'm also quite happy with the people-friendly work environment - flexible hours, snacks, nice office, etc.
+  `;
+  const prompt2 = "What do you wish Mihaly would change in the future?";
+  const answer2 = `I feel that decision making process lacks structure sometimes, esp. concerning the UX/UI department – but since we're now actively working to change that, I don't see it as a huge problem.
+
+  The company currently really lacks comprehensive marketing and branding strategies, which feels OK now, but I feel it could hurt in the long run.`;
+
+  return (
+    <>
+      <header className="pb-8">
+        <div className="mb-8 rounded-md border border-slate-100 bg-white px-3 py-2 text-xs drop-shadow dark:border-slate-700 dark:bg-slate-800">
+          This feedback has been finalized and submitted. You can't change it
+          anymore.
+        </div>
+        <h1 className="group text-3xl font-extrabold tracking-tight">
+          Your Feedback to FIRSTNAME
+        </h1>
+      </header>
+      {FeedbackItemProseReadOnly(prompt1, answer1)}
+      {FeedbackItemProseReadOnly(prompt2, answer2)}
+      <footer className="container flex justify-end gap-4 pb-16 pl-8 pt-8">
+        <Button size="lg" variant={"outline"}>
+          <EditIcon className="mr-2" />
+          Back to Editing
+        </Button>
+        <Button size="lg">
+          <UploadCloudIcon className="mr-2" />
+          Finalize & Send Feedback
+        </Button>
+      </footer>
+    </>
+  );
+};
+
 const Lego: NextPage = () => {
   return (
     <>
@@ -416,6 +482,7 @@ const Lego: NextPage = () => {
             <TabsTrigger value="SETUP">1. General Setup</TabsTrigger>
             <TabsTrigger value="ITEMS">2. Feedback Items</TabsTrigger>
             <TabsTrigger value="REVIEW">3. Review Request</TabsTrigger>
+            <TabsTrigger value="SUBMIT">Submit Feedback</TabsTrigger>
           </TabsList>
           <div className="container flex flex-col px-4 pb-8 pt-4 ">
             <TabsContent className="mt-0 border-none p-0" value="ITEMS">
@@ -426,6 +493,9 @@ const Lego: NextPage = () => {
             </TabsContent>
             <TabsContent className="mt-0 border-none p-0" value="REVIEW">
               <RequestView />
+            </TabsContent>
+            <TabsContent className="mt-0 border-none p-0" value="SUBMIT">
+              <SubmitRequestView />
             </TabsContent>
           </div>
         </Tabs>
