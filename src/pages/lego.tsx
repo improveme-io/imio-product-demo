@@ -124,7 +124,7 @@ const IntroParagraph = () => {
         <SendIcon className="mr-2" />
         Introductory Paragraph
       </h2>
-      <div className="flex flex-col py-8 pl-8 pr-0">
+      <div className="flex flex-col px-8 py-8">
         <Label>
           Write some text to explain on a personal level what kind of feedback
           you are asking for and why.
@@ -492,7 +492,7 @@ const FeedbackItemProse = (promptText: string) => {
       <div className="flex justify-between">
         <h3 className="flex px-8 text-xl">{prompt}</h3>
       </div>
-      <div className="flex flex-col py-8 pl-8 pr-0">
+      <div className="flex flex-col px-8 py-8">
         <Label>Please answer in prose, at a minimum of 240 characters.</Label>
         <Textarea
           className="mt-2 h-96 font-dm-mono text-xl"
