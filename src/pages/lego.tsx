@@ -248,7 +248,7 @@ const Dashboard = () => {
         <InboxIcon className="mr-2" />
         Your Contributions
       </h2>
-      <section className="grid grid-cols-3 gap-2">
+      <section className="grid grid-cols-3 gap-4">
         {Contribution(
           "First 100 Days Peer Feedback",
           "TB",
