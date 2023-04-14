@@ -150,7 +150,7 @@ const StepSetup = () => {
       <FeedbackAuthorList />
       <IntroParagraph />
       <Separator className="my-4" />
-      <footer className="container flex justify-end pb-16 pl-8 pt-8">
+      <footer className="flex justify-end pb-16 pl-8 pt-8">
         <Button size="lg">
           <StepForwardIcon className="mr-2" />
           Start Adding Feedback Items…
@@ -453,7 +453,7 @@ const StepItems = () => {
       <GeneralSettingsSummary />
       <FeedbackItemList />
       <Separator className="my-4" />
-      <footer className="container flex justify-end pb-16 pl-8 pt-8">
+      <footer className="flex justify-end pb-16 pl-8 pt-8">
         <Button size="lg">
           <StepForwardIcon className="mr-2" />
           Review Request…
@@ -518,7 +518,7 @@ const RequestView = () => {
         "What do you wish Mihaly would do more of in the future or keep doing?"
       )}
       {FeedbackItemProse("What do you wish Mihaly would change in the future?")}
-      <footer className="container flex justify-end pb-16 pl-8 pt-8">
+      <footer className="flex justify-end pb-16 pl-8 pt-8">
         <Button size="lg">
           <UploadCloudIcon className="mr-2" />
           Create Feedback Request
@@ -580,7 +580,7 @@ const SubmitRequestView = () => {
       </header>
       {FeedbackItemProseReadOnly(prompt1, answer1)}
       {FeedbackItemProseReadOnly(prompt2, answer2)}
-      <footer className="container flex justify-end gap-4 pb-16 pl-8 pt-8">
+      <footer className="flex justify-end gap-4 pb-16 pl-8 pt-8">
         <Button size="lg" variant={"outline"}>
           <EditIcon className="mr-2" />
           Back to Editing
@@ -614,7 +614,7 @@ const Lego: NextPage = () => {
             <TabsTrigger value="REVIEW">3. Review Request</TabsTrigger>
             <TabsTrigger value="SUBMIT">Submit Feedback</TabsTrigger>
           </TabsList>
-          <div className="container flex flex-col px-4 pb-8 pt-4 ">
+          <div className="flex flex-col px-4 pb-8 pt-4">
             <TabsContent className="mt-0 border-none p-0" value="DASHBOARD">
               <Dashboard />
             </TabsContent>
