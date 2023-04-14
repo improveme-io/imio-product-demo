@@ -98,7 +98,7 @@ const FeedbackAuthorList = () => {
 
 const EditFeedbackAuthor = () => {
   return (
-    <section className="rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
+    <Card weight={"lg"}>
       <h3> Who is the person you&apos;d like to get feedback from?</h3>
       <div className="flex flex-wrap items-end justify-between pt-8">
         <div className="mr-6 flex flex-grow flex-col">
@@ -113,7 +113,7 @@ const EditFeedbackAuthor = () => {
           Add more Authors…
         </Button>
       </div>
-    </section>
+    </Card>
   );
 };
 
@@ -189,7 +189,7 @@ const EditButton = () => {
 
 const GeneralSettingsSummary = () => {
   return (
-    <div className="rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
+    <Card weight={"sm"}>
       <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-50 dark:hover:border-slate-500">
         <div className="col-span-3">
           <h4 className="flex">
@@ -221,7 +221,7 @@ const GeneralSettingsSummary = () => {
           <EditButton />
         </div>
       </section>
-    </div>
+    </Card>
   );
 };
 
@@ -288,7 +288,7 @@ const Contribution = (
   const requesterName = requesterNameTxt;
   const done = doneBool;
   return (
-    <Card className="flex flex-col">
+    <Card variant={"hoverable"} className="flex flex-col">
       <div className="mb-4 flex items-center">
         {UserItem(requesterInitials, requesterName)}
         {done ? (
@@ -339,7 +339,7 @@ const FeedbackItemList = () => {
 
 const AddFeedbackItem = () => {
   return (
-    <section className="mt-6 rounded-lg border border-slate-100 px-8 py-8 dark:border-slate-600">
+    <Card weight={"lg"} className="mt-6">
       <h3 className="flex text-xl">Add Feedback Item</h3>
       <div className="my-4">
         <div className="mb-4 flex flex-grow flex-col">
@@ -377,14 +377,14 @@ const AddFeedbackItem = () => {
           <Button>Save</Button>
         </div>
       </div>
-    </section>
+    </Card>
   );
 };
 
 const FeedbackRequestItem = (requestName: string) => {
   const name = requestName;
   return (
-    <section className="group mt-6 rounded-lg border border-slate-100 px-8 py-8 hover:bg-slate-50 dark:border-slate-600">
+    <Card weight={"lg"} variant={"hoverable"} className="mb-8">
       <div className="flex justify-between">
         <h3 className="flex text-xl">{name}</h3>
         <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
@@ -412,12 +412,12 @@ const FeedbackRequestItem = (requestName: string) => {
           </div>
         </div>
       </div>
-    </section>
+    </Card>
   );
 };
 const FeedbackItem = () => {
   return (
-    <section className="group mt-6 rounded-lg border border-slate-100 px-8 py-8 hover:bg-slate-50 dark:border-slate-600">
+    <Card weight={"lg"} variant={"hoverable"} className="group mt-6">
       <div className="flex justify-between">
         <h3 className="flex text-xl">
           What do you wish Mihaly would do more of in the future or keep doing?
@@ -436,7 +436,7 @@ const FeedbackItem = () => {
           <div>Prose</div>
         </div>
       </div>
-    </section>
+    </Card>
   );
 };
 
@@ -466,7 +466,7 @@ const StepItems = () => {
 const Introduction = () => {
   const user = useUser();
   return (
-    <section className="mb-16 rounded-lg border border-slate-100 px-4 px-8 py-4 py-8 dark:border-slate-600">
+    <Card className="mb-16 py-8">
       <h2 className="mb-4 flex content-center items-baseline text-xl">
         <Avatar className="mx-2 text-slate-500">
           <AvatarImage></AvatarImage>
@@ -481,7 +481,7 @@ const Introduction = () => {
           characters.
         </p>
       </div>
-    </section>
+    </Card>
   );
 };
 
@@ -570,10 +570,10 @@ const SubmitRequestView = () => {
   return (
     <>
       <header className="pb-8">
-        <div className="mb-8 rounded-md border border-slate-100 bg-white px-3 py-2 text-xs drop-shadow dark:border-slate-700 dark:bg-slate-800">
+        <Card weight={"sm"} className="mb-8 text-xs">
           This feedback has been finalized and submitted. You can&apos;t change
           it anymore.
-        </div>
+        </Card>
         <h1 className="group text-3xl font-extrabold tracking-tight">
           Your Feedback to FIRSTNAME
         </h1>
