@@ -605,7 +605,7 @@ const Lego: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="items-left justify-left flex min-h-screen flex-col">
+      <main className="items-left justify-left flex min-h-screen flex-col p-3">
         <Tabs defaultValue="DASHBOARD">
           <TabsList>
             <TabsTrigger value="DASHBOARD">0. Dashboard</TabsTrigger>
