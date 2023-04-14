@@ -51,6 +51,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 
+import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -287,7 +288,7 @@ const Contribution = (
   const requesterName = requesterNameTxt;
   const done = doneBool;
   return (
-    <div className="group mb-4 flex flex-grow flex-col rounded-lg border border-slate-100 px-2 py-2 dark:border-slate-600">
+    <Card className="flex flex-col">
       <div className="mb-4 flex items-center">
         {UserItem(requesterInitials, requesterName)}
         {done ? (
@@ -311,7 +312,7 @@ const Contribution = (
           Author Feedback
         </Button>
       )}
-    </div>
+    </Card>
   );
 };
 
