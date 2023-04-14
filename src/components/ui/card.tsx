@@ -27,7 +27,7 @@ export interface CardProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {}
 
-const Card = React.forwardRef<HTMLAttributes, CardProps>(
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant, weight, children, ...props }, ref) => {
     return (
       <div
