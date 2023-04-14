@@ -8,8 +8,7 @@ const cardVariants = cva("group border border-slate-100 bg-white", {
     variant: {
       default: "",
       shadow: "drop-shadow-md",
-      hoverable:
-        "transition-shadow duration-300 drop-shadow-md hover:drop-shadow-xl",
+      hoverable: "hover:border-slate-200 hover:bg-slate-50",
     },
     weight: {
       default: "px-4 py-4 rounded-lg",
