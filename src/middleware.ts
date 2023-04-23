@@ -34,8 +34,9 @@ export const config = {
      * - static (static files)
      * - favicon.ico (favicon file)
      * - public folder
+     * - trpc (trpc routes)
      */
-    "/((?!static|.*\\..*|_next|favicon.ico).*)",
+    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)",
     "/",
   ],
 };
