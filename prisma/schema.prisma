@@ -1,17 +1,63 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+enum Status {
+  CREATING
+  REQUESTED
+  AUTHORING
+  PENDING
+  DONE
+}
+
+model FeedbackRequest {
+  id        String    @id @default(cuid())
+  // TODO: move this to nanoid, when it is supported by Prisma (https://github.com/prisma/prisma/issues/17199)
+  slug      String    @unique @default(cuid())
+  status    Status    @default(CREATING)
+  deadline  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+  ownerId   String
+  owner         User           @relation("owner",  fields: [ownerId], references: [id])
+  @@index([ownerId])
+  authors       User[]
+  feedbackItems FeedbackItem[]
+
+  @@index([slug])
+}
+
+model FeedbackItem {
+  id        String   @id @default(cuid())
+  prompt    String?   @db.Text
+  payload   String?   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  requestId String
+  request FeedbackRequest @relation(fields: [requestId], references: [id])
+  @@index([requestId])
+  ownerId   String
+  owner   User            @relation("owner", fields: [ownerId], references: [id])
+  @@index([ownerId])
+  authorId  String
+  author  User            @relation(fields: [authorId], references: [id])
+  @@index([authorId])
+}
+
+model User {
+  id    String  @id @default(cuid())
+  email String? @unique
+
+  requestsOwned    FeedbackRequest[] @relation("owner")
+  itemsOwned       FeedbackItem[] @relation("owner")
+  requestsAuthored FeedbackRequest[]
+  itemsAuthored    FeedbackItem[]
 }
