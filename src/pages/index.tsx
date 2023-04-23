@@ -12,7 +12,13 @@ import { PageHead } from "~/components/page-head";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from @robotkutya" });
+  const all = api.feedback.getAll.useQuery();
+  const bySlug = api.feedback.bySlug.useQuery({
+    slug: "clgtmwezg00070z0hofifaq9o",
+  });
+
+  console.log(all.data);
+  console.log(bySlug.data);
 
   const user = useUser();
 
@@ -80,9 +86,6 @@ const Home: NextPage = () => {
               </>
             )}
           </div>
-          <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-          </p>
         </div>
       </main>
     </>
