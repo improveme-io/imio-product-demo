@@ -55,9 +55,9 @@ const Home: NextPage = () => {
             <ul>
               <li>
                 We believe that continuous feedback is essential to personal and
-                professional growth. That's why our app works seamlessly with
-                teams and companies of any size, empowering individuals to take
-                ownership of their feedback and use it to improve their
+                professional growth. That&apos;s why our app works seamlessly
+                with teams and companies of any size, empowering individuals to
+                take ownership of their feedback and use it to improve their
                 performance.
               </li>
               <li>
@@ -71,10 +71,10 @@ const Home: NextPage = () => {
               <li>
                 Our app has been designed with the latest best practices in
                 organizational psychology in mind. We understand that top-down
-                feedback processes are often ineffective and outdated. That's
-                why Improveme.io empowers individuals to take control of their
-                own growth and development by requesting feedback from their
-                peers in a constructive and actionable way.
+                feedback processes are often ineffective and outdated.
+                That&apos;s why Improveme.io empowers individuals to take
+                control of their own growth and development by requesting
+                feedback from their peers in a constructive and actionable way.
               </li>
             </ul>
           </section>
@@ -82,18 +82,17 @@ const Home: NextPage = () => {
             <h2 className="text-xl">How it works</h2>
             <p>
               Sign up for an account and get started on your journey towards
-              continuous improvement. Once you've created your account, you can
-              create a feedback request in just a few clicks. This request can
-              be customized to suit your specific needs and can be shared with
-              your peers at your convenience.
+              continuous improvement. Once you&apos;ve created your account, you
+              can create a feedback request in just a few clicks. This request
+              can be customized to suit your specific needs and can be shared
+              with your peers at your convenience.
             </p>
             <p>
               After sharing your request, you can sit back and wait for the
               feedback to come in. Once you receive feedback, you can manage it
-              easily through our platform. With
-              [Improveme.io](http://improveme.io/), it's easy to keep track of
-              feedback over time, giving you a clear picture of your progress
-              and helping you to identify areas for improvement.
+              easily through our platform. With improveme.io, it&apos;s easy to
+              keep track of feedback over time, giving you a clear picture of
+              your progress and helping you to identify areas for improvement.
             </p>
           </section>
           <section className="pb-10">
