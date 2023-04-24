@@ -25,16 +25,88 @@ const Home: NextPage = () => {
   return (
     <>
       <PageHead />
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-gray-200 to-gray-800">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            feedback <span className="text-[hsl(280,100%,70%)]">ME</span> Daddy
-          </h1>
+      <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+        <header>
+          <h1 className="mb-8 text-4xl font-bold">improveme.io</h1>
+        </header>
+        <main className="">
+          <section className="pb-10">
+            <h1 className="mb-8 text-5xl font-bold">
+              Own your feedback, own your growth.
+            </h1>
+            <h2 className="mb-2 text-2xl">
+              Take control of your professional development with improveme.io
+            </h2>
+            <p>
+              Our app empowers anyone, regardless of their employment type, to
+              own feedback they receive and use it to improve their performance.
+              No need to rely on HR or management, request feedback at your own
+              pace and on your terms. Designed with the latest best practices in
+              organizational psychology in mind, improveme.io enables
+              individuals to take control of their own growth and development.
+            </p>
+          </section>
+          <section className="pb-10">
+            <h2 className="text-xl">
+              Whether you&apos;re a freelancer, work for a tiny startup, or a
+              multinational corporation, our app empowers you to facilitate and
+              own your own feedback and keep it forever.
+            </h2>
+            <ul>
+              <li>
+                We believe that continuous feedback is essential to personal and
+                professional growth. That's why our app works seamlessly with
+                teams and companies of any size, empowering individuals to take
+                ownership of their feedback and use it to improve their
+                performance.
+              </li>
+              <li>
+                With our app, you are the sole owner feedback you’ve received,
+                which means you can take it with you hassle-free even after you
+                change employers or projects. You no longer need to rely on HR
+                departments or management to facilitate feedback sessions.
+                Instead, you can request feedback at your own pace, on your own
+                terms, and without any barriers.
+              </li>
+              <li>
+                Our app has been designed with the latest best practices in
+                organizational psychology in mind. We understand that top-down
+                feedback processes are often ineffective and outdated. That's
+                why Improveme.io empowers individuals to take control of their
+                own growth and development by requesting feedback from their
+                peers in a constructive and actionable way.
+              </li>
+            </ul>
+          </section>
+          <section className="pb-10">
+            <h2 className="text-xl">How it works</h2>
+            <p>
+              Sign up for an account and get started on your journey towards
+              continuous improvement. Once you've created your account, you can
+              create a feedback request in just a few clicks. This request can
+              be customized to suit your specific needs and can be shared with
+              your peers at your convenience.
+            </p>
+            <p>
+              After sharing your request, you can sit back and wait for the
+              feedback to come in. Once you receive feedback, you can manage it
+              easily through our platform. With
+              [Improveme.io](http://improveme.io/), it's easy to keep track of
+              feedback over time, giving you a clear picture of your progress
+              and helping you to identify areas for improvement.
+            </p>
+          </section>
+          <section className="pb-10">
+            <h2 className="text-xl">Pricing</h2>
+            Right now, improveme.io is just a hobby project and is free to use.
+            Depending on what happens in the future, we may plan to incorporate
+            and introduce pricing – but for now, just use it and enjoy it.
+          </section>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
             {!user.isSignedIn && (
               <>
                 <SignInButton>
-                  <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
+                  <div className="flex max-w-xs cursor-pointer flex-col gap-4">
                     <h3 className="text-2xl font-bold">Sign In →</h3>
                     <div className="text-lg">
                       You will get an email. Follow the white rabbit.
@@ -42,7 +114,7 @@ const Home: NextPage = () => {
                   </div>
                 </SignInButton>
                 <SignUpButton>
-                  <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
+                  <div className="flex max-w-xs cursor-pointer flex-col gap-4">
                     <h3 className="text-2xl font-bold">Sign Up →</h3>
                     <div className="text-lg">
                       Not in yet? Two clicks to feedback heaven.
@@ -54,7 +126,7 @@ const Home: NextPage = () => {
             {user.isSignedIn && (
               <>
                 <SignOutButton>
-                  <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
+                  <div className="flex max-w-xs cursor-pointer flex-col gap-4">
                     <h3 className="text-2xl font-bold">Sign Out →</h3>
                     <div className="text-lg">
                       It was great to have you, but it&lsquo;s now time to go.
@@ -63,7 +135,7 @@ const Home: NextPage = () => {
                   </div>
                 </SignOutButton>
                 <Link
-                  className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                  className="flex max-w-xs cursor-pointer flex-col gap-4"
                   href="/feedback/create"
                 >
                   <h3 className="text-2xl font-bold">Let&lsquo;s Go →</h3>
@@ -73,7 +145,7 @@ const Home: NextPage = () => {
                   </div>
                 </Link>
                 <Link
-                  className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                  className="flex max-w-xs cursor-pointer flex-col gap-4"
                   href="/lego"
                 >
                   <h3 className="text-2xl font-bold">Lego →</h3>
@@ -86,8 +158,8 @@ const Home: NextPage = () => {
               </>
             )}
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </>
   );
 };
