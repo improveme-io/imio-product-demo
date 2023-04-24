@@ -6,5 +6,6 @@
     "bradlc.vscode-tailwindcss",
     "unifiedjs.vscode-mdx",
     "Prisma.prisma",
+    "yoavbls.pretty-ts-errors"
   ]
 }
