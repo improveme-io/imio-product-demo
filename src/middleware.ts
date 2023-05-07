@@ -1,31 +1,12 @@
-import { getAuth, withClerkMiddleware } from "@clerk/nextjs/server";
+import { withClerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const publicPaths = ["/"];
-
-const isPublic = (path: string) => {
-  return publicPaths.find((x) =>
-    path.match(new RegExp(`^${x}$`.replace("*$", "($|/)")))
-  );
-};
-
-export default withClerkMiddleware((request: NextRequest) => {
-  if (isPublic(request.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
-  // if the user is not signed in redirect them to the sign in page.
-  const { userId } = getAuth(request);
-
-  // TODO: look into this a bit when working on the sign up / creation flow
-  if (!userId) {
-    const signInUrl = new URL("/", request.url);
-    signInUrl.searchParams.set("redirect_url", request.url);
-    return NextResponse.redirect(signInUrl);
-  }
+export default withClerkMiddleware((_req: NextRequest) => {
   return NextResponse.next();
 });
 
+// Stop Middleware running on static files
 export const config = {
   matcher: [
     /*
@@ -33,8 +14,6 @@ export const config = {
      * - _next
      * - static (static files)
      * - favicon.ico (favicon file)
-     * - public folder
-     * - trpc (trpc routes)
      */
     "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)",
     "/",
