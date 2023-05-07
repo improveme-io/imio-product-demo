@@ -1,7 +1,10 @@
 // figma:
 // https://www.figma.com/file/Uj2Fuvmt7ahv0UysYpgI4C
 //
-// copy-paste components from here:
+// add components with command:
+// `pnpm run add-ui`
+//
+// more info:
 // https://ui.shadcn.com/docs#what-do-you-mean-by-not-a-component-library
 //
 // underlying component library:
@@ -47,6 +50,26 @@
 // 3. (optional) modify the component to fit your needs
 // 4. import into page with `import { Accordion, ... } from "~/components/ui/accordion"`
 //
+// NOTE:
+// please use the following coding style for your components:
+// type FooProps = {
+//   foo: string;
+//   bar: string;
+// }
+//
+// export const Foo = (props: FooProps) => {
+//   return (
+//     <div>
+//       <h1>props.foo</h1>
+//       <p>props.bar</p>
+//     </div>
+//   );
+// }
+//
+// and when you use it:
+// <Foo foo="foo" bar="bar" />
+//
+
 
 import { type NextPage } from "next";
 import Head from "next/head";
@@ -98,7 +121,7 @@ const FeedbackAuthorList = () => {
 
 const EditFeedbackAuthor = () => {
   return (
-    <Card weight={"lg"}>
+    <Card>
       <h3> Who is the person you&apos;d like to get feedback from?</h3>
       <div className="flex flex-wrap items-end justify-between pt-8">
         <div className="mr-6 flex flex-grow flex-col">
@@ -189,7 +212,7 @@ const EditButton = () => {
 
 const GeneralSettingsSummary = () => {
   return (
-    <Card weight={"sm"}>
+    <Card>
       <section className="group mb-6 grid grid-cols-4 gap-y-10 rounded px-2 py-2 hover:bg-slate-50 dark:hover:border-slate-500">
         <div className="col-span-3">
           <h4 className="flex">
@@ -288,7 +311,7 @@ const Contribution = (
   const requesterName = requesterNameTxt;
   const done = doneBool;
   return (
-    <Card variant={"hoverable"} className="flex flex-col">
+    <Card className="flex flex-col">
       <div className="mb-4 flex items-center">
         {UserItem(requesterInitials, requesterName)}
         {done ? (
@@ -339,7 +362,7 @@ const FeedbackItemList = () => {
 
 const AddFeedbackItem = () => {
   return (
-    <Card weight={"lg"} className="mt-6">
+    <Card className="mt-6">
       <h3 className="flex text-xl">Add Feedback Item</h3>
       <div className="my-4">
         <div className="mb-4 flex flex-grow flex-col">
@@ -384,7 +407,7 @@ const AddFeedbackItem = () => {
 const FeedbackRequestItem = (requestName: string) => {
   const name = requestName;
   return (
-    <Card weight={"lg"} variant={"hoverable"} className="mb-8">
+    <Card className="mb-8">
       <div className="flex justify-between">
         <h3 className="flex text-xl">{name}</h3>
         <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
@@ -417,7 +440,7 @@ const FeedbackRequestItem = (requestName: string) => {
 };
 const FeedbackItem = () => {
   return (
-    <Card weight={"lg"} variant={"hoverable"} className="group mt-6">
+    <Card className="group mt-6">
       <div className="flex justify-between">
         <h3 className="flex text-xl">
           What do you wish Mihaly would do more of in the future or keep doing?
@@ -427,7 +450,7 @@ const FeedbackItem = () => {
             <EditIcon className="mr-2 h-4 w-4" />
             Edit
           </Button>
-          <Button variant={"destructive_outline"}>Remove</Button>
+          <Button variant={"destructive"}>Remove</Button>
         </div>
       </div>
       <div className="my-4 flex gap-4">
@@ -558,8 +581,8 @@ const SubmitRequestView = () => {
     "What do you wish Mihaly would do more of in the future or keep doing?";
   const answer1 = `Generally, I am glad to be working in a more collaborative scenario than I was used to before, on a project with a much bigger scope than something one can manage or accomplish by themselves. This is of course relatively unspecific to the company itself. What makes this especially good in this case is the quality of the work and the intellect of the coworkers: it is genuinely amazing to work with people who are very good at what they do and have enough security in their fields to admit also what they dont know. This is something that is very rare and greatly refreshing.
 
-  Another positive and important aspect is having responsibility and decision-making power, which gives me a chance for me to feel that what we are working on is as much my creation as anyone elses. 
-  
+  Another positive and important aspect is having responsibility and decision-making power, which gives me a chance for me to feel that what we are working on is as much my creation as anyone elses.
+
   It of course goes without saying that I am also quite happy with the people-friendly work environment - flexible hours, snacks, nice office, etc.
   `;
   const prompt2 = "What do you wish Mihaly would change in the future?";
@@ -570,7 +593,7 @@ const SubmitRequestView = () => {
   return (
     <>
       <header className="pb-8">
-        <Card weight={"sm"} className="mb-8 text-xs">
+        <Card className="mb-8 text-xs">
           This feedback has been finalized and submitted. You can&apos;t change
           it anymore.
         </Card>

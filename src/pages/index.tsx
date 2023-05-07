@@ -2,26 +2,16 @@ import { type NextPage } from "next";
 import Link from "next/link";
 import {
   SignInButton,
-  SignOutButton,
   SignUpButton,
-  useUser,
+  UserButton,
+  SignedIn,
+  SignedOut,
 } from "@clerk/nextjs";
 import { ToyBrick } from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
-import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const all = api.feedback.getAll.useQuery();
-  const bySlug = api.feedback.bySlug.useQuery({
-    slug: "clgtmwezg00070z0hofifaq9o",
-  });
-
-  console.log(all.data);
-  console.log(bySlug.data);
-
-  const user = useUser();
-
   return (
     <>
       <PageHead />
@@ -31,60 +21,59 @@ const Home: NextPage = () => {
             feedback <span className="text-[hsl(280,100%,70%)]">ME</span> Daddy
           </h1>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            {!user.isSignedIn && (
-              <>
-                <SignInButton>
+            <SignedOut>
+              <SignInButton>
+                <button>
                   <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
                     <h3 className="text-2xl font-bold">Sign In →</h3>
                     <div className="text-lg">
                       You will get an email. Follow the white rabbit.
                     </div>
                   </div>
-                </SignInButton>
-                <SignUpButton>
+                </button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <button>
                   <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
                     <h3 className="text-2xl font-bold">Sign Up →</h3>
                     <div className="text-lg">
                       Not in yet? Two clicks to feedback heaven.
                     </div>
                   </div>
-                </SignUpButton>
-              </>
-            )}
-            {user.isSignedIn && (
-              <>
-                <SignOutButton>
-                  <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-                    <h3 className="text-2xl font-bold">Sign Out →</h3>
-                    <div className="text-lg">
-                      It was great to have you, but it&lsquo;s now time to go.
-                      Good bye.
-                    </div>
-                  </div>
-                </SignOutButton>
-                <Link
-                  className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                  href="/feedback/create"
-                >
-                  <h3 className="text-2xl font-bold">Let&lsquo;s Go →</h3>
+                </button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <div className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
+                <h3 className="text-2xl font-bold">Settings →</h3>
+                <div>
+                  <UserButton />
                   <div className="text-lg">
-                    Request, author and own your feedback. It&lsquo;s that
-                    simple.
+                    My account. My feedback. My life.
                   </div>
-                </Link>
-                <Link
-                  className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                  href="/lego"
-                >
-                  <h3 className="text-2xl font-bold">Lego →</h3>
-                  <div className="text-lg">
-                    Beatles in the background, Lego in my hands. Oh, it&lsquo;s
-                    time, it&lsquo;s time to be a child again.
-                    <ToyBrick />
-                  </div>
-                </Link>
-              </>
-            )}
+                </div>
+              </div>
+              <Link
+                className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                href="/feedback/create"
+              >
+                <h3 className="text-2xl font-bold">Let&lsquo;s Go →</h3>
+                <div className="text-lg">
+                  Request, author and own your feedback. It&lsquo;s that simple.
+                </div>
+              </Link>
+              <Link
+                className="flex max-w-xs cursor-pointer flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                href="/lego"
+              >
+                <h3 className="text-2xl font-bold">Lego →</h3>
+                <div className="text-lg">
+                  Beatles in the background, Lego in my hands. Oh, it&lsquo;s
+                  time, it&lsquo;s time to be a child again.
+                  <ToyBrick />
+                </div>
+              </Link>
+            </SignedIn>
           </div>
         </div>
       </main>

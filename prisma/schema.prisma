@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol"]
 }
 
@@ -22,43 +22,46 @@ model FeedbackRequest {
   // TODO: move this to nanoid, when it is supported by Prisma (https://github.com/prisma/prisma/issues/17199)
   slug      String    @unique @default(cuid())
   status    Status    @default(CREATING)
+  title     String    @default("") @db.Text
   deadline  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
 
-  ownerId   String
-  owner         User           @relation("owner",  fields: [ownerId], references: [id])
-  @@index([ownerId])
+  ownerId       String
+  owner         User           @relation("owner", fields: [ownerId], references: [id])
   authors       User[]
   feedbackItems FeedbackItem[]
 
+  @@index([ownerId])
   @@index([slug])
 }
 
 model FeedbackItem {
   id        String   @id @default(cuid())
-  prompt    String?   @db.Text
-  payload   String?   @db.Text
+  prompt    String?  @db.Text
+  payload   String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   requestId String
-  request FeedbackRequest @relation(fields: [requestId], references: [id])
-  @@index([requestId])
+  request   FeedbackRequest @relation(fields: [requestId], references: [id])
   ownerId   String
-  owner   User            @relation("owner", fields: [ownerId], references: [id])
-  @@index([ownerId])
+  owner     User            @relation("owner", fields: [ownerId], references: [id])
   authorId  String
-  author  User            @relation(fields: [authorId], references: [id])
+  author    User            @relation(fields: [authorId], references: [id])
+
+  @@index([requestId])
+  @@index([ownerId])
   @@index([authorId])
 }
 
 model User {
-  id    String  @id @default(cuid())
-  email String? @unique
+  id          String  @id @default(cuid())
+  email       String? @unique
+  clerkUserId String? @unique
 
   requestsOwned    FeedbackRequest[] @relation("owner")
-  itemsOwned       FeedbackItem[] @relation("owner")
+  itemsOwned       FeedbackItem[]    @relation("owner")
   requestsAuthored FeedbackRequest[]
   itemsAuthored    FeedbackItem[]
 }
