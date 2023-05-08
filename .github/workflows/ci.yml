@@ -16,7 +16,7 @@ env:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: Run ESLint
+    name: ESLint
     steps:
       - uses: actions/checkout@v3
         with:
@@ -54,7 +54,7 @@ jobs:
 
   prettier:
     runs-on: ubuntu-latest
-    name: Run Prettier
+    name: Prettier
     steps:
       - uses: actions/checkout@v3
         with:
@@ -91,7 +91,7 @@ jobs:
 
   tsc:
     runs-on: ubuntu-latest
-    name: Run Typechecker
+    name: Typechecker
     steps:
       - uses: actions/checkout@v3
         with:
