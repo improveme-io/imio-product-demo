@@ -8,6 +8,11 @@ on:
     branches: ["*"]
   merge_group:
 
+env:
+  DATABASE_URL: "https://fake.com"
+  CLERK_SECRET_KEY: "super-secret"
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "sharing-is-caring"
+
 jobs:
   lint:
     runs-on: ubuntu-latest
