@@ -44,9 +44,9 @@
 // WARNING: if you create a new page, you need to be logged in to see it, all routes are protected
 //
 // workflow:
-// 1. install the `radix-ui` component, e.g. `pnpm add @radix-ui/react-accordion`
+// 1. run the `pnpm run add-ui` command and specify `/src/components/shadcn` as the folder
 // NOTE: some components are native to react and don't need to be installed`
-// 2. copy-paste from the docs into `components/ui/accordion.tsx`
+// 2. copy-paste component code to a new file in the `src/components/ui` folder
 // 3. (optional) modify the component to fit your needs
 // 4. import into page with `import { Accordion, ... } from "~/components/ui/accordion"`
 //
