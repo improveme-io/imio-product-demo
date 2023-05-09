@@ -24,7 +24,7 @@ async function main() {
     update: {},
     create: {
       email: "kristof@improveme.io",
-      // TODO: add clerkUserId
+      clerkUserId: "user_2PYcL7UyF0RjGNpLEWbaZUZbOOT",
     },
   });
   const brooke = await prisma.user.upsert({
