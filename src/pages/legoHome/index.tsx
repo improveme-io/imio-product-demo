@@ -6,6 +6,14 @@ import { ToyBrick } from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 const LegoHome: NextPage = () => {
   return (
@@ -55,9 +63,32 @@ const LegoHome: NextPage = () => {
             alt="Graphic depicting three people giving each other feedback in the cloud"
           />
         </div>
+        <div className="md:grid md:grid-cols-2 md:gap-8 ">
+          <div className="md:col-span-2">
+            <h2 className="my-12 font-serif text-3xl">Keep it forever.</h2>
+            <p className="mb-16 text-lg md:max-w-lg">
+            Whether you're a student or a freelancer, work for a tiny startup or a big multinational corporation, our app empowers you to not only facilitate but truly own your own feedback.
+            </p>
+          </div>
+          {FeatureCard("You're in control.")}
+          {FeatureCard("Science has your back.")}
+          {FeatureCard("Size doesn't matter.")}
+          {FeatureCard("Feedback needs to be actionable.")}
+        </div>
       </main>
     </>
   );
 };
+
+const FeatureCard = (Title: string) => {
+  const title = Title;
+  return (
+    <Card>
+      <CardHeader><CardTitle>{title}</CardTitle></CardHeader>
+      <CardContent>
+      <p>With our app, you are the sole owner feedback you've received, which means you can take it with you hassle-free even after you change employers or projects. You no longer need to rely on formal feedback procedures to facilitate feedback sessions. Instead, you can request feedback at your own pace, on your own terms, and without any institutional barriers.</p>
+      </CardContent>
+    </Card>
+  )};
 
 export default LegoHome;
