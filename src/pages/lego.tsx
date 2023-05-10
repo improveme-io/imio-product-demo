@@ -152,7 +152,7 @@ const IntroParagraph = () => {
           you are asking for and why.
         </Label>
         <Textarea
-          className="mt-2 h-96 font-dm-mono text-xl"
+          className="font-dm-mono mt-2 h-96 text-xl"
           placeholder="Type your message here."
         />
       </div>
@@ -517,7 +517,7 @@ const FeedbackItemProse = (promptText: string) => {
       <div className="flex flex-col px-8 py-8">
         <Label>Please answer in prose, at a minimum of 240 characters.</Label>
         <Textarea
-          className="mt-2 h-96 font-dm-mono text-xl"
+          className="font-dm-mono mt-2 h-96 text-xl"
           placeholder="Type your message here."
         />
       </div>
