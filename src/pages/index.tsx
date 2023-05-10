@@ -5,7 +5,7 @@ import { Sprout, Joystick, Users, Microscope } from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
-import { FeatureCard } from "~/components/ui/feature-card";
+import { FeatureCard } from "~/components/feature-card";
 
 const Home: NextPage = () => {
   return (
