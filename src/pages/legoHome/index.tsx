@@ -72,14 +72,14 @@ const LegoHome: NextPage = () => {
             </Button>
           </div>
           <Image
-            className=""
+            className="sm:mt-10 md:mt-0"
             src="/HeroGraphic.png"
             width={472}
             height={584}
             alt="Graphic depicting three people giving each other feedback in the cloud"
           />
         </div>
-        <div className="md:grid md:grid-cols-2 md:gap-8 ">
+        <div className="grid md:grid-cols-2 gap-8 ">
           <div className="md:col-span-2">
             <h2 className="mb-12 font-serif text-3xl">Keep it forever.</h2>
             <p className="mb-16 text-lg md:max-w-lg">
