@@ -17,8 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        "dm-sans": ["DM Sans", "sans-serif"],
-        "dm-mono": ["DM Mono", "monospace"],
+        sans: ["DM Sans"],
+        serif: ["Space Grotesk"],
+        mono: ["DM Mono"],
       },
       colors: {
         border: "hsl(var(--border))",
