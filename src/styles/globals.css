@@ -1,9 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    font-family: 'DM Mono', monospace;
+    font-family: 'DM Sans', sans-serif;
+    --font-sans: 'DM Sans';
+    --font-serif: 'Space Grotesk'
+
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
 
