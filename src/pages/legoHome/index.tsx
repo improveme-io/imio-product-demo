@@ -9,12 +9,9 @@ import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ReactHTMLElement } from "react";
 
 const FeatureCard = (
   Icon: React.ReactElement,
@@ -89,7 +86,7 @@ const LegoHome: NextPage = () => {
         </div>
         <div className="md:grid md:grid-cols-2 md:gap-8 ">
           <div className="md:col-span-2">
-            <h2 className="my-12 font-serif text-3xl">Keep it forever.</h2>
+            <h2 className="mb-12 font-serif text-3xl">Keep it forever.</h2>
             <p className="mb-16 text-lg md:max-w-lg">
               Whether you are a student or a freelancer, work for a tiny startup
               or a big multinational corporation, our app empowers you to not
