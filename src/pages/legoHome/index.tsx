@@ -6,12 +6,7 @@ import { Sprout, Joystick, Users, Microscope } from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const FeatureCard = (
   Icon: React.ReactElement,
