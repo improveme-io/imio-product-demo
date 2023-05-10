@@ -1,8 +1,7 @@
-import { useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
 import { Contribution } from "~/components/contribution";
-import { EditButton } from "~/components/edit-button";
 import { FeedbackRequestItem } from "~/components/feedback-request-item";
 
 import { PageHead } from "~/components/page-head";
@@ -32,13 +31,10 @@ const Dashboard: NextPage = () => {
       <main className="items-left justify-left flex min-h-screen flex-col p-3">
         <header className="flex justify-between pb-8">
           <h1 className="group flex text-3xl font-extrabold tracking-tight">
-            Hello{" "}
-            <Avatar className="mx-2 text-xl text-slate-500">
-              <AvatarImage></AvatarImage>
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>{" "}
-            {user.user?.firstName ?? "You"}
-            <EditButton />
+            Hello, {user.user?.firstName ?? "You"}
+            <div className="ml-4">
+              <UserButton />
+            </div>
           </h1>
           <Button className="my-6" size={"lg"}>
             <LeafIcon className="mr-2" />
