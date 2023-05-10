@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=v18.15.0",
+    "pnpm": ">=8.4.0"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "format": "pnpm format:check --write",
