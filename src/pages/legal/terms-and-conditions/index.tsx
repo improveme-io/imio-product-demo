@@ -181,17 +181,19 @@ const TermsAndConditions: NextPage = () => {
           </p>
         </div>
         <div className="w-2/3 text-right">
-          <Button className="text-stone-50" variant={"link"}>
-            Contact & Legal
+          <Button asChild className="text-stone-50" variant={"link"}>
+            <Link href="/legal">Contact & Legal</Link>
           </Button>
           <Button className="text-stone-50" variant={"link"}>
-            Terms & Conditions
+            <Link href="/legal/terms-and-conditions">Terms & Conditions</Link>
           </Button>
           <Button className="text-stone-50" variant={"link"}>
-            Privacy Policy
+            <Link href="/legal/privacy-policy">Privacy Policy</Link>
           </Button>
           <Button className="text-stone-50" variant={"link"}>
-            Anti-Discrimination Policy
+            <Link href="/legal/anti-discrimination-policy">
+              Anti-Discrimination Policy
+            </Link>
           </Button>
         </div>
       </footer>
