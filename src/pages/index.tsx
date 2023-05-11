@@ -190,7 +190,7 @@ const Home: NextPage = () => {
               it.
             </p>
             <Image
-              className="ml-auto w-1/4 "
+              className="mx-auto w-1/4 "
               src="/PricingGraphic.png"
               width={350}
               height={505}
