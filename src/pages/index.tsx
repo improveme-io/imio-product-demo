@@ -54,12 +54,18 @@ const Home: NextPage = () => {
               collect feedback from the people they collaborate with. You
               #ownyourfeedback. Use it to improve your performance.
             </p>
-            <Button
-              size={"lg"}
-              className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+            <SignUpButton
+              mode="modal"
+              afterSignInUrl="/dashboard"
+              afterSignUpUrl="/dashboard"
             >
-              Start Collecting Feedback Now
-            </Button>
+              <Button
+                size={"lg"}
+                className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+              >
+                Start Collecting Feedback Now
+              </Button>
+            </SignUpButton>
           </div>
           <Image
             className="sm:mt-10 md:mt-0"
