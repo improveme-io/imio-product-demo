@@ -6,7 +6,7 @@ name: Label PR and check title
 
 on:
   pull_request:
-    branches: ["*"]
+    branches: [""]
 
 jobs:
   lint-pr-title:
