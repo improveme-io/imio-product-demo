@@ -1,11 +1,25 @@
 import { type NextPage } from "next";
 import Image from "next/image";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { Sprout, Joystick, Users, Microscope } from "lucide-react";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import {
+  Sprout,
+  Joystick,
+  Users,
+  Microscope,
+  LayoutDashboardIcon,
+} from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
 import { FeatureCard } from "~/components/feature-card";
+import Link from "next/link";
+import { Footer } from "~/components/footer";
 
 const Home: NextPage = () => {
   return (
@@ -20,24 +34,37 @@ const Home: NextPage = () => {
           alt="Graphic depicting three people giving each other feedback in the cloud"
         />
         <div className="flex">
-          <SignInButton
-            mode="modal"
-            afterSignInUrl="/dashboard"
-            afterSignUpUrl="/dashboard"
-          >
-            <Button className="mr-2" variant={"ghost"} size={"sm"}>
-              Log In
+          <SignedIn>
+            <Button variant="outline" asChild className="mr-6">
+              <Link href="/dashboard">
+                <LayoutDashboardIcon className="mr-3" size={"20"} />
+                Open App Dashboard
+              </Link>
             </Button>
-          </SignInButton>
-          <SignUpButton
-            mode="modal"
-            afterSignInUrl="/dashboard"
-            afterSignUpUrl="/dashboard"
-          >
-            <Button variant={"outline"} size={"sm"}>
-              Sign Up
-            </Button>
-          </SignUpButton>
+            <div className="mt-1">
+              <UserButton />
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <SignInButton
+              mode="modal"
+              afterSignInUrl="/dashboard"
+              afterSignUpUrl="/dashboard"
+            >
+              <Button className="mr-2" variant={"ghost"} size={"sm"}>
+                Log In
+              </Button>
+            </SignInButton>
+            <SignUpButton
+              mode="modal"
+              afterSignInUrl="/dashboard"
+              afterSignUpUrl="/dashboard"
+            >
+              <Button variant={"outline"} size={"sm"}>
+                Sign Up
+              </Button>
+            </SignUpButton>
+          </SignedOut>
         </div>
       </header>
       <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-stone-50 px-8 py-8 sm:px-16 md:pl-32">
@@ -54,12 +81,29 @@ const Home: NextPage = () => {
               collect feedback from the people they collaborate with. You
               #ownyourfeedback. Use it to improve your performance.
             </p>
-            <Button
-              size={"lg"}
-              className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
-            >
-              Start Collecting Feedback Now
-            </Button>
+            <SignedIn>
+              <Button
+                asChild
+                size={"lg"}
+                className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+              >
+                <Link href="/dashboard">Start Collecting Feedback Now</Link>
+              </Button>
+            </SignedIn>
+            <SignedOut>
+              <SignUpButton
+                mode="modal"
+                afterSignInUrl="/dashboard"
+                afterSignUpUrl="/dashboard"
+              >
+                <Button
+                  size={"lg"}
+                  className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                >
+                  Start Collecting Feedback Now
+                </Button>
+              </SignUpButton>
+            </SignedOut>
           </div>
           <Image
             className="sm:mt-10 md:mt-0"
@@ -91,16 +135,72 @@ const Home: NextPage = () => {
           />
           <FeatureCard
             Icon={Users}
-            title="You're in control."
-            paragraph="With our app, you are the sole owner feedback you've received, which means you can take it with you hassle-free even after you change employers or projects. You no longer need to rely on formal feedback procedures to facilitate feedback sessions. Instead, you can request feedback at your own pace, on your own terms, and without any institutional barriers."
+            title="Size doesn't matter."
+            paragraph="We believe that continuous feedback is essential to personal and professional growth. That's why our app works seamlessly with teams and companies of any size, empowering individuals to take ownership of their feedback and use it to improve their performance."
           />
           <FeatureCard
             Icon={Sprout}
             title="Feedback needs to be actionable."
             paragraph="We guide the feedback givers so you can get feedback that you can actually use. Many of us have given feedback before… but was it any good? This is then also an added bonus for people you ask for feedback: They learn something, too! So don't be shy - ask away!"
           />
+          <div className="gap-8 md:col-span-2 md:grid md:grid-cols-2">
+            <h2 className="col-span-2 mb-12 mt-16 w-full font-serif text-3xl">
+              How it works
+            </h2>
+            <p className="mb-8 text-lg md:max-w-lg">
+              To use the app, simply sign up for an account and start your
+              journey of continuous improvement. Once you&apos;ve created your
+              account, you can create a feedback request in just a few clicks.
+              This request can be customized to suit your specific needs and can
+              be shared with your peers at your convenience.
+            </p>
+            <Image
+              className=""
+              src="/UI-Illustration-1.png"
+              width={1260}
+              height={1010}
+              alt="Illustration of the UI of the app, showing the Dashboard"
+            />
+            <Image
+              className=""
+              src="/UI-Illustration-2.png"
+              width={1260}
+              height={1010}
+              alt="Illustration of the UI of the app, showing a screen with sample feedback"
+            />
+            <p className="mb-8 text-lg md:max-w-lg">
+              After sharing your request, you can sit back and wait for the
+              feedback to come in. Once you receive feedback, you can manage it
+              easily view it on the improveme.io platform. As you continue
+              collecting feedback over time, you will have all your feedback in
+              one place - no matter where you worked or with whom. You can then
+              better identify areas for improvement and have a clearer picture
+              of your progress to keep you motivated and growing!
+            </p>
+          </div>
+          <div className="flex flex-wrap md:col-span-2">
+            <h2 className="my-12 w-full font-serif text-3xl">Pricing</h2>
+            <p className="mb-8 mr-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl md:max-w-lg">
+              $0
+            </p>
+            <p className="mb-8 text-lg md:max-w-lg">
+              Just use it and enjoy it. Right now, improveme.io is just a
+              passion project of people who would love more constructive
+              feedback in their lives and is free to use. Depending on what
+              happens in the future, we may plan to incorporate and introduce
+              pricing.
+            </p>
+            <Image
+              className="mx-auto w-1/4 "
+              src="/PricingGraphic.png"
+              width={350}
+              height={505}
+              alt="Illustration of a person giving another person a present"
+            />
+          </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 };
