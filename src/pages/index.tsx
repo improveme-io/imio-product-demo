@@ -1,11 +1,24 @@
 import { type NextPage } from "next";
 import Image from "next/image";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { Sprout, Joystick, Users, Microscope } from "lucide-react";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import {
+  Sprout,
+  Joystick,
+  Users,
+  Microscope,
+  LayoutDashboardIcon,
+} from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
 import { FeatureCard } from "~/components/feature-card";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -20,24 +33,37 @@ const Home: NextPage = () => {
           alt="Graphic depicting three people giving each other feedback in the cloud"
         />
         <div className="flex">
-          <SignInButton
-            mode="modal"
-            afterSignInUrl="/dashboard"
-            afterSignUpUrl="/dashboard"
-          >
-            <Button className="mr-2" variant={"ghost"} size={"sm"}>
-              Log In
+          <SignedIn>
+            <Button variant="outline" asChild className="mr-6">
+              <Link href="/dashboard">
+                <LayoutDashboardIcon className="mr-3" size={"20"} />
+                Open App Dashboard
+              </Link>
             </Button>
-          </SignInButton>
-          <SignUpButton
-            mode="modal"
-            afterSignInUrl="/dashboard"
-            afterSignUpUrl="/dashboard"
-          >
-            <Button variant={"outline"} size={"sm"}>
-              Sign Up
-            </Button>
-          </SignUpButton>
+            <div className="mt-1">
+              <UserButton />
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <SignInButton
+              mode="modal"
+              afterSignInUrl="/dashboard"
+              afterSignUpUrl="/dashboard"
+            >
+              <Button className="mr-2" variant={"ghost"} size={"sm"}>
+                Log In
+              </Button>
+            </SignInButton>
+            <SignUpButton
+              mode="modal"
+              afterSignInUrl="/dashboard"
+              afterSignUpUrl="/dashboard"
+            >
+              <Button variant={"outline"} size={"sm"}>
+                Sign Up
+              </Button>
+            </SignUpButton>
+          </SignedOut>
         </div>
       </header>
       <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-stone-50 px-8 py-8 sm:px-16 md:pl-32">
