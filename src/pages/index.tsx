@@ -97,8 +97,8 @@ const Home: NextPage = () => {
           />
           <FeatureCard
             Icon={Users}
-            title="You're in control."
-            paragraph="With our app, you are the sole owner feedback you've received, which means you can take it with you hassle-free even after you change employers or projects. You no longer need to rely on formal feedback procedures to facilitate feedback sessions. Instead, you can request feedback at your own pace, on your own terms, and without any institutional barriers."
+            title="Size doesn't matter."
+            paragraph="We believe that continuous feedback is essential to personal and professional growth. That's why our app works seamlessly with teams and companies of any size, empowering individuals to take ownership of their feedback and use it to improve their performance."
           />
           <FeatureCard
             Icon={Sprout}
@@ -163,7 +163,7 @@ const Home: NextPage = () => {
         </div>
       </main>
       <footer className="flex justify-between bg-stone-600 px-8 py-8">
-        <div>
+        <div className="w-1/3">
           <p className="text-xs text-stone-800">
             improveme.io is private passion project of Reuven I. Kristof Gatter
             and Mihaly Furedi. Scientific support provided by Dr. Brooke Gazdag.
@@ -172,7 +172,7 @@ const Home: NextPage = () => {
             We proudly run on Vercel and Planetscale.
           </p>
         </div>
-        <div>
+        <div className="w-2/3 text-right">
           <Button className="text-stone-50" variant={"link"}>
             Contact & Legal
           </Button>
