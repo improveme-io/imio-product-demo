@@ -194,7 +194,7 @@ const Home: NextPage = () => {
               src="/PricingGraphic.png"
               width={350}
               height={505}
-              alt="Illustration of the UI of the app, showing a screen with sample feedback"
+              alt="Illustration of a person giving another person a present"
             />
           </div>
         </div>
