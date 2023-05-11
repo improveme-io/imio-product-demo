@@ -80,18 +80,29 @@ const Home: NextPage = () => {
               collect feedback from the people they collaborate with. You
               #ownyourfeedback. Use it to improve your performance.
             </p>
-            <SignUpButton
-              mode="modal"
-              afterSignInUrl="/dashboard"
-              afterSignUpUrl="/dashboard"
-            >
+            <SignedIn>
               <Button
+                asChild
                 size={"lg"}
                 className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
               >
-                Start Collecting Feedback Now
+                <Link href="/dashboard">Start Collecting Feedback Now</Link>
               </Button>
-            </SignUpButton>
+            </SignedIn>
+            <SignedOut>
+              <SignUpButton
+                mode="modal"
+                afterSignInUrl="/dashboard"
+                afterSignUpUrl="/dashboard"
+              >
+                <Button
+                  size={"lg"}
+                  className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                >
+                  Start Collecting Feedback Now
+                </Button>
+              </SignUpButton>
+            </SignedOut>
           </div>
           <Image
             className="sm:mt-10 md:mt-0"
