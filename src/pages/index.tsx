@@ -7,6 +7,7 @@ import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
 import { FeatureCard } from "~/components/feature-card";
 
+
 const Home: NextPage = () => {
   return (
     <>
@@ -106,7 +107,7 @@ const Home: NextPage = () => {
             paragraph="We guide the feedback givers so you can get feedback that you can actually use. Many of us have given feedback before… but was it any good? This is then also an added bonus for people you ask for feedback: They learn something, too! So don't be shy - ask away!"
           />
           <div className="gap-8 md:col-span-2 md:grid md:grid-cols-2">
-            <h2 className="col-span-2 my-12 w-full font-serif text-3xl">
+            <h2 className="col-span-2 mb-12 mt-16 w-full font-serif text-3xl">
               How it works
             </h2>
             <p className="mb-8 text-lg md:max-w-lg">
@@ -116,6 +117,20 @@ const Home: NextPage = () => {
               This request can be customized to suit your specific needs and can
               be shared with your peers at your convenience.
             </p>
+            <Image
+              className=""
+              src="/UI-Illustration-1.png"
+              width={1260}
+              height={1010}
+              alt="Illustration of the UI of the app, showing the Dashboard"
+            />
+            <Image
+              className=""
+              src="/UI-Illustration-2.png"
+              width={1260}
+              height={1010}
+              alt="Illustration of the UI of the app, showing a screen with sample feedback"
+            />
             <p className="mb-8 text-lg md:max-w-lg">
               After sharing your request, you can sit back and wait for the
               feedback to come in. Once you receive feedback, you can manage it
@@ -126,8 +141,53 @@ const Home: NextPage = () => {
               of your progress to keep you motivated and growing!
             </p>
           </div>
+          <div className="flex flex-wrap md:col-span-2">
+            <h2 className="my-12 w-full font-serif text-3xl">Pricing</h2>
+            <p className="mb-8 mr-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl md:max-w-lg">
+              $0
+            </p>
+            <p className="mb-8 text-lg md:max-w-lg">
+              Right now, improveme.io is just a passion project of people who
+              would love more constructive feedback in their lives and is free
+              to use. Depending on what happens in the future, we may plan to
+              incorporate and introduce pricing – but for now, just use it and
+              enjoy it.
+            </p>
+            <Image
+              className="ml-auto w-1/4 "
+              src="/PricingGraphic.png"
+              width={350}
+              height={505}
+              alt="Illustration of the UI of the app, showing a screen with sample feedback"
+            />
+          </div>
         </div>
       </main>
+      <footer className="flex justify-between bg-stone-600 px-8 py-8">
+        <div>
+          <p className="text-xs text-stone-800">
+            improveme.io is private passion project of Reuven I. Kristof Gatter
+            and Mihaly Furedi.
+          </p>
+          <p className="text-xs text-stone-800">
+            We proudly run on Vercel and Planetscale.
+          </p>
+        </div>
+        <div>
+          <Button className="text-stone-50" variant={"link"}>
+            Contact & Legal
+          </Button>
+          <Button className="text-stone-50" variant={"link"}>
+            Terms & Conditions
+          </Button>
+          <Button className="text-stone-50" variant={"link"}>
+            Privacy Policy
+          </Button>
+          <Button className="text-stone-50" variant={"link"}>
+            Anti-Discrimination Policy
+          </Button>
+        </div>
+      </footer>
     </>
   );
 };
