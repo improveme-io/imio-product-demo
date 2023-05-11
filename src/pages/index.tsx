@@ -183,11 +183,11 @@ const Home: NextPage = () => {
               $0
             </p>
             <p className="mb-8 text-lg md:max-w-lg">
-              Right now, improveme.io is just a passion project of people who
-              would love more constructive feedback in their lives and is free
-              to use. Depending on what happens in the future, we may plan to
-              incorporate and introduce pricing. For now, just use it and enjoy
-              it.
+              Just use it and enjoy it. Right now, improveme.io is just a
+              passion project of people who would love more constructive
+              feedback in their lives and is free to use. Depending on what
+              happens in the future, we may plan to incorporate and introduce
+              pricing.
             </p>
             <Image
               className="mx-auto w-1/4 "
