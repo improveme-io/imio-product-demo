@@ -105,6 +105,27 @@ const Home: NextPage = () => {
             title="Feedback needs to be actionable."
             paragraph="We guide the feedback givers so you can get feedback that you can actually use. Many of us have given feedback before… but was it any good? This is then also an added bonus for people you ask for feedback: They learn something, too! So don't be shy - ask away!"
           />
+          <div className="gap-8 md:col-span-2 md:grid md:grid-cols-2">
+            <h2 className="col-span-2 my-12 w-full font-serif text-3xl">
+              How it works
+            </h2>
+            <p className="mb-8 text-lg md:max-w-lg">
+              To use the app, simply sign up for an account and start your
+              journey of continuous improvement. Once you've created your
+              account, you can create a feedback request in just a few clicks.
+              This request can be customized to suit your specific needs and can
+              be shared with your peers at your convenience.
+            </p>
+            <p className="mb-8 text-lg md:max-w-lg">
+              After sharing your request, you can sit back and wait for the
+              feedback to come in. Once you receive feedback, you can manage it
+              easily view it on the improveme.io platform. As you continue
+              collecting feedback over time, you will have all your feedback in
+              one place - no matter where you worked or with whom. You can then
+              better identify areas for improvement and have a clearer picture
+              of your progress to keep you motivated and growing!
+            </p>
+          </div>
         </div>
       </main>
     </>
