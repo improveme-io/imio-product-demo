@@ -150,8 +150,8 @@ const Home: NextPage = () => {
               Right now, improveme.io is just a passion project of people who
               would love more constructive feedback in their lives and is free
               to use. Depending on what happens in the future, we may plan to
-              incorporate and introduce pricing – but for now, just use it and
-              enjoy it.
+              incorporate and introduce pricing. For now, just use it and enjoy
+              it.
             </p>
             <Image
               className="ml-auto w-1/4 "
@@ -167,7 +167,7 @@ const Home: NextPage = () => {
         <div>
           <p className="text-xs text-stone-800">
             improveme.io is private passion project of Reuven I. Kristof Gatter
-            and Mihaly Furedi.
+            and Mihaly Furedi. Scientific support provided by Dr. Brooke Gazdag.
           </p>
           <p className="text-xs text-stone-800">
             We proudly run on Vercel and Planetscale.
