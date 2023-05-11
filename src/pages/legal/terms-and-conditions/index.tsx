@@ -145,10 +145,10 @@ const TermsAndConditions: NextPage = () => {
           <p>
             improveme.io makes no warranties or representations about the
             accuracy or completeness of the information provided on its website
-            or application. improveme.io is provided "as is" without warranty of
-            any kind, express or implied, including but not limited to the
-            implied warranties of merchantability, fitness for a particular
-            purpose, and non-infringement.
+            or application. improveme.io is provided &quot;as is&quot; without
+            warranty of any kind, express or implied, including but not limited
+            to the implied warranties of merchantability, fitness for a
+            particular purpose, and non-infringement.
           </p>
 
           <h2 className="my-12 font-serif text-xl">Limitation of Liability</h2>
@@ -164,8 +164,9 @@ const TermsAndConditions: NextPage = () => {
           <p>
             You agree to indemnify and hold improveme.io and its affiliates,
             officers, agents, and employees harmless from any claim, demand, or
-            damage, including reasonable attorneys' fees, arising out of your
-            use of improveme.io or your violation of these Terms and Conditions.
+            damage, including reasonable attorneys&apos; fees, arising out of
+            your use of improveme.io or your violation of these Terms and
+            Conditions.
           </p>
         </div>
       </main>

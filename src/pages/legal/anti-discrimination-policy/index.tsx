@@ -7,17 +7,10 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import {
-  Sprout,
-  Joystick,
-  Users,
-  Microscope,
-  LayoutDashboardIcon,
-} from "lucide-react";
+import { LayoutDashboardIcon } from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
-import { FeatureCard } from "~/components/feature-card";
 import Link from "next/link";
 
 const AntiDiscriminationPolicy: NextPage = () => {
