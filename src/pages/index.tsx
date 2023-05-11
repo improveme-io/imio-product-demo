@@ -112,7 +112,7 @@ const Home: NextPage = () => {
             </h2>
             <p className="mb-8 text-lg md:max-w-lg">
               To use the app, simply sign up for an account and start your
-              journey of continuous improvement. Once you've created your
+              journey of continuous improvement. Once you&apos;ve created your
               account, you can create a feedback request in just a few clicks.
               This request can be customized to suit your specific needs and can
               be shared with your peers at your convenience.
