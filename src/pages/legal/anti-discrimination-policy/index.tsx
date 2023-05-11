@@ -18,13 +18,15 @@ const AntiDiscriminationPolicy: NextPage = () => {
     <>
       <PageHead title="improveme.io | Home" />
       <header className="flex justify-between bg-stone-50 px-8 py-8">
-        <Image
-          className=""
-          src="/HeroLogo.svg"
-          width={312 / 2}
-          height={153 / 2}
-          alt="Graphic depicting three people giving each other feedback in the cloud"
-        />
+        <Link href="/">
+          <Image
+            className=""
+            src="/HeroLogo.svg"
+            width={312 / 2}
+            height={153 / 2}
+            alt="Graphic depicting three people giving each other feedback in the cloud"
+          />
+        </Link>
         <div className="flex">
           <SignedIn>
             <Button variant="outline" asChild className="mr-6">
