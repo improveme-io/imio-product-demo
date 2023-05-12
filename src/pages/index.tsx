@@ -268,7 +268,7 @@ const Home: NextPage = () => {
                 engineer. While picking up calls during a night shift phone
                 support job, he finished a bootcamp-style coding school during
                 the day. This enabled him to advance to a full-stack engineering
-                position that focused on automation and tooling for Prezi's
+                position that focused on automation and tooling for Prezi&apos;s
                 go-to-market teams. After 4 years, he wanted to explore the
                 freelance space where he worked both as a frontend engineer and
                 as a product owner & scrum master and finally ended up working
