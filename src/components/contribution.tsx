@@ -9,7 +9,7 @@ import { Label } from "~/components/ui/label";
 import { UserItem } from "~/components/user-item";
 
 type ContributionProps = {
-  email: string;
+  email: string | null;
   requestName: string;
   requesterInitials: string;
   requesterName: string;

@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 type UserItemProps = {
   initials: string;
-  email: string;
+  email: string | null;
 };
 
 export const UserItem = (props: UserItemProps) => {
