@@ -49,7 +49,7 @@ async function main() {
     data: {
       owner: { connect: { id: kristof.id } },
       authors: { connect: [{ id: mihaly.id }] },
-      title: "Feedback Me Daddy",
+      title: "100 Days Evaluation",
     },
   });
   console.log("Created feedback request...", feedbackRequestAuthor);
@@ -83,7 +83,7 @@ async function main() {
     data: {
       owner: { connect: { id: mihaly.id } },
       authors: { connect: [{ id: kristof.id }, { id: brooke.id }] },
-      title: "Kristof and Brooke",
+      title: "Q2 Peer Feedback",
       status: "DONE",
     },
   });
