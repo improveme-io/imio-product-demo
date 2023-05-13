@@ -5,6 +5,7 @@ import { Contribution } from "~/components/contribution";
 import { FeedbackRequestItem } from "~/components/feedback-request-item";
 
 import { PageHead } from "~/components/page-head";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 
@@ -27,7 +28,7 @@ const Dashboard: NextPage = () => {
   return (
     <>
       <PageHead title="Dashboard" />
-      <main className="items-left justify-left flex min-h-screen flex-col p-3">
+      <main className="items-left justify-left flex min-h-screen flex-col p-8">
         <header className="flex justify-between pb-8">
           <h1 className="group flex text-3xl font-extrabold tracking-tight">
             Hello, {user.user?.firstName ?? "You"}
@@ -45,18 +46,27 @@ const Dashboard: NextPage = () => {
           Your Contributions
         </h2>
         <section className="grid grid-cols-3 gap-4">
-          <Contribution
-            done={false}
-            requestName="ASDF"
-            requesterInitials="A.B."
-            requesterName="ABC"
-            email={"email"}
-          />
+          {authoredFeedbacks.isSuccess &&
+            authoredFeedbacks.data.map((fr) => {
+              return (
+                <>
+                  <Contribution
+                    done={true}
+                    requestName={fr.title}
+                    requesterInitials={"<RN>"}
+                    requesterName={"fr.owner.name"}
+                    email={fr.owner.email}
+                  />
+                </>
+              );
+            })}
         </section>
-        <h2 className="mb-4 mt-8 flex text-xl">
+        <h2 className="mb-4 mt-8 flex items-center text-xl">
           <LeafIcon className="mr-2" />
-          Your Feedback Requests &lt;owner&gt;{" "}
-          {ownedFeedbacks.isSuccess && ownedFeedbacks.data.length}
+          Your Feedback Requests{" "}
+          <Badge className="ml-4">
+            {ownedFeedbacks.isSuccess && ownedFeedbacks.data.length}
+          </Badge>
         </h2>
         {ownedFeedbacks.isSuccess &&
           ownedFeedbacks.data.map((fr) => {
@@ -76,24 +86,8 @@ const Dashboard: NextPage = () => {
           })}
         <h2 className="mb-4 mt-8 flex text-xl">
           <SproutIcon className="mr-2" />
-          Feedback Requests Shared with You
+          Feedback Requests Shared With You
         </h2>
-        {authoredFeedbacks.isSuccess &&
-          authoredFeedbacks.data.map((fr) => {
-            return (
-              <>
-                <FeedbackRequestItem
-                  key={fr.id}
-                  title={fr.title}
-                  slug={fr.slug}
-                  authors={fr.authors.map((a) => ({
-                    email: a.email ?? "",
-                    id: a.id,
-                  }))}
-                />
-              </>
-            );
-          })}
       </main>
     </>
   );
