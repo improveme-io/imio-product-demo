@@ -53,7 +53,7 @@ const Dashboard: NextPage = () => {
               Settings
             </Button>
             <Button className="bg-sky-700" size={"lg"}>
-              <LeafIcon className="mr-2" />
+              <LeafIcon className="mr-2" size="20" />
               Request Feedback
             </Button>
           </div>
