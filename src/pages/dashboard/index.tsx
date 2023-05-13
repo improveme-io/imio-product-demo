@@ -49,6 +49,7 @@ const Dashboard: NextPage = () => {
               className="mr-2 hover:bg-stone-200"
               size={"lg"}
               variant={"ghost"}
+              disabled
             >
               Settings
             </Button>
