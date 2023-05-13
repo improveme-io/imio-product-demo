@@ -33,7 +33,7 @@ export const Contribution = (props: ContributionProps) => {
         {props.done ? (
           <Button
             variant={"outline"}
-            className="mt-4 opacity-0 hover:bg-slate-50 group-hover:opacity-100"
+            className="mt-4 opacity-0 transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100"
           >
             <ViewIcon className="mr-2" />
             View

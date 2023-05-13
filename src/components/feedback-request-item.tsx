@@ -17,7 +17,7 @@ export const FeedbackRequestItem = (props: FeedbackRequestItemProps) => {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <h3 className="flex text-xl">{props.title}</h3>
-          <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
+          <div className="flex justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <Button variant="ghost" className="text-red-500">
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
               Delete
