@@ -22,7 +22,7 @@ import type {
   SignedOutAuthObject,
 } from "@clerk/nextjs/api";
 
-import { prisma } from "~/server/db";
+import { prisma } from "~/lib/prisma";
 
 /**
  * Replace this with an object if you want to pass things to createContextInner

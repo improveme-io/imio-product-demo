@@ -1,5 +1,5 @@
-import { createTRPCRouter } from "~/server/api/trpc";
-import { feedbackRouter } from "~/server/api/routers/feedback";
+import { createTRPCRouter } from "~/lib/trpc";
+import { feedbackRouter } from "~/server/routers/feedback";
 
 /**
  * This is the primary router for your server.

@@ -4,7 +4,7 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
-} from "~/server/api/trpc";
+} from "~/lib/trpc";
 
 export const feedbackRouter = createTRPCRouter({
   ownedByUser: protectedProcedure.query(({ ctx }) => {
