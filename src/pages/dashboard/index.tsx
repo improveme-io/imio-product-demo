@@ -21,8 +21,6 @@ const Dashboard: NextPage = () => {
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
 
-  console.log(ownedFeedbacks);
-
   if (!user.isLoaded) {
     return <div>Loading...</div>;
   }
