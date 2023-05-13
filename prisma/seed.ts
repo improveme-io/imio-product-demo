@@ -17,6 +17,8 @@ async function main() {
     create: {
       email: "mihaly@improveme.io",
       clerkUserId: "user_2OIdxZTccYOO3rnX8c1zl5eWk1F",
+      firstName: "Mihaly",
+      lastName: "Furedi",
     },
   });
   const kristof = await prisma.user.upsert({
@@ -25,6 +27,8 @@ async function main() {
     create: {
       email: "kristof@improveme.io",
       clerkUserId: "user_2PYcL7UyF0RjGNpLEWbaZUZbOOT",
+      firstName: "Kristof",
+      lastName: "Gatter",
     },
   });
   const brooke = await prisma.user.upsert({
@@ -33,6 +37,8 @@ async function main() {
     create: {
       email: "brooke@improveme.io",
       // TODO: add clerkUserId
+      firstName: "Brooke",
+      lastName: "Gazdag",
     },
   });
   console.log("Created users...");
