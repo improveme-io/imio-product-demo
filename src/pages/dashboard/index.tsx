@@ -1,6 +1,8 @@
 import { UserButton, useUser } from "@clerk/nextjs";
 import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
+import Image from "next/image";
+
 import { Contribution } from "~/components/contribution";
 import { FeedbackRequestItem } from "~/components/feedback-request-item";
 
@@ -29,20 +31,33 @@ const Dashboard: NextPage = () => {
     <>
       <PageHead title="Dashboard" />
       <main className="items-left justify-left flex min-h-screen flex-col p-8">
-        <header className="flex justify-between pb-8">
-          <h1 className="group flex text-3xl font-extrabold tracking-tight">
-            Hello, {user.user?.firstName ?? "You"}
-            <div className="ml-4">
+        <header className="mb-10 flex flex-col bg-stone-50">
+          <div className="flex w-full justify-between">
+            <div className="flex items-center">
+              <Image
+                className="mr-4"
+                src="/Logo.svg"
+                width={78 / 2}
+                height={60 / 2}
+                alt="Graphic depicting three people giving each other feedback in the cloud"
+              />{" "}
+              <h1 className="group mr-auto flex font-serif text-3xl tracking-tight">
+                Hello, {user.user?.firstName ?? "You"}
+              </h1>
+            </div>
+            <div className="ml-auto mr-6 text-right">
+              <Button className="bg-sky-700" size={"lg"}>
+                <LeafIcon className="mr-2" />
+                Request Feedback
+              </Button>
+            </div>
+            <div className="mt-1 flex flex-col items-end">
               <UserButton />
             </div>
-          </h1>
-          <Button className="my-6" size={"lg"}>
-            <LeafIcon className="mr-2" />
-            Request New Feedback
-          </Button>
+          </div>
         </header>
-        <h2 className="mb-4 mt-8 flex text-xl">
-          <InboxIcon className="mr-2" />
+        <h2 className="mb-4 mt-8 flex items-center text-xl">
+          <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
         </h2>
         <section className="grid grid-cols-3 gap-4">
@@ -62,8 +77,8 @@ const Dashboard: NextPage = () => {
             })}
         </section>
         <h2 className="mb-4 mt-8 flex items-center text-xl">
-          <LeafIcon className="mr-2" />
-          Your Feedback Requests{" "}
+          <LeafIcon className="mr-2" size={"20"} />
+          Feedback Requested by You
           <Badge className="ml-4">
             {ownedFeedbacks.isSuccess && ownedFeedbacks.data.length}
           </Badge>
@@ -85,7 +100,7 @@ const Dashboard: NextPage = () => {
             );
           })}
         <h2 className="mb-4 mt-8 flex text-xl">
-          <SproutIcon className="mr-2" />
+          <SproutIcon size={"20"} className="mr-2" />
           Feedback Requests Shared With You
         </h2>
       </main>
