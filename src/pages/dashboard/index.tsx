@@ -29,8 +29,8 @@ const Dashboard: NextPage = () => {
 
   return (
     <>
-      <PageHead title="Dashboard" />
-      <header className="mb-10 flex flex-col bg-stone-100 p-8">
+      <PageHead title="improveme.io | Dashboard" />
+      <header className="sticky top-0 z-40 mb-10 flex flex-col bg-stone-100 p-8">
         <div className="flex w-full justify-between">
           <div className="flex items-center">
             <Image
