@@ -11,7 +11,7 @@ export const PageHead = ({
 }: PageHeadProps) => {
   return (
     <Head>
-      <title>{`${title} ~ ImproveMe`}</title>
+      <title>{`${title} ~ improveme.io`}</title>
       <meta name="description" content={description} />
       <link rel="icon" href="/favicon.ico" />
     </Head>

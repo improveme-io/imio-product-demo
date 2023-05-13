@@ -24,7 +24,7 @@ import { Footer } from "~/components/footer";
 const Home: NextPage = () => {
   return (
     <>
-      <PageHead title="improveme.io | Home" />
+      <PageHead title="Home" />
       <header className="flex justify-between bg-stone-50 px-8 py-8">
         <Image
           className=""
