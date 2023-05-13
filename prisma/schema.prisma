@@ -57,9 +57,9 @@ model FeedbackItem {
 
 model User {
   id          String  @id @default(cuid())
-  email       String? @unique
-  firstName   String?
-  lastName    String?
+  email       String  @unique
+  firstName   String
+  lastName    String
   clerkUserId String? @unique
 
   requestsOwned    FeedbackRequest[] @relation("owner")
