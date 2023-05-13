@@ -30,33 +30,40 @@ const Dashboard: NextPage = () => {
   return (
     <>
       <PageHead title="Dashboard" />
-      <main className="items-left justify-left flex min-h-screen flex-col p-8">
-        <header className="mb-10 flex flex-col bg-stone-50">
-          <div className="flex w-full justify-between">
-            <div className="flex items-center">
-              <Image
-                className="mr-4"
-                src="/Logo.svg"
-                width={78 / 2}
-                height={60 / 2}
-                alt="Graphic depicting three people giving each other feedback in the cloud"
-              />{" "}
-              <h1 className="group mr-auto flex font-serif text-3xl tracking-tight">
-                Hello, {user.user?.firstName ?? "You"}
-              </h1>
-            </div>
-            <div className="ml-auto mr-6 text-right">
-              <Button className="bg-sky-700" size={"lg"}>
-                <LeafIcon className="mr-2" />
-                Request Feedback
-              </Button>
-            </div>
-            <div className="mt-1 flex flex-col items-end">
-              <UserButton />
-            </div>
+      <header className="mb-10 flex flex-col bg-stone-100 p-8">
+        <div className="flex w-full justify-between">
+          <div className="flex items-center">
+            <Image
+              className="mr-4"
+              src="/Logo.svg"
+              width={78 / 2}
+              height={60 / 2}
+              alt="Graphic depicting three people giving each other feedback in the cloud"
+            />{" "}
+            <h1 className="group mr-auto flex font-serif text-3xl tracking-tight">
+              Hello, {user.user?.firstName ?? "You"}
+            </h1>
           </div>
-        </header>
-        <h2 className="mb-4 mt-8 flex items-center text-xl">
+          <div className="ml-auto mr-6 flex items-center text-right">
+            <Button
+              className="mr-2 hover:bg-stone-200"
+              size={"lg"}
+              variant={"ghost"}
+            >
+              Settings
+            </Button>
+            <Button className="bg-sky-700" size={"lg"}>
+              <LeafIcon className="mr-2" />
+              Request Feedback
+            </Button>
+          </div>
+          <div className="mt-1 flex flex-col items-end">
+            <UserButton />
+          </div>
+        </div>
+      </header>
+      <main className="items-left justify-left flex min-h-screen flex-col px-8 pb-8">
+        <h2 className="mb-4  flex items-center text-xl">
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
         </h2>
