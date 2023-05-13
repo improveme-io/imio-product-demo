@@ -20,11 +20,12 @@ import { Button } from "~/components/ui/button";
 import { FeatureCard } from "~/components/feature-card";
 import Link from "next/link";
 import { Footer } from "~/components/footer";
+import { MainLayout } from "~/components/main-layout";
 
 const Home: NextPage = () => {
   return (
     <>
-      <PageHead title="improveme.io | Home" />
+      <PageHead title="Home" />
       <header className="flex justify-between bg-stone-50 px-8 py-8">
         <Image
           className=""
@@ -67,7 +68,7 @@ const Home: NextPage = () => {
           </SignedOut>
         </div>
       </header>
-      <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-stone-50 px-8 py-8 sm:px-16 md:pl-32">
+      <MainLayout>
         <h1 className="my-12 font-serif text-4xl">
           Own Your Feedback, Own Your Growth
         </h1>
@@ -297,7 +298,7 @@ const Home: NextPage = () => {
             />
           </div>
         </div>
-      </main>
+      </MainLayout>
       <Footer />
     </>
   );

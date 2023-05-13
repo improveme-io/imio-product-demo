@@ -4,9 +4,21 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
-} from "~/server/api/trpc";
+} from "~/lib/trpc";
 
 export const feedbackRouter = createTRPCRouter({
+  create: protectedProcedure.mutation(({ ctx }) => {
+    return ctx.prisma.feedbackRequest.create({
+      data: {
+        owner: {
+          connect: {
+            clerkUserId: ctx.auth.userId,
+          },
+        },
+      },
+    });
+  }),
+
   ownedByUser: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.feedbackRequest.findMany({
       where: { owner: { is: { clerkUserId: ctx.auth.userId } } },

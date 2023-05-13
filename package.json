@@ -38,6 +38,7 @@
     "@trpc/server": "^10.25.0",
     "class-variance-authority": "^0.5.3",
     "clsx": "^1.2.1",
+    "jotai": "^2.1.0",
     "lucide-react": "^0.139.0",
     "next": "^13.4.1",
     "react": "18.2.0",

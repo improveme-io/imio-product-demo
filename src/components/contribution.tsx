@@ -10,7 +10,7 @@ import { UserItem } from "~/components/user-item";
 
 type ContributionProps = {
   email: string | null;
-  requestName: string;
+  requestName: string | null;
   requesterInitials: string;
   requesterName: string;
   done: boolean;

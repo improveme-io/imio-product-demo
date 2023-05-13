@@ -17,6 +17,8 @@ async function main() {
     create: {
       email: "mihaly@improveme.io",
       clerkUserId: "user_2OIdxZTccYOO3rnX8c1zl5eWk1F",
+      firstName: "Mihaly",
+      lastName: "Furedi",
     },
   });
   const kristof = await prisma.user.upsert({
@@ -25,6 +27,8 @@ async function main() {
     create: {
       email: "kristof@improveme.io",
       clerkUserId: "user_2PYcL7UyF0RjGNpLEWbaZUZbOOT",
+      firstName: "Kristof",
+      lastName: "Gatter",
     },
   });
   const brooke = await prisma.user.upsert({
@@ -33,6 +37,8 @@ async function main() {
     create: {
       email: "brooke@improveme.io",
       // TODO: add clerkUserId
+      firstName: "Brooke",
+      lastName: "Gazdag",
     },
   });
   console.log("Created users...");
@@ -43,7 +49,7 @@ async function main() {
     data: {
       owner: { connect: { id: kristof.id } },
       authors: { connect: [{ id: mihaly.id }] },
-      title: "Feedback Me Daddy",
+      title: "100 Days Evaluation",
     },
   });
   console.log("Created feedback request...", feedbackRequestAuthor);
@@ -77,7 +83,7 @@ async function main() {
     data: {
       owner: { connect: { id: mihaly.id } },
       authors: { connect: [{ id: kristof.id }, { id: brooke.id }] },
-      title: "Kristof and Brooke",
+      title: "Q2 Peer Feedback",
       status: "DONE",
     },
   });

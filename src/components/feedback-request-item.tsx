@@ -7,7 +7,7 @@ import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 
 type FeedbackRequestItemProps = {
-  title: string;
+  title: string | null;
   slug: string;
   authors: { email: string; id: string }[];
 };
