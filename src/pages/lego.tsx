@@ -640,11 +640,11 @@ const Lego: NextPage = () => {
             <TabsContent className="mt-0 border-none p-0" value="DASHBOARD">
               <Dashboard />
             </TabsContent>
-            <TabsContent className="mt-0 border-none p-0" value="ITEMS">
-              <StepItems />
-            </TabsContent>
             <TabsContent className="mt-0 border-none p-0" value="SETUP">
               <StepSetup />
+            </TabsContent>
+            <TabsContent className="mt-0 border-none p-0" value="ITEMS">
+              <StepItems />
             </TabsContent>
             <TabsContent className="mt-0 border-none p-0" value="REVIEW">
               <RequestView />
