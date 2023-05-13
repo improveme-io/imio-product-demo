@@ -42,7 +42,7 @@ const Home: NextPage = () => {
               </Link>
             </Button>
             <div className="mt-1">
-              <UserButton />
+              <UserButton afterSignOutUrl="/" />
             </div>
           </SignedIn>
           <SignedOut>

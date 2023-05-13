@@ -1,17 +1,19 @@
 import { authMiddleware } from "@clerk/nextjs/server";
 
+const publicRoutes = [
+  "/",
+  "/legal/contact",
+  "/legal/privacy-policy",
+  "/legal/anti-discrimination-policy",
+  "/legal/terms-and-conditions",
+];
+
 export default authMiddleware({
   ignoredRoutes: [],
-  publicRoutes: [
-    "/",
-    "/legal/",
-    "/legal/privacy-policy",
-    "legal/anti-discrimination-policy",
-    "legal/terms-and-conditions",
-  ],
+  publicRoutes,
 });
 
 // Stop Middleware running on static files
 export const config = {
-  matcher: ["/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)", "/"],
+  matcher: ["/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)"],
 };
