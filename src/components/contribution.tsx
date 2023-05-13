@@ -28,7 +28,7 @@ export const Contribution = (props: ContributionProps) => {
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col">
         <Label>{props.requestName}</Label>
         {props.done ? (
           <Button
