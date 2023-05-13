@@ -15,7 +15,7 @@ export const Footer = () => {
       </div>
       <div className="w-2/3 text-right">
         <Button asChild className="text-stone-50" variant={"link"}>
-          <Link href="/legal">Contact & Legal</Link>
+          <Link href="/legal/contact">Contact & Legal</Link>
         </Button>
         <Button className="text-stone-50" variant={"link"}>
           <Link href="/legal/terms-and-conditions">Terms & Conditions</Link>
