@@ -1,7 +1,9 @@
+import React, { useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
-import Image from "next/image";
 
 import { Contribution } from "~/components/contribution";
 import { FeedbackRequestItem } from "~/components/feedback-request-item";
@@ -12,18 +14,21 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 
 const Dashboard: NextPage = () => {
+  const router = useRouter();
   const user = useUser();
-
-  if (!user.isLoaded) {
-    return <div>Loading...</div>;
-  }
-
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
+  const createFeedback = api.feedback.create.useMutation();
 
-  if (!user.isLoaded) {
-    return <div>Loading...</div>;
-  }
+  const handleRequestFeedback = () => {
+    createFeedback.mutate();
+  };
+
+  useEffect(() => {
+    if (createFeedback.isSuccess) {
+      router.push(`/feedback/${createFeedback.data.slug}`);
+    }
+  }, [createFeedback.data, createFeedback.isSuccess, router]);
 
   return (
     <>
@@ -51,7 +56,13 @@ const Dashboard: NextPage = () => {
             >
               Settings
             </Button>
-            <Button className="bg-sky-700" size={"lg"}>
+            <Button
+              // TODO: make this into a loading state
+              disabled={createFeedback.isLoading}
+              className="bg-sky-700"
+              size={"lg"}
+              onClick={handleRequestFeedback}
+            >
               <LeafIcon className="mr-2" size="20" />
               Request Feedback
             </Button>
