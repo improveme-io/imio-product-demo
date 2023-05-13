@@ -63,17 +63,20 @@ const Dashboard: NextPage = () => {
         <div className="flex w-full justify-between">
           <div className="flex items-center">
             <Image
-              className="mr-4"
+              className="mr-4 transition-all duration-300"
               src="/Logo.svg"
               width={isScrolled ? 78 / 3 : 78 / 2}
               height={isScrolled ? 60 / 3 : 60 / 2}
               alt="improveme.io logo"
             />{" "}
-            {!isScrolled && (
-              <h1 className="group mr-auto flex font-serif text-3xl tracking-tight">
-                Hello, {user.user?.firstName ?? "You"}
-              </h1>
-            )}
+            <h1
+              className={cn(
+                isScrolled ? "-translate-y-16" : "-translate-y-0",
+                "group mr-auto flex font-serif text-3xl tracking-tight transition-transform delay-500 duration-300"
+              )}
+            >
+              Hello, {user.user?.firstName ?? "You"}
+            </h1>
           </div>
           <div
             className={cn(
