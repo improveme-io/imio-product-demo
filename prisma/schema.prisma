@@ -22,7 +22,7 @@ model FeedbackRequest {
   // TODO: move this to nanoid, when it is supported by Prisma (https://github.com/prisma/prisma/issues/17199)
   slug      String    @unique @default(cuid())
   status    Status    @default(CREATING)
-  title     String    @default("") @db.Text
+  title     String?   @db.Text
   deadline  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
