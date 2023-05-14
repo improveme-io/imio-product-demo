@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { EditIcon } from "lucide-react";
+import { EditIcon, HelpCircleIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import {
@@ -23,7 +23,10 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
     <Card className="group mt-6">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <h3 className="flex w-2/3 text-xl">
+          {props.editing ? null : (
+            <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
+          )}
+          <h3 className="flex w-2/3 flex-grow items-start text-xl">
             {props.title.length > 0 ? props.title : "Add Feedback Item"}
           </h3>
           {!props.editing && (
@@ -78,8 +81,8 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
             </div>
           </div>
         ) : (
-          <div className="my-4 flex gap-4">
-            <div className="mb-4 flex flex-grow flex-col">
+          <div className="my-4 ml-12 flex gap-4">
+            <div className="mb-4 ml-2 flex flex-grow flex-col">
               <Label className="mb-2">Type</Label>
               <div>Prose</div>
             </div>

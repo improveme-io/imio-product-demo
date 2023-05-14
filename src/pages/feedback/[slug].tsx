@@ -62,11 +62,11 @@ const EditFeedbackAuthor = () => {
         </div>
         <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
           <Label className="mb-2">First Name</Label>
-          <Input type="text" placeholder="Todd Burchik" />
+          <Input type="text" placeholder="Todd" />
         </div>
         <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
           <Label className="mb-2">Last Name</Label>
-          <Input type="text" placeholder="Todd Burchik" />
+          <Input type="text" placeholder="Burchik" />
         </div>
         <Button disabled variant={"outline"} className="flex-grow-0">
           <TrashIcon size={16} />
