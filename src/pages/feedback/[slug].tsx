@@ -26,12 +26,12 @@ const IntroParagraph = () => {
   return (
     <>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <h2 className="mb-4 flex text-xl">
             <SendIcon className="mr-2" />
             Introductory Paragraph
           </h2>
-        </CardTitle>
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col px-8 py-8">
         <Label className="mb-2">
@@ -137,7 +137,7 @@ const FeedbackRequest: NextPage = () => {
   return (
     <>
       <PageHead title="Request Feedback" />
-      <Header title={"Create Feedback Request"} small={false}>
+      <Header title={"Request Feedback"} small={false}>
         {" "}
         <Button disabled size="lg">
           <StepForwardIcon className="mr-2" />
