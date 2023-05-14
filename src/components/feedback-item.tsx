@@ -12,38 +12,71 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Input } from "./ui/input";
+import React from "react";
 
 type FeedbackItemProps = {
-  title: string;
-  editing: boolean;
+  index: number;
+  prompt: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur: React.FocusEventHandler<HTMLInputElement>;
+  onRemove: () => void;
 };
 
+// TODO: this needs to be broken up and moved into the section component
 export const FeedbackItem = (props: FeedbackItemProps) => {
+  const [currentPrompt, setCurrentPrompt] = React.useState<string | null>(
+    props.prompt
+  );
+  const [isEditing, setIsEditing] = React.useState(false);
+
   return (
     <Card className="group mt-6">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex justify-between">
-            {!props.editing && (
-              <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
+            {!isEditing && (
+              <>
+                <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
+                {currentPrompt}
+              </>
             )}
-            {props.title}
           </CardTitle>
-          {!props.editing && (
+          {!isEditing && (
             <div className="flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
-              <Button variant={"outline"}>
+              <Button
+                variant={"outline"}
+                onClick={() => {
+                  setIsEditing(true);
+                }}
+              >
                 <EditIcon className="mr-2 h-4 w-4" />
                 Edit
               </Button>
-              <Button variant={"destructive"}>Remove</Button>
+              <Button variant={"destructive"} onClick={props.onRemove}>
+                Remove
+              </Button>
             </div>
           )}
         </div>
       </CardHeader>
       <CardContent>
-        {props.editing && (
+        {isEditing && (
           <div className="my-4">
-            <div className="mb-4 flex flex-grow flex-col">
+            <div className="flex flex-grow flex-col">
+              <Label className="mb-2">Prompt</Label>
+              <Input
+                type="text"
+                value={props.prompt}
+                onChange={(e) => {
+                  setCurrentPrompt(e.target.value);
+                  props.onChange(e);
+                }}
+                onBlur={props.onBlur}
+                placeholder="What aspects of my contributions do you think were particularly helpful or effective?"
+              />
+            </div>
+
+            <div className="mt-4 flex flex-grow flex-col">
               <Label className="mb-2">Type</Label>
               <div className="flex">
                 <Select defaultValue="PROSE">
@@ -64,28 +97,15 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                 </p>
               </div>
             </div>
-            <div className="flex flex-grow flex-col">
-              <Label className="mb-2">Prompt</Label>
-              <Input
-                readOnly
-                type="text"
-                value={props.title}
-                placeholder="What aspects of my contributions do you think were particularly helpful or effective?"
-              />
-            </div>
+
             <div className="mt-8 flex justify-end">
-              <Button variant={"ghost"} className="mr-2">
-                Discard
+              <Button
+                onClick={() => {
+                  setIsEditing(false);
+                }}
+              >
+                Save
               </Button>
-              <Button>Save</Button>
-            </div>
-          </div>
-        )}
-        {!props.editing && (
-          <div className="my-4 ml-12 flex gap-4">
-            <div className="mb-4 ml-2 flex flex-grow flex-col">
-              <Label className="mb-2">Type</Label>
-              <div>Prose</div>
             </div>
           </div>
         )}

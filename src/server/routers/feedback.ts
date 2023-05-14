@@ -55,6 +55,12 @@ export const feedbackRouter = createTRPCRouter({
         where: {
           slug: input.slug,
         },
+        include: {
+          owner: true,
+          authors: true,
+          feedbackItems: true,
+          _count: true,
+        },
       });
     }),
 });

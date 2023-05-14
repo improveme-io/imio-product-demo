@@ -1,0 +1,98 @@
+import { PuzzleIcon } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import { FeedbackItem } from "~/components/feedback-item";
+import { FieldArray, FieldArrayItem } from "houseform";
+import { z } from "zod";
+import { type ChangeEvent } from "react";
+
+const MAX_FEEDBACK_ITEMS = 10;
+
+const promptSchema = z.string().nonempty("* Required.");
+const feedbackItemSchema = z.object({
+  prompt: promptSchema,
+});
+
+type FeedbackItem = z.infer<typeof feedbackItemSchema>;
+
+function isFeedbackItem(value: unknown): value is FeedbackItem {
+  return feedbackItemSchema.safeParse(value).success;
+}
+
+type FeedbackItemSectionProps = {
+  feedbackItems?: FeedbackItem[];
+};
+
+export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
+  const initialValue = props.feedbackItems ?? [
+    {
+      prompt: "",
+    },
+  ];
+
+  console.log(initialValue);
+
+  return (
+    <section>
+      <h2 className="mb-4 mt-8 flex text-xl">
+        <PuzzleIcon className="mr-2" />
+        Feedback Items
+      </h2>
+      <p className="w-4/6 px-3 py-1 pl-8">
+        Feedback authors will be presented with several Feedback Items. Feedback
+        items generally consist of a prompt and some kind of input provided by
+        the author. Most commonly, a question and prose written as an answer.
+      </p>
+      <FieldArray<FeedbackItem>
+        name="feedbackItems"
+        initialValue={initialValue}
+      >
+        {({
+          value: feedbackItems,
+          add: addToFeedbackItems,
+          remove: removeFromFeedbackItems,
+        }) => (
+          <>
+            <ul>
+              {feedbackItems.map((_, index) => (
+                <li key={`feedback-item-${index}`}>
+                  <FieldArrayItem<string>
+                    name={`feedbackItems[${index}].prompt`}
+                    onSubmitValidate={promptSchema}
+                  >
+                    {({ value, setValue, onBlur, errors }) => (
+                      <FeedbackItem
+                        index={index}
+                        prompt={value}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          console.log("change", event.target.value);
+                          setValue(event.target.value);
+                        }}
+                        onBlur={onBlur}
+                        onRemove={function (): void {
+                          removeFromFeedbackItems(index);
+                        }}
+                      />
+                    )}
+                  </FieldArrayItem>
+                </li>
+              ))}
+            </ul>
+            <Button
+              disabled={feedbackItems.some(
+                (feedbackItem) => !isFeedbackItem(feedbackItem)
+              )}
+              variant={"outline"}
+              onClick={() => {
+                // TODO: remember last selection
+                addToFeedbackItems({ prompt: "" });
+              }}
+            >
+              Add New Feedback Item ({MAX_FEEDBACK_ITEMS - feedbackItems.length}{" "}
+              left)
+            </Button>
+          </>
+        )}
+      </FieldArray>
+    </section>
+  );
+};

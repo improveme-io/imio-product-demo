@@ -69,6 +69,7 @@ const Dashboard: NextPage = () => {
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
         </h2>
+        {/* FIXME: make it consistent and add section to other places as well or remove it here */}
         <section className="grid grid-cols-3 gap-4">
           {authoredFeedbacks.isSuccess &&
             authoredFeedbacks.data.map((fr) => {
