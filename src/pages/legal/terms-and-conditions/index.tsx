@@ -12,7 +12,7 @@ import { LayoutDashboardIcon } from "lucide-react";
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
-import { Footer } from "~/components/footer";
+import { Footer } from "~/components/www/footer";
 
 const TermsAndConditions: NextPage = () => {
   return (

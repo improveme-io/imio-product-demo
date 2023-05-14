@@ -11,6 +11,7 @@ type FeedbackRequestItemProps = {
   slug: string;
   authors: { email: string; id: string }[];
 };
+
 export const FeedbackRequestItem = (props: FeedbackRequestItemProps) => {
   return (
     <Card className="group mb-8">

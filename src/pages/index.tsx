@@ -17,9 +17,9 @@ import {
 
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
-import { FeatureCard } from "~/components/feature-card";
+import { FeatureCard } from "~/components/www/feature-card";
 import Link from "next/link";
-import { Footer } from "~/components/footer";
+import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
 
 const Home: NextPage = () => {

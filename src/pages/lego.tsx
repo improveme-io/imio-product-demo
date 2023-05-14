@@ -73,7 +73,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -121,7 +121,9 @@ const FeedbackAuthorList = () => {
 const EditFeedbackAuthor = () => {
   return (
     <Card>
-      <h3> Who is the person you&apos;d like to get feedback from?</h3>
+      <CardHeader>
+        <h3> Who is the person you&apos;d like to get feedback from?</h3>
+      </CardHeader>
       <div className="flex flex-wrap items-end justify-between pt-8">
         <div className="mr-6 flex flex-grow flex-col">
           <Label>E-Mail Address</Label>
