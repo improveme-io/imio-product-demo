@@ -6,18 +6,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 
-type FeedbackRequestItemProps = {
+type FeedbackRequestProps = {
   title: string | null;
   slug: string;
   authors: { email: string; id: string }[];
 };
 
-export const FeedbackRequestItem = (props: FeedbackRequestItemProps) => {
+export const FeedbackRequest = (props: FeedbackRequestProps) => {
   return (
     <Card className="group mb-8">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <h3 className="flex text-xl">{props.title}</h3>
+        <div className="flex items-center justify-between">
+          <CardTitle>{props.title}</CardTitle>
           <div className="flex justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <Button variant="ghost" className="text-red-500">
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
@@ -32,7 +32,7 @@ export const FeedbackRequestItem = (props: FeedbackRequestItemProps) => {
               Preview
             </Button>
           </div>
-        </CardTitle>
+        </div>
       </CardHeader>
       <CardContent className="my-4 flex gap-4">
         <div className="mb-4 flex flex-grow flex-col">

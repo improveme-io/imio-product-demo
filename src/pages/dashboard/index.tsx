@@ -6,7 +6,7 @@ import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
 
 import { Contribution } from "~/components/contribution";
-import { FeedbackRequestItem } from "~/components/feedback-request-item";
+import { FeedbackRequest } from "~/components/feedback-request";
 
 import { PageHead } from "~/components/page-head";
 import { Badge } from "~/components/ui/badge";
@@ -17,18 +17,20 @@ import { MainLayout } from "~/components/main-layout";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
+
   const user = useUser();
+
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createFeedback = api.feedback.create.useMutation();
 
-  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
-  const { y } = useWindowScroll();
-  const isScrolled = y > 0;
-
   const handleRequestFeedback = () => {
     createFeedback.mutate();
   };
+
+  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
+  const { y } = useWindowScroll();
+  const isScrolled = y > 0;
 
   React.useEffect(() => {
     if (createFeedback.isSuccess) {
@@ -40,8 +42,8 @@ const Dashboard: NextPage = () => {
     <>
       <PageHead title="improveme.io | Dashboard" />
       <Header
-        small={isScrolled}
-        title={["Hello, ", user.user?.firstName ?? "You"].join("")}
+        isSmall={isScrolled}
+        title={`Hello, ${user.user?.firstName ?? "You"}`}
       >
         <Button
           className="mr-2 transition-all duration-300 hover:bg-stone-200"
@@ -71,15 +73,14 @@ const Dashboard: NextPage = () => {
           {authoredFeedbacks.isSuccess &&
             authoredFeedbacks.data.map((fr) => {
               return (
-                <>
-                  <Contribution
-                    done={true}
-                    requestName={fr.title}
-                    requesterInitials={"<RN>"}
-                    requesterName={"fr.owner.name"}
-                    email={fr.owner.email}
-                  />
-                </>
+                <Contribution
+                  key={fr.id}
+                  done={true}
+                  requestName={fr.title}
+                  requesterInitials={"<RN>"}
+                  requesterName={"fr.owner.name"}
+                  email={fr.owner.email}
+                />
               );
             })}
         </section>
@@ -93,17 +94,15 @@ const Dashboard: NextPage = () => {
         {ownedFeedbacks.isSuccess &&
           ownedFeedbacks.data.map((fr) => {
             return (
-              <>
-                <FeedbackRequestItem
-                  key={fr.id}
-                  title={fr.title}
-                  slug={fr.slug}
-                  authors={fr.authors.map((a) => ({
-                    email: a.email ?? "",
-                    id: a.id,
-                  }))}
-                />
-              </>
+              <FeedbackRequest
+                key={fr.id}
+                title={fr.title}
+                slug={fr.slug}
+                authors={fr.authors.map((a) => ({
+                  email: a.email ?? "",
+                  id: a.id,
+                }))}
+              />
             );
           })}
         <h2 className="mb-4 mt-8 flex text-xl">

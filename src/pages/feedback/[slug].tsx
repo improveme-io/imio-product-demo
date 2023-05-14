@@ -125,11 +125,10 @@ const FeedbackItemList = () => {
 };
 
 const FeedbackRequest: NextPage = () => {
-  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
-  const { y } = useWindowScroll();
-  const isScrolled = y > 0;
   const router = useRouter();
+
   const user = useUser();
+
   const feedback = api.feedback.bySlug.useQuery(
     {
       // FIXME: better typing if possible
@@ -138,12 +137,15 @@ const FeedbackRequest: NextPage = () => {
     { enabled: !!router.query.slug }
   );
 
+  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
+  const { y } = useWindowScroll();
+  const isScrolled = y > 0;
+
   return (
     <>
       <PageHead title="Request Feedback" />
-      <Header title={"Request Feedback"} small={isScrolled}>
-        {" "}
-        <Button disabled size="lg">
+      <Header isSmall={isScrolled} title={"Request Feedback"}>
+        <Button disabled size={isScrolled ? "sm" : "lg"}>
           <StepForwardIcon className="mr-2" />
           Review Feedback Request…
         </Button>
@@ -151,9 +153,7 @@ const FeedbackRequest: NextPage = () => {
       <MainLayout app>
         <Card>
           <CardHeader>
-            <CardTitle>
-              <h1 className="text-2xl tracking-tight">General Feedback Data</h1>
-            </CardTitle>
+            <CardTitle className="text-2xl">General Feedback Data</CardTitle>
           </CardHeader>
           <FeedbackAuthorList />
           <IntroParagraph />

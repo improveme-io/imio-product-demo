@@ -22,13 +22,13 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
   return (
     <Card className="group mt-6">
       <CardHeader>
-        <CardTitle className="flex justify-between">
-          {props.editing ? null : (
-            <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
-          )}
-          <h3 className="flex w-2/3 flex-grow items-start text-xl">
-            {props.title.length > 0 ? props.title : "Add Feedback Item"}
-          </h3>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex justify-between">
+            {!props.editing && (
+              <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
+            )}
+            {props.title}
+          </CardTitle>
           {!props.editing && (
             <div className="flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
               <Button variant={"outline"}>
@@ -38,10 +38,10 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               <Button variant={"destructive"}>Remove</Button>
             </div>
           )}
-        </CardTitle>
+        </div>
       </CardHeader>
       <CardContent>
-        {props.editing ? (
+        {props.editing && (
           <div className="my-4">
             <div className="mb-4 flex flex-grow flex-col">
               <Label className="mb-2">Type</Label>
@@ -59,15 +59,15 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   </SelectContent>
                 </Select>
                 <p className="w-96 px-3 py-1 text-xs">
-                  The author will be shown the propt you&apos;ve defined and
-                  will be asked to answer in prose at a minimum of 240
-                  characters.
+                  The author will be shown the prompt you have defined and will
+                  be asked to answer in prose at a minimum of 240 characters.
                 </p>
               </div>
             </div>
             <div className="flex flex-grow flex-col">
               <Label className="mb-2">Prompt</Label>
               <Input
+                readOnly
                 type="text"
                 value={props.title}
                 placeholder="What aspects of my contributions do you think were particularly helpful or effective?"
@@ -80,7 +80,8 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               <Button>Save</Button>
             </div>
           </div>
-        ) : (
+        )}
+        {!props.editing && (
           <div className="my-4 ml-12 flex gap-4">
             <div className="mb-4 ml-2 flex flex-grow flex-col">
               <Label className="mb-2">Type</Label>

@@ -30,7 +30,7 @@ const PrivacyPolicy: NextPage = () => {
         </Link>
         <div className="flex">
           <SignedIn>
-            <Button variant="outline" asChild className="mr-6">
+            <Button asChild variant="outline" className="mr-6">
               <Link href="/dashboard">
                 <LayoutDashboardIcon className="mr-3" size={"20"} />
                 Open App Dashboard
