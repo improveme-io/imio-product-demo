@@ -5,6 +5,7 @@ import { EditIcon, ViewIcon, TrashIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
+import Link from "next/link";
 
 type FeedbackRequestProps = {
   title: string | null;
@@ -23,9 +24,11 @@ export const FeedbackRequest = (props: FeedbackRequestProps) => {
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
               Delete
             </Button>
-            <Button variant="ghost">
-              <EditIcon className="mr-2 h-4 w-4" />
-              Edit
+            <Button asChild variant="ghost">
+              <Link href={`/feedback/${props.slug}`}>
+                <EditIcon className="mr-2 h-4 w-4" />
+                Edit
+              </Link>
             </Button>
             <Button variant="outline">
               <ViewIcon className="mr-2 h-4 w-4" />
