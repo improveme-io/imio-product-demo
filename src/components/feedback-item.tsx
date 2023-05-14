@@ -14,7 +14,7 @@ import {
 import { Input } from "./ui/input";
 
 type FeedbackItemProps = {
-  title: string | null;
+  title: string;
   editing: boolean;
 };
 
@@ -23,9 +23,11 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
     <Card className="group mt-6">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <h3 className="flex text-xl">{props.title}</h3>
+          <h3 className="flex w-2/3 text-xl">
+            {props.title.length > 0 ? props.title : "Add Feedback Item"}
+          </h3>
           {!props.editing && (
-            <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
+            <div className="flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
               <Button variant={"outline"}>
                 <EditIcon className="mr-2 h-4 w-4" />
                 Edit
@@ -39,7 +41,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
         {props.editing ? (
           <div className="my-4">
             <div className="mb-4 flex flex-grow flex-col">
-              <Label>Type</Label>
+              <Label className="mb-2">Type</Label>
               <div className="flex">
                 <Select defaultValue="PROSE">
                   <SelectTrigger disabled className="w-96">
@@ -61,10 +63,11 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               </div>
             </div>
             <div className="flex flex-grow flex-col">
-              <Label>Prompt</Label>
+              <Label className="mb-2">Prompt</Label>
               <Input
                 type="text"
-                placeholder="What do you wish {Author} would change in the future?"
+                value={props.title}
+                placeholder="What aspects of my contributions do you think were particularly helpful or effective?"
               />
             </div>
             <div className="mt-8 flex justify-end">
@@ -77,7 +80,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
         ) : (
           <div className="my-4 flex gap-4">
             <div className="mb-4 flex flex-grow flex-col">
-              <Label>Type</Label>
+              <Label className="mb-2">Type</Label>
               <div>Prose</div>
             </div>
           </div>
