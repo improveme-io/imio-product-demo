@@ -1,7 +1,6 @@
 import React from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
@@ -13,7 +12,7 @@ import { PageHead } from "~/components/page-head";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
-import { cn } from "~/utils/style";
+import { Header } from "~/components/header";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
@@ -39,60 +38,29 @@ const Dashboard: NextPage = () => {
   return (
     <>
       <PageHead title="improveme.io | Dashboard" />
-      <header
-        className={cn(
-          isScrolled ? "bg-opacity-70 py-2" : "py-8",
-          "sticky top-0 z-40 flex flex-col bg-stone-100 px-8 transition-all duration-500"
-        )}
+      <Header
+        small={isScrolled}
+        title={["Hello, ", user.user?.firstName ?? "You"].join("")}
       >
-        <div className="flex w-full justify-between">
-          <div className="flex items-center">
-            <Image
-              className="mr-4 transition-all duration-300"
-              src="/Logo.svg"
-              width={isScrolled ? 78 / 3 : 78 / 2}
-              height={isScrolled ? 60 / 3 : 60 / 2}
-              alt="improveme.io logo"
-            />{" "}
-            <h1
-              className={cn(
-                isScrolled ? "-translate-y-16" : "-translate-y-0",
-                "group mr-auto flex font-serif text-3xl tracking-tight transition-transform delay-500 duration-300"
-              )}
-            >
-              Hello, {user.user?.firstName ?? "You"}
-            </h1>
-          </div>
-          <div
-            className={cn(
-              isScrolled ? "mr-3" : "mr-6",
-              "ml-auto flex items-center text-right"
-            )}
-          >
-            <Button
-              className="mr-2 transition-all duration-300 hover:bg-stone-200"
-              size={isScrolled ? "sm" : "lg"}
-              variant={"ghost"}
-              disabled
-            >
-              Settings
-            </Button>
-            <Button
-              // TODO: make this into a loading state
-              disabled={createFeedback.isLoading}
-              className="bg-sky-700  transition-all duration-300"
-              size={isScrolled ? "sm" : "lg"}
-              onClick={handleRequestFeedback}
-            >
-              <LeafIcon className="mr-2" size="20" />
-              Request Feedback
-            </Button>
-          </div>
-          <div className="mt-1 flex flex-col items-end">
-            <UserButton />
-          </div>
-        </div>
-      </header>
+        <Button
+          className="mr-2 transition-all duration-300 hover:bg-stone-200"
+          size={isScrolled ? "sm" : "lg"}
+          variant={"ghost"}
+          disabled
+        >
+          Settings
+        </Button>
+        <Button
+          // TODO: make this into a loading state
+          disabled={createFeedback.isLoading}
+          className="bg-sky-700  transition-all duration-300"
+          size={isScrolled ? "sm" : "lg"}
+          onClick={handleRequestFeedback}
+        >
+          <LeafIcon className="mr-2" size="20" />
+          Request Feedback
+        </Button>
+      </Header>
       <main className="items-left justify-left my-16 flex min-h-screen flex-col px-8 pb-8">
         <h2 className="mb-4 flex items-center text-xl">
           <InboxIcon className="mr-2" size={"20"} />
