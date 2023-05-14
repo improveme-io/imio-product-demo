@@ -7,17 +7,20 @@ import {
 } from "~/lib/trpc";
 
 export const feedbackRouter = createTRPCRouter({
-  create: protectedProcedure.mutation(({ ctx }) => {
-    return ctx.prisma.feedbackRequest.create({
-      data: {
-        owner: {
-          connect: {
-            clerkUserId: ctx.auth.userId,
+  create: protectedProcedure
+    .input(z.object({ title: z.string().min(1) }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.feedbackRequest.create({
+        data: {
+          owner: {
+            connect: {
+              clerkUserId: ctx.auth.userId,
+            },
           },
+          title: input.title,
         },
-      },
-    });
-  }),
+      });
+    }),
 
   ownedByUser: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.feedbackRequest.findMany({
@@ -28,6 +31,7 @@ export const feedbackRouter = createTRPCRouter({
         feedbackItems: true,
         _count: true,
       },
+      orderBy: { updatedAt: "desc" },
     });
   }),
 
@@ -40,6 +44,7 @@ export const feedbackRouter = createTRPCRouter({
         feedbackItems: true,
         _count: true,
       },
+      orderBy: { updatedAt: "desc" },
     });
   }),
 

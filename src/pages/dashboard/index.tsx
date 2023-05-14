@@ -25,7 +25,7 @@ const Dashboard: NextPage = () => {
   const createFeedback = api.feedback.create.useMutation();
 
   const handleRequestFeedback = () => {
-    createFeedback.mutate();
+    createFeedback.mutate({ title: "Untitled Feedback" });
   };
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
