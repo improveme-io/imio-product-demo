@@ -13,6 +13,7 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import { Header } from "~/components/header";
+import { MainLayout } from "~/components/main-layout";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
@@ -61,7 +62,7 @@ const Dashboard: NextPage = () => {
           Request Feedback
         </Button>
       </Header>
-      <main className="items-left justify-left my-16 flex min-h-screen flex-col px-8 pb-8">
+      <MainLayout app>
         <h2 className="mb-4 flex items-center text-xl">
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
@@ -109,7 +110,7 @@ const Dashboard: NextPage = () => {
           <SproutIcon size={"20"} className="mr-2" />
           Feedback Requests Shared With You
         </h2>
-      </main>
+      </MainLayout>
     </>
   );
 };
