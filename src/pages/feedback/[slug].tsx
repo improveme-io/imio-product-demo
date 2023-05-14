@@ -21,6 +21,7 @@ import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { FeedbackItem } from "~/components/feedback-item";
 import { Header } from "~/components/header";
+import { useWindowScroll } from "react-use";
 
 const IntroParagraph = () => {
   return (
@@ -124,6 +125,9 @@ const FeedbackItemList = () => {
 };
 
 const FeedbackRequest: NextPage = () => {
+  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
+  const { y } = useWindowScroll();
+  const isScrolled = y > 0;
   const router = useRouter();
   const user = useUser();
   const feedback = api.feedback.bySlug.useQuery(
@@ -137,7 +141,7 @@ const FeedbackRequest: NextPage = () => {
   return (
     <>
       <PageHead title="Request Feedback" />
-      <Header title={"Request Feedback"} small={false}>
+      <Header title={"Request Feedback"} small={isScrolled}>
         {" "}
         <Button disabled size="lg">
           <StepForwardIcon className="mr-2" />
