@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
+import { useWindowScroll } from "react-use";
 
 import { Contribution } from "~/components/contribution";
 import { FeedbackRequestItem } from "~/components/feedback-request-item";
@@ -12,6 +13,7 @@ import { PageHead } from "~/components/page-head";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
+import { cn } from "~/utils/style";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
@@ -20,11 +22,15 @@ const Dashboard: NextPage = () => {
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createFeedback = api.feedback.create.useMutation();
 
+  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
+  const { y } = useWindowScroll();
+  const isScrolled = y > 0;
+
   const handleRequestFeedback = () => {
     createFeedback.mutate();
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (createFeedback.isSuccess) {
       router.push(`/feedback/${createFeedback.data.slug}`);
     }
@@ -33,24 +39,39 @@ const Dashboard: NextPage = () => {
   return (
     <>
       <PageHead title="improveme.io | Dashboard" />
-      <header className="sticky top-0 z-40 mb-10 flex flex-col bg-stone-100 p-8">
+      <header
+        className={cn(
+          isScrolled ? "bg-opacity-70 py-2" : "py-8",
+          "sticky top-0 z-40 flex flex-col bg-stone-100 px-8 transition-all duration-500"
+        )}
+      >
         <div className="flex w-full justify-between">
           <div className="flex items-center">
             <Image
-              className="mr-4"
+              className="mr-4 transition-all duration-300"
               src="/Logo.svg"
-              width={78 / 2}
-              height={60 / 2}
-              alt="Graphic depicting three people giving each other feedback in the cloud"
+              width={isScrolled ? 78 / 3 : 78 / 2}
+              height={isScrolled ? 60 / 3 : 60 / 2}
+              alt="improveme.io logo"
             />{" "}
-            <h1 className="group mr-auto flex font-serif text-3xl tracking-tight">
+            <h1
+              className={cn(
+                isScrolled ? "-translate-y-16" : "-translate-y-0",
+                "group mr-auto flex font-serif text-3xl tracking-tight transition-transform delay-500 duration-300"
+              )}
+            >
               Hello, {user.user?.firstName ?? "You"}
             </h1>
           </div>
-          <div className="ml-auto mr-6 flex items-center text-right">
+          <div
+            className={cn(
+              isScrolled ? "mr-3" : "mr-6",
+              "ml-auto flex items-center text-right"
+            )}
+          >
             <Button
-              className="mr-2 hover:bg-stone-200"
-              size={"lg"}
+              className="mr-2 transition-all duration-300 hover:bg-stone-200"
+              size={isScrolled ? "sm" : "lg"}
               variant={"ghost"}
               disabled
             >
@@ -59,8 +80,8 @@ const Dashboard: NextPage = () => {
             <Button
               // TODO: make this into a loading state
               disabled={createFeedback.isLoading}
-              className="bg-sky-700"
-              size={"lg"}
+              className="bg-sky-700  transition-all duration-300"
+              size={isScrolled ? "sm" : "lg"}
               onClick={handleRequestFeedback}
             >
               <LeafIcon className="mr-2" size="20" />
@@ -72,8 +93,8 @@ const Dashboard: NextPage = () => {
           </div>
         </div>
       </header>
-      <main className="items-left justify-left flex min-h-screen flex-col px-8 pb-8">
-        <h2 className="mb-4  flex items-center text-xl">
+      <main className="items-left justify-left my-16 flex min-h-screen flex-col px-8 pb-8">
+        <h2 className="mb-4 flex items-center text-xl">
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
         </h2>
