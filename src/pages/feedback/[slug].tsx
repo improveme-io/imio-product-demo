@@ -29,7 +29,7 @@ const IntroParagraph = () => {
         </Label>
         <Textarea
           className="font-dm-mono mt-2 h-96 text-xl"
-          placeholder="Type your message here."
+          placeholder="Now it is time to put into practice what we learned in Week 3 about giving feedback! Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please provide specific examples."
         />
       </div>
     </section>
@@ -38,7 +38,7 @@ const IntroParagraph = () => {
 
 const EditFeedbackAuthor = () => {
   return (
-    <Card>
+    <>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <h3> Who is the person you&apos;d like to get feedback from?</h3>
@@ -58,7 +58,7 @@ const EditFeedbackAuthor = () => {
           Add more Authors…
         </Button>
       </CardContent>
-    </Card>
+    </>
   );
 };
 
@@ -86,11 +86,19 @@ const FeedbackItemList = () => {
         items generally consist of a prompt and some kind of input provided by
         the author. Most commonly, a question and prose written as an answer.
       </p>
-      <FeedbackItem title="What should Mihaly keep doing?" editing={false} />
       <FeedbackItem
-        title="What do you wish Mihaly would do more of in the future?"
-        editing={true}
+        title="What aspects of my contributions to the group project do you think were particularly helpful or effective?"
+        editing={false}
       />
+      <FeedbackItem
+        title="Were there any specific instances where you felt I effectively demonstrated strong teamwork and collaboration skills?"
+        editing={false}
+      />
+      <FeedbackItem
+        title="In what specific ways do you think my work positively impacted the project and our team's overall performance?"
+        editing={false}
+      />
+      <FeedbackItem title="" editing={true} />
       <Button disabled variant={"outline"} className="my-5 w-full">
         Add New Feedback Item (1 left)
       </Button>
@@ -119,8 +127,10 @@ const FeedbackRequest: NextPage = () => {
             Feedback Setup
           </h1>
         </header>
-        <FeedbackAuthorList />
-        <IntroParagraph />
+        <Card>
+          <FeedbackAuthorList />
+          <IntroParagraph />
+        </Card>
         <Separator className="my-4" />
         <footer className="flex justify-end pb-16 pl-8 pt-8">
           <Button size="lg">
