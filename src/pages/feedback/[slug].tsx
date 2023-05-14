@@ -2,7 +2,7 @@ import React from "react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useUser } from "@clerk/nextjs";
-import { StepForwardIcon, UserIcon, SendIcon } from "lucide-react";
+import { StepForwardIcon, UserIcon, SendIcon, PuzzleIcon } from "lucide-react";
 
 import { api } from "~/utils/api";
 import { Button } from "~/components/ui/button";
@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { FeedbackItem } from "~/components/feedback-item";
 
 const IntroParagraph = () => {
   return (
@@ -73,6 +74,30 @@ const FeedbackAuthorList = () => {
   );
 };
 
+const FeedbackItemList = () => {
+  return (
+    <>
+      <h2 className="mb-4 mt-8 flex text-xl">
+        <PuzzleIcon className="mr-2" />
+        Feedback Items
+      </h2>
+      <p className="w-4/6 px-3 py-1 pl-8">
+        Feedback authors will be presented with several Feedback Items. Feedback
+        items generally consist of a prompt and some kind of input provided by
+        the author. Most commonly, a question and prose written as an answer.
+      </p>
+      <FeedbackItem title="What should Mihaly keep doing?" editing={false} />
+      <FeedbackItem
+        title="What do you wish Mihaly would do more of in the future?"
+        editing={true}
+      />
+      <Button disabled variant={"outline"} className="my-5 w-full">
+        Add New Feedback Item (1 left)
+      </Button>
+    </>
+  );
+};
+
 const FeedbackRequest: NextPage = () => {
   const router = useRouter();
   const user = useUser();
@@ -103,6 +128,7 @@ const FeedbackRequest: NextPage = () => {
             Start Adding Feedback Items…
           </Button>
         </footer>
+        <FeedbackItemList />
       </MainLayout>
     </>
   );
