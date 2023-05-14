@@ -2,6 +2,7 @@
 
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 
 import { cn } from "~/utils/style";
 
@@ -22,13 +23,15 @@ export const Header = (props: HeaderProps) => {
     >
       <div className="flex w-full justify-between">
         <div className="flex items-center">
-          <Image
-            className="mr-4 transition-all duration-300"
-            src="/Logo.svg"
-            width={isSmall ? 78 / 3 : 78 / 2}
-            height={isSmall ? 60 / 3 : 60 / 2}
-            alt="improveme.io logo"
-          />{" "}
+          <Link href="/dashboard">
+            <Image
+              className="mr-4 transition-all duration-300"
+              src="/Logo.svg"
+              width={isSmall ? 78 / 3 : 78 / 2}
+              height={isSmall ? 60 / 3 : 60 / 2}
+              alt="improveme.io logo"
+            />
+          </Link>{" "}
           <h1
             className={cn(
               isSmall ? "-translate-y-16" : "-translate-y-0",
