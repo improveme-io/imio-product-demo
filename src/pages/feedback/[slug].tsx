@@ -18,13 +18,17 @@ import { Header } from "~/components/header";
 
 const IntroParagraph = () => {
   return (
-    <section className="px-4 py-4">
-      <h2 className="mb-4 flex text-xl">
-        <SendIcon className="mr-2" />
-        Introductory Paragraph
-      </h2>
-      <div className="flex flex-col px-8 py-8">
-        <Label>
+    <>
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <h2 className="mb-4 flex text-xl">
+            <SendIcon className="mr-2" />
+            Introductory Paragraph
+          </h2>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col px-8 py-8">
+        <Label className="mb-2">
           Write some text to explain on a personal level what kind of feedback
           you are asking for and why.
         </Label>
@@ -32,43 +36,55 @@ const IntroParagraph = () => {
           className="mt-2 h-96 font-mono text-xl"
           placeholder="Now it is time to put into practice what we learned in Week 3 about giving feedback! Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please provide specific examples."
         />
-      </div>
-    </section>
+      </CardContent>
+    </>
   );
 };
 
 const EditFeedbackAuthor = () => {
   return (
     <>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <h3> Who is the person you&apos;d like to get feedback from?</h3>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-wrap items-end justify-between pt-8">
+      <p className="max-w-lg text-sm text-stone-500">
+        Specify who you would like to get feedback from. All Feedback Authors
+        will recieve the same Prompts (Questions) from you.
+      </p>
+      <section className="flex items-end justify-between pt-8">
         <div className="mr-6 flex flex-grow flex-col">
           {/* TODO: save debounced when editing */}
-          <Label>E-Mail Address</Label>
+          <Label className="mb-2">E-Mail Address</Label>
           <Input type="email" placeholder="todd@burchik.com" />
         </div>
         <div className="mr-6 flex flex-grow flex-col">
-          <Label>Name</Label>
+          <Label className="mb-2">First Name</Label>
           <Input type="text" placeholder="Todd Burchik" />
         </div>
-        <Button className="flex-grow-0" disabled variant={"outline"}>
-          Add more Authors…
+        <div className="mr-6 flex flex-grow flex-col">
+          <Label className="mb-2">Last Name</Label>
+          <Input type="text" placeholder="Todd Burchik" />
+        </div>
+        <Button
+          disabled
+          variant={"destructive"}
+          className="flex-grow-0"
+          disabled
+          variant={"outline"}
+        >
+          Remove
         </Button>
-      </CardContent>
+      </section>
+      <Button className="mt-6 flex-grow-0" disabled variant={"outline"}>
+        Add New Author…
+      </Button>
     </>
   );
 };
 
 const FeedbackAuthorList = () => {
   return (
-    <section className="px-4 pb-8 pt-4">
+    <section className="px-6 pb-8 pt-4">
       <h2 className="mb-4 flex text-xl">
         <UserIcon className="mr-2" />
-        Feedback Author
+        Feedback Authors
       </h2>
       <EditFeedbackAuthor />
     </section>
