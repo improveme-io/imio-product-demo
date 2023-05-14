@@ -23,6 +23,7 @@ model FeedbackRequest {
   slug      String    @unique @default(cuid())
   status    Status    @default(CREATING)
   title     String?   @db.Text
+  paragraph String?   @db.Text
   deadline  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
