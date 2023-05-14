@@ -52,6 +52,9 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
+  houseform:
+    specifier: ^1.10.5
+    version: 1.10.5(react@18.2.0)(zod@3.21.4)
   jotai:
     specifier: ^2.1.0
     version: 2.1.0(react@18.2.0)
@@ -2500,6 +2503,16 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+
+  /houseform@1.10.5(react@18.2.0)(zod@3.21.4):
+    resolution: {integrity: sha512-PeT2MOguJybHJe1bV3+MlJq3vEEfFF22dBErtT5A8lnLr4IYGBaTK4pbnoXdyVIwl6aGyj1gGpFZqDEeFf10bg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      zod: '>=3.9.0'
+    dependencies:
+      react: 18.2.0
+      zod: 3.21.4
+    dev: false
 
   /hyphenate-style-name@1.0.4:
     resolution: {integrity: sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==}
