@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
+import { useWindowScroll } from "react-use";
 
 import { Contribution } from "~/components/contribution";
 import { FeedbackRequestItem } from "~/components/feedback-request-item";
@@ -14,24 +15,6 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import { cn } from "~/utils/style";
 
-const useScrollPosition = () => {
-  const [scrollPosition, setScrollPosition] = React.useState(0);
-
-  React.useEffect(() => {
-    const updatePosition = () => {
-      setScrollPosition(window.pageYOffset);
-    };
-
-    window.addEventListener("scroll", updatePosition);
-
-    updatePosition();
-
-    return () => window.removeEventListener("scroll", updatePosition);
-  }, []);
-
-  return scrollPosition;
-};
-
 const Dashboard: NextPage = () => {
   const router = useRouter();
   const user = useUser();
@@ -39,7 +22,9 @@ const Dashboard: NextPage = () => {
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createFeedback = api.feedback.create.useMutation();
 
-  const isScrolled = useScrollPosition() > 0;
+  // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
+  const { y } = useWindowScroll();
+  const isScrolled = y > 0;
 
   const handleRequestFeedback = () => {
     createFeedback.mutate();
