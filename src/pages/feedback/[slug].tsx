@@ -14,6 +14,7 @@ import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { FeedbackItem } from "~/components/feedback-item";
+import { Header } from "~/components/header";
 
 const IntroParagraph = () => {
   return (
@@ -120,25 +121,31 @@ const FeedbackRequest: NextPage = () => {
   return (
     <>
       <PageHead title="Request Feedback" />
-      <MainLayout>
-        <header className="pb-8">
-          <p className="text-l mb-1 mt-0">Create Feedback Request</p>
-          <h1 className="text-3xl font-extrabold tracking-tight">
-            Feedback Setup
-          </h1>
-        </header>
+      <Header title={"Create Feedback Request"} small={false}>
+        {" "}
+        <Button disabled size="lg">
+          <StepForwardIcon className="mr-2" />
+          Review Feedback Request…
+        </Button>
+      </Header>
+      <MainLayout app>
         <Card>
+          <CardHeader>
+            <CardTitle>
+              <h1 className="text-2xl tracking-tight">General Feedback Data</h1>
+            </CardTitle>
+          </CardHeader>
           <FeedbackAuthorList />
           <IntroParagraph />
         </Card>
         <Separator className="my-4" />
+        <FeedbackItemList />
         <footer className="flex justify-end pb-16 pl-8 pt-8">
-          <Button size="lg">
+          <Button disabled size="lg">
             <StepForwardIcon className="mr-2" />
-            Start Adding Feedback Items…
+            Review Feedback Request…
           </Button>
         </footer>
-        <FeedbackItemList />
       </MainLayout>
     </>
   );
