@@ -2,7 +2,13 @@ import React from "react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useUser } from "@clerk/nextjs";
-import { StepForwardIcon, UserIcon, SendIcon, PuzzleIcon } from "lucide-react";
+import {
+  StepForwardIcon,
+  UserIcon,
+  SendIcon,
+  PuzzleIcon,
+  TrashIcon,
+} from "lucide-react";
 
 import { api } from "~/utils/api";
 import { Button } from "~/components/ui/button";
@@ -48,31 +54,25 @@ const EditFeedbackAuthor = () => {
         Specify who you would like to get feedback from. All Feedback Authors
         will recieve the same Prompts (Questions) from you.
       </p>
-      <section className="flex items-end justify-between pt-8">
-        <div className="mr-6 flex flex-grow flex-col">
+      <section className="items-end justify-between pt-8 md:flex">
+        <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
           {/* TODO: save debounced when editing */}
           <Label className="mb-2">E-Mail Address</Label>
           <Input type="email" placeholder="todd@burchik.com" />
         </div>
-        <div className="mr-6 flex flex-grow flex-col">
+        <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
           <Label className="mb-2">First Name</Label>
           <Input type="text" placeholder="Todd Burchik" />
         </div>
-        <div className="mr-6 flex flex-grow flex-col">
+        <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
           <Label className="mb-2">Last Name</Label>
           <Input type="text" placeholder="Todd Burchik" />
         </div>
-        <Button
-          disabled
-          variant={"destructive"}
-          className="flex-grow-0"
-          disabled
-          variant={"outline"}
-        >
-          Remove
+        <Button disabled variant={"outline"} className="flex-grow-0">
+          <TrashIcon size={16} />
         </Button>
       </section>
-      <Button className="mt-6 flex-grow-0" disabled variant={"outline"}>
+      <Button className="mt-6 flex-grow-0" variant={"outline"}>
         Add New Author…
       </Button>
     </>
