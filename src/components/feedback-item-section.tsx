@@ -1,16 +1,13 @@
+import { FieldArray, FieldArrayItem } from "houseform";
 import { PuzzleIcon } from "lucide-react";
+import { type z } from "zod";
+
 import { Button } from "~/components/ui/button";
 import { FeedbackItem } from "~/components/feedback-item";
-import { FieldArray, FieldArrayItem } from "houseform";
-import { z } from "zod";
+import { feedbackItemSchema, promptSchema } from "~/utils/validation";
 import { type ChangeEvent } from "react";
 
 const MAX_FEEDBACK_ITEMS = 10;
-
-const promptSchema = z.string().nonempty("* Required.");
-const feedbackItemSchema = z.object({
-  prompt: promptSchema,
-});
 
 type FeedbackItem = z.infer<typeof feedbackItemSchema>;
 
@@ -19,17 +16,19 @@ function isFeedbackItem(value: unknown): value is FeedbackItem {
 }
 
 type FeedbackItemSectionProps = {
-  feedbackItems?: FeedbackItem[];
+  feedbackItems?: { prompt: string | null }[];
 };
 
 export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
-  const initialValue = props.feedbackItems ?? [
+  // FIXME: this is horrible, maybe we should get the type from prisma instead of the zod schema... or maybe even generate the zod schema from prisma?
+  const sanitizedFeedbackItems = props.feedbackItems?.map((feedbackItem) => {
+    return { prompt: feedbackItem.prompt === null ? "" : feedbackItem.prompt };
+  });
+  const initialValue = sanitizedFeedbackItems ?? [
     {
       prompt: "",
     },
   ];
-
-  console.log(initialValue);
 
   return (
     <section>
@@ -64,7 +63,6 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                         index={index}
                         prompt={value}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                          console.log("change", event.target.value);
                           setValue(event.target.value);
                         }}
                         onBlur={onBlur}

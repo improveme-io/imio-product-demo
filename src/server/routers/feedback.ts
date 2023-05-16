@@ -5,9 +5,10 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/lib/trpc";
+import { feedbackRequestSchema } from "~/utils/validation";
 
 export const feedbackRouter = createTRPCRouter({
-  create: protectedProcedure
+  createDashboard: protectedProcedure
     .input(z.object({ title: z.string().min(1) }))
     .mutation(({ ctx, input }) => {
       return ctx.prisma.feedbackRequest.create({
@@ -18,6 +19,60 @@ export const feedbackRouter = createTRPCRouter({
             },
           },
           title: input.title,
+        },
+      });
+    }),
+
+  createForm: protectedProcedure
+    .input(feedbackRequestSchema)
+    .mutation(async ({ ctx, input }) => {
+      // ~ authors ~
+      // create authors
+      await ctx.prisma.user.createMany({
+        data: input.authors.map((author) => ({
+          email: author.email,
+          firstName: author.firstName,
+          lastName: author.lastName,
+        })),
+        skipDuplicates: true,
+      });
+      // query authors
+      const authors = await ctx.prisma.user.findMany({
+        where: {
+          email: {
+            in: input.authors.map((author) => author.email),
+          },
+        },
+      });
+      // ~ feedback items ~
+      // zip into one big list that can be passed on to prisma
+      const feedbackItemAuthorPairs = authors.flatMap((a) =>
+        input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi }))
+      );
+      // create feedback items
+      void ctx.prisma.feedbackItem.createMany({
+        data: feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
+          prompt: feedbackItem.prompt,
+          requestId: input.requestId,
+          ownerId: input.ownerId,
+          authorId: author.id,
+        })),
+      });
+      // ~ feedback request ~
+      // create feedback request
+      return ctx.prisma.feedbackRequest.update({
+        where: {
+          id: input.requestId,
+        },
+        data: {
+          status: "REQUESTED",
+          title: input.title,
+          paragraph: input.paragraph,
+          authors: {
+            connect: authors.map((author) => ({
+              id: author.id,
+            })),
+          },
         },
       });
     }),

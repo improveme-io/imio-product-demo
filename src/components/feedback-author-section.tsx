@@ -4,15 +4,8 @@ import { TrashIcon, UserIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
-import { z } from "zod";
-
-const emailSchema = z.string().email("* Required.");
-const nameSchema = z.string().min(1, "* Required.");
-const authorSchema = z.object({
-  email: emailSchema,
-  firstName: nameSchema,
-  lastName: nameSchema,
-});
+import { type z } from "zod";
+import { authorSchema, emailSchema, nameSchema } from "~/utils/validation";
 
 type Author = z.infer<typeof authorSchema>;
 
@@ -64,7 +57,6 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           placeholder="todd@burchik.com"
                           value={value}
                           onChange={(e) => {
-                            console.log(authors);
                             setValue(e.target.value);
                           }}
                           onBlur={onBlur}
@@ -110,7 +102,6 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
-                            console.log();
                           }}
                           onBlur={onBlur}
                         />

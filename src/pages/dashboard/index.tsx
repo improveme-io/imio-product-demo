@@ -18,14 +18,14 @@ import { MainLayout } from "~/components/main-layout";
 const Dashboard: NextPage = () => {
   const router = useRouter();
 
-  const user = useUser();
+  const clerkUser = useUser();
 
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
-  const createFeedback = api.feedback.create.useMutation();
+  const createRequest = api.feedback.createDashboard.useMutation();
 
   const handleRequestFeedback = () => {
-    createFeedback.mutate({ title: "Untitled Feedback" });
+    createRequest.mutate({ title: "Untitled Feedback" });
   };
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
@@ -33,17 +33,17 @@ const Dashboard: NextPage = () => {
   const isScrolled = y > 0;
 
   React.useEffect(() => {
-    if (createFeedback.isSuccess) {
-      router.push(`/feedback/${createFeedback.data.slug}`);
+    if (createRequest.isSuccess) {
+      router.push(`/feedback/${createRequest.data.slug}`);
     }
-  }, [createFeedback.data, createFeedback.isSuccess, router]);
+  }, [createRequest.data, createRequest.isSuccess, router]);
 
   return (
     <>
       <PageHead title="improveme.io | Dashboard" />
       <Header
         isSmall={isScrolled}
-        title={`Hello, ${user.user?.firstName ?? "You"}`}
+        title={`Hello, ${clerkUser.user?.firstName ?? "You"}`}
       >
         <Button
           className="mr-2 transition-all duration-300 hover:bg-stone-200"
@@ -55,7 +55,7 @@ const Dashboard: NextPage = () => {
         </Button>
         <Button
           // TODO: make this into a loading state
-          disabled={createFeedback.isLoading}
+          disabled={createRequest.isLoading}
           className="bg-sky-700  transition-all duration-300"
           size={isScrolled ? "sm" : "lg"}
           onClick={handleRequestFeedback}

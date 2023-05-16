@@ -1,11 +1,11 @@
 import { Button } from "~/components/ui/button";
 import React from "react";
 import { Field } from "houseform";
-import { z } from "zod";
 
 import { CardTitle } from "~/components/ui/card";
 import { EditButton } from "~/components/edit-button";
 import { Input } from "~/components/ui/input";
+import { feedbackTitleSchema } from "~/utils/validation";
 
 type FeedBackTitleSectionProps = {
   title: string | null | undefined;
@@ -18,7 +18,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
     <Field<string>
       name="title"
       initialValue={props.title ?? "Untitled Feedback Request"}
-      onSubmitValidate={z.string().nonempty("* Required")}
+      onSubmitValidate={feedbackTitleSchema}
     >
       {({ value, setValue, onBlur, errors }) => (
         <>
