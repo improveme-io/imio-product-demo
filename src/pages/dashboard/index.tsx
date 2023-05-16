@@ -6,7 +6,7 @@ import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
 
 import { Contribution } from "~/components/contribution";
-import { FeedbackRequest } from "~/components/feedback-request";
+import { FeedbackRequestCard } from "~/components/feedback-request-card";
 
 import { PageHead } from "~/components/page-head";
 import { Badge } from "~/components/ui/badge";
@@ -95,7 +95,7 @@ const Dashboard: NextPage = () => {
         {ownedFeedbacks.isSuccess &&
           ownedFeedbacks.data.map((fr) => {
             return (
-              <FeedbackRequest
+              <FeedbackRequestCard
                 key={fr.id}
                 title={fr.title}
                 slug={fr.slug}

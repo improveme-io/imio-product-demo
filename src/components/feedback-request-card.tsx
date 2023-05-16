@@ -7,13 +7,13 @@ import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 import Link from "next/link";
 
-type FeedbackRequestProps = {
+type FeedbackRequestCardProps = {
   title: string | null;
   slug: string;
   authors: { email: string; id: string }[];
 };
 
-export const FeedbackRequest = (props: FeedbackRequestProps) => {
+export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
   return (
     <Card className="group mb-8">
       <CardHeader>

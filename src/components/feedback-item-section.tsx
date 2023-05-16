@@ -1,3 +1,4 @@
+import { type ChangeEvent } from "react";
 import { FieldArray, FieldArrayItem } from "houseform";
 import { PuzzleIcon } from "lucide-react";
 import { type z } from "zod";
@@ -5,7 +6,6 @@ import { type z } from "zod";
 import { Button } from "~/components/ui/button";
 import { FeedbackItem } from "~/components/feedback-item";
 import { feedbackItemSchema, promptSchema } from "~/utils/validation";
-import { type ChangeEvent } from "react";
 
 const MAX_FEEDBACK_ITEMS = 10;
 
@@ -58,7 +58,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                     name={`feedbackItems[${index}].prompt`}
                     onSubmitValidate={promptSchema}
                   >
-                    {({ value, setValue, onBlur, errors }) => (
+                    {({ value, setValue, onBlur }) => (
                       <FeedbackItem
                         index={index}
                         prompt={value}

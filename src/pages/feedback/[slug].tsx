@@ -5,20 +5,30 @@ import { useAuth } from "@clerk/nextjs";
 import { Form } from "houseform";
 import { StepForwardIcon } from "lucide-react";
 import { type z } from "zod";
+import { useWindowScroll } from "react-use";
 
 import { api } from "~/utils/api";
+import { type formSchema } from "~/utils/validation";
 import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
 import { Separator } from "~/components/ui/separator";
 import { Card, CardHeader } from "~/components/ui/card";
 import { Header } from "~/components/header";
-import { useWindowScroll } from "react-use";
 import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
 import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
-import { type formSchema } from "~/utils/validation";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
+import { DialogTrigger } from "~/components/shadcn/dialog";
+import { FeedbackRequestView } from "~/components/feedback-request-view";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -76,7 +86,6 @@ const FeedbackRequest: NextPage = () => {
         </Button>
       </Header>
       <MainLayout app>
-        {/* TODO: persist the form locally on change (clean it up on submit) */}
         <Form<FormValues>
           onSubmit={(values) => {
             // TODO: maybe validate via zod the entire form?
@@ -92,7 +101,7 @@ const FeedbackRequest: NextPage = () => {
             }
           }}
         >
-          {({ submit, errors }) => (
+          {({ submit, errors, value: formValues }) => (
             <>
               {/* TODO(kristof): how can we make this more consistent? some are wrapped in card stuff, others are not, plus I don't see how to make these nice and re-useable with the card stuff... */}
               <Card>
@@ -115,29 +124,43 @@ const FeedbackRequest: NextPage = () => {
                 )}
               />
               <footer className="flex justify-end pb-16 pl-8 pt-8">
-                <div>
-                  <Button
-                    variant={errors.length > 0 ? "destructive" : "outline"}
-                    disabled={
-                      !feedbackRequest.data ||
-                      !user.data ||
-                      errors.length > 0 ||
-                      createRequest.isLoading
-                    }
-                    size="lg"
-                    // FIXME: eslint
-                    /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-                    onClick={submit}
-                  >
-                    <StepForwardIcon className="mr-2" />
-                    Test Submit
-                  </Button>
-                  {errors.length > 0 && <p>* There are errors</p>}
-                </div>
-                <Button disabled size="lg">
-                  <StepForwardIcon className="mr-2" />
-                  Review Feedback Request…
-                </Button>
+                {/* FIXME: doesn't scroll, so you can't see big feedback requests */}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">Show Dialog</Button>
+                  </DialogTrigger>
+                  {/* FIXME: it is transparent without this, so probably tailwind is not configured correctly */}
+                  <DialogContent className="overflow-y-auto overflow-x-hidden bg-stone-50">
+                    <DialogHeader>
+                      <DialogTitle>Review Feedback Request</DialogTitle>
+                      <DialogDescription></DialogDescription>
+                      <FeedbackRequestView
+                        title={formValues.title}
+                        paragraph={formValues.paragraph}
+                        feedbackItems={formValues.feedbackItems}
+                      />
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button
+                        variant={errors.length > 0 ? "destructive" : "outline"}
+                        disabled={
+                          !feedbackRequest.data ||
+                          !user.data ||
+                          errors.length > 0 ||
+                          createRequest.isLoading
+                        }
+                        size="lg"
+                        // FIXME: eslint
+                        /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
+                        onClick={submit}
+                      >
+                        <StepForwardIcon className="mr-2" />
+                        Test Submit
+                      </Button>
+                      {errors.length > 0 && <p>* There are errors</p>}
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </footer>
             </>
           )}
