@@ -24,13 +24,14 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
               Delete
             </Button>
-            <Button asChild variant="ghost">
+            {/* FIXME: asChild and disabled doesn't seem to work together */}
+            <Button disabled asChild variant="ghost">
               <Link href={`/feedback/${props.slug}`}>
                 <EditIcon className="mr-2 h-4 w-4" />
                 Edit
               </Link>
             </Button>
-            <Button variant="outline">
+            <Button disabled variant="outline">
               <ViewIcon className="mr-2 h-4 w-4" />
               Preview
             </Button>
@@ -42,6 +43,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           <Label>Authors</Label>
           <div className="mt-2 flex">
             {props.authors.map((author) => (
+              // TODO: initials function
               <UserItem key={author.id} email={author.email} initials={"fb"} />
             ))}
           </div>
