@@ -130,8 +130,8 @@ const FeedbackRequest: NextPage = () => {
                     <Button variant="outline">Show Dialog</Button>
                   </DialogTrigger>
                   {/* FIXME: it is transparent without this, so probably tailwind is not configured correctly */}
-                  <DialogContent className="h-full bg-white sm:w-full sm:max-w-none">
-                    <DialogHeader className="overflow-y-scroll ">
+                  <DialogContent className="inset-5 bg-white sm:h-auto sm:w-auto sm:max-w-none">
+                    <DialogHeader className="overflow-y-scroll">
                       <DialogTitle>Review Feedback Request</DialogTitle>
                       <DialogDescription></DialogDescription>
                       <FeedbackRequestView
