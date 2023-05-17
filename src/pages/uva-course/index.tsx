@@ -44,6 +44,25 @@ const Home: NextPage = () => {
     "I think the project would have benefited from your involvement in...",
     "I wanted to see more of your contribution in terms of...",
   ];
+
+  const howtoItems = [
+    {
+      image: "/uva-course/screenshot01.png",
+      text: "Click the Start Collecting Feedback Now button to log in or sign up to improveme.io",
+    },
+    {
+      image: "/uva-course/screenshot02.png",
+      text: "Enter your name and university e-mail.",
+    },
+    {
+      image: "/uva-course/screenshot03.png",
+      text: "Fill out the Feedback Request form. Add all group members you are recieving feedback from as Authors with their e-mail address and name.",
+    },
+    {
+      image: "/uva-course/screenshot04.png",
+      text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
+    },
+  ];
   return (
     <>
       <PageHead title="Home" />
@@ -192,21 +211,19 @@ const Home: NextPage = () => {
             <h2 className="col-span-2 mb-12 mt-16 w-full font-serif text-3xl">
               How it works
             </h2>
-            <p className="mb-8 text-lg md:max-w-lg">
-              To use the app, simply sign up for an account and start your
-              journey of continuous improvement. Once you&apos;ve created your
-              account, you can create a feedback request in just a few clicks.
-              This request can be customized to suit your specific needs and can
-              be shared with your peers at your convenience.
-            </p>
-            <Image
-              className=""
-              src="/UI-Illustration-1.png"
-              width={1260}
-              height={1010}
-              alt="Illustration of the UI of the app, showing the Dashboard"
-            />
-            <Image
+            {howtoItems.map((item, index) => (
+              <>
+                <p className="mb-8 text-lg md:max-w-lg">{item.text}</p>
+                <Image
+                  className=""
+                  src={item.image}
+                  width={1533}
+                  height={1048}
+                  alt="Illustration of the UI of the app, showing the Dashboard"
+                />
+              </>
+            ))}
+            {/* <Image
               className=""
               src="/UI-Illustration-2.png"
               width={1260}
@@ -221,7 +238,7 @@ const Home: NextPage = () => {
               one place - no matter where you worked or with whom. You can then
               better identify areas for improvement and have a clearer picture
               of your progress to keep you motivated and growing!
-            </p>
+            </p> */}
           </div>
           {/* <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Our Team</h2>
