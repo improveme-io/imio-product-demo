@@ -14,6 +14,7 @@ import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
 import { Separator } from "~/components/ui/separator";
 import { Card, CardHeader } from "~/components/ui/card";
+import { UserItem } from "~/components/user-item";
 import { Header } from "~/components/header";
 import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
@@ -138,6 +139,9 @@ const FeedbackRequest: NextPage = () => {
                         title={formValues.title}
                         paragraph={formValues.paragraph}
                         feedbackItems={formValues.feedbackItems}
+                        renderOwner={
+                          <UserItem email={feedbackRequest.data?.owner.email} />
+                        }
                       />
                     </DialogHeader>
                     <DialogFooter>
