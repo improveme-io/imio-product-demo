@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 
 export const Footer = () => {
@@ -17,13 +17,13 @@ export const Footer = () => {
         <Button asChild className="text-stone-50" variant={"link"}>
           <Link href="/legal/contact">Contact & Legal</Link>
         </Button>
-        <Button className="text-stone-50" variant={"link"}>
+        <Button asChild className="text-stone-50" variant={"link"}>
           <Link href="/legal/terms-and-conditions">Terms & Conditions</Link>
         </Button>
-        <Button className="text-stone-50" variant={"link"}>
+        <Button asChild className="text-stone-50" variant={"link"}>
           <Link href="/legal/privacy-policy">Privacy Policy</Link>
         </Button>
-        <Button className="text-stone-50" variant={"link"}>
+        <Button asChild className="text-stone-50" variant={"link"}>
           <Link href="/legal/anti-discrimination-policy">
             Anti-Discrimination Policy
           </Link>

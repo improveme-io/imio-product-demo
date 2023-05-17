@@ -9,7 +9,7 @@ type EditButtonProps = {
 export const EditButton = (props: EditButtonProps) => {
   return (
     <Button
-      className="ml-5 opacity-0 group-hover:opacity-100"
+      className="ml-5"
       variant={"ghost"}
       size={"sm"}
       onClick={props.onClick}

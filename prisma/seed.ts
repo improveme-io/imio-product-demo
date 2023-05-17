@@ -50,6 +50,7 @@ async function main() {
       owner: { connect: { id: kristof.id } },
       authors: { connect: [{ id: mihaly.id }] },
       title: "100 Days Evaluation",
+      status: "DONE",
     },
   });
   console.log("Created feedback request...", feedbackRequestAuthor);

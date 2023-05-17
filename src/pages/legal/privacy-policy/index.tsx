@@ -12,7 +12,7 @@ import { LayoutDashboardIcon } from "lucide-react";
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
-import { Footer } from "~/components/footer";
+import { Footer } from "~/components/www/footer";
 
 const PrivacyPolicy: NextPage = () => {
   return (
@@ -30,7 +30,7 @@ const PrivacyPolicy: NextPage = () => {
         </Link>
         <div className="flex">
           <SignedIn>
-            <Button variant="outline" asChild className="mr-6">
+            <Button asChild variant="outline" className="mr-6">
               <Link href="/dashboard">
                 <LayoutDashboardIcon className="mr-3" size={"20"} />
                 Open App Dashboard

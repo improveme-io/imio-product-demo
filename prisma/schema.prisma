@@ -23,6 +23,7 @@ model FeedbackRequest {
   slug      String    @unique @default(cuid())
   status    Status    @default(CREATING)
   title     String?   @db.Text
+  paragraph String?   @db.Text
   deadline  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
@@ -36,6 +37,8 @@ model FeedbackRequest {
   @@index([slug])
 }
 
+// TODO: needs an index to indicate ordering
+// TODO: how do we solve the public/private problem? --> maybe generate a set of Feedback items that do not have an author, which would be the public ones
 model FeedbackItem {
   id        String   @id @default(cuid())
   prompt    String?  @db.Text
