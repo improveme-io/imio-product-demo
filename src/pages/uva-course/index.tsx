@@ -8,11 +8,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import {
-  Sprout,
-  Joystick,
   MessageCircle,
-  Users,
-  Microscope,
   LayoutDashboardIcon,
   FileWarningIcon,
 } from "lucide-react";
@@ -223,6 +219,7 @@ const Home: NextPage = () => {
                 />
               </>
             ))}
+          </div>
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">
               About improveme.io
@@ -244,7 +241,7 @@ const Home: NextPage = () => {
               free to use.
               <br />
               <br />
-              <Button size={"lg"} asChild>
+              <Button variant={"outline"} size={"lg"} asChild>
                 <Link href="/">Find out more…</Link>
               </Button>
             </p>
