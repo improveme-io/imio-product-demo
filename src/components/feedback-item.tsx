@@ -33,10 +33,13 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
     <Card className="group mt-6">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex justify-between">
+          <CardTitle className="flex max-w-4xl justify-between leading-7">
             {!isEditing && (
               <>
-                <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
+                <HelpCircleIcon
+                  size={32}
+                  className="mr-4 shrink-0 text-stone-400"
+                />
                 {currentPrompt}
               </>
             )}
