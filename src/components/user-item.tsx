@@ -5,16 +5,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 type UserItemProps = {
   initials: string;
   email: string | null;
+  name?: string;
 };
 
 export const UserItem = (props: UserItemProps) => {
+  const renderedUsername = props.name ? props.name : props.email;
   return (
     <li className="mr-6 inline-flex">
       <Avatar className="mr-2 h-6 w-6 text-xs text-slate-500">
         <AvatarImage></AvatarImage>
         <AvatarFallback>{props.initials}</AvatarFallback>
       </Avatar>
-      {props.email}
+      {renderedUsername}
     </li>
   );
 };
