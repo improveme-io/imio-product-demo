@@ -146,7 +146,7 @@ const Home: NextPage = () => {
                 alt="Portrait photo of Dr. Brooke Gazdag"
               />
               <h3 className="mb-4    mt-12 w-full font-serif text-2xl">
-                Dr.Brooke Gazdag
+                Dr. Brooke Gazdag
               </h3>
               <p className="text-md mb-4 md:max-w-lg">Associate Professor</p>
               <p className="text-md mb-8 md:max-w-lg">bgazdag@uva.nl</p>
