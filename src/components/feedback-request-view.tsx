@@ -2,7 +2,6 @@
 
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import { LeafIcon } from "lucide-react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
@@ -30,9 +29,8 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
         <Card className="mb-16 mt-2">
           <CardHeader className="mr-3">
             <div className="flex items-center">
-              <LeafIcon size={20} />
-              <p className="mx-2">Feedback Request from</p>
               {props.renderOwner}
+              <p className="mx-2">is requesting Your feedback.</p>
             </div>
             <CardContent className="flex items-center px-0">
               <p className="mt-8 max-w-2xl leading-6">{props.paragraph}</p>
