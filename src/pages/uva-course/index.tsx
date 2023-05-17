@@ -22,46 +22,45 @@ import { FeatureCard } from "~/components/www/feature-card";
 import Link from "next/link";
 import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
+const feedbackItems = [
+  "I found your contributions to be particularly helpful or effective when...",
+  "Your contributions made a significant impact on the project by...",
+  "I found your ideas and insights to be especially valuable because...",
+  "I found it really valuable when you...",
+  "One thing that stood out to me was...",
+  "I was impressed by your ability to...",
+  "I think you did a great job with...",
+  "I noticed your dedication in...",
+  "It was great to see how you...",
+  "I think your approach to [specific task] was effective because...",
+  "I would have liked to see more of your input on...",
+  "Your [specific skill] was a great asset to the team when...",
+  "I think it would have been beneficial if you could have...",
+  "I would have liked to hear more of your thoughts on...",
+  "It would have been helpful if you could have provided input on...",
+  "I think the project would have benefited from your involvement in...",
+  "I wanted to see more of your contribution in terms of...",
+];
 
+const howtoItems = [
+  {
+    image: "/uva-course/screenshot01.png",
+    text: "Click the Start Collecting Feedback Now button to log in or sign up to improveme.io",
+  },
+  {
+    image: "/uva-course/screenshot02.png",
+    text: "Enter your name and university e-mail.",
+  },
+  {
+    image: "/uva-course/screenshot03.png",
+    text: "Fill out the Feedback Request form. Add all group members you are recieving feedback from as Authors with their e-mail address and name.",
+  },
+  {
+    image: "/uva-course/screenshot04.png",
+    text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
+  },
+];
 const Home: NextPage = () => {
-  const feedbackItems = [
-    "I found your contributions to be particularly helpful or effective when...",
-    "Your contributions made a significant impact on the project by...",
-    "I found your ideas and insights to be especially valuable because...",
-    "I found it really valuable when you...",
-    "One thing that stood out to me was...",
-    "I was impressed by your ability to...",
-    "I think you did a great job with...",
-    "I noticed your dedication in...",
-    "It was great to see how you...",
-    "I think your approach to [specific task] was effective because...",
-    "I would have liked to see more of your input on...",
-    "Your [specific skill] was a great asset to the team when...",
-    "I think it would have been beneficial if you could have...",
-    "I would have liked to hear more of your thoughts on...",
-    "It would have been helpful if you could have provided input on...",
-    "I think the project would have benefited from your involvement in...",
-    "I wanted to see more of your contribution in terms of...",
-  ];
-
-  const howtoItems = [
-    {
-      image: "/uva-course/screenshot01.png",
-      text: "Click the Start Collecting Feedback Now button to log in or sign up to improveme.io",
-    },
-    {
-      image: "/uva-course/screenshot02.png",
-      text: "Enter your name and university e-mail.",
-    },
-    {
-      image: "/uva-course/screenshot03.png",
-      text: "Fill out the Feedback Request form. Add all group members you are recieving feedback from as Authors with their e-mail address and name.",
-    },
-    {
-      image: "/uva-course/screenshot04.png",
-      text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
-    },
-  ];
   return (
     <>
       <PageHead title="Home" />
@@ -114,27 +113,25 @@ const Home: NextPage = () => {
         <div className="md:grid md:grid-cols-2">
           <div>
             <h3 className="mb-7 text-xl">UVA | Business Negotiation 101</h3>
-            <p className="mb-16 text-lg">
+            <p className="mb-8 text-lg">
               Now it is time to put into practice what we learned in Week 3
               about giving feedback! Being able to give – and receive – feedback
               is essential to effective teamwork and personal and professional
               growth. Now you have the opportunity to practice!
-              <br />
-              <br />
-              <FeatureCard
-                Icon={FileWarningIcon}
-                title="IMPORTANT INFORMATION"
-                paragraph="Your
+            </p>
+            <FeatureCard
+              Icon={FileWarningIcon}
+              title="IMPORTANT INFORMATION"
+              paragraph="Your
             grade will be based on completing this task NOT on what the team
             members write about you. If you have major problems with one of
             your team members, tell us immediately."
-              />
-            </p>
+            />
             <SignedIn>
               <Button
                 asChild
                 size={"lg"}
-                className="mb-32 grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                className="mb-32 mt-16 grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
               >
                 <Link href="/dashboard">Start Collecting Feedback Now</Link>
               </Button>
@@ -147,7 +144,7 @@ const Home: NextPage = () => {
               >
                 <Button
                   size={"lg"}
-                  className="mb-32 grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                  className="mb-32 mt-16 grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
                 >
                   Start Collecting Feedback Now
                 </Button>
