@@ -3,8 +3,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 type UserItemProps = {
-  initials: string;
-  email: string | null;
+  email: string | null | undefined;
+  initials?: string;
   name?: string;
 };
 
