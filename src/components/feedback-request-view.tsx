@@ -4,6 +4,7 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { LeafIcon } from "lucide-react";
 import Image from "next/image";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type FeedbackRequestViewProps = {
   title?: string;
@@ -26,14 +27,18 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
         <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">{props.title}</h1>
       </div>
       <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
-        <div className="flex items-center pb-8">
-          <div className="mr-3">
-            <LeafIcon size={20} />
-          </div>
-          <p className="mr-2">Feedback Request from</p>
-          {props.renderOwner}
-        </div>
-        <p className="mb-12 max-w-2xl leading-6">{props.paragraph}</p>
+        <Card className="mb-16 mt-2">
+          <CardHeader className="mr-3">
+            <div className="flex items-center">
+              <LeafIcon size={20} />
+              <p className="mx-2">Feedback Request from</p>
+              {props.renderOwner}
+            </div>
+            <CardContent className="flex items-center px-0">
+              <p className="mt-8 max-w-2xl leading-6">{props.paragraph}</p>
+            </CardContent>
+          </CardHeader>
+        </Card>
         <ul>
           {props.feedbackItems?.map((item, index) => (
             <li key={`feedback-item-${index}`} className="mt-4 max-w-4xl">
@@ -42,7 +47,8 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
               </Label>
               <Textarea
                 disabled
-                className="mb-20 mt-2 h-96 font-mono text-xl"
+                placeholder="[Type Your Answer here] I found your contributions to be particularly helpful or effective when..."
+                className="mb-20 mt-2 h-96 bg-white font-mono text-xl"
               />
             </li>
           ))}
