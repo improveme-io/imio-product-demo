@@ -215,6 +215,7 @@ const Home: NextPage = () => {
                   src={item.image}
                   width={1533}
                   height={1048}
+                  key={index}
                   alt="Illustration of the UI of the app, showing the Dashboard"
                 />
               </>
