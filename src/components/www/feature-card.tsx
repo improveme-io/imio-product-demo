@@ -10,11 +10,11 @@ type FeatureCardProps = {
 export const FeatureCard = (props: FeatureCardProps) => {
   return (
     <Card>
-      <CardHeader className="flex flex-row">
-        <div className="ml-0 mr-1 w-10">
+      <CardHeader className="flex flex-row space-y-0">
+        <div className="ml-0 mr-1 mt-1 w-10 shrink-0">
           <props.Icon />
         </div>
-        <CardTitle>{props.title}</CardTitle>
+        <CardTitle className="mt-0 leading-7">{props.title}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="ml-11">{props.paragraph}</p>
