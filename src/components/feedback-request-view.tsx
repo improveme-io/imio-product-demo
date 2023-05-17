@@ -13,7 +13,7 @@ type FeedbackRequestViewProps = {
 
 export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
   return (
-    <section>
+    <section className="overflow-y-scroll">
       <CardHeader>
         <CardTitle>{props.title}</CardTitle>
       </CardHeader>
