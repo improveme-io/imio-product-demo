@@ -183,9 +183,7 @@ const Home: NextPage = () => {
               height={315 * 2}
               src="https://www.youtube.com/embed/fVHMsbWMa6s"
               title="YouTube video player"
-              frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
             ></iframe>
             <p className="mt-16 text-lg font-medium md:max-w-lg">
               Remember, receiving feedback is an opportunity for growth and
