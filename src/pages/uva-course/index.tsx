@@ -11,6 +11,9 @@ import {
   MessageCircle,
   LayoutDashboardIcon,
   FileWarningIcon,
+  Check,
+  CircleSlashed,
+  HelpCircle,
 } from "lucide-react";
 
 import { PageHead } from "~/components/page-head";
@@ -164,25 +167,16 @@ const Home: NextPage = () => {
                 Dr. Brooke Gazdag
               </h3>
               <p className="text-md mb-4 md:max-w-lg">Associate Professor</p>
-              <p className="text-md mb-8 md:max-w-lg">bgazdag@uva.nl</p>
+              <p className="text-md mb-2 md:max-w-lg">bgazdag@uva.nl</p>
               <p className="text-md mb-8 md:max-w-lg">+49232312312</p>
             </div>
           </div>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 ">
+        <div className="gap-8 md:grid md:grid-cols-2 ">
           <div className="md:col-span-2">
             <h2 className="mb-12 font-serif text-3xl">
               How to give and recieve feedback
             </h2>
-            <p className="mb-6 text-lg md:max-w-lg">
-              Remember, receiving feedback is an opportunity for growth and
-              improvement, so approach these questions with an open mind and a
-              willingness to learn from your teammates&apos; perspectives.
-              Always provide specific examples.
-            </p>
-            <p className="mb-8 text-lg font-medium md:max-w-lg">
-              Watch the video for more:
-            </p>
             <iframe
               className="w-full rounded-md shadow-lg"
               width={560 * 2}
@@ -193,8 +187,59 @@ const Home: NextPage = () => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
+            <p className="mt-16 text-lg font-medium md:max-w-lg">
+              Remember, receiving feedback is an opportunity for growth and
+              improvement, so approach these questions with an open mind and a
+              willingness to learn from your teammates&apos; perspectives.
+              Always provide specific examples.
+            </p>
           </div>
-          <h2 className="mb-12 font-serif text-3xl">Useful Prompts</h2>
+          <h3 className="mb-0 mt-8 text-xl md:col-span-2">
+            1. Orient the situation
+          </h3>
+          <FeatureCard
+            Icon={Check}
+            paragraph="Good"
+            title="“at the meeting with the client when we talked about…”"
+          />
+          <FeatureCard
+            Icon={CircleSlashed}
+            paragraph="Bad"
+            title="“always when you…”"
+          />
+          <h3 className="mb-0 mt-12 text-xl md:col-span-2">
+            2. Share the Objective Behavior
+          </h3>
+          <FeatureCard
+            Icon={Check}
+            paragraph="Good. Only nouns and verbs, no adjectives."
+            title="“I noticed you had a tendency to start speaking before others finished”"
+          />
+          <FeatureCard
+            Icon={CircleSlashed}
+            paragraph="Bad. Goal is to agree on the behaviour, not to denote value to it. "
+            title="“It was rude how you were interrupting others during the meeting”"
+          />
+          <h3 className="mb-0 mt-12 text-xl md:col-span-2">
+            3. Share the Subjective Impact
+          </h3>
+          <FeatureCard
+            Icon={Check}
+            paragraph="You can start using adjectives again."
+            title="“…it disrupted the flow of the conversation”, “…made me feel like I lost control of the meeting”"
+          />
+          <h3 className="mb-0 mt-12 text-xl md:col-span-2">
+            4. Pass the Accountability
+          </h3>
+          <FeatureCard
+            Icon={HelpCircle}
+            paragraph="Ask an open–ended question"
+            title="“What do you think how the meeting went?"
+          />
+
+          <h2 className="col-span-2 mb-12 mt-16 font-serif text-3xl">
+            Useful Prompts
+          </h2>
           {feedbackItems.map((item, index) => (
             <FeatureCard
               paragraph=""
