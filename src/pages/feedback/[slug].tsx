@@ -133,7 +133,6 @@ const FeedbackRequest: NextPage = () => {
                   {/* FIXME: it is transparent without this, so probably tailwind is not configured correctly */}
                   <DialogContent className="inset-5 bg-white sm:h-auto sm:w-auto sm:max-w-none">
                     <DialogHeader className="overflow-y-scroll">
-                      <DialogTitle>Review Feedback Request</DialogTitle>
                       <DialogDescription></DialogDescription>
                       <FeedbackRequestView
                         title={formValues.title}

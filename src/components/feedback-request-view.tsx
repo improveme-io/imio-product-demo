@@ -2,6 +2,7 @@
 
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import { LeafIcon } from "lucide-react";
 
 type FeedbackRequestViewProps = {
   title?: string;
@@ -12,21 +13,27 @@ type FeedbackRequestViewProps = {
 
 export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
   return (
-    <section className="overflow-y-scroll">
-      <div>
+    <section>
+      <div className="mx-auto max-w-4xl">
         <h1 className="p-8 font-serif text-3xl">{props.title}</h1>
       </div>
-      <div className="flex flex-col px-8 pb-8">
-        <div className="flex items-center">
+      <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
+        <div className="flex items-center pb-8">
+          <div className="mr-3">
+            <LeafIcon size={20} />
+          </div>
           <p className="mr-2">Feedback Request from</p>
           {props.renderOwner}
         </div>
-        <p className="mb-12">{props.paragraph}</p>
+        <p className="mb-12 max-w-2xl leading-6">{props.paragraph}</p>
         <ul>
           {props.feedbackItems?.map((item, index) => (
-            <li key={`feedback-item-${index}`} className="mt-4">
-              <Label>{item.prompt}</Label>
-              <Textarea disabled className="mt-2 h-96 font-mono text-xl" />
+            <li key={`feedback-item-${index}`} className="mt-4 max-w-3xl">
+              <Label className="mb-8 block text-xl">{item.prompt}</Label>
+              <Textarea
+                disabled
+                className="mb-20 mt-2 h-96 font-mono text-xl"
+              />
             </li>
           ))}
         </ul>
