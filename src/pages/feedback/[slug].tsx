@@ -139,7 +139,10 @@ const FeedbackRequest: NextPage = () => {
                         paragraph={formValues.paragraph}
                         feedbackItems={formValues.feedbackItems}
                         renderOwner={
-                          <UserItem email={feedbackRequest.data?.owner.email} />
+                          <UserItem
+                            className="mr-0"
+                            email={feedbackRequest.data?.owner.email}
+                          />
                         }
                       />
                     </DialogHeader>
