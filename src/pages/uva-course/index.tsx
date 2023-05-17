@@ -159,14 +159,27 @@ const Home: NextPage = () => {
             <h2 className="mb-12 font-serif text-3xl">
               How to give and recieve feedback
             </h2>
-            <p className="mb-16 text-lg md:max-w-lg">
+            <p className="mb-6 text-lg md:max-w-lg">
               Remember, receiving feedback is an opportunity for growth and
               improvement, so approach these questions with an open mind and a
               willingness to learn from your teammates&apos; perspectives.
               Always provide specific examples.
             </p>
-            <h3></h3>
+            <p className="mb-8 text-lg font-medium md:max-w-lg">
+              Watch the video for more:
+            </p>
+            <iframe
+              className="w-full rounded-md shadow-lg"
+              width={560 * 2}
+              height={315 * 2}
+              src="https://www.youtube.com/embed/fVHMsbWMa6s"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
           </div>
+          <h2 className="mb-12 font-serif text-3xl">Useful Prompts</h2>
           {feedbackItems.map((item, index) => (
             <FeatureCard
               paragraph=""
