@@ -17,13 +17,13 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
     <section>
       <div className="mx-auto max-w-4xl">
         <Image
-          className="mr-4"
-          src="/Logo.svg"
-          width={78 / 2}
-          height={60 / 2}
-          alt="improveme.io logo"
+          className="md:-ml-16 md:mt-8"
+          src="/HeroLogo.svg"
+          width={312 / 2}
+          height={153 / 2}
+          alt="Graphic depicting three people giving each other feedback in the cloud"
         />
-        <h1 className="px-8 pb-8 pt-20 font-serif text-3xl">{props.title}</h1>
+        <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">{props.title}</h1>
       </div>
       <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
         <div className="flex items-center pb-8">
