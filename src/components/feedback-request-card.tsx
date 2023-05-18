@@ -1,12 +1,11 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { EditIcon, ViewIcon, TrashIcon } from "lucide-react";
+import { EditIcon, TrashIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 import Link from "next/link";
-import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
 type FeedbackRequestCardProps = {
   slug: string;
@@ -29,26 +28,12 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
               Delete
             </Button>
-            {props.canEdit && (
-              <Button asChild variant="ghost">
-                <Link href={`/feedback/${props.slug}`}>
-                  <EditIcon className="mr-2 h-4 w-4" />
-                  Edit
-                </Link>
-              </Button>
-            )}
-            <FeedbackRequestDialog
-              title={props.title}
-              paragraph={props.paragraph}
-              feedbackItems={props.feedbackItems}
-              ownerEmail={props.ownerEmail}
-              renderDialogTrigger={
-                <Button variant="outline">
-                  <ViewIcon className="mr-2 h-4 w-4" />
-                  {props.canEdit ? "Preview" : "View"}
-                </Button>
-              }
-            />
+            <Button asChild variant="ghost">
+              <Link href={`/feedback/${props.slug}`}>
+                <EditIcon className="mr-2 h-4 w-4" />
+                {props.canEdit ? "Edit" : "View"}
+              </Link>
+            </Button>
           </div>
         </div>
       </CardHeader>
