@@ -33,18 +33,22 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
   return (
     <Card className="group mt-6 animate-in slide-in-from-left duration-500">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="relative flex items-center justify-between">
           <CardTitle className="flex max-w-4xl justify-between leading-7">
             <>
               <HelpCircleIcon
                 size={32}
                 className="mr-4 shrink-0 text-stone-400"
               />
-              {currentPrompt}
+              {currentPrompt ? (
+                currentPrompt
+              ) : (
+                <span className="text-stone-400">Untitled Feedback Item</span>
+              )}
             </>
           </CardTitle>
           {!isEditing && (
-            <div className="flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
+            <div className="absolute right-0 flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
               <Button
                 variant={"outline"}
                 onClick={() => {
