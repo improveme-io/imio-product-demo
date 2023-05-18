@@ -27,6 +27,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
               {isEditing && (
                 <div className="flex flex-row items-center">
                   <Input
+                    autoFocus
                     placeholder="Untitled Feedback Request"
                     value={value}
                     onChange={(e) => {
@@ -46,7 +47,11 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                 </div>
               )}
               {!isEditing && (
-                <div onClick={() => setIsEditing(true)}>
+                <div
+                  onClick={() => {
+                    setIsEditing(true);
+                  }}
+                >
                   <span>{value}</span>
                   <EditButton />
                 </div>
