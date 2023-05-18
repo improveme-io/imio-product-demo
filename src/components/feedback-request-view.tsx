@@ -45,8 +45,8 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
               </Label>
               <Textarea
                 disabled
-                placeholder="[Type Your Answer here] I found your contributions to be particularly helpful or effective when..."
-                className="mb-20 mt-2 h-96 bg-white font-mono text-xl"
+                placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
+                className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
               />
             </li>
           ))}

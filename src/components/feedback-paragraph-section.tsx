@@ -35,7 +35,7 @@ export const FeedbackParagraphSection = () => {
                 setValue(e.target.value);
               }}
               onBlur={onBlur}
-              className="mt-2 h-96 font-mono text-xl"
+              className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
             />
             {errors.map((error) => (
               <p key={error}>{error}</p>
