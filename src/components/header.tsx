@@ -33,7 +33,7 @@ export const Header = (props: HeaderProps) => {
           </Link>{" "}
           <h1
             className={cn(
-              "group mr-auto flex font-serif text-3xl tracking-tight transition-transform delay-500 duration-300",
+              "group mr-auto flex font-serif text-3xl tracking-tight transition-transform duration-300 delay-500",
               props.isSmall && "-translate-y-16",
               !props.isSmall && "-translate-y-0"
             )}
