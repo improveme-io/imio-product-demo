@@ -32,7 +32,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                     onChange={(e) => {
                       setValue(e.target.value);
                     }}
-                    onBlur={onBlur}
+                    onBlur={() => setIsEditing(false)}
                     className="text-2xl"
                   />
                   <Button
