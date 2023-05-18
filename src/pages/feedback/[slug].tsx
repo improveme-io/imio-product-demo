@@ -12,7 +12,7 @@ import { type formSchema } from "~/utils/validation";
 import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
-import { Card, CardHeader } from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
 import { UserItem } from "~/components/user-item";
 import { Header } from "~/components/header";
 import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
@@ -102,19 +102,18 @@ const FeedbackRequest: NextPage = () => {
         >
           {({ submit, errors, value: formValues }) => (
             <>
-              {/* TODO(kristof): how can we make this more consistent? some are wrapped in card stuff, others are not, plus I don't see how to make these nice and re-useable with the card stuff... */}
-              <Card className="mb-12">
-                <CardHeader>
-                  <FeedbackTitleSection title={feedbackRequest.data?.title} />
-                </CardHeader>
-                <FeedbackAuthorSection
-                  authors={feedbackRequest.data?.authors.map((user) => ({
-                    email: user.email,
-                    lastName: user.lastName,
-                    firstName: user.firstName,
-                  }))}
-                />
-                <FeedbackParagraphSection />
+              <FeedbackTitleSection title={feedbackRequest.data?.title} />
+              <Card className="my-12">
+                <CardContent className="px-6 pb-8 pt-6">
+                  <FeedbackAuthorSection
+                    authors={feedbackRequest.data?.authors.map((user) => ({
+                      email: user.email,
+                      lastName: user.lastName,
+                      firstName: user.firstName,
+                    }))}
+                  />
+                  <FeedbackParagraphSection />
+                </CardContent>
               </Card>
               <FeedbackItemSection
                 feedbackItems={feedbackRequest.data?.feedbackItems.map(

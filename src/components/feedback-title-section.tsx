@@ -2,10 +2,10 @@ import { Button } from "~/components/ui/button";
 import React from "react";
 import { Field } from "houseform";
 
-import { CardTitle } from "~/components/ui/card";
 import { EditButton } from "~/components/edit-button";
 import { Input } from "~/components/ui/input";
 import { feedbackTitleSchema } from "~/utils/validation";
+import { SaveIcon } from "lucide-react";
 
 type FeedBackTitleSectionProps = {
   title: string | null | undefined;
@@ -23,7 +23,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
       {({ value, setValue, onBlur, errors }) => (
         <>
           <div className="flex flex-row">
-            <CardTitle className="text-2xl">
+            <h1 className="mt-8 text-2xl">
               {isEditing && (
                 <div className="flex flex-row items-center">
                   <Input
@@ -40,17 +40,18 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                     onClick={() => setIsEditing(false)}
                     className="ml-5"
                   >
+                    <SaveIcon className="mr-2 h-4 w-4" />
                     Save
                   </Button>
                 </div>
               )}
               {!isEditing && (
-                <div>
+                <div onClick={() => setIsEditing(true)}>
                   <span>{value}</span>
-                  <EditButton onClick={() => setIsEditing(true)} />
+                  <EditButton />
                 </div>
               )}
-            </CardTitle>
+            </h1>
           </div>
           {errors.map((error) => (
             <p key={error}>{error}</p>

@@ -27,7 +27,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
   ];
 
   return (
-    <section className="px-6 pb-8 pt-4">
+    <>
       <h2 className="mb-4 flex text-xl">
         <UserIcon className="mr-2" />
         Feedback Authors
@@ -138,6 +138,6 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
           </>
         )}
       </FieldArray>
-    </section>
+    </>
   );
 };
