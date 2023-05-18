@@ -1,33 +1,57 @@
 "use client";
 
-import { CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
-
 import { Textarea } from "~/components/ui/textarea";
+import Image from "next/image";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 type FeedbackRequestViewProps = {
   title?: string;
   paragraph?: string;
   feedbackItems?: { prompt: string }[];
+  renderOwner?: React.ReactNode;
 };
 
 export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
   return (
     <section>
-      <CardHeader>
-        <CardTitle>{props.title}</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col px-8 py-8">
-        <h3>{props.paragraph}</h3>
+      <div className="mx-auto max-w-4xl">
+        <Image
+          className="lg:-ml-16 lg:mt-8"
+          src="/HeroLogo.svg"
+          width={312 / 2}
+          height={153 / 2}
+          alt="Graphic depicting three people giving each other feedback in the cloud"
+        />
+        <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">{props.title}</h1>
+      </div>
+      <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
+        <Card className="mb-16 mt-2">
+          <CardHeader className="mr-3">
+            <div className="flex items-center">
+              {props.renderOwner}
+              <p className="mx-2">is requesting Your feedback:</p>
+            </div>
+            <CardContent className="flex items-center px-0">
+              <p className="mt-8 max-w-2xl leading-6">{props.paragraph}</p>
+            </CardContent>
+          </CardHeader>
+        </Card>
         <ul>
           {props.feedbackItems?.map((item, index) => (
-            <li key={`feedback-item-${index}`} className="mt-4">
-              <Label>{item.prompt}</Label>
-              <Textarea disabled className="mt-2 h-16 font-mono text-xl" />
+            <li key={`feedback-item-${index}`} className="mt-4 max-w-4xl">
+              <Label className="mb-8 block max-w-3xl text-xl">
+                {item.prompt}
+              </Label>
+              <Textarea
+                disabled
+                placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
+                className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
+              />
             </li>
           ))}
         </ul>
-      </CardContent>
+      </div>
     </section>
   );
 };

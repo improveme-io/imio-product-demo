@@ -1,6 +1,6 @@
 import { type ChangeEvent } from "react";
 import { FieldArray, FieldArrayItem } from "houseform";
-import { PuzzleIcon } from "lucide-react";
+import { PuzzleIcon, PlusSquareIcon } from "lucide-react";
 import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
@@ -31,7 +31,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
   ];
 
   return (
-    <section>
+    <section className="pb-64">
       <h2 className="mb-4 mt-8 flex text-xl">
         <PuzzleIcon className="mr-2" />
         Feedback Items
@@ -62,6 +62,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                       <FeedbackItem
                         index={index}
                         prompt={value}
+                        editing={true}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                           setValue(event.target.value);
                         }}
@@ -76,15 +77,20 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
               ))}
             </ul>
             <Button
+              className="my-12 bg-white"
               disabled={feedbackItems.some(
                 (feedbackItem) => !isFeedbackItem(feedbackItem)
               )}
               variant={"outline"}
+              size={"lg"}
               onClick={() => {
                 // TODO: remember last selection
                 addToFeedbackItems({ prompt: "" });
               }}
             >
+              <span className="mr-2">
+                <PlusSquareIcon size={20} />
+              </span>
               Add New Feedback Item ({MAX_FEEDBACK_ITEMS - feedbackItems.length}{" "}
               left)
             </Button>

@@ -25,7 +25,7 @@ const TermsAndConditions: NextPage = () => {
             src="/HeroLogo.svg"
             width={312 / 2}
             height={153 / 2}
-            alt="Graphic depicting three people giving each other feedback in the cloud"
+            alt="improveme.io logo"
           />
         </Link>
         <div className="flex">

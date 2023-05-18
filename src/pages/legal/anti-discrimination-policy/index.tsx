@@ -18,6 +18,7 @@ const AntiDiscriminationPolicy: NextPage = () => {
   return (
     <>
       <PageHead title="Home" />
+      {/* TODO(kristof): this should be one component, it is used in 5-6 different places, we could call it `<LandingHeader />` and re-name our existing `<Header />` to `<AppHeader />` or restructure the existing `<Header />` in a way that it works for both the landing page and inside the app */}
       <header className="flex justify-between bg-stone-50 px-8 py-8">
         <Link href="/">
           <Image
@@ -25,7 +26,7 @@ const AntiDiscriminationPolicy: NextPage = () => {
             src="/HeroLogo.svg"
             width={312 / 2}
             height={153 / 2}
-            alt="Graphic depicting three people giving each other feedback in the cloud"
+            alt="improveme.io logo"
           />
         </Link>
         <div className="flex">

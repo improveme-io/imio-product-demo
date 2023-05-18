@@ -12,21 +12,14 @@ import { type formSchema } from "~/utils/validation";
 import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
-import { Separator } from "~/components/ui/separator";
-import { Card, CardHeader } from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
+import { UserItem } from "~/components/user-item";
 import { Header } from "~/components/header";
 import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
 import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "~/components/ui/dialog";
 import { DialogTrigger } from "~/components/shadcn/dialog";
 import { FeedbackRequestView } from "~/components/feedback-request-view";
 
@@ -103,61 +96,63 @@ const FeedbackRequest: NextPage = () => {
         >
           {({ submit, errors, value: formValues }) => (
             <>
-              {/* TODO(kristof): how can we make this more consistent? some are wrapped in card stuff, others are not, plus I don't see how to make these nice and re-useable with the card stuff... */}
-              <Card>
-                <CardHeader>
-                  <FeedbackTitleSection title={feedbackRequest.data?.title} />
-                </CardHeader>
-                <FeedbackAuthorSection
-                  authors={feedbackRequest.data?.authors.map((user) => ({
-                    email: user.email,
-                    lastName: user.lastName,
-                    firstName: user.firstName,
-                  }))}
-                />
-                <FeedbackParagraphSection />
+              <FeedbackTitleSection title={feedbackRequest.data?.title} />
+              <Card className="my-12">
+                <CardContent className="px-6 pb-8 pt-6">
+                  <FeedbackAuthorSection
+                    authors={feedbackRequest.data?.authors.map((user) => ({
+                      email: user.email,
+                      lastName: user.lastName,
+                      firstName: user.firstName,
+                    }))}
+                  />
+                  <FeedbackParagraphSection />
+                </CardContent>
               </Card>
-              <Separator className="my-4" />
               <FeedbackItemSection
                 feedbackItems={feedbackRequest.data?.feedbackItems.map(
                   (fi) => ({ prompt: fi.prompt })
                 )}
               />
               <footer className="flex justify-end pb-16 pl-8 pt-8">
-                {/* FIXME: doesn't scroll, so you can't see big feedback requests */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline">Show Dialog</Button>
                   </DialogTrigger>
-                  {/* FIXME: it is transparent without this, so probably tailwind is not configured correctly */}
-                  <DialogContent className="overflow-y-auto overflow-x-hidden bg-stone-50">
-                    <DialogHeader>
-                      <DialogTitle>Review Feedback Request</DialogTitle>
-                      <DialogDescription></DialogDescription>
-                      <FeedbackRequestView
-                        title={formValues.title}
-                        paragraph={formValues.paragraph}
-                        feedbackItems={formValues.feedbackItems}
-                      />
-                    </DialogHeader>
+                  {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
+                  <DialogContent className="inset-10 overflow-y-scroll bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
+                    <FeedbackRequestView
+                      title={formValues.title}
+                      paragraph={formValues.paragraph}
+                      feedbackItems={formValues.feedbackItems}
+                      renderOwner={
+                        <UserItem
+                          className="mr-0"
+                          email={feedbackRequest.data?.owner.email}
+                        />
+                      }
+                    />
                     <DialogFooter>
-                      <Button
-                        variant={errors.length > 0 ? "destructive" : "outline"}
-                        disabled={
-                          !feedbackRequest.data ||
-                          !user.data ||
-                          errors.length > 0 ||
-                          createRequest.isLoading
-                        }
-                        size="lg"
-                        // FIXME: eslint
-                        /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-                        onClick={submit}
-                      >
-                        <StepForwardIcon className="mr-2" />
-                        Test Submit
-                      </Button>
-                      {errors.length > 0 && <p>* There are errors</p>}
+                      <div>
+                        <Button
+                          variant={
+                            errors.length > 0 ? "destructive" : "outline"
+                          }
+                          disabled={
+                            !feedbackRequest.data ||
+                            !user.data ||
+                            createRequest.isLoading
+                          }
+                          size="lg"
+                          // FIXME: eslint
+                          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
+                          onClick={submit}
+                        >
+                          <StepForwardIcon className="mr-2" />
+                          Test Submit
+                        </Button>
+                        {errors.length > 0 && <p>* There are errors</p>}
+                      </div>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

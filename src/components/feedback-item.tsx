@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { EditIcon, HelpCircleIcon } from "lucide-react";
+import { EditIcon, HelpCircleIcon, SaveIcon, TrashIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import {
@@ -17,6 +17,7 @@ import React from "react";
 type FeedbackItemProps = {
   index: number;
   prompt: string;
+  editing: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   onRemove: () => void;
@@ -27,22 +28,27 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
   const [currentPrompt, setCurrentPrompt] = React.useState<string | null>(
     props.prompt
   );
-  const [isEditing, setIsEditing] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(props.editing);
 
   return (
-    <Card className="group mt-6">
+    <Card className="group mt-6 animate-in slide-in-from-left duration-500">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex justify-between">
-            {!isEditing && (
-              <>
-                <HelpCircleIcon size={40} className="mr-4 text-stone-400" />
-                {currentPrompt}
-              </>
-            )}
+        <div className="relative flex items-center justify-between">
+          <CardTitle className="flex max-w-4xl justify-between leading-7">
+            <>
+              <HelpCircleIcon
+                size={32}
+                className="mr-4 shrink-0 text-stone-400"
+              />
+              {currentPrompt ? (
+                currentPrompt
+              ) : (
+                <span className="text-stone-400">Untitled Feedback Item</span>
+              )}
+            </>
           </CardTitle>
-          {!isEditing && (
-            <div className="flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
+          <div className="absolute right-0 flex w-1/3 justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {!isEditing && (
               <Button
                 variant={"outline"}
                 onClick={() => {
@@ -52,11 +58,12 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                 <EditIcon className="mr-2 h-4 w-4" />
                 Edit
               </Button>
-              <Button variant={"destructive"} onClick={props.onRemove}>
-                Remove
-              </Button>
-            </div>
-          )}
+            )}
+            <Button variant={"destructive"} onClick={props.onRemove}>
+              <TrashIcon className="mr-2 h-4 w-4" />
+              Remove
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -72,7 +79,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   props.onChange(e);
                 }}
                 onBlur={props.onBlur}
-                placeholder="What aspects of my contributions do you think were particularly helpful or effective?"
+                placeholder="Type Your Question Here..."
               />
             </div>
 
@@ -104,6 +111,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   setIsEditing(false);
                 }}
               >
+                <SaveIcon className="mr-2 h-4 w-4" />
                 Save
               </Button>
             </div>

@@ -2,10 +2,10 @@ import { Button } from "~/components/ui/button";
 import React from "react";
 import { Field } from "houseform";
 
-import { CardTitle } from "~/components/ui/card";
 import { EditButton } from "~/components/edit-button";
 import { Input } from "~/components/ui/input";
 import { feedbackTitleSchema } from "~/utils/validation";
+import { SaveIcon } from "lucide-react";
 
 type FeedBackTitleSectionProps = {
   title: string | null | undefined;
@@ -20,37 +20,46 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
       initialValue={props.title ?? "Untitled Feedback Request"}
       onSubmitValidate={feedbackTitleSchema}
     >
-      {({ value, setValue, onBlur, errors }) => (
+      {({ value, setValue, errors }) => (
         <>
           <div className="flex flex-row">
-            <CardTitle className="text-2xl">
+            <h1 className="mt-8 w-full text-2xl">
               {isEditing && (
                 <div className="flex flex-row items-center">
                   <Input
+                    autoFocus
                     placeholder="Untitled Feedback Request"
                     value={value}
                     onChange={(e) => {
                       setValue(e.target.value);
                     }}
-                    onBlur={onBlur}
-                    className="text-2xl"
+                    onBlur={() => setIsEditing(false)}
+                    className="flex-grow text-2xl"
                   />
                   <Button
                     size={"sm"}
                     onClick={() => setIsEditing(false)}
                     className="ml-5"
                   >
+                    <SaveIcon className="mr-2 h-4 w-4" />
                     Save
                   </Button>
                 </div>
               )}
               {!isEditing && (
-                <div>
+                <div
+                  onClick={() => {
+                    setIsEditing(true);
+                  }}
+                  className="group"
+                >
                   <span>{value}</span>
-                  <EditButton onClick={() => setIsEditing(true)} />
+                  <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <EditButton />
+                  </span>
                 </div>
               )}
-            </CardTitle>
+            </h1>
           </div>
           {errors.map((error) => (
             <p key={error}>{error}</p>
