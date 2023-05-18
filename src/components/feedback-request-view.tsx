@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader } from "~/components/ui/card";
 type FeedbackRequestViewProps = {
   title?: string;
   paragraph?: string;
-  feedbackItems?: { prompt: string }[];
+  feedbackItems?: { prompt: string | null }[];
   renderOwner?: React.ReactNode;
 };
 

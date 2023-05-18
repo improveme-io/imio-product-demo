@@ -28,3 +28,26 @@ export const feedbackRequestSchema = formSchema.extend({
   requestId: z.string().cuid(),
   ownerId: z.string().cuid(),
 });
+
+// FIXME: this is horrible double bookkeeping, maybe there's a better way?
+export const feedbackUpdateSchema = z.object({
+  requestId: z.string().cuid(),
+  title: z.string().optional(),
+  paragraph: z.string().optional(),
+  authors: z
+    .array(
+      z.object({
+        email: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+      })
+    )
+    .optional(),
+  feedbackItems: z
+    .array(
+      z.object({
+        prompt: z.string().optional(),
+      })
+    )
+    .optional(),
+});

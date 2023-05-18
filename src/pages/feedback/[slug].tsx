@@ -19,13 +19,13 @@ import { FeedbackParagraphSection } from "~/components/feedback-paragraph-sectio
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
 import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
-import { Dialog, DialogContent, DialogFooter } from "~/components/ui/dialog";
-import { DialogTrigger } from "~/components/shadcn/dialog";
-import { FeedbackRequestView } from "~/components/feedback-request-view";
 import { Label } from "~/components/ui/label";
+import { GeneralError } from "~/components/general-error";
+import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
 type FormValues = z.infer<typeof formSchema>;
 
+// TODO: handle the case where there is no such feedback with slug
 const FeedbackRequest: NextPage = () => {
   const router = useRouter();
 
@@ -39,25 +39,46 @@ const FeedbackRequest: NextPage = () => {
     }
   );
 
+  console.log(user.data?.id);
   const feedbackRequest = api.feedback.bySlug.useQuery(
     {
       // FIXME: better typing if possible
       slug: router.query.slug as string,
+      authorId: user.data?.id,
     },
-    { enabled: !!router.query.slug }
+    { enabled: !!router.query.slug && !!user.data?.id }
   );
-  const createRequest = api.feedback.createForm.useMutation();
+  const createRequest = api.feedback.submitForm.useMutation();
+  const saveRequest = api.feedback.saveForm.useMutation();
+
+  const title = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.title
+    : feedbackRequest.data?.title;
+
+  const paragraph = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.paragraph
+    : feedbackRequest.data?.paragraph;
+
+  const authors = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.authors
+    : feedbackRequest.data?.authors.map((user) => ({
+        email: user.email,
+        lastName: user.lastName,
+        firstName: user.firstName,
+      }));
+
+  const feedbackItems = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.feedbackItems
+    : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
 
   // TODO: we should have a better way of hydrating the form with the data from the feedback... maybe SSR would be better here?
-  if (
-    feedbackRequest.isLoading ||
-    !feedbackRequest.data === null ||
-    feedbackRequest.data === undefined
-  ) {
+  // can't use placeholderData because we have different views based on the status
+  // maybe a set of nice skeleton components for now would be good
+  if (feedbackRequest.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -138,100 +159,93 @@ const FeedbackRequest: NextPage = () => {
     );
   }
 
-  return (
-    <>
-      <PageHead title="Request Feedback" />
-      <Header isSmall={isScrolled} title={"Request Feedback"}>
-        <Button disabled size={isScrolled ? "sm" : "lg"}>
-          <StepForwardIcon className="mr-2" />
-          Review Feedback Request…
-        </Button>
-      </Header>
-      <MainLayout app>
-        <Form<FormValues>
-          onSubmit={(values) => {
-            // TODO: maybe validate via zod the entire form?
-            if (feedbackRequest.data && user.data) {
-              createRequest.mutate({
-                requestId: feedbackRequest.data.id,
-                ownerId: user.data.id,
-                title: values.title,
-                authors: values.authors,
-                paragraph: values.paragraph,
-                feedbackItems: values.feedbackItems,
-              });
-            }
-          }}
-        >
-          {({ submit, errors, value: formValues }) => (
-            <>
-              <FeedbackTitleSection title={feedbackRequest.data?.title} />
-              <Card className="my-12">
-                <CardContent className="px-6 pb-8 pt-6">
-                  <FeedbackAuthorSection
-                    authors={feedbackRequest.data?.authors.map((user) => ({
-                      email: user.email,
-                      lastName: user.lastName,
-                      firstName: user.firstName,
-                    }))}
-                  />
-                  <FeedbackParagraphSection />
-                </CardContent>
-              </Card>
-              <FeedbackItemSection
-                feedbackItems={feedbackRequest.data?.feedbackItems.map(
-                  (fi) => ({ prompt: fi.prompt })
-                )}
-              />
-              <footer className="flex justify-end pb-16 pl-8 pt-8">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">Show Dialog</Button>
-                  </DialogTrigger>
-                  {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
-                  <DialogContent className="inset-10 overflow-y-scroll bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
-                    <FeedbackRequestView
-                      title={formValues.title}
-                      paragraph={formValues.paragraph}
-                      feedbackItems={formValues.feedbackItems}
-                      renderOwner={
-                        <UserItem
-                          className="mr-0"
-                          email={feedbackRequest.data?.owner.email}
-                        />
-                      }
-                    />
-                    <DialogFooter>
+  // ~ creating
+  if (feedbackRequest.data && feedbackRequest.data.status === "CREATING") {
+    return (
+      <>
+        <PageHead title="Request Feedback" />
+        <Header isSmall={isScrolled} title={"Request Feedback"} />
+        <MainLayout app>
+          <Form<FormValues>
+            onSubmit={(values) => {
+              // TODO: maybe validate via zod the entire form?
+              if (feedbackRequest.data && user.data) {
+                createRequest.mutate({
+                  requestId: feedbackRequest.data.id,
+                  ownerId: user.data.id,
+                  title: values.title,
+                  authors: values.authors,
+                  paragraph: values.paragraph,
+                  feedbackItems: values.feedbackItems,
+                });
+              }
+            }}
+          >
+            {({ submit, errors, value: formValues }) => (
+              <>
+                <FeedbackTitleSection title={title} />
+                <Card className="my-12">
+                  <CardContent className="px-6 pb-8 pt-6">
+                    <FeedbackAuthorSection authors={authors} />
+                    <FeedbackParagraphSection paragraph={paragraph ?? ""} />
+                  </CardContent>
+                </Card>
+                <FeedbackItemSection feedbackItems={feedbackItems} />
+                {/* CONTINUE -- put button here that saves the form's current state */}
+                <Button
+                  onClick={() => {
+                    // save form state
+                    if (feedbackRequest.data) {
+                      saveRequest.mutate({
+                        requestId: feedbackRequest.data.id,
+                        ...formValues,
+                      });
+                    }
+                  }}
+                >
+                  Save progress
+                </Button>
+                <footer className="flex justify-end pb-16 pl-8 pt-8">
+                  <FeedbackRequestDialog
+                    title={formValues.title}
+                    paragraph={formValues.paragraph}
+                    feedbackItems={formValues.feedbackItems}
+                    ownerEmail={feedbackRequest.data?.owner.email}
+                    renderDialogTrigger={
+                      <Button size="lg">
+                        <StepForwardIcon className="mr-2" />
+                        Preview Feedback Request…
+                      </Button>
+                    }
+                    renderDialogFooter={
                       <div>
                         <Button
                           variant={
                             errors.length > 0 ? "destructive" : "outline"
                           }
-                          disabled={
-                            !feedbackRequest.data ||
-                            !user.data ||
-                            createRequest.isLoading
-                          }
                           size="lg"
-                          // FIXME: eslint
-                          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
+                          // FIXME: turn off eslint rule or contribute to houseform
+                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
                           onClick={submit}
                         >
                           <StepForwardIcon className="mr-2" />
-                          Test Submit
+                          Request Feedback
                         </Button>
                         {errors.length > 0 && <p>* There are errors</p>}
                       </div>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </footer>
-            </>
-          )}
-        </Form>
-      </MainLayout>
-    </>
-  );
+                    }
+                  />
+                </footer>
+              </>
+            )}
+          </Form>
+        </MainLayout>
+      </>
+    );
+  }
+
+  // ~ general error
+  return <GeneralError />;
 };
 
 export default FeedbackRequest;

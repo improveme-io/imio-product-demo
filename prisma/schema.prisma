@@ -32,9 +32,51 @@ model FeedbackRequest {
   owner         User           @relation("owner", fields: [ownerId], references: [id])
   authors       User[]
   feedbackItems FeedbackItem[]
+  formSave      FormSave?
 
   @@index([ownerId])
   @@index([slug])
+}
+
+model FormSave {
+  id        String   @id @default(cuid())
+  title     String?  @db.Text
+  paragraph String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  feedbackRequestId String             @unique
+  feedbackRequest   FeedbackRequest    @relation(fields: [feedbackRequestId], references: [id], onDelete: Cascade)
+  authors           TempUser[]
+  feedbackItems     TempFeedbackItem[]
+
+  @@index([feedbackRequestId])
+}
+
+model TempUser {
+  id        String   @id @default(cuid())
+  email     String
+  firstName String
+  lastName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  formSaveId String
+  formSave   FormSave @relation(fields: [formSaveId], references: [id], onDelete: Cascade)
+
+  @@index([formSaveId])
+}
+
+model TempFeedbackItem {
+  id        String   @id @default(cuid())
+  prompt    String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  formSaveId String
+  formSave   FormSave @relation(fields: [formSaveId], references: [id], onDelete: Cascade)
+
+  @@index([formSaveId])
 }
 
 // TODO: needs an index to indicate ordering
@@ -59,11 +101,13 @@ model FeedbackItem {
 }
 
 model User {
-  id          String  @id @default(cuid())
-  email       String  @unique
+  id          String   @id @default(cuid())
+  email       String   @unique
   firstName   String
   lastName    String
-  clerkUserId String? @unique
+  clerkUserId String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 
   requestsOwned    FeedbackRequest[] @relation("owner")
   itemsOwned       FeedbackItem[]    @relation("owner")

@@ -5,10 +5,13 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/lib/trpc";
-import { feedbackRequestSchema } from "~/utils/validation";
+import {
+  feedbackRequestSchema,
+  feedbackUpdateSchema,
+} from "~/utils/validation";
 
 export const feedbackRouter = createTRPCRouter({
-  createDashboard: protectedProcedure
+  createForm: protectedProcedure
     .input(z.object({ title: z.string().min(1) }))
     .mutation(({ ctx, input }) => {
       return ctx.prisma.feedbackRequest.create({
@@ -19,11 +22,64 @@ export const feedbackRouter = createTRPCRouter({
             },
           },
           title: input.title,
+          formSave: {
+            create: {
+              title: input.title,
+              paragraph: "",
+              authors: {
+                create: [
+                  {
+                    email: "",
+                    firstName: "",
+                    lastName: "",
+                  },
+                ],
+              },
+              feedbackItems: {
+                create: [
+                  {
+                    prompt: "",
+                  },
+                ],
+              },
+            },
+          },
         },
       });
     }),
 
-  createForm: protectedProcedure
+  saveForm: protectedProcedure
+    .input(feedbackUpdateSchema)
+    .mutation(async ({ ctx, input }) => {
+      // clear existing temp data
+      await ctx.prisma.formSave.delete({
+        where: {
+          feedbackRequestId: input.requestId,
+        },
+      });
+      // create new temp data
+      return ctx.prisma.formSave.create({
+        data: {
+          feedbackRequestId: input.requestId,
+          title: input.title,
+          paragraph: input.paragraph,
+          authors: {
+            create: input.authors?.map((author) => ({
+              email: author.email ?? "",
+              firstName: author.firstName ?? "",
+              lastName: author.lastName ?? "",
+            })),
+          },
+          feedbackItems: {
+            create: input.feedbackItems?.map((fi) => ({
+              prompt: fi.prompt ?? "",
+            })),
+          },
+        },
+      });
+    }),
+
+  submitForm: protectedProcedure
     .input(feedbackRequestSchema)
     .mutation(async ({ ctx, input }) => {
       // ~ authors ~
@@ -44,22 +100,24 @@ export const feedbackRouter = createTRPCRouter({
           },
         },
       });
+
       // ~ feedback items ~
       // zip into one big list that can be passed on to prisma
       const feedbackItemAuthorPairs = authors.flatMap((a) =>
         input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi }))
       );
       // create feedback items
+      // ownerId
       const data = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
         prompt: feedbackItem.prompt,
         requestId: input.requestId,
         ownerId: input.ownerId,
         authorId: author.id,
       }));
-      // append special feedback item for the owner
-      for (const item of input.feedbackItems) {
+      // include owner as author --> these are special, "empty" feedback items used for displaying the feedback items on the frontend without exposing the author
+      for (const fi of input.feedbackItems) {
         data.push({
-          prompt: item.prompt,
+          prompt: fi.prompt,
           requestId: input.requestId,
           ownerId: input.ownerId,
           authorId: input.ownerId,
@@ -69,6 +127,7 @@ export const feedbackRouter = createTRPCRouter({
       void ctx.prisma.feedbackItem.createMany({
         data,
       });
+
       // ~ feedback request ~
       // create feedback request
       return ctx.prisma.feedbackRequest.update({
@@ -115,8 +174,19 @@ export const feedbackRouter = createTRPCRouter({
   }),
 
   bySlug: publicProcedure
-    .input(z.object({ slug: z.string().cuid() }))
+    .input(
+      z.object({
+        slug: z.string().cuid(),
+        authorId: z.string().cuid().optional(),
+      })
+    )
     .query(({ ctx, input }) => {
+      if (!input.authorId) {
+        throw new Error(
+          "not implemented -- we will query the empty feedback items in this case... or all of them... or something..."
+        );
+      }
+
       return ctx.prisma.feedbackRequest.findUnique({
         where: {
           slug: input.slug,
@@ -128,6 +198,12 @@ export const feedbackRouter = createTRPCRouter({
             include: {
               author: true,
               owner: true,
+            },
+          },
+          formSave: {
+            include: {
+              authors: true,
+              feedbackItems: true,
             },
           },
           _count: true,
