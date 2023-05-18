@@ -17,6 +17,7 @@ import {
   ClipboardCopyIcon,
 } from "lucide-react";
 
+import useCopyToClipboard from "react-use/lib/useCopyToClipboard";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
@@ -27,32 +28,6 @@ import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
 import { useState } from "react";
 import { Toaster } from "~/components/ui/toaster";
-
-type CopiedValue = string | null;
-type CopyFn = (text: string) => Promise<boolean>; // Return success
-
-const useCopyToClipboard = (): [CopiedValue, CopyFn] => {
-  const [copiedText, setCopiedText] = useState<CopiedValue>(null);
-
-  const copy: CopyFn = async (text) => {
-    if (!navigator?.clipboard) {
-      console.warn("Clipboard not supported");
-      return false;
-    }
-
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedText(text);
-      return true;
-    } catch (error) {
-      console.warn("Copy failed", error);
-      setCopiedText(null);
-      return false;
-    }
-  };
-
-  return [copiedText, copy];
-};
 
 const feedbackItems = [
   "I found your contributions to be particularly helpful or effective when...",
@@ -94,7 +69,7 @@ const howtoItems = [
 ];
 
 const Home: NextPage = () => {
-  const [, copy]: [CopiedValue, CopyFn] = useCopyToClipboard();
+  const [, copyToClipboard] = useCopyToClipboard();
   const { toast } = useToast();
   return (
     <>
@@ -282,17 +257,11 @@ const Home: NextPage = () => {
               <CardContent className="flex justify-end">
                 <Button
                   onClick={() => {
-                    copy(item).then(
-                      () =>
-                        toast({
-                          title: "Copied to your clipboard",
-                          description: item,
-                        }),
-                      () =>
-                        toast({
-                          title: "Copy to clipboard failed.",
-                        })
-                    );
+                    copyToClipboard(item);
+                    toast({
+                      title: "Copied to Clipboard",
+                      description: item,
+                    });
                   }}
                   variant={"outline"}
                   size={"lg"}
