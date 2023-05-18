@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { InboxIcon, LeafIcon, SproutIcon } from "lucide-react";
+import { InboxIcon, LeafIcon, Loader2Icon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
 
@@ -54,13 +54,16 @@ const Dashboard: NextPage = () => {
           Settings
         </Button>
         <Button
-          // TODO: make this into a loading state
           disabled={createRequest.isLoading}
           className="bg-sky-700  transition-all duration-300"
           size={isScrolled ? "sm" : "lg"}
           onClick={handleRequestFeedback}
         >
-          <LeafIcon className="mr-2" size="20" />
+          {createRequest.isLoading ? (
+            <Loader2Icon className="mr-2 animate-spin" size="25" />
+          ) : (
+            <LeafIcon className="mr-2" size="20" />
+          )}
           Request Feedback
         </Button>
       </Header>
