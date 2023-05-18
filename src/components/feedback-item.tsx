@@ -35,15 +35,13 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex max-w-4xl justify-between leading-7">
-            {!isEditing && (
-              <>
-                <HelpCircleIcon
-                  size={32}
-                  className="mr-4 shrink-0 text-stone-400"
-                />
-                {currentPrompt}
-              </>
-            )}
+            <>
+              <HelpCircleIcon
+                size={32}
+                className="mr-4 shrink-0 text-stone-400"
+              />
+              {currentPrompt}
+            </>
           </CardTitle>
           {!isEditing && (
             <div className="flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
