@@ -22,7 +22,7 @@ const Dashboard: NextPage = () => {
 
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
-  const createRequest = api.feedback.createDashboard.useMutation();
+  const createRequest = api.feedback.createForm.useMutation();
 
   const handleRequestFeedback = () => {
     createRequest.mutate({ title: "Untitled Feedback" });

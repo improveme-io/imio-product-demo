@@ -45,7 +45,7 @@ const FeedbackRequest: NextPage = () => {
     },
     { enabled: !!router.query.slug }
   );
-  const createRequest = api.feedback.createForm.useMutation();
+  const createRequest = api.feedback.submitForm.useMutation();
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();

@@ -8,7 +8,7 @@ import {
 import { feedbackRequestSchema } from "~/utils/validation";
 
 export const feedbackRouter = createTRPCRouter({
-  createDashboard: protectedProcedure
+  createForm: protectedProcedure
     .input(z.object({ title: z.string().min(1) }))
     .mutation(({ ctx, input }) => {
       return ctx.prisma.feedbackRequest.create({
@@ -23,7 +23,7 @@ export const feedbackRouter = createTRPCRouter({
       });
     }),
 
-  createForm: protectedProcedure
+  submitForm: protectedProcedure
     .input(feedbackRequestSchema)
     .mutation(async ({ ctx, input }) => {
       // ~ authors ~
@@ -44,20 +44,33 @@ export const feedbackRouter = createTRPCRouter({
           },
         },
       });
+
       // ~ feedback items ~
       // zip into one big list that can be passed on to prisma
       const feedbackItemAuthorPairs = authors.flatMap((a) =>
         input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi }))
       );
-      // create feedback items
-      void ctx.prisma.feedbackItem.createMany({
-        data: feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
-          prompt: feedbackItem.prompt,
+      // ownerId
+      const data = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
+        prompt: feedbackItem.prompt,
+        requestId: input.requestId,
+        ownerId: input.ownerId,
+        authorId: author.id,
+      }));
+      // include owner as author --> these are special, "empty" feedback items used for displaying the feedback items on the frontend without exposing the author
+      for (const fi of input.feedbackItems) {
+        data.push({
+          prompt: fi.prompt,
           requestId: input.requestId,
           ownerId: input.ownerId,
-          authorId: author.id,
-        })),
+          authorId: input.ownerId,
+        });
+      }
+      // create feedback items
+      void ctx.prisma.feedbackItem.createMany({
+        data,
       });
+
       // ~ feedback request ~
       // create feedback request
       return ctx.prisma.feedbackRequest.update({
