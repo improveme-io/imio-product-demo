@@ -30,7 +30,7 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
           <CardHeader className="mr-3">
             <div className="flex items-center">
               {props.renderOwner}
-              <p className="mx-2">is requesting Your feedback.</p>
+              <p className="mx-2">is requesting Your feedback:</p>
             </div>
             <CardContent className="flex items-center px-0">
               <p className="mt-8 max-w-2xl leading-6">{props.paragraph}</p>
