@@ -78,7 +78,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   props.onChange(e);
                 }}
                 onBlur={props.onBlur}
-                placeholder="What aspects of my contributions do you think were particularly helpful or effective?"
+                placeholder="Type Your Question Here..."
               />
             </div>
 
