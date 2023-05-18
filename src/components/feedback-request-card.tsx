@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { EditIcon, TrashIcon } from "lucide-react";
+import { EditIcon, TrashIcon, ViewIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
@@ -30,8 +30,17 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
             </Button>
             <Button asChild variant="ghost">
               <Link href={`/feedback/${props.slug}`}>
-                <EditIcon className="mr-2 h-4 w-4" />
-                {props.canEdit ? "Edit" : "View"}
+                {props.canEdit ? (
+                  <>
+                    <EditIcon className="mr-2 h-4 w-4" />
+                    {"Edit"}
+                  </>
+                ) : (
+                  <>
+                    <ViewIcon className="mr-2 h-4 w-4" />
+                    {"View"}
+                  </>
+                )}
               </Link>
             </Button>
           </div>
