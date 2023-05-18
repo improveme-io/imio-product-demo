@@ -110,41 +110,41 @@ const FeedbackRequest: NextPage = () => {
                 </CardContent>
               </CardHeader>
             </Card>
-            {/* collect unique prompts inside feedback items */}
             <ul>
+              {/* collect unique owner feedback items */}
               {feedbackRequest.data.feedbackItems
                 ?.filter((item) => {
                   return item.authorId === item.ownerId;
                 })
-                .map((selfItem) => (
+                .map((ownerFI) => (
                   <li
-                    key={`feedback-item-${selfItem.id}`}
+                    key={`feedback-item-${ownerFI.id}`}
                     className="mt-4 max-w-4xl"
                   >
                     <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
-                      {selfItem.prompt}
+                      {ownerFI.prompt}
                     </Label>
                     <ul className="mb-32 w-full">
                       {feedbackRequest.data?.feedbackItems
-                        .filter((item) => {
+                        .filter((fi) => {
                           return (
-                            item.authorId !== item.ownerId &&
-                            item.prompt === selfItem.prompt
+                            fi.authorId !== fi.ownerId &&
+                            fi.prompt === ownerFI.prompt
                           );
                         })
-                        .map((authorItem) => (
+                        .map((authorFI) => (
                           <li
-                            key={authorItem.id}
+                            key={authorFI.id}
                             className="mb-12 mt-8 grid w-full grid-cols-4"
                           >
                             <div className="w-full">
                               <UserItem
-                                name={`${authorItem.author.firstName} ${authorItem.author.lastName}`}
-                                email={authorItem.author.email}
+                                name={`${authorFI.author.firstName} ${authorFI.author.lastName}`}
+                                email={authorFI.author.email}
                               />
                             </div>
                             <p className="col-span-3 w-full max-w-2xl text-lg leading-7">
-                              {authorItem.payload}
+                              {authorFI.payload}
                             </p>
                           </li>
                         ))}
