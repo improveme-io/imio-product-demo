@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { EditIcon, HelpCircleIcon } from "lucide-react";
+import { EditIcon, HelpCircleIcon, SaveIcon, TrashIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import {
@@ -60,6 +60,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               </Button>
             )}
             <Button variant={"destructive"} onClick={props.onRemove}>
+              <TrashIcon className="mr-2 h-4 w-4" />
               Remove
             </Button>
           </div>
@@ -110,6 +111,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   setIsEditing(false);
                 }}
               >
+                <SaveIcon className="mr-2 h-4 w-4" />
                 Save
               </Button>
             </div>
