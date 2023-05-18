@@ -23,7 +23,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
       {({ value, setValue, onBlur, errors }) => (
         <>
           <div className="flex flex-row">
-            <h1 className="mt-8 text-2xl">
+            <h1 className="mt-8 w-full text-2xl">
               {isEditing && (
                 <div className="flex flex-row items-center">
                   <Input
@@ -33,7 +33,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                       setValue(e.target.value);
                     }}
                     onBlur={() => setIsEditing(false)}
-                    className="text-2xl"
+                    className="flex-grow text-2xl"
                   />
                   <Button
                     size={"sm"}
