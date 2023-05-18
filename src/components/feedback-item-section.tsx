@@ -31,7 +31,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
   ];
 
   return (
-    <section>
+    <section className="pb-64">
       <h2 className="mb-4 mt-8 flex text-xl">
         <PuzzleIcon className="mr-2" />
         Feedback Items
