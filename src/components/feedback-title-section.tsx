@@ -51,9 +51,12 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                   onClick={() => {
                     setIsEditing(true);
                   }}
+                  className="group"
                 >
                   <span>{value}</span>
-                  <EditButton />
+                  <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <EditButton />
+                  </span>
                 </div>
               )}
             </h1>
