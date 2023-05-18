@@ -31,7 +31,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
   const [isEditing, setIsEditing] = React.useState(props.editing);
 
   return (
-    <Card className="group mt-6">
+    <Card className="group mt-6 animate-in slide-in-from-left duration-500">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex max-w-4xl justify-between leading-7">
