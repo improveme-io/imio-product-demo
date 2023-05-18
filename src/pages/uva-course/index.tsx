@@ -14,14 +14,20 @@ import {
   Check,
   CircleSlashed,
   HelpCircle,
+  ClipboardCopyIcon,
 } from "lucide-react";
 
+import useCopyToClipboard from "react-use/lib/useCopyToClipboard";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";
+import { useToast } from "~/components/ui/use-toast";
 import { FeatureCard } from "~/components/www/feature-card";
 import Link from "next/link";
 import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
+import { Toaster } from "~/components/ui/toaster";
+
 const feedbackItems = [
   "I found your contributions to be particularly helpful or effective when...",
   "Your contributions made a significant impact on the project by...",
@@ -60,9 +66,13 @@ const howtoItems = [
     text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
   },
 ];
+
 const Home: NextPage = () => {
+  const [, copyToClipboard] = useCopyToClipboard();
+  const { toast } = useToast();
   return (
     <>
+      <Toaster />
       <PageHead title="Home" />
       <header className="flex justify-between bg-stone-50 px-8 py-8">
         <Image
@@ -115,8 +125,8 @@ const Home: NextPage = () => {
             <h3 className="mb-7 text-xl">UVA | Business Negotiation 101</h3>
             <p className="mb-8 text-lg">
               Now it is time to put into practice what we learned in Week 3
-              about giving feedback! Being able to give – and receive – feedback
-              is essential to effective teamwork and personal and professional
+              about giving feedback! Being able to give and receive feedback is
+              essential to effective teamwork and personal and professional
               growth. Now you have the opportunity to practice!
             </p>
             <FeatureCard
@@ -236,12 +246,30 @@ const Home: NextPage = () => {
             Useful Prompts
           </h2>
           {feedbackItems.map((item, index) => (
-            <FeatureCard
-              paragraph=""
-              key={index}
-              Icon={MessageCircle}
-              title={item}
-            />
+            <Card key={index} className="flex flex-col justify-between">
+              <CardHeader className="flex flex-row space-y-0">
+                <div className="ml-0 mr-1 mt-1 w-10 shrink-0">
+                  <MessageCircle />
+                </div>
+                <CardTitle className="mt-0 leading-7">{item}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex justify-end">
+                <Button
+                  onClick={() => {
+                    copyToClipboard(item);
+                    toast({
+                      title: "Copied to Clipboard",
+                      description: item,
+                    });
+                  }}
+                  variant={"outline"}
+                  size={"lg"}
+                >
+                  <ClipboardCopyIcon className="mr-2 h-4 w-4" />
+                  Copy to Clipboard
+                </Button>
+              </CardContent>
+            </Card>
           ))}
           <div className="gap-8 md:col-span-2 md:grid md:grid-cols-2">
             <h2 className="col-span-2 mb-12 mt-16 w-full font-serif text-3xl">
