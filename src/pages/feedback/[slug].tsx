@@ -7,6 +7,8 @@ import { StepForwardIcon } from "lucide-react";
 import { type z } from "zod";
 import { useWindowScroll } from "react-use";
 
+import Image from "next/image";
+
 import { api } from "~/utils/api";
 import { type formSchema } from "~/utils/validation";
 import { Button } from "~/components/ui/button";
@@ -79,7 +81,17 @@ const FeedbackRequest: NextPage = () => {
   // can't use placeholderData because we have different views based on the status
   // maybe a set of nice skeleton components for now would be good
   if (feedbackRequest.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen w-screen animate-pulse items-center justify-center">
+        <Image
+          className="m-auto animate-bounce"
+          src="/Logo.svg"
+          width={78}
+          height={60}
+          alt="improveme.io logo"
+        />
+      </div>
+    );
   }
 
   // ~ owner and whoever it is shared with
