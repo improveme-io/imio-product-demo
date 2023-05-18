@@ -15,6 +15,7 @@ function isAuthor(value: unknown): value is Author {
 
 type FeedbackAuthorSectionProps = {
   authors?: Author[];
+  onSave: () => void;
 };
 
 export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
@@ -59,7 +60,10 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           onChange={(e) => {
                             setValue(e.target.value);
                           }}
-                          onBlur={onBlur}
+                          onBlur={() => {
+                            onBlur();
+                            props.onSave();
+                          }}
                         />
                         {errors.map((error) => (
                           <p key={error}>{error}</p>

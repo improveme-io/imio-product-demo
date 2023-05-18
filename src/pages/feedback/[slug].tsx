@@ -70,6 +70,16 @@ const FeedbackRequest: NextPage = () => {
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
+  const handleSave = (formValues: Partial<FormValues>) => {
+    // save form state
+    if (feedbackRequest.data) {
+      saveRequest.mutate({
+        requestId: feedbackRequest.data.id,
+        ...formValues,
+      });
+    }
+  };
+
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
@@ -182,28 +192,34 @@ const FeedbackRequest: NextPage = () => {
           >
             {({ submit, errors, value: formValues }) => (
               <>
-                <FeedbackTitleSection title={title} />
+                <FeedbackTitleSection
+                  title={title}
+                  onSave={() => {
+                    handleSave(formValues);
+                  }}
+                />
                 <Card className="my-12">
                   <CardContent className="px-6 pb-8 pt-6">
-                    <FeedbackAuthorSection authors={authors} />
-                    <FeedbackParagraphSection paragraph={paragraph ?? ""} />
+                    <FeedbackAuthorSection
+                      authors={authors}
+                      onSave={() => {
+                        handleSave(formValues);
+                      }}
+                    />
+                    <FeedbackParagraphSection
+                      paragraph={paragraph ?? ""}
+                      onSave={() => {
+                        handleSave(formValues);
+                      }}
+                    />
                   </CardContent>
                 </Card>
-                <FeedbackItemSection feedbackItems={feedbackItems} />
-                {/* CONTINUE -- put button here that saves the form's current state */}
-                <Button
-                  onClick={() => {
-                    // save form state
-                    if (feedbackRequest.data) {
-                      saveRequest.mutate({
-                        requestId: feedbackRequest.data.id,
-                        ...formValues,
-                      });
-                    }
+                <FeedbackItemSection
+                  feedbackItems={feedbackItems}
+                  onSave={() => {
+                    handleSave(formValues);
                   }}
-                >
-                  Save progress
-                </Button>
+                />
                 <footer className="flex justify-end pb-16 pl-8 pt-8">
                   <FeedbackRequestDialog
                     title={formValues.title}

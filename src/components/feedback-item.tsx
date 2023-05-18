@@ -21,6 +21,7 @@ type FeedbackItemProps = {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   onRemove: () => void;
+  onSave: () => void;
 };
 
 // TODO: this needs to be broken up and moved into the section component
@@ -109,6 +110,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               <Button
                 onClick={() => {
                   setIsEditing(false);
+                  props.onSave();
                 }}
               >
                 <SaveIcon className="mr-2 h-4 w-4" />

@@ -17,6 +17,7 @@ function isFeedbackItem(value: unknown): value is FeedbackItem {
 
 type FeedbackItemSectionProps = {
   feedbackItems?: { prompt: string | null }[];
+  onSave: () => void;
 };
 
 export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
@@ -70,6 +71,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                         onRemove={function (): void {
                           removeFromFeedbackItems(index);
                         }}
+                        onSave={props.onSave}
                       />
                     )}
                   </FieldArrayItem>

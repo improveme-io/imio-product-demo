@@ -10,6 +10,7 @@ const paragraphSchema = z
 
 type FeedbackParagraphSectionProps = {
   paragraph: string;
+  onSave: () => void;
 };
 
 export const FeedbackParagraphSection = (
@@ -40,7 +41,10 @@ export const FeedbackParagraphSection = (
               onChange={(e) => {
                 setValue(e.target.value);
               }}
-              onBlur={onBlur}
+              onBlur={() => {
+                onBlur();
+                props.onSave();
+              }}
               className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
             />
             {errors.map((error) => (

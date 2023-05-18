@@ -9,6 +9,7 @@ import { SaveIcon } from "lucide-react";
 
 type FeedBackTitleSectionProps = {
   title: string | null | undefined;
+  onSave: () => void;
 };
 
 export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
@@ -41,7 +42,12 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                     onClick={() => setIsEditing(false)}
                     className="ml-5"
                   >
-                    <SaveIcon className="mr-2 h-4 w-4" />
+                    <SaveIcon
+                      onClick={() => {
+                        props.onSave();
+                      }}
+                      className="mr-2 h-4 w-4"
+                    />
                     Save
                   </Button>
                 </div>
