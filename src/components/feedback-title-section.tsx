@@ -8,7 +8,6 @@ import { feedbackTitleSchema } from "~/utils/validation";
 
 type FeedBackTitleSectionProps = {
   title: string | null | undefined;
-  onSave: () => void;
 };
 
 export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
@@ -19,6 +18,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
       name="title"
       initialValue={props.title ?? "Untitled Feedback Request"}
       onSubmitValidate={feedbackTitleSchema}
+      onBlurValidate={feedbackTitleSchema}
     >
       {({ value, setValue, errors }) => (
         <>
@@ -32,7 +32,6 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                     value={value}
                     onChange={(e) => {
                       setValue(e.target.value);
-                      props.onSave();
                     }}
                     onBlur={() => setIsEditing(false)}
                     className="flex-grow text-2xl"

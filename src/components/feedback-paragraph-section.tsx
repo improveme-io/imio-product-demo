@@ -10,7 +10,6 @@ const paragraphSchema = z
 
 type FeedbackParagraphSectionProps = {
   paragraph: string;
-  onSave: () => void;
 };
 
 export const FeedbackParagraphSection = (
@@ -32,6 +31,7 @@ export const FeedbackParagraphSection = (
         name="paragraph"
         initialValue={props.paragraph}
         onSubmitValidate={paragraphSchema}
+        onBlurValidate={paragraphSchema}
       >
         {({ value, setValue, onBlur, errors }) => (
           <>
@@ -40,7 +40,6 @@ export const FeedbackParagraphSection = (
               placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
               onChange={(e) => {
                 setValue(e.target.value);
-                props.onSave();
               }}
               onBlur={() => {
                 onBlur();

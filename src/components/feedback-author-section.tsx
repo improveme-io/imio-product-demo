@@ -15,7 +15,6 @@ function isAuthor(value: unknown): value is Author {
 
 type FeedbackAuthorSectionProps = {
   authors?: Author[];
-  onSave: () => void;
 };
 
 export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
@@ -49,6 +48,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                   <FieldArrayItem<string>
                     name={`authors[${index}].email`}
                     onSubmitValidate={emailSchema}
+                    onBlurValidate={emailSchema}
                   >
                     {({ value, setValue, onBlur, errors }) => (
                       <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
@@ -59,7 +59,6 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
-                            props.onSave();
                           }}
                           onBlur={() => {
                             onBlur();
@@ -74,6 +73,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                   <FieldArrayItem<string>
                     name={`authors[${index}].firstName`}
                     onSubmitValidate={nameSchema}
+                    onBlurValidate={nameSchema}
                   >
                     {({ value, setValue, onBlur, errors }) => (
                       <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
@@ -84,7 +84,6 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
-                            props.onSave();
                           }}
                           onBlur={onBlur}
                         />
@@ -97,6 +96,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                   <FieldArrayItem<string>
                     name={`authors[${index}].lastName`}
                     onSubmitValidate={nameSchema}
+                    onBlurValidate={nameSchema}
                   >
                     {({ value, setValue, onBlur, errors }) => (
                       <div className="mb-6 mr-6 flex flex-grow flex-col md:mb-0">
@@ -107,7 +107,6 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
-                            props.onSave();
                           }}
                           onBlur={onBlur}
                         />

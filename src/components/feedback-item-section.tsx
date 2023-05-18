@@ -17,7 +17,6 @@ function isFeedbackItem(value: unknown): value is FeedbackItem {
 
 type FeedbackItemSectionProps = {
   feedbackItems?: { prompt: string | null }[];
-  onSave: () => void;
 };
 
 export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
@@ -58,6 +57,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                   <FieldArrayItem<string>
                     name={`feedbackItems[${index}].prompt`}
                     onSubmitValidate={promptSchema}
+                    onBlurValidate={promptSchema}
                   >
                     {({ value, setValue, onBlur }) => (
                       <FeedbackItem
@@ -66,7 +66,6 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                         editing={true}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                           setValue(event.target.value);
-                          props.onSave();
                         }}
                         onBlur={onBlur}
                         onRemove={function (): void {

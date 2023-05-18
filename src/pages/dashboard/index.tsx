@@ -25,18 +25,19 @@ const Dashboard: NextPage = () => {
   const createForm = api.feedback.createForm.useMutation();
 
   const handleRequestFeedback = () => {
-    createForm.mutate({ title: "Untitled Feedback" });
+    createForm.mutate(
+      { title: "Untitled Feedback" },
+      {
+        onSuccess: (data) => {
+          router.push(`/feedback/${data.slug}`);
+        },
+      }
+    );
   };
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
-
-  React.useEffect(() => {
-    if (createForm.isSuccess) {
-      router.push(`/feedback/${createForm.data.slug}`);
-    }
-  }, [createForm.data, createForm.isSuccess, router]);
 
   return (
     <>

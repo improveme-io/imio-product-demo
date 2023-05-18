@@ -3,9 +3,9 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
 import { Form } from "houseform";
-import { StepForwardIcon } from "lucide-react";
-import { set, type z } from "zod";
-import { useWindowScroll, useDebounce } from "react-use";
+import { SaveIcon, StepForwardIcon } from "lucide-react";
+import { useWindowScroll } from "react-use";
+import { type z } from "zod";
 
 import { api } from "~/utils/api";
 import { type formSchema } from "~/utils/validation";
@@ -22,6 +22,7 @@ import { FeedbackTitleSection } from "~/components/feedback-title-section";
 import { Label } from "~/components/ui/label";
 import { GeneralError } from "~/components/general-error";
 import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
+import { cn } from "~/utils/style";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -47,8 +48,12 @@ const FeedbackRequest: NextPage = () => {
     },
     { enabled: !!router.query.slug && !!user.data?.id }
   );
-  const createRequest = api.feedback.submitForm.useMutation();
-  const saveRequest = api.feedback.saveForm.useMutation();
+  const submitForm = api.feedback.submitForm.useMutation({
+    onSuccess: async () => {
+      await router.push("/dashboard");
+    },
+  });
+  const saveForm = api.feedback.saveForm.useMutation();
 
   const title = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.title
@@ -69,27 +74,6 @@ const FeedbackRequest: NextPage = () => {
   const feedbackItems = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
-
-  const [formState, setFormState] = React.useState<Partial<FormValues>>();
-
-  const [debouncedValue, setDebouncedValue] =
-    React.useState<Partial<FormValues>>();
-  const [,] = useDebounce(
-    () => {
-      setDebouncedValue(formState);
-    },
-    1000,
-    [formState]
-  );
-  React.useEffect(() => {
-    if (feedbackRequest.data && !saveRequest.isLoading && debouncedValue) {
-      saveRequest.mutate({
-        requestId: feedbackRequest.data.id,
-        ...debouncedValue,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue]);
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
@@ -183,53 +167,64 @@ const FeedbackRequest: NextPage = () => {
     return (
       <>
         <PageHead title="Request Feedback" />
-        <Header isSmall={isScrolled} title={"Request Feedback"} />
-        <MainLayout app>
-          <Form<FormValues>
-            onSubmit={(values) => {
-              // TODO: maybe validate via zod the entire form?
-              if (feedbackRequest.data && user.data) {
-                createRequest.mutate({
-                  requestId: feedbackRequest.data.id,
-                  ownerId: user.data.id,
-                  title: values.title,
-                  authors: values.authors,
-                  paragraph: values.paragraph,
-                  feedbackItems: values.feedbackItems,
-                });
-              }
-            }}
-          >
-            {({ submit, errors, value: formValues }) => (
-              <>
-                <FeedbackTitleSection
-                  title={title}
-                  onSave={() => {
-                    setFormState(formValues);
+        <Form<FormValues>
+          onSubmit={(values) => {
+            // TODO: maybe validate via zod the entire form?
+            if (feedbackRequest.data && user.data) {
+              submitForm.mutate({
+                requestId: feedbackRequest.data.id,
+                ownerId: user.data.id,
+                title: values.title,
+                authors: values.authors,
+                paragraph: values.paragraph,
+                feedbackItems: values.feedbackItems,
+              });
+            }
+          }}
+        >
+          {({ submit, errors, value: formValues, isDirty, setIsDirty }) => (
+            <>
+              <Header isSmall={isScrolled} title={"Request Feedback"}>
+                <Button
+                  disabled={!isDirty || saveForm.isLoading}
+                  variant={isDirty ? "default" : "secondary"}
+                  className={cn(
+                    "transition-all duration-300",
+                    isDirty && "bg-sky-700"
+                  )}
+                  size={isScrolled ? "sm" : "lg"}
+                  onClick={() => {
+                    if (feedbackRequest.data && user.data) {
+                      saveForm.mutate(
+                        {
+                          requestId: feedbackRequest.data?.id,
+                          title: formValues.title,
+                          authors: formValues.authors,
+                          paragraph: formValues.paragraph,
+                          feedbackItems: formValues.feedbackItems,
+                        },
+                        {
+                          onSuccess: () => {
+                            setIsDirty(false);
+                          },
+                        }
+                      );
+                    }
                   }}
-                />
+                >
+                  <SaveIcon className="mr-2" size="20" />
+                  Save
+                </Button>
+              </Header>
+              <MainLayout app>
+                <FeedbackTitleSection title={title} />
                 <Card className="my-12">
                   <CardContent className="px-6 pb-8 pt-6">
-                    <FeedbackAuthorSection
-                      authors={authors}
-                      onSave={() => {
-                        setFormState(formValues);
-                      }}
-                    />
-                    <FeedbackParagraphSection
-                      paragraph={paragraph ?? ""}
-                      onSave={() => {
-                        setFormState(formValues);
-                      }}
-                    />
+                    <FeedbackAuthorSection authors={authors} />
+                    <FeedbackParagraphSection paragraph={paragraph ?? ""} />
                   </CardContent>
                 </Card>
-                <FeedbackItemSection
-                  feedbackItems={feedbackItems}
-                  onSave={() => {
-                    setFormState(formValues);
-                  }}
-                />
+                <FeedbackItemSection feedbackItems={feedbackItems} />
                 <footer className="flex justify-end pb-16 pl-8 pt-8">
                   <FeedbackRequestDialog
                     title={formValues.title}
@@ -245,9 +240,11 @@ const FeedbackRequest: NextPage = () => {
                     renderDialogFooter={
                       <div>
                         <Button
+                          disabled={errors.length > 0 || submitForm.isLoading}
                           variant={
-                            errors.length > 0 ? "destructive" : "outline"
+                            errors.length > 0 ? "destructive" : "default"
                           }
+                          className={cn(errors.length === 0 && "bg-sky-700")}
                           size="lg"
                           // FIXME: turn off eslint rule or contribute to houseform
                           // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -261,10 +258,10 @@ const FeedbackRequest: NextPage = () => {
                     }
                   />
                 </footer>
-              </>
-            )}
-          </Form>
-        </MainLayout>
+              </MainLayout>
+            </>
+          )}
+        </Form>
       </>
     );
   }
