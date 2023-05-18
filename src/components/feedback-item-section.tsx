@@ -62,6 +62,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                       <FeedbackItem
                         index={index}
                         prompt={value}
+                        editing={true}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                           setValue(event.target.value);
                         }}

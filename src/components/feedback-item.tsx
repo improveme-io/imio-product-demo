@@ -17,6 +17,7 @@ import React from "react";
 type FeedbackItemProps = {
   index: number;
   prompt: string;
+  editing: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   onRemove: () => void;
@@ -27,7 +28,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
   const [currentPrompt, setCurrentPrompt] = React.useState<string | null>(
     props.prompt
   );
-  const [isEditing, setIsEditing] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(props.editing);
 
   return (
     <Card className="group mt-6">
