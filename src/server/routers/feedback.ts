@@ -106,6 +106,7 @@ export const feedbackRouter = createTRPCRouter({
       const feedbackItemAuthorPairs = authors.flatMap((a) =>
         input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi }))
       );
+      // create feedback items
       // ownerId
       const data = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
         prompt: feedbackItem.prompt,
@@ -194,8 +195,9 @@ export const feedbackRouter = createTRPCRouter({
           owner: true,
           authors: true,
           feedbackItems: {
-            where: {
-              authorId: input.authorId,
+            include: {
+              author: true,
+              owner: true,
             },
           },
           formSave: {

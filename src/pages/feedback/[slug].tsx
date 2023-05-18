@@ -12,12 +12,14 @@ import { type formSchema } from "~/utils/validation";
 import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
-import { Card, CardContent } from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { UserItem } from "~/components/user-item";
 import { Header } from "~/components/header";
 import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
 import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
+import { Label } from "~/components/ui/label";
 import { GeneralError } from "~/components/general-error";
 import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
@@ -80,12 +82,79 @@ const FeedbackRequest: NextPage = () => {
     return <div>Loading...</div>;
   }
 
+  // ~ owner and whoever it is shared with
+  console.log(feedbackRequest.data?.feedbackItems);
   if (feedbackRequest.data && feedbackRequest.data.status !== "CREATING") {
     return (
-      <div>
-        <h1>Feedback Request View -- not implemented</h1>
-        <p>{JSON.stringify(feedbackRequest.data)}</p>
-      </div>
+      <>
+        <PageHead title="Feedback Request View" />
+
+        <Header isSmall={true} title={""} />
+        <MainLayout app>
+          <div className="flex max-w-4xl flex-col px-8 pb-8">
+            <h1 className="pb-8 pt-16 font-serif text-3xl">
+              {feedbackRequest.data.title}
+            </h1>
+            {/* DEADLINE */}
+            <Card className="mb-16 mt-2">
+              <CardHeader className="mr-3">
+                <div className="flex items-center">
+                  {feedbackRequest.data.owner.firstName}{" "}
+                  {feedbackRequest.data.owner.lastName}
+                  <p className="mx-2">is requesting Your feedback:</p>
+                </div>
+                <CardContent className="flex items-center px-0">
+                  <p className="mt-8 max-w-2xl leading-6">
+                    {feedbackRequest.data.paragraph}
+                  </p>
+                </CardContent>
+              </CardHeader>
+            </Card>
+            <ul>
+              {/* collect unique owner feedback items */}
+              {feedbackRequest.data.feedbackItems
+                ?.filter((item) => {
+                  return item.authorId === item.ownerId;
+                })
+                .map((ownerFI) => (
+                  <li
+                    key={`feedback-item-${ownerFI.id}`}
+                    className="mt-4 max-w-4xl"
+                  >
+                    <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
+                      {ownerFI.prompt}
+                    </Label>
+                    <ul className="mb-32 w-full">
+                      {feedbackRequest.data?.feedbackItems
+                        .filter((fi) => {
+                          return (
+                            fi.authorId !== fi.ownerId &&
+                            fi.prompt === ownerFI.prompt
+                          );
+                        })
+                        .map((authorFI) => (
+                          <li
+                            key={authorFI.id}
+                            className="mb-12 mt-8 grid w-full grid-cols-4"
+                          >
+                            <div className="w-full">
+                              <UserItem
+                                name={`${authorFI.author.firstName} ${authorFI.author.lastName}`}
+                                email={authorFI.author.email}
+                              />
+                            </div>
+                            <p className="col-span-3 w-full max-w-2xl text-lg leading-7">
+                              {authorFI.payload}
+                            </p>
+                          </li>
+                        ))}
+                    </ul>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </MainLayout>
+      </>
     );
   }
 

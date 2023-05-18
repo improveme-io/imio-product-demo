@@ -48,7 +48,7 @@ async function main() {
     },
   });
   console.log("Created feedback request...", feedbackRequest100Days);
-  const whatWentWell = await prisma.feedbackItem.create({
+  const whatWentWellOwnerKristof = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: kristof.id } },
       author: { connect: { id: kristof.id } },
@@ -56,7 +56,7 @@ async function main() {
       prompt: "What went well?",
     },
   });
-  const whatToImprove = await prisma.feedbackItem.create({
+  const whatToImproveOwnerKristof = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: kristof.id } },
       author: { connect: { id: kristof.id } },
@@ -82,8 +82,8 @@ async function main() {
   });
   console.log("Created feedback items...");
   console.log({
-    whatWentWell,
-    whatToImprove,
+    whatWentWellOwnerKristof,
+    whatToImproveOwnerKristof,
     whatWentWellMihaly,
     whatToImproveMihaly,
   });
@@ -97,6 +97,22 @@ async function main() {
     },
   });
   console.log("Created feedback request...", feedbackRequestQ2Peer);
+  const whatWentWellOwnerMihaly = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: mihaly.id } },
+      author: { connect: { id: mihaly.id } },
+      request: { connect: { id: feedbackRequestQ2Peer.id } },
+      prompt: "What went well?",
+    },
+  });
+  const whatToImproveOwnerMihaly = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: mihaly.id } },
+      author: { connect: { id: mihaly.id } },
+      request: { connect: { id: feedbackRequestQ2Peer.id } },
+      prompt: "What to improve?",
+    },
+  });
   const whatWentWellKristof = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: mihaly.id } },
@@ -139,6 +155,8 @@ async function main() {
   });
   console.log("Created feedback items...");
   console.log({
+    whatWentWellOwnerMihaly,
+    whatToImproveOwnerMihaly,
     whatWentWellKristof,
     whatToImproveKristof,
     whatWentWellBrooke,
