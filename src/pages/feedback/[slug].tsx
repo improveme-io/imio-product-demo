@@ -124,7 +124,6 @@ const FeedbackRequest: NextPage = () => {
                     <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
                       {selfItem.prompt}
                     </Label>
-                    {/* Todo: List FEEDBACKITEMs with the same prompt and payload per user */}
                     <ul className="mb-32 w-full">
                       {feedbackRequest.data?.feedbackItems
                         .filter((item) => {
