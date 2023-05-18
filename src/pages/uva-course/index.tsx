@@ -94,7 +94,7 @@ const howtoItems = [
 ];
 
 const Home: NextPage = () => {
-  const [value, copy]: [CopiedValue, CopyFn] = useCopyToClipboard();
+  const [, copy]: [CopiedValue, CopyFn] = useCopyToClipboard();
   const { toast } = useToast();
   return (
     <>
@@ -286,7 +286,7 @@ const Home: NextPage = () => {
                       () =>
                         toast({
                           title: "Copied to your clipboard",
-                          description: value,
+                          description: item,
                         }),
                       () =>
                         toast({
