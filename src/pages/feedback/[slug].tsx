@@ -39,7 +39,6 @@ const FeedbackRequest: NextPage = () => {
     }
   );
 
-  console.log(user.data?.id);
   const feedbackRequest = api.feedback.bySlug.useQuery(
     {
       // FIXME: better typing if possible

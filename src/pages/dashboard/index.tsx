@@ -22,10 +22,10 @@ const Dashboard: NextPage = () => {
 
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
-  const createRequest = api.feedback.createForm.useMutation();
+  const createForm = api.feedback.createForm.useMutation();
 
   const handleRequestFeedback = () => {
-    createRequest.mutate({ title: "Untitled Feedback" });
+    createForm.mutate({ title: "Untitled Feedback" });
   };
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
@@ -33,10 +33,10 @@ const Dashboard: NextPage = () => {
   const isScrolled = y > 0;
 
   React.useEffect(() => {
-    if (createRequest.isSuccess) {
-      router.push(`/feedback/${createRequest.data.slug}`);
+    if (createForm.isSuccess) {
+      router.push(`/feedback/${createForm.data.slug}`);
     }
-  }, [createRequest.data, createRequest.isSuccess, router]);
+  }, [createForm.data, createForm.isSuccess, router]);
 
   return (
     <>
@@ -55,7 +55,7 @@ const Dashboard: NextPage = () => {
         </Button>
         <Button
           // TODO: make this into a loading state
-          disabled={createRequest.isLoading}
+          disabled={createForm.isLoading}
           className="bg-sky-700  transition-all duration-300"
           size={isScrolled ? "sm" : "lg"}
           onClick={handleRequestFeedback}
@@ -94,20 +94,39 @@ const Dashboard: NextPage = () => {
         </h2>
         {ownedFeedbacks.isSuccess &&
           ownedFeedbacks.data.map((fr) => {
+            // TODO: make this re-useable, it is also used in the [slug] page
+            const title = fr?.formSave ? fr?.formSave.title : fr?.title;
+
+            const paragraph = fr?.formSave
+              ? fr?.formSave.paragraph
+              : fr?.paragraph;
+
+            const authors = fr?.formSave
+              ? fr?.formSave.authors
+              : fr?.authors.map((user) => ({
+                  email: user.email,
+                  lastName: user.lastName,
+                  firstName: user.firstName,
+                }));
+
+            const feedbackItems = fr?.formSave
+              ? fr?.formSave.feedbackItems
+              : fr?.feedbackItems.map((fi) => ({
+                  prompt: fi.prompt,
+                }));
+
             return (
               <FeedbackRequestCard
                 key={fr.slug}
                 slug={fr.slug}
                 canEdit={fr.status === "CREATING"}
-                title={fr.title ?? ""}
-                paragraph={fr.paragraph ?? ""}
-                feedbackItems={fr.feedbackItems.map((fi) => ({
-                  prompt: fi.prompt,
-                }))}
-                ownerEmail={""}
-                authors={fr.authors.map((a) => ({
+                title={title ?? ""}
+                paragraph={paragraph ?? ""}
+                feedbackItems={feedbackItems}
+                ownerEmail={fr.owner.email}
+                authors={authors.map((a, i) => ({
                   email: a.email ?? "",
-                  id: a.id,
+                  id: `fake-author-${i}`,
                 }))}
               />
             );
