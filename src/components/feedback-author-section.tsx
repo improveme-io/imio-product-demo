@@ -59,10 +59,10 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
+                            props.onSave();
                           }}
                           onBlur={() => {
                             onBlur();
-                            props.onSave();
                           }}
                         />
                         {errors.map((error) => (
@@ -84,6 +84,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
+                            props.onSave();
                           }}
                           onBlur={onBlur}
                         />
@@ -106,6 +107,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
+                            props.onSave();
                           }}
                           onBlur={onBlur}
                         />

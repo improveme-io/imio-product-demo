@@ -40,10 +40,10 @@ export const FeedbackParagraphSection = (
               placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
               onChange={(e) => {
                 setValue(e.target.value);
+                props.onSave();
               }}
               onBlur={() => {
                 onBlur();
-                props.onSave();
               }}
               className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
             />

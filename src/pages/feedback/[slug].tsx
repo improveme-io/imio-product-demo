@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
 import { Form } from "houseform";
 import { StepForwardIcon } from "lucide-react";
-import { type z } from "zod";
-import { useWindowScroll } from "react-use";
+import { set, type z } from "zod";
+import { useWindowScroll, useDebounce } from "react-use";
 
 import { api } from "~/utils/api";
 import { type formSchema } from "~/utils/validation";
@@ -70,15 +70,26 @@ const FeedbackRequest: NextPage = () => {
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
-  const handleSave = (formValues: Partial<FormValues>) => {
-    // save form state
-    if (feedbackRequest.data) {
+  const [formState, setFormState] = React.useState<Partial<FormValues>>();
+
+  const [debouncedValue, setDebouncedValue] =
+    React.useState<Partial<FormValues>>();
+  const [,] = useDebounce(
+    () => {
+      setDebouncedValue(formState);
+    },
+    1000,
+    [formState]
+  );
+  React.useEffect(() => {
+    if (feedbackRequest.data && !saveRequest.isLoading && debouncedValue) {
       saveRequest.mutate({
         requestId: feedbackRequest.data.id,
-        ...formValues,
+        ...debouncedValue,
       });
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
@@ -92,7 +103,6 @@ const FeedbackRequest: NextPage = () => {
   }
 
   // ~ owner and whoever it is shared with
-  console.log(feedbackRequest.data?.feedbackItems);
   if (feedbackRequest.data && feedbackRequest.data.status !== "CREATING") {
     return (
       <>
@@ -195,7 +205,7 @@ const FeedbackRequest: NextPage = () => {
                 <FeedbackTitleSection
                   title={title}
                   onSave={() => {
-                    handleSave(formValues);
+                    setFormState(formValues);
                   }}
                 />
                 <Card className="my-12">
@@ -203,13 +213,13 @@ const FeedbackRequest: NextPage = () => {
                     <FeedbackAuthorSection
                       authors={authors}
                       onSave={() => {
-                        handleSave(formValues);
+                        setFormState(formValues);
                       }}
                     />
                     <FeedbackParagraphSection
                       paragraph={paragraph ?? ""}
                       onSave={() => {
-                        handleSave(formValues);
+                        setFormState(formValues);
                       }}
                     />
                   </CardContent>
@@ -217,7 +227,7 @@ const FeedbackRequest: NextPage = () => {
                 <FeedbackItemSection
                   feedbackItems={feedbackItems}
                   onSave={() => {
-                    handleSave(formValues);
+                    setFormState(formValues);
                   }}
                 />
                 <footer className="flex justify-end pb-16 pl-8 pt-8">

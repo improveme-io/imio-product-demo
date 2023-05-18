@@ -5,7 +5,6 @@ import { Field } from "houseform";
 import { EditButton } from "~/components/edit-button";
 import { Input } from "~/components/ui/input";
 import { feedbackTitleSchema } from "~/utils/validation";
-import { SaveIcon } from "lucide-react";
 
 type FeedBackTitleSectionProps = {
   title: string | null | undefined;
@@ -33,23 +32,11 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                     value={value}
                     onChange={(e) => {
                       setValue(e.target.value);
+                      props.onSave();
                     }}
                     onBlur={() => setIsEditing(false)}
                     className="flex-grow text-2xl"
                   />
-                  <Button
-                    size={"sm"}
-                    onClick={() => setIsEditing(false)}
-                    className="ml-5"
-                  >
-                    <SaveIcon
-                      onClick={() => {
-                        props.onSave();
-                      }}
-                      className="mr-2 h-4 w-4"
-                    />
-                    Save
-                  </Button>
                 </div>
               )}
               {!isEditing && (

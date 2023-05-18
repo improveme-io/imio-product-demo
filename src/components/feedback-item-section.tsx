@@ -66,12 +66,12 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                         editing={true}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                           setValue(event.target.value);
+                          props.onSave();
                         }}
                         onBlur={onBlur}
                         onRemove={function (): void {
                           removeFromFeedbackItems(index);
                         }}
-                        onSave={props.onSave}
                       />
                     )}
                   </FieldArrayItem>
