@@ -50,13 +50,24 @@ export const feedbackRouter = createTRPCRouter({
         input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi }))
       );
       // create feedback items
-      void ctx.prisma.feedbackItem.createMany({
-        data: feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
-          prompt: feedbackItem.prompt,
+      const data = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
+        prompt: feedbackItem.prompt,
+        requestId: input.requestId,
+        ownerId: input.ownerId,
+        authorId: author.id,
+      }));
+      // append special feedback item for the owner
+      for (const item of input.feedbackItems) {
+        data.push({
+          prompt: item.prompt,
           requestId: input.requestId,
           ownerId: input.ownerId,
-          authorId: author.id,
-        })),
+          authorId: input.ownerId,
+        });
+      }
+      // create feedback items
+      void ctx.prisma.feedbackItem.createMany({
+        data,
       });
       // ~ feedback request ~
       // create feedback request
@@ -113,7 +124,12 @@ export const feedbackRouter = createTRPCRouter({
         include: {
           owner: true,
           authors: true,
-          feedbackItems: true,
+          feedbackItems: {
+            include: {
+              author: true,
+              owner: true,
+            },
+          },
           _count: true,
         },
       });

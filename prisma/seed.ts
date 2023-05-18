@@ -54,6 +54,22 @@ async function main() {
     },
   });
   console.log("Created feedback request...", feedbackRequestAuthor);
+  const whatWentWellOwnerKristof = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: kristof.id } },
+      author: { connect: { id: kristof.id } },
+      request: { connect: { id: feedbackRequestAuthor.id } },
+      prompt: "What went well?",
+    },
+  });
+  const whatToImproveOwnerKristof = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: kristof.id } },
+      author: { connect: { id: kristof.id } },
+      request: { connect: { id: feedbackRequestAuthor.id } },
+      prompt: "What to improve?",
+    },
+  });
   const whatWentWellMihaly = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: kristof.id } },
@@ -76,6 +92,8 @@ async function main() {
   });
   console.log("Created feedback items...");
   console.log({
+    whatWentWellOwner: whatWentWellOwnerKristof,
+    whatToImproveOwner: whatToImproveOwnerKristof,
     whatWentWellMihaly,
     whatToImproveMihaly,
   });
@@ -89,6 +107,22 @@ async function main() {
     },
   });
   console.log("Created feedback request...", feedbackRequestOwner);
+  const whatWentWellOwnerMihaly = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: mihaly.id } },
+      author: { connect: { id: mihaly.id } },
+      request: { connect: { id: feedbackRequestOwner.id } },
+      prompt: "What went well?",
+    },
+  });
+  const whatToImproveOwnerMihaly = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: mihaly.id } },
+      author: { connect: { id: mihaly.id } },
+      request: { connect: { id: feedbackRequestOwner.id } },
+      prompt: "What to improve?",
+    },
+  });
   const whatWentWellKristof = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: mihaly.id } },
@@ -131,6 +165,8 @@ async function main() {
   });
   console.log("Created feedback items...");
   console.log({
+    whatWentWellOwnerMihaly,
+    whatToImproveOwnerMihaly,
     whatWentWellKristof,
     whatToImproveKristof,
     whatWentWellBrooke,

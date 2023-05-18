@@ -61,16 +61,20 @@ const FeedbackRequest: NextPage = () => {
     return <div>Loading...</div>;
   }
 
+  // ~ owner and whoever it is shared with
+  console.log(feedbackRequest.data?.feedbackItems);
   if (feedbackRequest.data && feedbackRequest.data.status !== "CREATING") {
     return (
       <>
         <PageHead title="Feedback Request View" />
-        <Header isSmall={true} title={feedbackRequest.data.title}></Header>
+
+        <Header isSmall={true} title={""} />
         <MainLayout app>
           <div className="flex max-w-4xl flex-col px-8 pb-8">
             <h1 className="pb-8 pt-16 font-serif text-3xl">
               {feedbackRequest.data.title}
             </h1>
+            {/* DEADLINE */}
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
@@ -85,28 +89,48 @@ const FeedbackRequest: NextPage = () => {
                 </CardContent>
               </CardHeader>
             </Card>
+            {/* collect unique prompts inside feedback items */}
             <ul>
-              {feedbackRequest.data.feedbackItems?.map((item, index) => (
-                <li key={`feedback-item-${index}`} className="mt-4 max-w-4xl">
-                  <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
-                    {item.prompt}
-                  </Label>
-                  {/* Todo: List FEEDBACKITEMs with the same prompt and payload per user */}
-                  <ul className="mb-32 w-full">
-                    <li className="mb-12 mt-8 grid w-full grid-cols-4">
-                      <div className="w-full">
-                        <UserItem
-                          name={"Author Name"}
-                          email={"author@name.com"}
-                        />
-                      </div>
-                      <p className="col-span-3 w-full max-w-2xl text-lg leading-7">
-                        {item.payload}
-                      </p>
-                    </li>
-                  </ul>
-                </li>
-              ))}
+              {feedbackRequest.data.feedbackItems
+                ?.filter((item) => {
+                  return item.authorId === item.ownerId;
+                })
+                .map((selfItem) => (
+                  <li
+                    key={`feedback-item-${selfItem.id}`}
+                    className="mt-4 max-w-4xl"
+                  >
+                    <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
+                      {selfItem.prompt}
+                    </Label>
+                    {/* Todo: List FEEDBACKITEMs with the same prompt and payload per user */}
+                    <ul className="mb-32 w-full">
+                      {feedbackRequest.data?.feedbackItems
+                        .filter((item) => {
+                          return (
+                            item.authorId !== item.ownerId &&
+                            item.prompt === selfItem.prompt
+                          );
+                        })
+                        .map((authorItem) => (
+                          <li
+                            key={authorItem.id}
+                            className="mb-12 mt-8 grid w-full grid-cols-4"
+                          >
+                            <div className="w-full">
+                              <UserItem
+                                name={`${authorItem.author.firstName} ${authorItem.author.lastName}`}
+                                email={authorItem.author.email}
+                              />
+                            </div>
+                            <p className="col-span-3 w-full max-w-2xl text-lg leading-7">
+                              {authorItem.payload}
+                            </p>
+                          </li>
+                        ))}
+                    </ul>
+                  </li>
+                ))}
             </ul>
           </div>
         </MainLayout>
