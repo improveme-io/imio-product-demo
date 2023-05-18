@@ -20,7 +20,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
       initialValue={props.title ?? "Untitled Feedback Request"}
       onSubmitValidate={feedbackTitleSchema}
     >
-      {({ value, setValue, onBlur, errors }) => (
+      {({ value, setValue, errors }) => (
         <>
           <div className="flex flex-row">
             <h1 className="mt-8 w-full text-2xl">
