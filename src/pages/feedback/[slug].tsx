@@ -13,16 +13,13 @@ import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
 import { Card, CardContent } from "~/components/ui/card";
-import { UserItem } from "~/components/user-item";
 import { Header } from "~/components/header";
 import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
 import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
-import { Dialog, DialogContent, DialogFooter } from "~/components/ui/dialog";
-import { DialogTrigger } from "~/components/shadcn/dialog";
-import { FeedbackRequestView } from "~/components/feedback-request-view";
 import { GeneralError } from "~/components/general-error";
+import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -73,12 +70,7 @@ const FeedbackRequest: NextPage = () => {
     return (
       <>
         <PageHead title="Request Feedback" />
-        <Header isSmall={isScrolled} title={"Request Feedback"}>
-          <Button disabled size={isScrolled ? "sm" : "lg"}>
-            <StepForwardIcon className="mr-2" />
-            Review Feedback Request…
-          </Button>
-        </Header>
+        <Header isSmall={isScrolled} title={"Request Feedback"} />
         <MainLayout app>
           <Form<FormValues>
             onSubmit={(values) => {
@@ -116,47 +108,35 @@ const FeedbackRequest: NextPage = () => {
                   )}
                 />
                 <footer className="flex justify-end pb-16 pl-8 pt-8">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline">Show Dialog</Button>
-                    </DialogTrigger>
-                    {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
-                    <DialogContent className="inset-10 overflow-y-scroll bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
-                      <FeedbackRequestView
-                        title={formValues.title}
-                        paragraph={formValues.paragraph}
-                        feedbackItems={formValues.feedbackItems}
-                        renderOwner={
-                          <UserItem
-                            className="mr-0"
-                            email={feedbackRequest.data?.owner.email}
-                          />
-                        }
-                      />
-                      <DialogFooter>
-                        <div>
-                          <Button
-                            variant={
-                              errors.length > 0 ? "destructive" : "outline"
-                            }
-                            disabled={
-                              !feedbackRequest.data ||
-                              !user.data ||
-                              createRequest.isLoading
-                            }
-                            size="lg"
-                            // FIXME: eslint
-                            /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-                            onClick={submit}
-                          >
-                            <StepForwardIcon className="mr-2" />
-                            Test Submit
-                          </Button>
-                          {errors.length > 0 && <p>* There are errors</p>}
-                        </div>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                  <FeedbackRequestDialog
+                    title={formValues.title}
+                    paragraph={formValues.paragraph}
+                    feedbackItems={formValues.feedbackItems}
+                    ownerEmail={feedbackRequest.data?.owner.email}
+                    renderDialogTrigger={
+                      <Button size="lg">
+                        <StepForwardIcon className="mr-2" />
+                        Preview Feedback Request…
+                      </Button>
+                    }
+                    renderDialogFooter={
+                      <div>
+                        <Button
+                          variant={
+                            errors.length > 0 ? "destructive" : "outline"
+                          }
+                          size="lg"
+                          // FIXME: turn off eslint rule or contribute to houseform
+                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                          onClick={submit}
+                        >
+                          <StepForwardIcon className="mr-2" />
+                          Request Feedback
+                        </Button>
+                        {errors.length > 0 && <p>* There are errors</p>}
+                      </div>
+                    }
+                  />
                 </footer>
               </>
             )}

@@ -6,10 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 import Link from "next/link";
+import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
 type FeedbackRequestCardProps = {
-  title: string | null;
   slug: string;
+  title: string;
+  paragraph: string;
+  feedbackItems: { prompt: string | null }[];
+  ownerEmail: string;
   authors: { email: string; id: string }[];
   canEdit?: boolean;
 };
@@ -33,10 +37,18 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                 </Link>
               </Button>
             )}
-            <Button disabled variant="outline">
-              <ViewIcon className="mr-2 h-4 w-4" />
-              Preview
-            </Button>
+            <FeedbackRequestDialog
+              title={props.title}
+              paragraph={props.paragraph}
+              feedbackItems={props.feedbackItems}
+              ownerEmail={props.ownerEmail}
+              renderDialogTrigger={
+                <Button variant="outline">
+                  <ViewIcon className="mr-2 h-4 w-4" />
+                  {props.canEdit ? "Preview" : "View"}
+                </Button>
+              }
+            />
           </div>
         </div>
       </CardHeader>

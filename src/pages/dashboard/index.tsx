@@ -96,10 +96,15 @@ const Dashboard: NextPage = () => {
           ownedFeedbacks.data.map((fr) => {
             return (
               <FeedbackRequestCard
-                key={fr.id}
-                canEdit={fr.status === "CREATING"}
-                title={fr.title}
+                key={fr.slug}
                 slug={fr.slug}
+                canEdit={fr.status === "CREATING"}
+                title={fr.title ?? ""}
+                paragraph={fr.paragraph ?? ""}
+                feedbackItems={fr.feedbackItems.map((fi) => ({
+                  prompt: fi.prompt,
+                }))}
+                ownerEmail={""}
                 authors={fr.authors.map((a) => ({
                   email: a.email ?? "",
                   id: a.id,
