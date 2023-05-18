@@ -47,8 +47,8 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               )}
             </>
           </CardTitle>
-            <div className="absolute right-0 flex w-1/3 justify-end gap-3 opacity-0 group-hover:opacity-100">
-          {!isEditing && (
+          <div className="absolute right-0 flex w-1/3 justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {!isEditing && (
               <Button
                 variant={"outline"}
                 onClick={() => {
@@ -58,11 +58,11 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                 <EditIcon className="mr-2 h-4 w-4" />
                 Edit
               </Button>
-                )}
-              <Button variant={"destructive"} onClick={props.onRemove}>
-                Remove
-              </Button>
-            </div>
+            )}
+            <Button variant={"destructive"} onClick={props.onRemove}>
+              Remove
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
