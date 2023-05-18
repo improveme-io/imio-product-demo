@@ -139,7 +139,8 @@ const FeedbackRequest: NextPage = () => {
                           >
                             <div className="w-full">
                               <UserItem
-                                name={`${authorFI.author.firstName} ${authorFI.author.lastName}`}
+                                firstName={authorFI.author.firstName}
+                                lastName={authorFI.author.lastName}
                                 email={authorFI.author.email}
                               />
                             </div>
