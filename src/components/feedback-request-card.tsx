@@ -6,11 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 import Link from "next/link";
+import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
 type FeedbackRequestCardProps = {
-  title: string | null;
   slug: string;
+  title: string;
+  paragraph: string;
+  feedbackItems: { prompt: string | null }[];
+  ownerEmail: string;
   authors: { email: string; id: string }[];
+  canEdit?: boolean;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -24,17 +29,26 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
               Delete
             </Button>
-            {/* FIXME: asChild and disabled doesn't seem to work together */}
-            <Button disabled asChild variant="ghost">
-              <Link href={`/feedback/${props.slug}`}>
-                <EditIcon className="mr-2 h-4 w-4" />
-                Edit
-              </Link>
-            </Button>
-            <Button disabled variant="outline">
-              <ViewIcon className="mr-2 h-4 w-4" />
-              Preview
-            </Button>
+            {props.canEdit && (
+              <Button asChild variant="ghost">
+                <Link href={`/feedback/${props.slug}`}>
+                  <EditIcon className="mr-2 h-4 w-4" />
+                  Edit
+                </Link>
+              </Button>
+            )}
+            <FeedbackRequestDialog
+              title={props.title}
+              paragraph={props.paragraph}
+              feedbackItems={props.feedbackItems}
+              ownerEmail={props.ownerEmail}
+              renderDialogTrigger={
+                <Button variant="outline">
+                  <ViewIcon className="mr-2 h-4 w-4" />
+                  {props.canEdit ? "Preview" : "View"}
+                </Button>
+              }
+            />
           </div>
         </div>
       </CardHeader>

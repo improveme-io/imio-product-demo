@@ -9,7 +9,7 @@ import { cn } from "~/utils/style";
 type HeaderProps = {
   title: string;
   isSmall: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const Header = (props: HeaderProps) => {

@@ -22,7 +22,7 @@ const Dashboard: NextPage = () => {
 
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
-  const createRequest = api.feedback.createDashboard.useMutation();
+  const createRequest = api.feedback.createForm.useMutation();
 
   const handleRequestFeedback = () => {
     createRequest.mutate({ title: "Untitled Feedback" });
@@ -96,9 +96,15 @@ const Dashboard: NextPage = () => {
           ownedFeedbacks.data.map((fr) => {
             return (
               <FeedbackRequestCard
-                key={fr.id}
-                title={fr.title}
+                key={fr.slug}
                 slug={fr.slug}
+                canEdit={fr.status === "CREATING"}
+                title={fr.title ?? ""}
+                paragraph={fr.paragraph ?? ""}
+                feedbackItems={fr.feedbackItems.map((fi) => ({
+                  prompt: fi.prompt,
+                }))}
+                ownerEmail={""}
                 authors={fr.authors.map((a) => ({
                   email: a.email ?? "",
                   id: a.id,

@@ -11,30 +11,24 @@ async function main() {
   console.log("Deleted users...", users);
 
   // ~ users
-  const mihaly = await prisma.user.upsert({
-    where: { email: "mihaly@improveme.io" },
-    update: {},
-    create: {
+  const mihaly = await prisma.user.create({
+    data: {
       email: "mihaly@improveme.io",
       clerkUserId: "user_2OIdxZTccYOO3rnX8c1zl5eWk1F",
       firstName: "Mihaly",
       lastName: "Furedi",
     },
   });
-  const kristof = await prisma.user.upsert({
-    where: { email: "kristof@improveme.io" },
-    update: {},
-    create: {
+  const kristof = await prisma.user.create({
+    data: {
       email: "kristof@improveme.io",
       clerkUserId: "user_2PYcL7UyF0RjGNpLEWbaZUZbOOT",
       firstName: "Kristof",
       lastName: "Gatter",
     },
   });
-  const brooke = await prisma.user.upsert({
-    where: { email: "brooke@improveme.io" },
-    update: {},
-    create: {
+  const brooke = await prisma.user.create({
+    data: {
       email: "brooke@improveme.io",
       // TODO: add clerkUserId
       firstName: "Brooke",
@@ -45,42 +39,56 @@ async function main() {
   console.log({ mihaly, kristof, brooke });
 
   // ~ feedbacks
-  const feedbackRequestAuthor = await prisma.feedbackRequest.create({
+  const feedbackRequest100Days = await prisma.feedbackRequest.create({
     data: {
       owner: { connect: { id: kristof.id } },
       authors: { connect: [{ id: mihaly.id }] },
       title: "100 Days Evaluation",
-      status: "DONE",
+      status: "REQUESTED",
     },
   });
-  console.log("Created feedback request...", feedbackRequestAuthor);
+  console.log("Created feedback request...", feedbackRequest100Days);
+  const whatWentWell = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: kristof.id } },
+      author: { connect: { id: kristof.id } },
+      request: { connect: { id: feedbackRequest100Days.id } },
+      prompt: "What went well?",
+    },
+  });
+  const whatToImprove = await prisma.feedbackItem.create({
+    data: {
+      owner: { connect: { id: kristof.id } },
+      author: { connect: { id: kristof.id } },
+      request: { connect: { id: feedbackRequest100Days.id } },
+      prompt: "What to improve?",
+    },
+  });
   const whatWentWellMihaly = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: kristof.id } },
       author: { connect: { id: mihaly.id } },
-      request: { connect: { id: feedbackRequestAuthor.id } },
+      request: { connect: { id: feedbackRequest100Days.id } },
       prompt: "What went well?",
-      payload:
-        "You are my best friend, I love you and I would do anything for you. I will make you a sandwich any time you ask for it and give you bottles of expensive rare whiskeys for Christmass. I pledge to give 10% of my salary, just to prove that I am your friend. You are the best starcraft player I have ever seen, and I am so envious of you! I wish I could play StarCraft just half as well as you do.",
     },
   });
   const whatToImproveMihaly = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: kristof.id } },
       author: { connect: { id: mihaly.id } },
-      request: { connect: { id: feedbackRequestAuthor.id } },
+      request: { connect: { id: feedbackRequest100Days.id } },
       prompt: "What to improve?",
-      payload:
-        "I can not think of anything to improve. When I look in the mirror, I think about you and how perfect you are. I should probably give you another 10% of my salary. I am so happy that you are my friend, I can not imagine my life without you. I love you so much. I wish I could give you more than 10% of my salary, but I am afraid that I will not be able to afford my rent. I am so happy that you are my friend, I can not imagine my life without you. I love you so much. I wish I could give you more than 10% of my salary, but I am afraid that I will not be able to afford my rent.",
     },
   });
   console.log("Created feedback items...");
   console.log({
+    whatWentWell,
+    whatToImprove,
     whatWentWellMihaly,
     whatToImproveMihaly,
   });
 
-  const feedbackRequestOwner = await prisma.feedbackRequest.create({
+  const feedbackRequestQ2Peer = await prisma.feedbackRequest.create({
     data: {
       owner: { connect: { id: mihaly.id } },
       authors: { connect: [{ id: kristof.id }, { id: brooke.id }] },
@@ -88,12 +96,12 @@ async function main() {
       status: "DONE",
     },
   });
-  console.log("Created feedback request...", feedbackRequestOwner);
+  console.log("Created feedback request...", feedbackRequestQ2Peer);
   const whatWentWellKristof = await prisma.feedbackItem.create({
     data: {
       owner: { connect: { id: mihaly.id } },
       author: { connect: { id: kristof.id } },
-      request: { connect: { id: feedbackRequestOwner.id } },
+      request: { connect: { id: feedbackRequestQ2Peer.id } },
       prompt: "What went well?",
       payload:
         "You are my best friend, I love you and I would do anything for you. I will make you a sandwich any time you ask for it and give you bottles of expensive rare whiskeys for Christmass. I pledge to give 10% of my salary, just to prove that I am your friend. You are the best starcraft player I have ever seen, and I am so envious of you! I wish I could play StarCraft just half as well as you do.",
@@ -103,7 +111,7 @@ async function main() {
     data: {
       owner: { connect: { id: mihaly.id } },
       author: { connect: { id: kristof.id } },
-      request: { connect: { id: feedbackRequestOwner.id } },
+      request: { connect: { id: feedbackRequestQ2Peer.id } },
       prompt: "What to improve?",
       payload:
         "I can not think of anything to improve. When I look in the mirror, I think about you and how perfect you are. I should probably give you another 10% of my salary. I am so happy that you are my friend, I can not imagine my life without you. I love you so much. I wish I could give you more than 10% of my salary, but I am afraid that I will not be able to afford my rent. I am so happy that you are my friend, I can not imagine my life without you. I love you so much. I wish I could give you more than 10% of my salary, but I am afraid that I will not be able to afford my rent.",
@@ -113,7 +121,7 @@ async function main() {
     data: {
       owner: { connect: { id: mihaly.id } },
       author: { connect: { id: brooke.id } },
-      request: { connect: { id: feedbackRequestOwner.id } },
+      request: { connect: { id: feedbackRequestQ2Peer.id } },
       prompt: "What went well?",
       payload:
         "You are the best programmer I have ever seen. I always though that coders were dorks, but now that I metyou, it's unbelievable you are so cool! I wish I could be as cool as you are. Maybe I should dedicate my next book to you. Actually, I should probably just write a book about you.",
@@ -123,7 +131,7 @@ async function main() {
     data: {
       owner: { connect: { id: mihaly.id } },
       author: { connect: { id: brooke.id } },
-      request: { connect: { id: feedbackRequestOwner.id } },
+      request: { connect: { id: feedbackRequestQ2Peer.id } },
       prompt: "What to improve?",
       payload:
         "Nothing. Literally nothing. You are perfect. I even asked my professors, and they said that you are the best programmer they have ever seen.",
