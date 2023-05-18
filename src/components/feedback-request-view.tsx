@@ -17,7 +17,7 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
     <section>
       <div className="mx-auto max-w-4xl">
         <Image
-          className="md:-ml-16 md:mt-8"
+          className="lg:-ml-16 lg:mt-8"
           src="/HeroLogo.svg"
           width={312 / 2}
           height={153 / 2}
