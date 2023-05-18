@@ -97,6 +97,7 @@ const Dashboard: NextPage = () => {
             return (
               <FeedbackRequestCard
                 key={fr.id}
+                canEdit={fr.status === "CREATING"}
                 title={fr.title}
                 slug={fr.slug}
                 authors={fr.authors.map((a) => ({

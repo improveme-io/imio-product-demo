@@ -11,6 +11,7 @@ type FeedbackRequestCardProps = {
   title: string | null;
   slug: string;
   authors: { email: string; id: string }[];
+  canEdit?: boolean;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -24,13 +25,14 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
               <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
               Delete
             </Button>
-            {/* FIXME: asChild and disabled doesn't seem to work together */}
-            <Button disabled asChild variant="ghost">
-              <Link href={`/feedback/${props.slug}`}>
-                <EditIcon className="mr-2 h-4 w-4" />
-                Edit
-              </Link>
-            </Button>
+            {props.canEdit && (
+              <Button asChild variant="ghost">
+                <Link href={`/feedback/${props.slug}`}>
+                  <EditIcon className="mr-2 h-4 w-4" />
+                  Edit
+                </Link>
+              </Button>
+            )}
             <Button disabled variant="outline">
               <ViewIcon className="mr-2 h-4 w-4" />
               Preview
