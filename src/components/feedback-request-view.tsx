@@ -3,7 +3,7 @@
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 type FeedbackRequestViewProps = {
   title?: string;
