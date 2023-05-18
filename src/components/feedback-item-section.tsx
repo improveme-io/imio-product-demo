@@ -57,6 +57,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                   <FieldArrayItem<string>
                     name={`feedbackItems[${index}].prompt`}
                     onSubmitValidate={promptSchema}
+                    onBlurValidate={promptSchema}
                   >
                     {({ value, setValue, onBlur }) => (
                       <FeedbackItem
