@@ -26,7 +26,6 @@ import { FeatureCard } from "~/components/www/feature-card";
 import Link from "next/link";
 import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
-import { useState } from "react";
 import { Toaster } from "~/components/ui/toaster";
 
 const feedbackItems = [
