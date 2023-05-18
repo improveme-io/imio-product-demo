@@ -19,13 +19,7 @@ import { FeedbackParagraphSection } from "~/components/feedback-paragraph-sectio
 import { FeedbackAuthorSection } from "~/components/feedback-author-section";
 import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-} from "~/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "~/components/ui/dialog";
 import { DialogTrigger } from "~/components/shadcn/dialog";
 import { FeedbackRequestView } from "~/components/feedback-request-view";
 
@@ -121,45 +115,44 @@ const FeedbackRequest: NextPage = () => {
                 )}
               />
               <footer className="flex justify-end pb-16 pl-8 pt-8">
-                {/* FIXME: doesn't scroll, so you can't see big feedback requests */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline">Show Dialog</Button>
                   </DialogTrigger>
-                  {/* FIXME: it is transparent without this, so probably tailwind is not configured correctly */}
-                  <DialogContent className="inset-10 bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
-                    <DialogHeader className="overflow-y-scroll border-b border-b-stone-200">
-                      <DialogDescription></DialogDescription>
-                      <FeedbackRequestView
-                        title={formValues.title}
-                        paragraph={formValues.paragraph}
-                        feedbackItems={formValues.feedbackItems}
-                        renderOwner={
-                          <UserItem
-                            className="mr-0"
-                            email={feedbackRequest.data?.owner.email}
-                          />
-                        }
-                      />
-                    </DialogHeader>
+                  {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
+                  <DialogContent className="inset-10 overflow-y-scroll bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
+                    <FeedbackRequestView
+                      title={formValues.title}
+                      paragraph={formValues.paragraph}
+                      feedbackItems={formValues.feedbackItems}
+                      renderOwner={
+                        <UserItem
+                          className="mr-0"
+                          email={feedbackRequest.data?.owner.email}
+                        />
+                      }
+                    />
                     <DialogFooter>
-                      <Button
-                        variant={errors.length > 0 ? "destructive" : "outline"}
-                        disabled={
-                          !feedbackRequest.data ||
-                          !user.data ||
-                          errors.length > 0 ||
-                          createRequest.isLoading
-                        }
-                        size="lg"
-                        // FIXME: eslint
-                        /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
-                        onClick={submit}
-                      >
-                        <StepForwardIcon className="mr-2" />
-                        Test Submit
-                      </Button>
-                      {errors.length > 0 && <p>* There are errors</p>}
+                      <div>
+                        <Button
+                          variant={
+                            errors.length > 0 ? "destructive" : "outline"
+                          }
+                          disabled={
+                            !feedbackRequest.data ||
+                            !user.data ||
+                            createRequest.isLoading
+                          }
+                          size="lg"
+                          // FIXME: eslint
+                          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
+                          onClick={submit}
+                        >
+                          <StepForwardIcon className="mr-2" />
+                          Test Submit
+                        </Button>
+                        {errors.length > 0 && <p>* There are errors</p>}
+                      </div>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
