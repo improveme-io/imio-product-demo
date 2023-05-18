@@ -8,7 +8,13 @@ const paragraphSchema = z
   .string()
   .min(140, "* That's less than half a tweet! Please write a bit more.");
 
-export const FeedbackParagraphSection = () => {
+type FeedbackParagraphSectionProps = {
+  paragraph: string;
+};
+
+export const FeedbackParagraphSection = (
+  props: FeedbackParagraphSectionProps
+) => {
   return (
     <>
       <div className="mt-12 flex items-center justify-between">
@@ -23,7 +29,7 @@ export const FeedbackParagraphSection = () => {
       </Label>
       <Field<string>
         name="paragraph"
-        initialValue=""
+        initialValue={props.paragraph}
         onSubmitValidate={paragraphSchema}
       >
         {({ value, setValue, onBlur, errors }) => (

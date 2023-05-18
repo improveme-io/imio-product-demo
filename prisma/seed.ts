@@ -11,30 +11,24 @@ async function main() {
   console.log("Deleted users...", users);
 
   // ~ users
-  const mihaly = await prisma.user.upsert({
-    where: { email: "mihaly@improveme.io" },
-    update: {},
-    create: {
+  const mihaly = await prisma.user.create({
+    data: {
       email: "mihaly@improveme.io",
       clerkUserId: "user_2OIdxZTccYOO3rnX8c1zl5eWk1F",
       firstName: "Mihaly",
       lastName: "Furedi",
     },
   });
-  const kristof = await prisma.user.upsert({
-    where: { email: "kristof@improveme.io" },
-    update: {},
-    create: {
+  const kristof = await prisma.user.create({
+    data: {
       email: "kristof@improveme.io",
       clerkUserId: "user_2PYcL7UyF0RjGNpLEWbaZUZbOOT",
       firstName: "Kristof",
       lastName: "Gatter",
     },
   });
-  const brooke = await prisma.user.upsert({
-    where: { email: "brooke@improveme.io" },
-    update: {},
-    create: {
+  const brooke = await prisma.user.create({
+    data: {
       email: "brooke@improveme.io",
       // TODO: add clerkUserId
       firstName: "Brooke",

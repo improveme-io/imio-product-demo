@@ -23,6 +23,7 @@ import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 
 type FormValues = z.infer<typeof formSchema>;
 
+// TODO: handle the case where there is no such feedback with slug
 const FeedbackRequest: NextPage = () => {
   const router = useRouter();
 
@@ -36,14 +37,37 @@ const FeedbackRequest: NextPage = () => {
     }
   );
 
+  console.log(user.data?.id);
   const feedbackRequest = api.feedback.bySlug.useQuery(
     {
       // FIXME: better typing if possible
       slug: router.query.slug as string,
+      authorId: user.data?.id,
     },
-    { enabled: !!router.query.slug }
+    { enabled: !!router.query.slug && !!user.data?.id }
   );
   const createRequest = api.feedback.submitForm.useMutation();
+  const saveRequest = api.feedback.saveForm.useMutation();
+
+  const title = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.title
+    : feedbackRequest.data?.title;
+
+  const paragraph = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.paragraph
+    : feedbackRequest.data?.paragraph;
+
+  const authors = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.authors
+    : feedbackRequest.data?.authors.map((user) => ({
+        email: user.email,
+        lastName: user.lastName,
+        firstName: user.firstName,
+      }));
+
+  const feedbackItems = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.feedbackItems
+    : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
@@ -89,24 +113,28 @@ const FeedbackRequest: NextPage = () => {
           >
             {({ submit, errors, value: formValues }) => (
               <>
-                <FeedbackTitleSection title={feedbackRequest.data?.title} />
+                <FeedbackTitleSection title={title} />
                 <Card className="my-12">
                   <CardContent className="px-6 pb-8 pt-6">
-                    <FeedbackAuthorSection
-                      authors={feedbackRequest.data?.authors.map((user) => ({
-                        email: user.email,
-                        lastName: user.lastName,
-                        firstName: user.firstName,
-                      }))}
-                    />
-                    <FeedbackParagraphSection />
+                    <FeedbackAuthorSection authors={authors} />
+                    <FeedbackParagraphSection paragraph={paragraph ?? ""} />
                   </CardContent>
                 </Card>
-                <FeedbackItemSection
-                  feedbackItems={feedbackRequest.data?.feedbackItems.map(
-                    (fi) => ({ prompt: fi.prompt })
-                  )}
-                />
+                <FeedbackItemSection feedbackItems={feedbackItems} />
+                {/* CONTINUE -- put button here that saves the form's current state */}
+                <Button
+                  onClick={() => {
+                    // save form state
+                    if (feedbackRequest.data) {
+                      saveRequest.mutate({
+                        requestId: feedbackRequest.data.id,
+                        ...formValues,
+                      });
+                    }
+                  }}
+                >
+                  Save progress
+                </Button>
                 <footer className="flex justify-end pb-16 pl-8 pt-8">
                   <FeedbackRequestDialog
                     title={formValues.title}
