@@ -154,6 +154,12 @@ export const feedbackRouter = createTRPCRouter({
         owner: true,
         authors: true,
         feedbackItems: true,
+        formSave: {
+          include: {
+            authors: true,
+            feedbackItems: true,
+          },
+        },
         _count: true,
       },
       orderBy: { updatedAt: "desc" },

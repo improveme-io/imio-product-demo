@@ -17,7 +17,7 @@ import {
   ClipboardCopyIcon,
 } from "lucide-react";
 
-import useCopyToClipboard from "react-use/lib/useCopyToClipboard";
+import { useCopyToClipboard } from "react-use";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { PageHead } from "~/components/page-head";
 import { Button } from "~/components/ui/button";

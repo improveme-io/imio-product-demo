@@ -31,6 +31,7 @@ export const FeedbackParagraphSection = (
         name="paragraph"
         initialValue={props.paragraph}
         onSubmitValidate={paragraphSchema}
+        onBlurValidate={paragraphSchema}
       >
         {({ value, setValue, onBlur, errors }) => (
           <>
@@ -40,7 +41,9 @@ export const FeedbackParagraphSection = (
               onChange={(e) => {
                 setValue(e.target.value);
               }}
-              onBlur={onBlur}
+              onBlur={() => {
+                onBlur();
+              }}
               className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
             />
             {errors.map((error) => (

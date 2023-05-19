@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { EditIcon, HelpCircleIcon, SaveIcon, TrashIcon } from "lucide-react";
+import { EditIcon, HelpCircleIcon, TrashIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import {
@@ -103,17 +103,6 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   be asked to answer in prose at a minimum of 240 characters.
                 </p>
               </div>
-            </div>
-
-            <div className="mt-8 flex justify-end">
-              <Button
-                onClick={() => {
-                  setIsEditing(false);
-                }}
-              >
-                <SaveIcon className="mr-2 h-4 w-4" />
-                Save
-              </Button>
             </div>
           </div>
         )}
