@@ -206,6 +206,8 @@ const FeedbackRequest: NextPage = () => {
                         {
                           onSuccess: () => {
                             setIsDirty(false);
+                            // TODO: invalidate cache instead
+                            void feedbackRequest.refetch();
                           },
                         }
                       );
