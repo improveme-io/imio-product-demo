@@ -115,7 +115,7 @@ export const formRouter = createTRPCRouter({
       );
       // create feedback items
       // ownerId
-      const data = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
+      const fis = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
         prompt: feedbackItem.prompt,
         requestId: input.requestId,
         ownerId: input.ownerId,
@@ -123,7 +123,7 @@ export const formRouter = createTRPCRouter({
       }));
       // include owner as author --> these are special, "empty" feedback items used for displaying the feedback items on the frontend without exposing the author
       for (const fi of input.feedbackItems) {
-        data.push({
+        fis.push({
           prompt: fi.prompt,
           requestId: input.requestId,
           ownerId: input.ownerId,
@@ -131,9 +131,13 @@ export const formRouter = createTRPCRouter({
         });
       }
       // create feedback items
-      void ctx.prisma.feedbackItem.createMany({
-        data,
-      });
+      const feedbackItems = await ctx.prisma.$transaction(
+        fis.map((data) =>
+          ctx.prisma.feedbackItem.create({
+            data,
+          })
+        )
+      );
 
       // ~ feedback request ~
       // create feedback request
@@ -148,6 +152,11 @@ export const formRouter = createTRPCRouter({
           authors: {
             connect: authors.map((author) => ({
               id: author.id,
+            })),
+          },
+          feedbackItems: {
+            connect: feedbackItems.map((fi) => ({
+              id: fi.id,
             })),
           },
           // ~ clean up save ~

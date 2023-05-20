@@ -11,6 +11,30 @@ async function main() {
   console.log("Deleted users...", users);
 
   // ~ users
+  const userA = await prisma.user.create({
+    data: {
+      email: "a@a.aa",
+      clerkUserId: "user_2Q44u9dkbUmSC6BRdrHbGRD8klB",
+      firstName: "A",
+      lastName: "User",
+    },
+  });
+  const userB = await prisma.user.create({
+    data: {
+      email: "b@b.bb",
+      clerkUserId: "user_2Q44w4mrAUl7B5KQF5IKvANW56Q",
+      firstName: "B",
+      lastName: "User",
+    },
+  });
+  const userC = await prisma.user.create({
+    data: {
+      email: "c@c.cc",
+      clerkUserId: "user_2Q44yg44NuiZ2c6OuRVRLeQTaCX",
+      firstName: "A",
+      lastName: "User",
+    },
+  });
   const mihaly = await prisma.user.create({
     data: {
       email: "mihaly@improveme.io",
@@ -36,7 +60,7 @@ async function main() {
     },
   });
   console.log("Created users...");
-  console.log({ mihaly, kristof, brooke });
+  console.log({ userA, userB, userC, mihaly, kristof, brooke });
 
   // ~ feedbacks
   const feedbackRequest100Days = await prisma.feedbackRequest.create({
