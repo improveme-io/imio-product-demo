@@ -33,7 +33,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                       setValue(e.target.value);
                     }}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter") {
+                      if (e.key === "Enter" || e.key === "Escape") {
                         setIsEditing(false);
                       }
                     }}

@@ -52,7 +52,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   props.onChange(e);
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
+                  if (e.key === "Enter" || e.key === "Escape") {
                     setIsEditing(false);
                   }
                 }}
