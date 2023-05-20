@@ -223,26 +223,26 @@ const FeedbackRequest: NextPage = () => {
         <MainLayout app>
           <div className="flex max-w-4xl flex-col px-8 pb-8">
             <h1 className="pb-8 pt-16 font-serif text-3xl">
-              {feedbackRequest.data.title}
+              {feedbackRequest.data?.title}
             </h1>
             {/* DEADLINE */}
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
-                  {feedbackRequest.data.owner.firstName}{" "}
-                  {feedbackRequest.data.owner.lastName}
+                  {feedbackRequest.data?.owner.firstName}{" "}
+                  {feedbackRequest.data?.owner.lastName}
                   <p className="mx-2">is requesting Your feedback:</p>
                 </div>
                 <CardContent className="flex items-center px-0">
                   <p className="mt-8 max-w-2xl leading-6">
-                    {feedbackRequest.data.paragraph}
+                    {feedbackRequest.data?.paragraph}
                   </p>
                 </CardContent>
               </CardHeader>
             </Card>
             <ul>
               {/* collect unique owner feedback items */}
-              {feedbackRequest.data.feedbackItems
+              {feedbackRequest.data?.feedbackItems
                 ?.filter((item) => {
                   return item.authorId === item.ownerId;
                 })
@@ -293,6 +293,9 @@ const FeedbackRequest: NextPage = () => {
   if (viewerIsAuthor) {
     // ~ feedback is in CREATING state ~
   }
+
+  // ~ 3rd party ~
+  // not implemented yet
 
   // ~ general error (should never happen) ~
   return <GeneralError />;
