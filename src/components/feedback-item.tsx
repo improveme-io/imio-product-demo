@@ -51,6 +51,11 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                   setCurrentPrompt(e.target.value);
                   props.onChange(e);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setIsEditing(false);
+                  }
+                }}
                 onBlur={() => setIsEditing(false)}
                 placeholder="Type Your Question Here..."
               />

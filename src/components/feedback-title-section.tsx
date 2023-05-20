@@ -32,6 +32,11 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                     onChange={(e) => {
                       setValue(e.target.value);
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        setIsEditing(false);
+                      }
+                    }}
                     onBlur={() => setIsEditing(false)}
                     className="flex-grow text-2xl"
                   />
