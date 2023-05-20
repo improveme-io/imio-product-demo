@@ -1,6 +1,6 @@
 import { type ChangeEvent } from "react";
 import { FieldArray, FieldArrayItem } from "houseform";
-import { PuzzleIcon, PlusSquareIcon } from "lucide-react";
+import { PuzzleIcon, PlusSquareIcon, FilePlus2Icon } from "lucide-react";
 import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
@@ -28,6 +28,12 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
     {
       prompt: "",
     },
+  ];
+
+  const template = [
+    "What aspects of my contributions to the group project do you think were particularly helpful or effective?",
+    "How could I have better aligned my contributions with the goals of the project?",
+    "Did you observe any missed opportunities where my skills or knowledge could have been better utilized for the success of the project?",
   ];
 
   return (
@@ -77,24 +83,42 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                 </li>
               ))}
             </ul>
-            <Button
-              className="my-12 bg-white"
-              disabled={feedbackItems.some(
-                (feedbackItem) => !isFeedbackItem(feedbackItem)
-              )}
-              variant={"outline"}
-              size={"lg"}
-              onClick={() => {
-                // TODO: remember last selection
-                addToFeedbackItems({ prompt: "" });
-              }}
-            >
-              <span className="mr-2">
-                <PlusSquareIcon size={20} />
-              </span>
-              Add New Feedback Item ({MAX_FEEDBACK_ITEMS - feedbackItems.length}{" "}
-              left)
-            </Button>
+            <div className="flex justify-between">
+              <Button
+                className="my-12 bg-white"
+                disabled={feedbackItems.some(
+                  (feedbackItem) => !isFeedbackItem(feedbackItem)
+                )}
+                variant={"outline"}
+                size={"lg"}
+                onClick={() => {
+                  // TODO: remember last selection
+                  addToFeedbackItems({ prompt: "" });
+                }}
+              >
+                <span className="mr-2">
+                  <PlusSquareIcon size={20} />
+                </span>
+                Add New Feedback Item (
+                {MAX_FEEDBACK_ITEMS - feedbackItems.length} left)
+              </Button>
+              <Button
+                className="my-16 grow-0 px-10 py-8 text-lg text-white"
+                disabled={feedbackItems.some(
+                  (feedbackItem) => !isFeedbackItem(feedbackItem)
+                )}
+                size={"lg"}
+                onClick={() => {
+                  // TODO: remember last selection
+                  template.map((_) => addToFeedbackItems({ prompt: _ }));
+                }}
+              >
+                <span className="mr-2">
+                  <FilePlus2Icon size={20} />
+                </span>
+                Add All Standard UVA Course Questions ({template.length} items)
+              </Button>
+            </div>
           </>
         )}
       </FieldArray>
