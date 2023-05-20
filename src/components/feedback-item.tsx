@@ -103,9 +103,9 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
             asked to answer in prose at a minimum of 240 characters.
           </p>
           <Button
-            variant={"destructive"}
+            variant={"ghost"}
             onClick={props.onRemove}
-            className="ml-auto opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            className="ml-auto text-red-500 opacity-0 transition-opacity duration-300 hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
           >
             <TrashIcon className="mr-2 h-4 w-4" />
             Remove
