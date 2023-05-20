@@ -5,22 +5,23 @@ import { InboxIcon, LeafIcon, Loader2Icon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
 
+
+import { api } from "~/utils/api";
+import { PageHead } from "~/components/page-head";
+import { MainLayout } from "~/components/main-layout";
+import { LogoSplash } from "~/components/logo-splash";
+import { Header } from "~/components/header";
 import { Contribution } from "~/components/contribution";
 import { FeedbackRequestCard } from "~/components/feedback-request-card";
-
-import { PageHead } from "~/components/page-head";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { api } from "~/utils/api";
-import { Header } from "~/components/header";
-import { MainLayout } from "~/components/main-layout";
-import Image from "next/image";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
 
   const clerkUser = useUser();
 
+  // TODO: add enabled props to wait for the auth state to be ready
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createForm = api.feedback.createForm.useMutation();
@@ -40,18 +41,12 @@ const Dashboard: NextPage = () => {
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
 
-  if (ownedFeedbacks.isLoading || authoredFeedbacks.isLoading) {
-    return (
-      <div className="flex h-screen w-screen animate-pulse items-center justify-center">
-        <Image
-          className="m-auto animate-bounce"
-          src="/Logo.svg"
-          width={78}
-          height={60}
-          alt="improveme.io logo"
-        />
-      </div>
-    );
+  if (
+    ownedFeedbacks.isLoading ||
+    authoredFeedbacks.isLoading ||
+    !clerkUser.isLoaded
+  ) {
+    return <LogoSplash />;
   }
 
   return (

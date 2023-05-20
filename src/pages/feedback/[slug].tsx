@@ -7,25 +7,23 @@ import { SaveIcon, StepForwardIcon } from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 
-import Image from "next/image";
-
 import { api } from "~/utils/api";
 import { type formSchema } from "~/utils/validation";
-import { Button } from "~/components/ui/button";
+import { cn } from "~/utils/style";
+import { LogoSplash } from "~/components/logo-splash";
+import { GeneralError, UnathorizedError } from "~/components/error-screens";
 import { MainLayout } from "~/components/main-layout";
 import { PageHead } from "~/components/page-head";
+import { Header } from "~/components/header";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { UserItem } from "~/components/user-item";
-import { Header } from "~/components/header";
-import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
-import { FeedbackAuthorSection } from "~/components/feedback-author-section";
-import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackTitleSection } from "~/components/feedback-title-section";
-import { Label } from "~/components/ui/label";
-import { GeneralError } from "~/components/general-error";
+import { FeedbackAuthorSection } from "~/components/feedback-author-section";
+import { FeedbackParagraphSection } from "~/components/feedback-paragraph-section";
+import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
-import { cn } from "~/utils/style";
-import { UnathorizedError } from "~/components/error-screens";
+import { Button } from "~/components/ui/button";
+import { Label } from "~/components/ui/label";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -96,21 +94,15 @@ const FeedbackRequest: NextPage = () => {
   // TODO: we should have a better way of hydrating the form with the data from the feedback... maybe SSR would be better here?
   // can't use placeholderData because we have different views based on the status
   // maybe a set of nice skeleton components for now would be good
-  if (feedbackRequest.isLoading) {
-    return (
-      <div className="flex h-screen w-screen animate-pulse items-center justify-center">
-        <Image
-          className="m-auto animate-bounce"
-          src="/Logo.svg"
-          width={78}
-          height={60}
-          alt="improveme.io logo"
-        />
-      </div>
-    );
+  if (
+    feedbackRequest.isLoading ||
+    currentViewer.isLoading ||
+    !clerkSession.isLoaded
+  ) {
+    return <LogoSplash />;
   }
 
-  // ~ not authorized ~ viewer is not owner or author
+  // ~ not authorized ~
   if (!viewerIsOwner && !viewerIsAuthor) {
     return <UnathorizedError />;
   }
@@ -299,9 +291,10 @@ const FeedbackRequest: NextPage = () => {
 
   // ~ author ~
   if (viewerIsAuthor) {
+    // ~ feedback is in CREATING state ~
   }
 
-  // ~ general error
+  // ~ general error (should never happen) ~
   return <GeneralError />;
 };
 
