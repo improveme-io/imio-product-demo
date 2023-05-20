@@ -23,10 +23,6 @@ export const FeedbackParagraphSection = (
           Introductory Paragraph
         </h2>
       </div>
-      <Label className="mb-2">
-        Write some text to explain on a personal level what kind of feedback you
-        are asking for and why.
-      </Label>
       <Field<string>
         name="paragraph"
         initialValue={props.paragraph}
@@ -35,6 +31,10 @@ export const FeedbackParagraphSection = (
       >
         {({ value, setValue, onBlur, errors }) => (
           <>
+            <Label className="mb-2">
+              Write some text to explain on a personal level what kind of
+              feedback you are asking for and why.
+            </Label>
             <Textarea
               value={value}
               placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
@@ -47,7 +47,7 @@ export const FeedbackParagraphSection = (
               className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
             />
             {errors.map((error) => (
-              <p key={error}>{error}</p>
+              <p key={`paragraph-${error}`}>{error}</p>
             ))}
           </>
         )}

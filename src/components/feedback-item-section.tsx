@@ -1,19 +1,16 @@
 import { type ChangeEvent } from "react";
 import { FieldArray, FieldArrayItem } from "houseform";
 import { PuzzleIcon, PlusSquareIcon } from "lucide-react";
-import { type z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import { FeedbackItem } from "~/components/feedback-item";
-import { feedbackItemSchema, promptSchema } from "~/utils/validation";
+import {
+  promptSchema,
+  type FeedbackItemForm,
+  isFeedbackItem,
+} from "~/utils/validation";
 
 const MAX_FEEDBACK_ITEMS = 10;
-
-type FeedbackItem = z.infer<typeof feedbackItemSchema>;
-
-function isFeedbackItem(value: unknown): value is FeedbackItem {
-  return feedbackItemSchema.safeParse(value).success;
-}
 
 type FeedbackItemSectionProps = {
   feedbackItems?: { prompt: string | null }[];
@@ -41,7 +38,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
         items generally consist of a prompt and some kind of input provided by
         the author. Most commonly, a question and prose written as an answer.
       </p>
-      <FieldArray<FeedbackItem>
+      <FieldArray<FeedbackItemForm>
         name="feedbackItems"
         initialValue={initialValue}
       >

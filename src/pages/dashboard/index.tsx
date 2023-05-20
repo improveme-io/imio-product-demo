@@ -24,7 +24,7 @@ const Dashboard: NextPage = () => {
   // TODO: add enabled props to wait for the auth state to be ready
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
-  const createForm = api.feedback.createForm.useMutation();
+  const createForm = api.form.createForm.useMutation();
 
   const handleRequestFeedback = () => {
     createForm.mutate(
@@ -66,7 +66,7 @@ const Dashboard: NextPage = () => {
         </Button>
         <Button
           disabled={createForm.isLoading}
-          className="bg-sky-700  transition-all duration-300"
+          className="transition-all duration-300"
           size={isScrolled ? "sm" : "lg"}
           onClick={handleRequestFeedback}
         >
@@ -90,7 +90,8 @@ const Dashboard: NextPage = () => {
               return (
                 <Contribution
                   key={fr.id}
-                  done={true}
+                  slug={fr.slug}
+                  done={fr.status === "DONE"}
                   requestName={fr.title}
                   requesterInitials={"<RN>"}
                   requesterName={"fr.owner.name"}

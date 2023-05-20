@@ -2,14 +2,27 @@ import React from "react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
-import { Form } from "houseform";
-import { SaveIcon, StepForwardIcon } from "lucide-react";
+import { Form, FieldArray, FieldArrayItem } from "houseform";
+import {
+  SaveIcon,
+  StepForwardIcon,
+  PuzzleIcon,
+  PlusSquareIcon,
+  Loader2Icon,
+} from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 
 import { api } from "~/utils/api";
-import { type formSchema } from "~/utils/validation";
-import { cn } from "~/utils/style";
+import {
+  type,
+  type formSchema,
+  payloadSchema,
+  type AuthoringForm,
+  type AuthoringFormItem,
+  isAuthoringItem,
+  authorUpdate,
+} from "~/utils/validation";
 import { LogoSplash } from "~/components/logo-splash";
 import { GeneralError, UnathorizedError } from "~/components/error-screens";
 import { MainLayout } from "~/components/main-layout";
@@ -24,6 +37,7 @@ import { FeedbackItemSection } from "~/components/feedback-item-section";
 import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -31,6 +45,7 @@ type FormValues = z.infer<typeof formSchema>;
 const FeedbackRequest: NextPage = () => {
   const router = useRouter();
 
+  // ~ auth & user ~
   const clerkSession = useAuth();
   const currentViewer = api.user.byAuth.useQuery(
     {
@@ -41,6 +56,7 @@ const FeedbackRequest: NextPage = () => {
     }
   );
 
+  // ~ feedback ~
   // TODO: handle the case where there is no such feedback with slug
   const feedbackRequest = api.feedback.bySlug.useQuery(
     {
@@ -50,21 +66,28 @@ const FeedbackRequest: NextPage = () => {
     },
     { enabled: !!router.query.slug && !!currentViewer.data?.id }
   );
-  const submitForm = api.feedback.submitForm.useMutation({
+  const setStatus = api.feedback.setStatus.useMutation();
+
+  // ~ form ~
+  const submitForm = api.form.submitForm.useMutation({
     onSuccess: async () => {
       await router.push("/dashboard");
     },
   });
-  const saveForm = api.feedback.saveForm.useMutation();
+  const saveForm = api.form.saveForm.useMutation();
+  const authorUpdate = api.form.authorUpdate.useMutation({
+    onSuccess: async () => {
+      await router.push("/dashboard");
+    },
+  });
 
+  // ~ initial data ~
   const title = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.title
     : feedbackRequest.data?.title;
-
   const paragraph = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.paragraph
     : feedbackRequest.data?.paragraph;
-
   const authors = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.authors
     : feedbackRequest.data?.authors.map((user) => ({
@@ -72,21 +95,21 @@ const FeedbackRequest: NextPage = () => {
         lastName: user.lastName,
         firstName: user.firstName,
       }));
-
   const feedbackItems = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
+  // ~ auth checks ~
   // TODO: move these checks to the server, also break up slug to only return the data that the viewer is allowed to see
   const viewerIsAuthor =
     currentViewer.data?.id &&
     feedbackRequest.data?.authors
       .map((a) => a.id)
       .includes(currentViewer.data?.id);
-
   const viewerIsOwner =
     feedbackRequest.data?.owner.id === currentViewer.data?.id;
 
+  // ~ scroll hook for header ~
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
@@ -135,10 +158,7 @@ const FeedbackRequest: NextPage = () => {
                   <Button
                     disabled={!isDirty || saveForm.isLoading}
                     variant={isDirty ? "default" : "secondary"}
-                    className={cn(
-                      "transition-all duration-300",
-                      isDirty && "bg-sky-700"
-                    )}
+                    className="transition-all duration-300"
                     size={isScrolled ? "sm" : "lg"}
                     onClick={() => {
                       if (feedbackRequest.data && currentViewer.data) {
@@ -161,7 +181,11 @@ const FeedbackRequest: NextPage = () => {
                       }
                     }}
                   >
-                    <SaveIcon className="mr-2" size="20" />
+                    {saveForm.isLoading ? (
+                      <Loader2Icon className="mr-2 animate-spin" size="25" />
+                    ) : (
+                      <SaveIcon className="mr-2" size="20" />
+                    )}
                     Save
                   </Button>
                 </Header>
@@ -193,9 +217,7 @@ const FeedbackRequest: NextPage = () => {
                             variant={
                               errors.length > 0 ? "destructive" : "default"
                             }
-                            className={cn(errors.length === 0 && "bg-sky-700")}
                             size="lg"
-                            // FIXME: turn off eslint rule or contribute to houseform
                             // eslint-disable-next-line @typescript-eslint/no-misused-promises
                             onClick={submit}
                           >
@@ -291,7 +313,109 @@ const FeedbackRequest: NextPage = () => {
 
   // ~ author ~
   if (viewerIsAuthor) {
-    // ~ feedback is in CREATING state ~
+    // ~ feedback is in REQUESTED state ~
+    if (feedbackRequest.data?.status === "REQUESTED") {
+      void setStatus.mutateAsync({
+        slug: feedbackRequest.data.slug,
+        status: "AUTHORING",
+      });
+    }
+
+    const authoringItems = feedbackRequest.data?.feedbackItems.filter((fi) => {
+      return fi.authorId === currentViewer.data?.id;
+    });
+
+    return (
+      <Form<{ authoringItems: AuthoringForm }>
+        onSubmit={(values) => {
+          authorUpdate.mutate({ items: values.authoringItems });
+        }}
+      >
+        {({ submit }) => (
+          <section className="pb-64">
+            <h2 className="mb-4 mt-8 flex text-xl">
+              <PuzzleIcon className="mr-2" />
+              Feedback Items
+            </h2>
+            <p className="w-4/6 px-3 py-1 pl-8">
+              Feedback authors will be presented with several Feedback Items.
+              Feedback items generally consist of a prompt and some kind of
+              input provided by the author. Most commonly, a question and prose
+              written as an answer.
+            </p>
+            <FieldArray<AuthoringFormItem>
+              name="authoringItems"
+              initialValue={authoringItems?.map((afi) => ({
+                id: afi.id,
+                prompt: afi.prompt ?? "",
+                payload: afi.payload ?? "",
+              }))}
+            >
+              {({ value: authoringItems }) => (
+                <>
+                  <ul>
+                    {authoringItems.map((authoringItem, index) => {
+                      return (
+                        <li key={`authoring-item-${authoringItem.id}`}>
+                          <FieldArrayItem<string>
+                            name={`authoringItems[${index}].payload`}
+                            onSubmitValidate={payloadSchema}
+                            onBlurValidate={payloadSchema}
+                          >
+                            {({ value, setValue, onBlur, errors }) => {
+                              return (
+                                <>
+                                  <Label className="mb-2">
+                                    {authoringItem.prompt}
+                                  </Label>
+                                  <Textarea
+                                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                                    value={value}
+                                    placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
+                                    onChange={(e) => {
+                                      setValue(e.target.value);
+                                    }}
+                                    onBlur={() => {
+                                      onBlur();
+                                    }}
+                                    className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
+                                  />
+                                  {errors.map((error) => (
+                                    <p
+                                      key={`authoring-item-${authoringItem.id}-error-${error}`}
+                                    >
+                                      {error}
+                                    </p>
+                                  ))}
+                                </>
+                              );
+                            }}
+                          </FieldArrayItem>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <Button
+                    // disabled={authoringItems.some(
+                    //   (feedbackItem) => !isAuthoringItem(feedbackItem)
+                    // )}
+                    variant="default"
+                    size={"lg"}
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    onClick={submit}
+                  >
+                    <span className="mr-2">
+                      <PlusSquareIcon size={20} />
+                    </span>
+                    Give Feedback
+                  </Button>
+                </>
+              )}
+            </FieldArray>
+          </section>
+        )}
+      </Form>
+    );
   }
 
   // ~ 3rd party ~

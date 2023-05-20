@@ -86,7 +86,7 @@ const Home: NextPage = () => {
               <Button
                 asChild
                 size={"lg"}
-                className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                className="grow-0 px-10 py-8 text-lg text-white"
               >
                 <Link href="/dashboard">Start Collecting Feedback Now</Link>
               </Button>
@@ -99,7 +99,7 @@ const Home: NextPage = () => {
               >
                 <Button
                   size={"lg"}
-                  className="grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                  className="grow-0 px-10 py-8 text-lg text-white"
                 >
                   Start Collecting Feedback Now
                 </Button>
@@ -262,18 +262,19 @@ const Home: NextPage = () => {
                 Mihaly: Software Development
               </h3>
               <p className="text-md mb-8 md:max-w-lg">
-                Mihaly Füredi was born in Boston but resides in Budapest. He is
-                a creative thinker who loves code and loves to get things done.
-                He started his career as a customer support agent at Prezi where
-                he fell in love with the product and decided to become an
-                engineer. While picking up calls during a night shift phone
-                support job, he finished a bootcamp-style coding school during
-                the day. This enabled him to advance to a full-stack engineering
-                position that focused on automation and tooling for Prezi&apos;s
-                go-to-market teams. After 4 years, he wanted to explore the
-                freelance space where he worked both as a frontend engineer and
-                as a product owner & scrum master and finally ended up working
-                for various startups in Germany and Austria.
+                Mihaly Füredi was born in Boston but resides in Budapest. He has
+                a background in physics and theoretical linguistics, but fell in
+                love with the code somewhere along the way, and has been working
+                as a full-stack engineer for the past 6 years.
+                <br />
+                He started his career as at Prezi, where he worked on the
+                automation and tooling for Prezi&apos;s go-to-market teams.
+                After 4 years, he started to explore the freelance space and his
+                focus shifted more and more to the front-end side of things.
+                <br />
+                He is a big fan of modern TypeScript/React and the new wave
+                serverless eco-system, keeping a close eye on big language
+                models and transformers.
               </p>
             </div>
           </div>
