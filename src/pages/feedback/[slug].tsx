@@ -25,15 +25,16 @@ import { Label } from "~/components/ui/label";
 import { GeneralError } from "~/components/general-error";
 import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 import { cn } from "~/utils/style";
+import { UnathorizedError } from "~/components/error-screens";
 
 type FormValues = z.infer<typeof formSchema>;
 
-// TODO: handle the case where there is no such feedback with slug
+// TODO: have all the auth checks on the server and only return the data that the viewer is allowed to see
 const FeedbackRequest: NextPage = () => {
   const router = useRouter();
 
   const clerkSession = useAuth();
-  const user = api.user.byAuth.useQuery(
+  const currentViewer = api.user.byAuth.useQuery(
     {
       clerkUserId: clerkSession.userId as string,
     },
@@ -42,13 +43,14 @@ const FeedbackRequest: NextPage = () => {
     }
   );
 
+  // TODO: handle the case where there is no such feedback with slug
   const feedbackRequest = api.feedback.bySlug.useQuery(
     {
       // FIXME: better typing if possible
       slug: router.query.slug as string,
-      authorId: user.data?.id,
+      authorId: currentViewer.data?.id,
     },
-    { enabled: !!router.query.slug && !!user.data?.id }
+    { enabled: !!router.query.slug && !!currentViewer.data?.id }
   );
   const submitForm = api.feedback.submitForm.useMutation({
     onSuccess: async () => {
@@ -77,6 +79,16 @@ const FeedbackRequest: NextPage = () => {
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
+  // TODO: move these checks to the server, also break up slug to only return the data that the viewer is allowed to see
+  const viewerIsAuthor =
+    currentViewer.data?.id &&
+    feedbackRequest.data?.authors
+      .map((a) => a.id)
+      .includes(currentViewer.data?.id);
+
+  const viewerIsOwner =
+    feedbackRequest.data?.owner.id === currentViewer.data?.id;
+
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
@@ -98,13 +110,124 @@ const FeedbackRequest: NextPage = () => {
     );
   }
 
-  // ~ owner and whoever it is shared with
-  if (feedbackRequest.data && feedbackRequest.data.status !== "CREATING") {
+  // ~ not authorized ~ viewer is not owner or author
+  if (!viewerIsOwner && !viewerIsAuthor) {
+    return <UnathorizedError />;
+  }
+
+  // ~ owner ~
+  if (viewerIsOwner) {
+    // ~ feedback is in CREATING state ~
+    if (feedbackRequest.data && feedbackRequest.data.status === "CREATING") {
+      return (
+        <>
+          <PageHead title="Request Feedback" />
+          <Form<FormValues>
+            onSubmit={(values) => {
+              // TODO: maybe validate via zod the entire form?
+              if (feedbackRequest.data && currentViewer.data) {
+                submitForm.mutate({
+                  requestId: feedbackRequest.data.id,
+                  ownerId: currentViewer.data.id,
+                  title: values.title,
+                  authors: values.authors,
+                  paragraph: values.paragraph,
+                  feedbackItems: values.feedbackItems,
+                });
+              }
+            }}
+          >
+            {({ submit, errors, value: formValues, isDirty, setIsDirty }) => (
+              <>
+                <Header isSmall={isScrolled} title={"Request Feedback"}>
+                  <Button
+                    disabled={!isDirty || saveForm.isLoading}
+                    variant={isDirty ? "default" : "secondary"}
+                    className={cn(
+                      "transition-all duration-300",
+                      isDirty && "bg-sky-700"
+                    )}
+                    size={isScrolled ? "sm" : "lg"}
+                    onClick={() => {
+                      if (feedbackRequest.data && currentViewer.data) {
+                        saveForm.mutate(
+                          {
+                            requestId: feedbackRequest.data?.id,
+                            title: formValues.title,
+                            authors: formValues.authors,
+                            paragraph: formValues.paragraph,
+                            feedbackItems: formValues.feedbackItems,
+                          },
+                          {
+                            onSuccess: () => {
+                              setIsDirty(false);
+                              // TODO: invalidate cache instead
+                              void feedbackRequest.refetch();
+                            },
+                          }
+                        );
+                      }
+                    }}
+                  >
+                    <SaveIcon className="mr-2" size="20" />
+                    Save
+                  </Button>
+                </Header>
+                <MainLayout app>
+                  <FeedbackTitleSection title={title} />
+                  <Card className="my-12">
+                    <CardContent className="px-6 pb-8 pt-6">
+                      <FeedbackAuthorSection authors={authors} />
+                      <FeedbackParagraphSection paragraph={paragraph ?? ""} />
+                    </CardContent>
+                  </Card>
+                  <FeedbackItemSection feedbackItems={feedbackItems} />
+                  <footer className="flex justify-end pb-16 pl-8 pt-8">
+                    <FeedbackRequestDialog
+                      title={formValues.title}
+                      paragraph={formValues.paragraph}
+                      feedbackItems={formValues.feedbackItems}
+                      ownerEmail={feedbackRequest.data?.owner.email}
+                      renderDialogTrigger={
+                        <Button size="lg">
+                          <StepForwardIcon className="mr-2" />
+                          Preview Feedback Request…
+                        </Button>
+                      }
+                      renderDialogFooter={
+                        <div>
+                          <Button
+                            disabled={errors.length > 0 || submitForm.isLoading}
+                            variant={
+                              errors.length > 0 ? "destructive" : "default"
+                            }
+                            className={cn(errors.length === 0 && "bg-sky-700")}
+                            size="lg"
+                            // FIXME: turn off eslint rule or contribute to houseform
+                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                            onClick={submit}
+                          >
+                            <StepForwardIcon className="mr-2" />
+                            Request Feedback
+                          </Button>
+                          {errors.length > 0 && <p>* There are errors</p>}
+                        </div>
+                      }
+                    />
+                  </footer>
+                </MainLayout>
+              </>
+            )}
+          </Form>
+        </>
+      );
+    }
+
+    // ~ feedback is _not_ in CREATING state ~
     return (
       <>
-        <PageHead title="Feedback Request View" />
-
-        <Header isSmall={true} title={""} />
+        <PageHead title="Feedback Request" />
+        <Header isSmall={isScrolled} title={"Feedback Request"} />
         <MainLayout app>
           <div className="flex max-w-4xl flex-col px-8 pb-8">
             <h1 className="pb-8 pt-16 font-serif text-3xl">
@@ -174,110 +297,8 @@ const FeedbackRequest: NextPage = () => {
     );
   }
 
-  // ~ creating
-  if (feedbackRequest.data && feedbackRequest.data.status === "CREATING") {
-    return (
-      <>
-        <PageHead title="Request Feedback" />
-        <Form<FormValues>
-          onSubmit={(values) => {
-            // TODO: maybe validate via zod the entire form?
-            if (feedbackRequest.data && user.data) {
-              submitForm.mutate({
-                requestId: feedbackRequest.data.id,
-                ownerId: user.data.id,
-                title: values.title,
-                authors: values.authors,
-                paragraph: values.paragraph,
-                feedbackItems: values.feedbackItems,
-              });
-            }
-          }}
-        >
-          {({ submit, errors, value: formValues, isDirty, setIsDirty }) => (
-            <>
-              <Header isSmall={isScrolled} title={"Request Feedback"}>
-                <Button
-                  disabled={!isDirty || saveForm.isLoading}
-                  variant={isDirty ? "default" : "secondary"}
-                  className={cn(
-                    "transition-all duration-300",
-                    isDirty && "bg-sky-700"
-                  )}
-                  size={isScrolled ? "sm" : "lg"}
-                  onClick={() => {
-                    if (feedbackRequest.data && user.data) {
-                      saveForm.mutate(
-                        {
-                          requestId: feedbackRequest.data?.id,
-                          title: formValues.title,
-                          authors: formValues.authors,
-                          paragraph: formValues.paragraph,
-                          feedbackItems: formValues.feedbackItems,
-                        },
-                        {
-                          onSuccess: () => {
-                            setIsDirty(false);
-                            // TODO: invalidate cache instead
-                            void feedbackRequest.refetch();
-                          },
-                        }
-                      );
-                    }
-                  }}
-                >
-                  <SaveIcon className="mr-2" size="20" />
-                  Save
-                </Button>
-              </Header>
-              <MainLayout app>
-                <FeedbackTitleSection title={title} />
-                <Card className="my-12">
-                  <CardContent className="px-6 pb-8 pt-6">
-                    <FeedbackAuthorSection authors={authors} />
-                    <FeedbackParagraphSection paragraph={paragraph ?? ""} />
-                  </CardContent>
-                </Card>
-                <FeedbackItemSection feedbackItems={feedbackItems} />
-                <footer className="flex justify-end pb-16 pl-8 pt-8">
-                  <FeedbackRequestDialog
-                    title={formValues.title}
-                    paragraph={formValues.paragraph}
-                    feedbackItems={formValues.feedbackItems}
-                    ownerEmail={feedbackRequest.data?.owner.email}
-                    renderDialogTrigger={
-                      <Button size="lg">
-                        <StepForwardIcon className="mr-2" />
-                        Preview Feedback Request…
-                      </Button>
-                    }
-                    renderDialogFooter={
-                      <div>
-                        <Button
-                          disabled={errors.length > 0 || submitForm.isLoading}
-                          variant={
-                            errors.length > 0 ? "destructive" : "default"
-                          }
-                          className={cn(errors.length === 0 && "bg-sky-700")}
-                          size="lg"
-                          // FIXME: turn off eslint rule or contribute to houseform
-                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                          onClick={submit}
-                        >
-                          <StepForwardIcon className="mr-2" />
-                          Request Feedback
-                        </Button>
-                        {errors.length > 0 && <p>* There are errors</p>}
-                      </div>
-                    }
-                  />
-                </footer>
-              </MainLayout>
-            </>
-          )}
-        </Form>
-      </>
-    );
+  // ~ author ~
+  if (viewerIsAuthor) {
   }
 
   // ~ general error
