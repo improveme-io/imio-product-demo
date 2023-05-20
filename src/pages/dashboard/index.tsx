@@ -14,6 +14,7 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import { Header } from "~/components/header";
 import { MainLayout } from "~/components/main-layout";
+import Image from "next/image";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
@@ -38,6 +39,20 @@ const Dashboard: NextPage = () => {
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
+
+  if (ownedFeedbacks.isLoading || authoredFeedbacks.isLoading) {
+    return (
+      <div className="flex h-screen w-screen animate-pulse items-center justify-center">
+        <Image
+          className="m-auto animate-bounce"
+          src="/Logo.svg"
+          width={78}
+          height={60}
+          alt="improveme.io logo"
+        />
+      </div>
+    );
+  }
 
   return (
     <>
