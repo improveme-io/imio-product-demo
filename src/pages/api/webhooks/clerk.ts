@@ -22,7 +22,6 @@ type NaiveClerkData = {
   type: "user.created" | "user.updated" | "user.deleted";
 };
 
-//
 // TODO: handle delete event
 // TODO: set up local testing with webhookthing
 // TODO: make local tunneling work with clerk
