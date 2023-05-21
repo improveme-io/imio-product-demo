@@ -13,6 +13,7 @@ import {
 } from "./ui/select";
 import { Input } from "./ui/input";
 import React from "react";
+import { cn } from "~/utils/style";
 
 type FeedbackItemProps = {
   index: number;
@@ -29,27 +30,52 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
     props.prompt
   );
   const [isEditing, setIsEditing] = React.useState(props.editing);
+  const cardTitleClassNames = "flex w-full leading-7 h-20 items-start";
 
   return (
     <Card className="group mt-6 animate-in slide-in-from-left duration-500">
       <CardHeader>
         <div className="relative flex items-center justify-between">
-          <CardTitle className="flex max-w-4xl justify-between leading-7">
-            <>
+          {isEditing ? (
+            <CardTitle className={cardTitleClassNames}>
               <HelpCircleIcon
                 size={32}
                 className="mr-4 shrink-0 text-stone-400"
               />
-              {currentPrompt ? (
-                currentPrompt
-              ) : (
-                <span className="text-stone-400">Untitled Feedback Item</span>
-              )}
-            </>
-          </CardTitle>
-          <div className="absolute right-0 flex w-1/3 justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {!isEditing && (
+              <Input
+                autoFocus
+                className="relative -top-1 text-lg"
+                type="text"
+                value={props.prompt}
+                onChange={(e) => {
+                  setCurrentPrompt(e.target.value);
+                  props.onChange(e);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === "Escape") {
+                    setIsEditing(false);
+                  }
+                }}
+                onBlur={() => setIsEditing(false)}
+                placeholder="Type Your Question Here..."
+              />
+            </CardTitle>
+          ) : (
+            <CardTitle
+              onClick={() => {
+                setIsEditing(true);
+              }}
+              className={cardTitleClassNames}
+            >
+              <HelpCircleIcon
+                size={32}
+                className="mr-4 shrink-0 text-stone-400"
+              />
+              <span className={cn([currentPrompt ? "" : "text-stone-400"])}>
+                {currentPrompt ? currentPrompt : "Untitled Feedback Item"}
+              </span>
               <Button
+                className="ml-auto opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 variant={"outline"}
                 onClick={() => {
                   setIsEditing(true);
@@ -58,54 +84,38 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                 <EditIcon className="mr-2 h-4 w-4" />
                 Edit
               </Button>
-            )}
-            <Button variant={"destructive"} onClick={props.onRemove}>
-              <TrashIcon className="mr-2 h-4 w-4" />
-              Remove
-            </Button>
-          </div>
+            </CardTitle>
+          )}
         </div>
       </CardHeader>
-      <CardContent>
-        {isEditing && (
-          <div className="my-4">
-            <div className="flex flex-grow flex-col">
-              <Label className="mb-2">Prompt</Label>
-              <Input
-                type="text"
-                value={props.prompt}
-                onChange={(e) => {
-                  setCurrentPrompt(e.target.value);
-                  props.onChange(e);
-                }}
-                onBlur={props.onBlur}
-                placeholder="Type Your Question Here..."
-              />
-            </div>
-
-            <div className="mt-4 flex flex-grow flex-col">
-              <Label className="mb-2">Type</Label>
-              <div className="flex">
-                <Select defaultValue="PROSE">
-                  <SelectTrigger disabled className="w-96">
-                    <SelectValue placeholder="Select Feedback Item Type…" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="PROSE">Prose</SelectItem>
-                    <SelectItem value="SHORT_PROSE">
-                      Short Prose (240 char max)
-                    </SelectItem>
-                    <SelectItem value="VIDEO">Video</SelectItem>
-                  </SelectContent>
-                </Select>
-                <p className="w-96 px-3 py-1 text-xs">
-                  The author will be shown the prompt you have defined and will
-                  be asked to answer in prose at a minimum of 240 characters.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+      <CardContent className=" mt-4 flex flex-grow flex-col">
+        <Label className="mb-2">Type</Label>
+        <div className="flex">
+          <Select defaultValue="PROSE">
+            <SelectTrigger disabled className="w-96">
+              <SelectValue placeholder="Select Feedback Item Type…" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="PROSE">Prose</SelectItem>
+              <SelectItem value="SHORT_PROSE">
+                Short Prose (240 char max)
+              </SelectItem>
+              <SelectItem value="VIDEO">Video</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="w-96 px-3 py-1 text-xs">
+            The author will be shown the prompt you have defined and will be
+            asked to answer in prose at a minimum of 240 characters.
+          </p>
+          <Button
+            variant={"ghost"}
+            onClick={props.onRemove}
+            className="ml-auto text-red-500 opacity-0 transition-opacity duration-300 hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
+          >
+            <TrashIcon className="mr-2 h-4 w-4" />
+            Remove
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
