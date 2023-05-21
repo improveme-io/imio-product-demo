@@ -5,14 +5,14 @@ import { Textarea } from "~/components/ui/textarea";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import ReactMarkdown from "react-markdown";
 
-type FeedbackRequestViewProps = {
+type FeedbackRequestPreviewProps = {
   title?: string;
   paragraph?: string;
   feedbackItems?: { prompt: string | null }[];
   renderOwner?: React.ReactNode;
 };
 
-export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
+export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
   return (
     <section>
       <div className="mx-auto max-w-4xl">

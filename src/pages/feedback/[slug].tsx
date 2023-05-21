@@ -197,13 +197,9 @@ const FeedbackRequest: NextPage = () => {
                   <FeedbackItemSection feedbackItems={feedbackItems} />
                   <footer className="flex justify-end pb-16 pl-8 pt-8">
                     <FeedbackRequestDialog
-                      title={cn([
-                        "Author",
-                        formValues.title,
-                        "for",
-                        feedbackRequest.data?.owner.firstName,
-                        feedbackRequest.data?.owner.lastName,
-                      ])}
+                      title={`Author ${formValues.title ?? ""} for ${
+                        feedbackRequest.data?.owner.firstName ?? ""
+                      } ${feedbackRequest.data?.owner.lastName ?? ""}`}
                       paragraph={formValues.paragraph}
                       feedbackItems={formValues.feedbackItems}
                       ownerEmail={feedbackRequest.data?.owner.email}
