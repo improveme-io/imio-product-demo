@@ -349,7 +349,7 @@ const FeedbackRequest: NextPage = () => {
           ])}
         />
         <MainLayout app>
-          <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
+          <div className="flex w-full  flex-col px-8 pb-8">
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
