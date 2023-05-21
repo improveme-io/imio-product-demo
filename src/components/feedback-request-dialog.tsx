@@ -6,7 +6,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-import { FeedbackRequestView } from "~/components/feedback-request-view";
+import { FeedbackRequestPreview } from "~/components/feedback-request-preview";
 
 type FeedbackRequestDialogProps = {
   title?: string;
@@ -25,7 +25,7 @@ export const FeedbackRequestDialog = (props: FeedbackRequestDialogProps) => {
       <DialogTrigger asChild>{props.renderDialogTrigger}</DialogTrigger>
       {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
       <DialogContent className="inset-10 overflow-y-scroll bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
-        <FeedbackRequestView
+        <FeedbackRequestPreview
           title={props.title}
           paragraph={props.paragraph}
           feedbackItems={props.feedbackItems}
