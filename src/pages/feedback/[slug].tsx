@@ -35,6 +35,7 @@ import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import ReactMarkdown from "react-markdown";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -344,9 +345,9 @@ const FeedbackRequest: NextPage = () => {
                   <p className="mx-2">is requesting Your feedback:</p>
                 </div>
                 <CardContent className="flex items-center px-0">
-                  <p className="mt-8 max-w-2xl leading-6">
+                  <ReactMarkdown className="mt-8 max-w-2xl leading-6 prose">
                     {feedbackRequest.data?.paragraph}
-                  </p>
+                  </ReactMarkdown>
                 </CardContent>
               </CardHeader>
             </Card>
