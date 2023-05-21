@@ -168,7 +168,7 @@ const Dashboard: NextPage = () => {
                 onDelete={() => {
                   console.log("delete");
                   deleteFeedback.mutate(
-                    { feedbackId: fr.id },
+                    { requestId: fr.id },
                     {
                       onSuccess: () => {
                         void ownedFeedbacks.refetch();

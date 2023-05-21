@@ -90,7 +90,7 @@ model FeedbackItem {
   updatedAt DateTime @default(now()) @updatedAt
 
   requestId String
-  request   FeedbackRequest @relation(fields: [requestId], references: [id])
+  request   FeedbackRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
   ownerId   String
   owner     User            @relation("owner", fields: [ownerId], references: [id])
   authorId  String
