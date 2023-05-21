@@ -267,14 +267,14 @@ const FeedbackRequest: NextPage = () => {
                   return item.authorId === item.ownerId;
                 })
                 .map((ownerFI) => (
-                  <li
+                  <div
                     key={`feedback-item-${ownerFI.id}`}
                     className="mt-4 max-w-4xl"
                   >
                     <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
                       {ownerFI.prompt}
                     </Label>
-                    <ul className="mb-32 w-full">
+                    <div className="mb-32 w-full">
                       {feedbackRequest.data?.feedbackItems
                         .filter((fi) => {
                           return (
@@ -299,8 +299,8 @@ const FeedbackRequest: NextPage = () => {
                             </ReactMarkdown>
                           </li>
                         ))}
-                    </ul>
-                  </li>
+                    </div>
+                  </div>
                 ))}
             </ul>
           </div>
