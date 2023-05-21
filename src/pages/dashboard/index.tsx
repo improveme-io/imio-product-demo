@@ -22,6 +22,7 @@ const Dashboard: NextPage = () => {
 
   // TODO: add enabled props to wait for the auth state to be ready
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
+  const deleteFeedback = api.feedback.delete.useMutation();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createForm = api.form.createForm.useMutation();
 
@@ -144,6 +145,17 @@ const Dashboard: NextPage = () => {
                   email: a.email ?? "",
                   id: `fake-author-${i}`,
                 }))}
+                onDelete={() => {
+                  console.log("delete");
+                  deleteFeedback.mutate(
+                    { feedbackId: fr.id },
+                    {
+                      onSuccess: () => {
+                        void ownedFeedbacks.refetch();
+                      },
+                    }
+                  );
+                }}
               />
             );
           })}

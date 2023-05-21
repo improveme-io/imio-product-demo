@@ -7,6 +7,18 @@ import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 import Link from "next/link";
 
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogHeader,
+  AlertDialogFooter,
+} from "~/components/ui/alert-dialog";
+
 type FeedbackRequestCardProps = {
   slug: string;
   title: string;
@@ -15,6 +27,7 @@ type FeedbackRequestCardProps = {
   ownerEmail: string;
   authors: { email: string; id: string }[];
   canEdit?: boolean;
+  onDelete?: () => void;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -24,10 +37,32 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
         <div className="flex items-center justify-between">
           <CardTitle>{props.title}</CardTitle>
           <div className="flex justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <Button variant="ghost" className="text-red-500">
-              <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
-              Delete
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" className="text-red-500">
+                  <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    this Feedback Request and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    variant="destructive"
+                    onClick={props.onDelete}
+                  >
+                    Yes, Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <Button asChild variant="ghost">
               <Link href={`/feedback/${props.slug}`}>
                 {props.canEdit ? (
