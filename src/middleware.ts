@@ -7,6 +7,7 @@ const publicRoutes = [
   "/legal/anti-discrimination-policy",
   "/legal/terms-and-conditions",
   "/uva-course",
+  "/api/webhooks/clerk",
 ];
 
 export default authMiddleware({

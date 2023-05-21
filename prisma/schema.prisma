@@ -102,13 +102,14 @@ model FeedbackItem {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  firstName   String
-  lastName    String
-  clerkUserId String?  @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id              String   @id @default(cuid())
+  email           String   @unique
+  firstName       String
+  lastName        String
+  clerkUserId     String?  @unique
+  profileImageUrl String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
 
   requestsOwned    FeedbackRequest[] @relation("owner")
   itemsOwned       FeedbackItem[]    @relation("owner")
