@@ -99,25 +99,29 @@ export const feedbackRouter = createTRPCRouter({
       });
     }),
 
-  delete: protectedProcedure.input(z.object({feedbackId: z.string().cuid()})).mutation(async ({ ctx, input }) => {
-    // fetch user who is trying to delete the feedback request
-    const caller = await ctx.prisma.user.findUnique({
-      where: { clerkUserId: ctx.auth.userId },
-    });
+  delete: protectedProcedure
+    .input(z.object({ feedbackId: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      // fetch user who is trying to delete the feedback request
+      const caller = await ctx.prisma.user.findUnique({
+        where: { clerkUserId: ctx.auth.userId },
+      });
 
-    // fetch feedback
-    const feedback = await ctx.prisma.feedbackRequest.findUnique({
-      where: { id: input.feedbackId },
-      include: { owner: true },
-    });
+      // fetch feedback
+      const feedback = await ctx.prisma.feedbackRequest.findUnique({
+        where: { id: input.feedbackId },
+        include: { owner: true },
+      });
 
-    // check that the owner is making the request
-    if (caller?.id !== feedback?.owner.id) {
-      throw new Error("You are not authorized to delete this feedback request");
-    }
+      // check that the owner is making the request
+      if (caller?.id !== feedback?.owner.id) {
+        throw new Error(
+          "You are not authorized to delete this feedback request"
+        );
+      }
 
-    return ctx.prisma.feedbackRequest.delete({
-      where: { id: input.feedbackId },
-    })
-  })
+      return ctx.prisma.feedbackRequest.delete({
+        where: { id: input.feedbackId },
+      });
+    }),
 });
