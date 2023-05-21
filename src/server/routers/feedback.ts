@@ -22,7 +22,7 @@ export const feedbackRouter = createTRPCRouter({
         },
         _count: true,
       },
-      orderBy: { updatedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
   }),
 
@@ -35,7 +35,7 @@ export const feedbackRouter = createTRPCRouter({
         feedbackItems: true,
         _count: true,
       },
-      orderBy: { updatedAt: "desc" },
+      orderBy: { createdAt: "desc" },
     });
   }),
 
