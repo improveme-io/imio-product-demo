@@ -58,7 +58,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
             </h1>
           </div>
           {errors.map((error) => (
-            <p key={error}>{error}</p>
+            <p key={`title-${error}`}>{error}</p>
           ))}
         </>
       )}

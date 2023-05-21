@@ -141,7 +141,7 @@ const Home: NextPage = () => {
               <Button
                 asChild
                 size={"lg"}
-                className="mb-32 mt-16 grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                className="mb-32 mt-16 grow-0 px-10 py-8 text-lg text-white"
               >
                 <Link href="/dashboard">Start Collecting Feedback Now</Link>
               </Button>
@@ -154,7 +154,7 @@ const Home: NextPage = () => {
               >
                 <Button
                   size={"lg"}
-                  className="mb-32 mt-16 grow-0 bg-sky-700 px-10 py-8 text-lg text-white"
+                  className="grow-0px-10 mb-32 mt-16 py-8 text-lg text-white"
                 >
                   Start Collecting Feedback Now
                 </Button>

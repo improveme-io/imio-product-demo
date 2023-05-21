@@ -65,7 +65,9 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           }}
                         />
                         {errors.map((error) => (
-                          <p key={error}>{error}</p>
+                          <p key={`authors[${index}].email-${error}`}>
+                            {error}
+                          </p>
                         ))}
                       </div>
                     )}
@@ -88,7 +90,9 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           onBlur={onBlur}
                         />
                         {errors.map((error) => (
-                          <p key={error}>{error}</p>
+                          <p key={`authors[${index}].firstName-${error}`}>
+                            {error}
+                          </p>
                         ))}
                       </div>
                     )}
@@ -111,7 +115,9 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           onBlur={onBlur}
                         />
                         {errors.map((error) => (
-                          <p key={error}>{error}</p>
+                          <p key={`authors[${index}].lastName-${error}`}>
+                            {error}
+                          </p>
                         ))}
                       </div>
                     )}

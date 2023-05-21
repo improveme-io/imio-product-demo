@@ -1,5 +1,6 @@
 import { type ChangeEvent } from "react";
 import { FieldArray, FieldArrayItem } from "houseform";
+
 import {
   PuzzleIcon,
   PlusSquareIcon,
@@ -8,7 +9,6 @@ import {
   HelpCircleIcon,
 } from "lucide-react";
 import { type z } from "zod";
-
 import { Button } from "~/components/ui/button";
 import {
   Accordion,
@@ -17,7 +17,6 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { FeedbackItem } from "~/components/feedback-item";
-import { feedbackItemSchema, promptSchema } from "~/utils/validation";
 import {
   Card,
   CardContent,
@@ -27,14 +26,14 @@ import {
 } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { cn } from "~/utils/style";
+import {
+  promptSchema,
+  type FeedbackItemForm,
+  isFeedbackItem,
+} from "~/utils/validation";
+
 
 const MAX_FEEDBACK_ITEMS = 10;
-
-type FeedbackItem = z.infer<typeof feedbackItemSchema>;
-
-function isFeedbackItem(value: unknown): value is FeedbackItem {
-  return feedbackItemSchema.safeParse(value).success;
-}
 
 type FeedbackItemSectionProps = {
   feedbackItems?: { prompt: string | null }[];
@@ -81,8 +80,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
   ];
 
   return (
-    <section className="pb-20">
-      <FieldArray<FeedbackItem>
+      <FieldArray<FeedbackItemForm>
         name="feedbackItems"
         initialValue={initialValue}
       >

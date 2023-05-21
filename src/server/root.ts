@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "~/lib/trpc";
 import { feedbackRouter } from "~/server/routers/feedback";
+import { formRouter } from "~/server/routers/form";
 import { userRouter } from "~/server/routers/user";
 
 /**
@@ -9,6 +10,7 @@ import { userRouter } from "~/server/routers/user";
  */
 export const router = createTRPCRouter({
   feedback: feedbackRouter,
+  form: formRouter,
   user: userRouter,
 });
 
