@@ -26,7 +26,6 @@ const Dashboard: NextPage = () => {
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createForm = api.form.createForm.useMutation();
 
-
   const handleRequestFeedback = () => {
     createForm.mutate(
       {
@@ -91,7 +90,7 @@ const Dashboard: NextPage = () => {
         </h2>
         {/* FIXME: make it consistent and add section to other places as well or remove it here */}
         <section className="grid grid-cols-3 gap-4">
-          {authoredFeedbacks.data.length === 0 && (
+          {authoredFeedbacks.data?.length === 0 && (
             <div className="flex h-40 w-full items-center justify-center rounded-lg bg-stone-100 p-6 text-center text-stone-400">
               Noone has requested feedback from you yet. Incoming Requests will
               appear here.
@@ -119,7 +118,7 @@ const Dashboard: NextPage = () => {
             {ownedFeedbacks.isSuccess && ownedFeedbacks.data.length}
           </Badge>
         </h2>
-        {ownedFeedbacks.data.length === 0 && (
+        {ownedFeedbacks.data?.length === 0 && (
           <div className="flex h-40 w-full items-center justify-center rounded-lg bg-stone-100 p-6 text-center text-stone-400">
             You have not requested feedback yet. Click the button in the top
             right corner to get started.

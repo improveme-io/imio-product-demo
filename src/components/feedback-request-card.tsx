@@ -25,7 +25,7 @@ type FeedbackRequestCardProps = {
   paragraph: string;
   feedbackItems: { prompt: string | null }[];
   ownerEmail: string;
-  authors: { email: string; id: string }[];
+  authors: { firstName: string; lastName: string; email: string; id: string }[];
   canEdit?: boolean;
   onDelete?: () => void;
   disabled?: boolean;
