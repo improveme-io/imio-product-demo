@@ -5,24 +5,25 @@ import { InboxIcon, LeafIcon, Loader2Icon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
 
+import { api } from "~/utils/api";
+import { PageHead } from "~/components/page-head";
+import { MainLayout } from "~/components/main-layout";
+import { LogoSplash } from "~/components/logo-splash";
+import { Header } from "~/components/header";
 import { Contribution } from "~/components/contribution";
 import { FeedbackRequestCard } from "~/components/feedback-request-card";
-
-import { PageHead } from "~/components/page-head";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { api } from "~/utils/api";
-import { Header } from "~/components/header";
-import { MainLayout } from "~/components/main-layout";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
 
   const clerkUser = useUser();
 
+  // TODO: add enabled props to wait for the auth state to be ready
   const ownedFeedbacks = api.feedback.ownedByUser.useQuery();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
-  const createForm = api.feedback.createForm.useMutation();
+  const createForm = api.form.createForm.useMutation();
 
   const handleRequestFeedback = () => {
     createForm.mutate(
@@ -38,6 +39,14 @@ const Dashboard: NextPage = () => {
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
+
+  if (
+    ownedFeedbacks.isLoading ||
+    authoredFeedbacks.isLoading ||
+    !clerkUser.isLoaded
+  ) {
+    return <LogoSplash />;
+  }
 
   return (
     <>
@@ -56,7 +65,7 @@ const Dashboard: NextPage = () => {
         </Button>
         <Button
           disabled={createForm.isLoading}
-          className="bg-sky-700  transition-all duration-300"
+          className="transition-all duration-300"
           size={isScrolled ? "sm" : "lg"}
           onClick={handleRequestFeedback}
         >
@@ -80,7 +89,8 @@ const Dashboard: NextPage = () => {
               return (
                 <Contribution
                   key={fr.id}
-                  done={true}
+                  slug={fr.slug}
+                  done={fr.status === "DONE"}
                   requestName={fr.title}
                   requesterInitials={"<RN>"}
                   requesterName={"fr.owner.name"}

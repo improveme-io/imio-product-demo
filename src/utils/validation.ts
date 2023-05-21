@@ -13,9 +13,14 @@ export const authorSchema = z.object({
 });
 
 export const promptSchema = z.string().nonempty("* Required.");
+
 export const feedbackItemSchema = z.object({
   prompt: promptSchema,
 });
+export type FeedbackItemForm = z.infer<typeof feedbackItemSchema>;
+export function isFeedbackItem(value: unknown): value is FeedbackItemForm {
+  return feedbackItemSchema.safeParse(value).success;
+}
 
 export const formSchema = z.object({
   title: feedbackTitleSchema,
@@ -51,3 +56,25 @@ export const feedbackUpdateSchema = z.object({
     )
     .optional(),
 });
+
+export const payloadSchema = z
+  .string()
+  .min(3, "* That's less than half a tweet! Please write a bit more.");
+export const authoringItem = z.object({
+  id: z.string().cuid(),
+  prompt: z.string(),
+  payload: payloadSchema,
+});
+export type AuthoringFormItem = z.infer<typeof authoringItem>;
+export function isAuthoringItem(value: unknown): value is AuthoringFormItem {
+  return authoringItem.safeParse(value).success;
+}
+export const authoringForm = z.array(authoringItem);
+export type AuthoringForm = z.infer<typeof authoringForm>;
+
+export const authorUpdate = z.array(
+  z.object({
+    id: z.string().cuid(),
+    payload: payloadSchema,
+  })
+);

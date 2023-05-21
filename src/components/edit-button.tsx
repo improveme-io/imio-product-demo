@@ -3,6 +3,7 @@
 import { Button } from "~/components/ui/button";
 import { EditIcon } from "lucide-react";
 
+// TODO: I think this is kind of useless, we don't use it in a lot of places and it's such a small component compared to the already existing button...
 type EditButtonProps = {
   onClick?: () => void;
 };

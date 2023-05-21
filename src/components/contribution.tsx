@@ -1,14 +1,16 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
+import Link from "next/link";
 import { EditIcon, ViewIcon, CheckIcon } from "lucide-react";
 
+import { cn } from "~/utils/style";
+import { UserItem } from "~/components/user-item";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 
-import { UserItem } from "~/components/user-item";
-
 type ContributionProps = {
+  slug: string;
   email: string | null;
   requestName: string | null;
   requesterInitials: string;
@@ -30,20 +32,30 @@ export const Contribution = (props: ContributionProps) => {
       </CardHeader>
       <CardContent className="flex flex-col">
         <Label>{props.requestName}</Label>
-        {props.done ? (
-          <Button
-            variant={"outline"}
-            className="mt-4 opacity-0 transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100"
-          >
-            <ViewIcon className="mr-2" />
-            View
-          </Button>
-        ) : (
-          <Button className="mt-4">
-            <EditIcon className="mr-2" />
-            Author Feedback
-          </Button>
-        )}
+        <Button
+          asChild
+          variant={props.done ? "outline" : "default"}
+          className={cn(
+            "mt-4",
+            // props.done && "bg-green-500 text-white" : "bg-blue-500 text-white"
+            props.done &&
+              "opacity-0 transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100"
+          )}
+        >
+          <Link href={`/feedback/${props.slug}`}>
+            {props.done ? (
+              <>
+                <ViewIcon className="mr-2" />
+                View
+              </>
+            ) : (
+              <>
+                <EditIcon className="mr-2" />
+                Author Feedback
+              </>
+            )}
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );
