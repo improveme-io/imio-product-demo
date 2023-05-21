@@ -1,0 +1,7 @@
+{
+  "url": "http://localhost:1337/api/webhooks/clerk",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  }
+}
