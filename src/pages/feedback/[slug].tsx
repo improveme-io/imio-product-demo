@@ -327,95 +327,114 @@ const FeedbackRequest: NextPage = () => {
     });
 
     return (
-      <Form<{ authoringItems: AuthoringForm }>
-        onSubmit={(values) => {
-          authorUpdate.mutate({ items: values.authoringItems });
-        }}
-      >
-        {({ submit }) => (
-          <section className="pb-64">
-            <h2 className="mb-4 mt-8 flex text-xl">
-              <PuzzleIcon className="mr-2" />
-              Feedback Items
-            </h2>
-            <p className="w-4/6 px-3 py-1 pl-8">
-              Feedback authors will be presented with several Feedback Items.
-              Feedback items generally consist of a prompt and some kind of
-              input provided by the author. Most commonly, a question and prose
-              written as an answer.
-            </p>
-            <FieldArray<AuthoringFormItem>
-              name="authoringItems"
-              initialValue={authoringItems?.map((afi) => ({
-                id: afi.id,
-                prompt: afi.prompt ?? "",
-                payload: afi.payload ?? "",
-              }))}
+      <>
+        <PageHead title="Author Feedback Request" />
+        <Header isSmall={isScrolled} title={feedbackRequest.data?.title} />
+        <MainLayout app>
+          <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
+            <Card className="mb-16 mt-2">
+              <CardHeader className="mr-3">
+                <div className="flex items-center">
+                  <UserItem
+                    className="mr-0"
+                    firstName={feedbackRequest.data?.owner.firstName}
+                    lastName={feedbackRequest.data?.owner.lastName}
+                    email={feedbackRequest.data?.owner.email}
+                  />
+                  <p className="mx-2">is requesting Your feedback:</p>
+                </div>
+                <CardContent className="flex items-center px-0">
+                  <p className="mt-8 max-w-2xl leading-6">
+                    {feedbackRequest.data?.paragraph}
+                  </p>
+                </CardContent>
+              </CardHeader>
+            </Card>
+            <Form<{ authoringItems: AuthoringForm }>
+              onSubmit={(values) => {
+                authorUpdate.mutate({ items: values.authoringItems });
+              }}
             >
-              {({ value: authoringItems }) => (
-                <>
-                  <ul>
-                    {authoringItems.map((authoringItem, index) => {
-                      return (
-                        <li key={`authoring-item-${authoringItem.id}`}>
-                          <FieldArrayItem<string>
-                            name={`authoringItems[${index}].payload`}
-                            onSubmitValidate={payloadSchema}
-                            onBlurValidate={payloadSchema}
-                          >
-                            {({ value, setValue, onBlur, errors }) => {
-                              return (
-                                <>
-                                  <Label className="mb-2">
-                                    {authoringItem.prompt}
-                                  </Label>
-                                  <Textarea
-                                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-                                    value={value}
-                                    placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
-                                    onChange={(e) => {
-                                      setValue(e.target.value);
-                                    }}
-                                    onBlur={() => {
-                                      onBlur();
-                                    }}
-                                    className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
-                                  />
-                                  {errors.map((error) => (
-                                    <p
-                                      key={`authoring-item-${authoringItem.id}-error-${error}`}
-                                    >
-                                      {error}
-                                    </p>
-                                  ))}
-                                </>
-                              );
-                            }}
-                          </FieldArrayItem>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <Button
-                    // disabled={authoringItems.some(
-                    //   (feedbackItem) => !isAuthoringItem(feedbackItem)
-                    // )}
-                    variant="default"
-                    size={"lg"}
-                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                    onClick={submit}
+              {({ submit }) => (
+                <section className="pb-8">
+                  <FieldArray<AuthoringFormItem>
+                    name="authoringItems"
+                    initialValue={authoringItems?.map((afi) => ({
+                      id: afi.id,
+                      prompt: afi.prompt ?? "",
+                      payload: afi.payload ?? "",
+                    }))}
                   >
-                    <span className="mr-2">
-                      <PlusSquareIcon size={20} />
-                    </span>
-                    Give Feedback
-                  </Button>
-                </>
+                    {({ value: authoringItems }) => (
+                      <>
+                        <ul>
+                          {authoringItems.map((authoringItem, index) => {
+                            return (
+                              <li
+                                key={`authoring-item-${authoringItem.id}`}
+                                className="mt-4 max-w-4xl"
+                              >
+                                <FieldArrayItem<string>
+                                  name={`authoringItems[${index}].payload`}
+                                  onSubmitValidate={payloadSchema}
+                                  onBlurValidate={payloadSchema}
+                                >
+                                  {({ value, setValue, onBlur, errors }) => {
+                                    return (
+                                      <>
+                                        <Label className="mb-8 block max-w-3xl text-xl">
+                                          {authoringItem.prompt}
+                                        </Label>
+                                        <Textarea
+                                          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                                          value={value}
+                                          placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
+                                          onChange={(e) => {
+                                            setValue(e.target.value);
+                                          }}
+                                          onBlur={() => {
+                                            onBlur();
+                                          }}
+                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
+                                      />
+                                        {errors.map((error) => (
+                                          <p
+                                            key={`authoring-item-${authoringItem.id}-error-${error}`}
+                                          >
+                                            {error}
+                                          </p>
+                                        ))}
+                                      </>
+                                    );
+                                  }}
+                                </FieldArrayItem>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        <Button
+                          // disabled={authoringItems.some(
+                          //   (feedbackItem) => !isAuthoringItem(feedbackItem)
+                          // )}
+                          variant="default"
+                          size={"lg"}
+                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                          onClick={submit}
+                        >
+                          <span className="mr-2">
+                            <PlusSquareIcon size={20} />
+                          </span>
+                          Give Feedback
+                        </Button>
+                      </>
+                    )}
+                  </FieldArray>
+                </section>
               )}
-            </FieldArray>
-          </section>
-        )}
-      </Form>
+            </Form>
+          </div>
+        </MainLayout>
+      </>
     );
   }
 
