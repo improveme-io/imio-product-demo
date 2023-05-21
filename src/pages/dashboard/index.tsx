@@ -27,7 +27,9 @@ const Dashboard: NextPage = () => {
 
   const handleRequestFeedback = () => {
     createForm.mutate(
-      { title: `${clerkUser.user?.firstName ?? ''}'s Untitled Feedback Request` },
+      {
+        title: `${clerkUser.user?.firstName ?? ""}'s Untitled Feedback Request`,
+      },
       {
         onSuccess: (data) => {
           router.push(`/feedback/${data.slug}`);
