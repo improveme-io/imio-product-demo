@@ -51,6 +51,14 @@ async function main() {
       lastName: "Gatter",
     },
   });
+  const kristof2 = await prisma.user.create({
+    data: {
+      email: "kgatter@gmail.com",
+      clerkUserId: "user_2Q7QP3Vfw5iOezB7nLVBsj6Fylm",
+      firstName: "Chris",
+      lastName: "Gatorade",
+    },
+  });
   const brooke = await prisma.user.create({
     data: {
       email: "brooke@improveme.io",
@@ -60,7 +68,7 @@ async function main() {
     },
   });
   console.log("Created users...");
-  console.log({ userA, userB, userC, mihaly, kristof, brooke });
+  console.log({ userA, userB, userC, mihaly, kristof, kristof2, brooke });
 
   // ~ feedbacks
   const feedbackRequest100Days = await prisma.feedbackRequest.create({
