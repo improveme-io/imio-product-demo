@@ -260,14 +260,18 @@ const FeedbackRequest: NextPage = () => {
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
-                  {feedbackRequest.data?.owner.firstName}{" "}
-                  {feedbackRequest.data?.owner.lastName}
-                  <p className="mx-2">is requesting Your feedback:</p>
+                  <UserItem
+                    firstName={feedbackRequest.data?.owner.firstName}
+                    lastName={feedbackRequest.data?.owner.lastName}
+                    email={feedbackRequest.data?.owner.email}
+                    className="mr-2"
+                  />
+                  is requesting Your feedback:
                 </div>
                 <CardContent className="flex items-center px-0">
-                  <p className="mt-8 max-w-2xl leading-6">
+                  <ReactMarkdown className="mt-8 max-w-2xl leading-6">
                     {feedbackRequest.data?.paragraph}
-                  </p>
+                  </ReactMarkdown>
                 </CardContent>
               </CardHeader>
             </Card>
@@ -305,9 +309,9 @@ const FeedbackRequest: NextPage = () => {
                                 email={authorFI.author.email}
                               />
                             </div>
-                            <p className="col-span-3 w-full max-w-2xl text-lg leading-7">
+                            <ReactMarkdown className="col-span-3 w-full max-w-2xl text-lg prose leading-7">
                               {authorFI.payload}
-                            </p>
+                            </ReactMarkdown>
                           </li>
                         ))}
                     </ul>
