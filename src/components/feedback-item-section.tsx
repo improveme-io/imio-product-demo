@@ -8,7 +8,6 @@ import {
   FilePlus2Icon,
   HelpCircleIcon,
 } from "lucide-react";
-import { type z } from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Accordion,
@@ -31,7 +30,6 @@ import {
   type FeedbackItemForm,
   isFeedbackItem,
 } from "~/utils/validation";
-
 
 const MAX_FEEDBACK_ITEMS = 10;
 
@@ -80,6 +78,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
   ];
 
   return (
+    <section className="pb-8">
       <FieldArray<FeedbackItemForm>
         name="feedbackItems"
         initialValue={initialValue}
