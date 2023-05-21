@@ -35,11 +35,7 @@ export const formRouter = createTRPCRouter({
                 ],
               },
               feedbackItems: {
-                create: [
-                  {
-                    prompt: "",
-                  },
-                ],
+                create: [],
               },
             },
           },
