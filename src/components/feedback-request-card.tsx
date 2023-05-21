@@ -29,6 +29,7 @@ type FeedbackRequestCardProps = {
   canEdit?: boolean;
   onDelete?: () => void;
   disabled?: boolean;
+  created?: Date;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -86,15 +87,23 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="my-4 flex gap-4">
+      <CardContent className="flex gap-4">
         <div className="mb-4 flex flex-grow flex-col">
           <Label>Authors</Label>
           <div className="mt-2 flex">
             {props.authors.map((author) => (
               // TODO: initials function
-              <UserItem key={author.id} email={author.email} initials={"fb"} />
+              <UserItem
+                key={author.id}
+                firstName={author.firstName}
+                lastName={author.lastName}
+                email={author.email}
+              />
             ))}
           </div>
+          <Label className="mt-4 font-normal text-stone-500">
+            Created {props.created?.toString()}
+          </Label>
         </div>
       </CardContent>
     </Card>
