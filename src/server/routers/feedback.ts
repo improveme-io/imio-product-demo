@@ -100,7 +100,7 @@ export const feedbackRouter = createTRPCRouter({
     }),
 
   delete: protectedProcedure
-    .input(z.object({ feedbackId: z.string().cuid() }))
+    .input(z.object({ requestId: z.string().cuid() }))
     .mutation(async ({ ctx, input }) => {
       // fetch user who is trying to delete the feedback request
       const caller = await ctx.prisma.user.findUnique({
@@ -109,7 +109,7 @@ export const feedbackRouter = createTRPCRouter({
 
       // fetch feedback
       const feedback = await ctx.prisma.feedbackRequest.findUnique({
-        where: { id: input.feedbackId },
+        where: { id: input.requestId },
         include: { owner: true },
       });
 
@@ -120,8 +120,13 @@ export const feedbackRouter = createTRPCRouter({
         );
       }
 
-      return ctx.prisma.feedbackRequest.delete({
-        where: { id: input.feedbackId },
-      });
+      return ctx.prisma.$transaction([
+        ctx.prisma.feedbackItem.deleteMany({
+          where: { requestId: input.requestId },
+        }),
+        ctx.prisma.feedbackRequest.delete({
+          where: { id: input.requestId },
+        }),
+      ]);
     }),
 });
