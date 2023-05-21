@@ -59,11 +59,6 @@ const FeedbackRequest: NextPage = () => {
     },
     { enabled: !!router.query.slug && !!currentViewer.data?.id }
   );
-  const setStatus = api.feedback.setStatus.useMutation({
-    onSuccess: async () => {
-      return feedbackRequest.refetch();
-    },
-  });
 
   // ~ form ~
   const submitForm = api.form.submitForm.useMutation({
@@ -316,14 +311,6 @@ const FeedbackRequest: NextPage = () => {
 
   // ~ author ~
   if (viewerIsAuthor) {
-    // ~ feedback is in REQUESTED state ~
-    if (feedbackRequest.data?.status === "REQUESTED") {
-      setStatus.mutate({
-        slug: feedbackRequest.data.slug,
-        status: "AUTHORING",
-      });
-    }
-
     const authoringItems = feedbackRequest.data?.feedbackItems.filter((fi) => {
       return fi.authorId === currentViewer.data?.id;
     });
