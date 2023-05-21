@@ -26,6 +26,7 @@ const Dashboard: NextPage = () => {
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createForm = api.form.createForm.useMutation();
 
+
   const handleRequestFeedback = () => {
     createForm.mutate(
       {
@@ -141,6 +142,7 @@ const Dashboard: NextPage = () => {
                 paragraph={paragraph ?? ""}
                 feedbackItems={feedbackItems}
                 ownerEmail={fr.owner.email}
+                disabled={deleteFeedback.isLoading}
                 authors={authors.map((a, i) => ({
                   email: a.email ?? "",
                   id: `fake-author-${i}`,

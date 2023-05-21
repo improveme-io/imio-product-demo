@@ -28,6 +28,7 @@ type FeedbackRequestCardProps = {
   authors: { email: string; id: string }[];
   canEdit?: boolean;
   onDelete?: () => void;
+  disabled?: boolean;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -39,12 +40,16 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           <div className="flex justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="text-red-500">
+                <Button
+                  variant="ghost"
+                  className="text-red-500 hover:bg-red-100 hover:text-red-500"
+                  disabled={props.disabled}
+                >
                   <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
                   Delete
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="bg-white">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -54,13 +59,16 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={props.onDelete}>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={props.onDelete}
+                  >
                     Yes, Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" disabled={props.disabled}>
               <Link href={`/feedback/${props.slug}`}>
                 {props.canEdit ? (
                   <>
