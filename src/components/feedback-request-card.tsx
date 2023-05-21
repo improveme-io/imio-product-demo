@@ -54,10 +54,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    variant="destructive"
-                    onClick={props.onDelete}
-                  >
+                  <AlertDialogAction onClick={props.onDelete}>
                     Yes, Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
