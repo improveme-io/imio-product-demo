@@ -22,8 +22,8 @@ export const UserItem = (props: UserItemProps) => {
   ].join("");
   const renderedInitials = props.initials ?? initials;
   return (
-    <li className={cn("mr-6 inline-flex", props.className)}>
-      <Avatar className="mr-2 h-6 w-6 text-xs text-slate-500">
+    <li className={cn("mr-6 inline-flex items-center", props.className)}>
+      <Avatar className="mr-2 text-xs text-slate-500">
         <AvatarImage></AvatarImage>
         <AvatarFallback>{renderedInitials}</AvatarFallback>
       </Avatar>
