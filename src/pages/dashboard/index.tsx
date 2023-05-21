@@ -58,14 +58,6 @@ const Dashboard: NextPage = () => {
         isSmall={isScrolled}
         title={`Hello, ${clerkUser.user?.firstName ?? "You"}`}
       >
-        {/* <Button
-          className="mr-2 transition-all duration-300 hover:bg-stone-200"
-          size={isScrolled ? "sm" : "lg"}
-          variant={"ghost"}
-          disabled
-        >
-          Settings
-        </Button> */}
         <Button
           disabled={createForm.isLoading}
           className="transition-all duration-300"
