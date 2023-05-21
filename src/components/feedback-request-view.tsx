@@ -27,7 +27,7 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
             </div>
             <CardContent className="flex items-center px-0">
               <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
-                {props.paragraph}
+                {props.paragraph ?? ""}
               </ReactMarkdown>
             </CardContent>
           </CardHeader>

@@ -3,13 +3,7 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
 import { Form, FieldArray, FieldArrayItem } from "houseform";
-import {
-  SaveIcon,
-  StepForwardIcon,
-  PlusSquareIcon,
-  Loader2Icon,
-  SendIcon,
-} from "lucide-react";
+import { SaveIcon, StepForwardIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 
@@ -270,7 +264,7 @@ const FeedbackRequest: NextPage = () => {
                 </div>
                 <CardContent className="flex items-center px-0">
                   <ReactMarkdown className="mt-8 max-w-2xl leading-6">
-                    {feedbackRequest.data?.paragraph}
+                    {feedbackRequest.data?.paragraph ?? ""}
                   </ReactMarkdown>
                 </CardContent>
               </CardHeader>
@@ -309,8 +303,8 @@ const FeedbackRequest: NextPage = () => {
                                 email={authorFI.author.email}
                               />
                             </div>
-                            <ReactMarkdown className="col-span-3 w-full max-w-2xl text-lg prose leading-7">
-                              {authorFI.payload}
+                            <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                              {authorFI.payload ?? ""}
                             </ReactMarkdown>
                           </li>
                         ))}
@@ -366,7 +360,7 @@ const FeedbackRequest: NextPage = () => {
                 </div>
                 <CardContent className="flex items-center px-0">
                   <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
-                    {feedbackRequest.data?.paragraph}
+                    {feedbackRequest.data?.paragraph ?? ""}
                   </ReactMarkdown>
                 </CardContent>
               </CardHeader>
