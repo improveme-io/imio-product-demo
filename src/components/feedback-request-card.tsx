@@ -25,9 +25,11 @@ type FeedbackRequestCardProps = {
   paragraph: string;
   feedbackItems: { prompt: string | null }[];
   ownerEmail: string;
-  authors: { email: string; id: string }[];
+  authors: { firstName: string; lastName: string; email: string; id: string }[];
   canEdit?: boolean;
   onDelete?: () => void;
+  disabled?: boolean;
+  created?: Date;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -39,12 +41,16 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           <div className="flex justify-end gap-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="text-red-500">
+                <Button
+                  variant="ghost"
+                  className="text-red-500 hover:bg-red-100 hover:text-red-500"
+                  disabled={props.disabled}
+                >
                   <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
                   Delete
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="bg-white">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -54,13 +60,16 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={props.onDelete}>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={props.onDelete}
+                  >
                     Yes, Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" disabled={props.disabled}>
               <Link href={`/feedback/${props.slug}`}>
                 {props.canEdit ? (
                   <>
@@ -78,15 +87,23 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="my-4 flex gap-4">
+      <CardContent className="flex gap-4">
         <div className="mb-4 flex flex-grow flex-col">
           <Label>Authors</Label>
           <div className="mt-2 flex">
             {props.authors.map((author) => (
               // TODO: initials function
-              <UserItem key={author.id} email={author.email} initials={"fb"} />
+              <UserItem
+                key={author.id}
+                firstName={author.firstName}
+                lastName={author.lastName}
+                email={author.email}
+              />
             ))}
           </div>
+          <Label className="mt-4 font-normal text-stone-500">
+            Created {props.created?.toString()}
+          </Label>
         </div>
       </CardContent>
     </Card>
