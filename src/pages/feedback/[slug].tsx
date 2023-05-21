@@ -6,6 +6,7 @@ import { Form, FieldArray, FieldArrayItem } from "houseform";
 import { SaveIcon, StepForwardIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
+import { useUser } from "@clerk/nextjs";
 
 import { api } from "~/utils/api";
 import {
@@ -29,8 +30,10 @@ import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import { DialogClose } from "~/components/ui/dialog";
 import ReactMarkdown from "react-markdown";
 import { cn } from "~/utils/style";
+import { FeedbackRequestAuthorDialog } from "~/components/feedback-request-author-dialog";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -40,6 +43,7 @@ const FeedbackRequest: NextPage = () => {
 
   // ~ auth & user ~
   const clerkSession = useAuth();
+  const clerkUser = useUser();
   const currentViewer = api.user.byAuth.useQuery(
     {
       clerkUserId: clerkSession.userId as string,
@@ -213,6 +217,11 @@ const FeedbackRequest: NextPage = () => {
                       }
                       renderDialogFooter={
                         <div>
+                          <DialogClose asChild>
+                            <Button variant="outline" size="lg">
+                              Back to Authoring
+                            </Button>
+                          </DialogClose>
                           <Button
                             disabled={errors.length > 0 || submitForm.isLoading}
                             variant={
@@ -419,21 +428,49 @@ const FeedbackRequest: NextPage = () => {
                           })}
                         </ul>
                         <footer className="flex items-center justify-end pb-16 pl-8 pt-8">
-                          <p className="mr-5">Are You done?</p>
-                          <Button
-                            // disabled={authoringItems.some(
-                            //   (feedbackItem) => !isAuthoringItem(feedbackItem)
-                            // )}
-                            variant="default"
-                            size={"lg"}
-                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                            onClick={submit}
-                          >
-                            <span className="mr-2">
-                              <SendIcon size={20} />
-                            </span>
-                            Send Feedback
-                          </Button>
+                          <p className="mr-5">Ready to send it?</p>
+                          <FeedbackRequestAuthorDialog
+                            title={feedbackRequest.data?.title}
+                            // paragraph={formValues.paragraph}
+                            feedbackItems={authoringItems}
+                            renderOwner={
+                              <UserItem
+                                firstName={
+                                  feedbackRequest.data?.owner.firstName
+                                }
+                                lastName={feedbackRequest.data?.owner.lastName}
+                                email={feedbackRequest.data?.owner.email}
+                                className="mr-1"
+                              />
+                            }
+                            renderAuthor={
+                              <UserItem
+                                firstName={clerkUser.user?.firstName}
+                                lastName={clerkUser.user?.lastName}
+                                email="yourfakeemail@email.com"
+                                className="mr-1"
+                              />
+                            }
+                            renderDialogTrigger={
+                              <Button size="lg">
+                                <SendIcon size={20} className="mr-2" />
+                                Preview Your Feedback…
+                              </Button>
+                            }
+                            renderDialogFooter={
+                              <Button
+                                variant="default"
+                                size={"lg"}
+                                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                                onClick={submit}
+                              >
+                                <span className="mr-2">
+                                  <SendIcon size={20} />
+                                </span>
+                                Send Feedback
+                              </Button>
+                            }
+                          />
                         </footer>
                       </>
                     )}
