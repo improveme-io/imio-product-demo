@@ -3,13 +3,7 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
 import { Form, FieldArray, FieldArrayItem } from "houseform";
-import {
-  SaveIcon,
-  StepForwardIcon,
-  PuzzleIcon,
-  PlusSquareIcon,
-  Loader2Icon,
-} from "lucide-react";
+import { SaveIcon, StepForwardIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 
@@ -35,6 +29,8 @@ import { FeedbackRequestDialog } from "~/components/feedback-request-dialog";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import ReactMarkdown from "react-markdown";
+import { cn } from "~/utils/style";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -201,7 +197,13 @@ const FeedbackRequest: NextPage = () => {
                   <FeedbackItemSection feedbackItems={feedbackItems} />
                   <footer className="flex justify-end pb-16 pl-8 pt-8">
                     <FeedbackRequestDialog
-                      title={formValues.title}
+                      title={cn([
+                        "Author",
+                        formValues.title,
+                        "for",
+                        feedbackRequest.data?.owner.firstName,
+                        feedbackRequest.data?.owner.lastName,
+                      ])}
                       paragraph={formValues.paragraph}
                       feedbackItems={formValues.feedbackItems}
                       ownerEmail={feedbackRequest.data?.owner.email}
@@ -252,14 +254,18 @@ const FeedbackRequest: NextPage = () => {
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
-                  {feedbackRequest.data?.owner.firstName}{" "}
-                  {feedbackRequest.data?.owner.lastName}
-                  <p className="mx-2">is requesting Your feedback:</p>
+                  <UserItem
+                    firstName={feedbackRequest.data?.owner.firstName}
+                    lastName={feedbackRequest.data?.owner.lastName}
+                    email={feedbackRequest.data?.owner.email}
+                    className="mr-2"
+                  />
+                  is requesting Your feedback:
                 </div>
                 <CardContent className="flex items-center px-0">
-                  <p className="mt-8 max-w-2xl leading-6">
-                    {feedbackRequest.data?.paragraph}
-                  </p>
+                  <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                    {feedbackRequest.data?.paragraph ?? ""}
+                  </ReactMarkdown>
                 </CardContent>
               </CardHeader>
             </Card>
@@ -297,9 +303,9 @@ const FeedbackRequest: NextPage = () => {
                                 email={authorFI.author.email}
                               />
                             </div>
-                            <p className="col-span-3 w-full max-w-2xl text-lg leading-7">
-                              {authorFI.payload}
-                            </p>
+                            <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                              {authorFI.payload ?? ""}
+                            </ReactMarkdown>
                           </li>
                         ))}
                     </ul>
@@ -327,95 +333,127 @@ const FeedbackRequest: NextPage = () => {
     });
 
     return (
-      <Form<{ authoringItems: AuthoringForm }>
-        onSubmit={(values) => {
-          authorUpdate.mutate({ items: values.authoringItems });
-        }}
-      >
-        {({ submit }) => (
-          <section className="pb-64">
-            <h2 className="mb-4 mt-8 flex text-xl">
-              <PuzzleIcon className="mr-2" />
-              Feedback Items
-            </h2>
-            <p className="w-4/6 px-3 py-1 pl-8">
-              Feedback authors will be presented with several Feedback Items.
-              Feedback items generally consist of a prompt and some kind of
-              input provided by the author. Most commonly, a question and prose
-              written as an answer.
-            </p>
-            <FieldArray<AuthoringFormItem>
-              name="authoringItems"
-              initialValue={authoringItems?.map((afi) => ({
-                id: afi.id,
-                prompt: afi.prompt ?? "",
-                payload: afi.payload ?? "",
-              }))}
-            >
-              {({ value: authoringItems }) => (
-                <>
-                  <ul>
-                    {authoringItems.map((authoringItem, index) => {
-                      return (
-                        <li key={`authoring-item-${authoringItem.id}`}>
-                          <FieldArrayItem<string>
-                            name={`authoringItems[${index}].payload`}
-                            onSubmitValidate={payloadSchema}
-                            onBlurValidate={payloadSchema}
-                          >
-                            {({ value, setValue, onBlur, errors }) => {
-                              return (
-                                <>
-                                  <Label className="mb-2">
-                                    {authoringItem.prompt}
-                                  </Label>
-                                  <Textarea
-                                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-                                    value={value}
-                                    placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
-                                    onChange={(e) => {
-                                      setValue(e.target.value);
-                                    }}
-                                    onBlur={() => {
-                                      onBlur();
-                                    }}
-                                    className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
-                                  />
-                                  {errors.map((error) => (
-                                    <p
-                                      key={`authoring-item-${authoringItem.id}-error-${error}`}
-                                    >
-                                      {error}
-                                    </p>
-                                  ))}
-                                </>
-                              );
-                            }}
-                          </FieldArrayItem>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <Button
-                    // disabled={authoringItems.some(
-                    //   (feedbackItem) => !isAuthoringItem(feedbackItem)
-                    // )}
-                    variant="default"
-                    size={"lg"}
-                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                    onClick={submit}
+      <>
+        <PageHead title="Author Feedback Request" />
+        <Header
+          isSmall={isScrolled}
+          title={cn([
+            "Author",
+            feedbackRequest.data?.title,
+            "for",
+            feedbackRequest.data?.owner.firstName,
+            feedbackRequest.data?.owner.lastName,
+          ])}
+        />
+        <MainLayout app>
+          <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
+            <Card className="mb-16 mt-2">
+              <CardHeader className="mr-3">
+                <div className="flex items-center">
+                  <UserItem
+                    className="mr-0"
+                    firstName={feedbackRequest.data?.owner.firstName}
+                    lastName={feedbackRequest.data?.owner.lastName}
+                    email={feedbackRequest.data?.owner.email}
+                  />
+                  <p className="mx-2">is requesting Your feedback:</p>
+                </div>
+                <CardContent className="flex items-center px-0">
+                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                    {feedbackRequest.data?.paragraph ?? ""}
+                  </ReactMarkdown>
+                </CardContent>
+              </CardHeader>
+            </Card>
+            <section className="pb-8">
+              <Form<{ authoringItems: AuthoringForm }>
+                onSubmit={(values) => {
+                  authorUpdate.mutate({ items: values.authoringItems });
+                }}
+              >
+                {({ submit }) => (
+                  <FieldArray<AuthoringFormItem>
+                    name="authoringItems"
+                    initialValue={authoringItems?.map((afi) => ({
+                      id: afi.id,
+                      prompt: afi.prompt ?? "",
+                      payload: afi.payload ?? "",
+                    }))}
                   >
-                    <span className="mr-2">
-                      <PlusSquareIcon size={20} />
-                    </span>
-                    Give Feedback
-                  </Button>
-                </>
-              )}
-            </FieldArray>
-          </section>
-        )}
-      </Form>
+                    {({ value: authoringItems }) => (
+                      <>
+                        <ul>
+                          {authoringItems.map((authoringItem, index) => {
+                            return (
+                              <li
+                                key={`authoring-item-${authoringItem.id}`}
+                                className="mt-4 max-w-4xl"
+                              >
+                                <FieldArrayItem<string>
+                                  name={`authoringItems[${index}].payload`}
+                                  onSubmitValidate={payloadSchema}
+                                  onBlurValidate={payloadSchema}
+                                >
+                                  {({ value, setValue, onBlur, errors }) => {
+                                    return (
+                                      <>
+                                        <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
+                                          {authoringItem.prompt}
+                                        </Label>
+                                        <Textarea
+                                          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                                          value={value}
+                                          placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
+                                          onChange={(e) => {
+                                            setValue(e.target.value);
+                                          }}
+                                          onBlur={() => {
+                                            onBlur();
+                                          }}
+                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
+                                        />
+                                        {errors.map((error) => (
+                                          <p
+                                            className="relative -top-16 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                            key={`authoring-item-${authoringItem.id}-error-${error}`}
+                                          >
+                                            {error}
+                                          </p>
+                                        ))}
+                                      </>
+                                    );
+                                  }}
+                                </FieldArrayItem>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        <footer className="flex items-center justify-end pb-16 pl-8 pt-8">
+                          <p className="mr-5">Are You done?</p>
+                          <Button
+                            // disabled={authoringItems.some(
+                            //   (feedbackItem) => !isAuthoringItem(feedbackItem)
+                            // )}
+                            variant="default"
+                            size={"lg"}
+                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                            onClick={submit}
+                          >
+                            <span className="mr-2">
+                              <SendIcon size={20} />
+                            </span>
+                            Send Feedback
+                          </Button>
+                        </footer>
+                      </>
+                    )}
+                  </FieldArray>
+                )}
+              </Form>
+            </section>
+          </div>
+        </MainLayout>
+      </>
     );
   }
 

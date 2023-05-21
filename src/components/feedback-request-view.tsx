@@ -2,8 +2,8 @@
 
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import Image from "next/image";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import ReactMarkdown from "react-markdown";
 
 type FeedbackRequestViewProps = {
   title?: string;
@@ -16,13 +16,6 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
   return (
     <section>
       <div className="mx-auto max-w-4xl">
-        <Image
-          className="lg:-ml-16 lg:mt-8"
-          src="/HeroLogo.svg"
-          width={312 / 2}
-          height={153 / 2}
-          alt="Graphic depicting three people giving each other feedback in the cloud"
-        />
         <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">{props.title}</h1>
       </div>
       <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
@@ -33,7 +26,9 @@ export const FeedbackRequestView = (props: FeedbackRequestViewProps) => {
               <p className="mx-2">is requesting Your feedback:</p>
             </div>
             <CardContent className="flex items-center px-0">
-              <p className="mt-8 max-w-2xl leading-6">{props.paragraph}</p>
+              <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                {props.paragraph ?? ""}
+              </ReactMarkdown>
             </CardContent>
           </CardHeader>
         </Card>
