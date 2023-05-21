@@ -5,7 +5,6 @@ import { InboxIcon, LeafIcon, Loader2Icon, SproutIcon } from "lucide-react";
 import { type NextPage } from "next";
 import { useWindowScroll } from "react-use";
 
-
 import { api } from "~/utils/api";
 import { PageHead } from "~/components/page-head";
 import { MainLayout } from "~/components/main-layout";
