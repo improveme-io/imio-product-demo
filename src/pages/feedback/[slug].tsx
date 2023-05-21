@@ -216,9 +216,13 @@ const FeedbackRequest: NextPage = () => {
                         </Button>
                       }
                       renderDialogFooter={
-                        <div>
+                        <div className="mt-auto flex items-center">
                           <DialogClose asChild>
-                            <Button variant="outline" size="lg">
+                            <Button
+                              variant="outline"
+                              size="lg"
+                              className="mr-4"
+                            >
                               Back to Authoring
                             </Button>
                           </DialogClose>
