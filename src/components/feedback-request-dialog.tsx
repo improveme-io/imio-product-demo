@@ -1,4 +1,3 @@
-import { UserItem } from "~/components/user-item";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,7 @@ type FeedbackRequestDialogProps = {
   title?: string;
   paragraph?: string;
   feedbackItems?: { prompt: string | null }[];
-  ownerEmail?: string;
+  renderOwner?: React.ReactNode;
   hasErrors?: boolean;
   onSubmit?: () => void;
   renderDialogTrigger?: React.ReactNode;
@@ -29,7 +28,7 @@ export const FeedbackRequestDialog = (props: FeedbackRequestDialogProps) => {
           title={props.title}
           paragraph={props.paragraph}
           feedbackItems={props.feedbackItems}
-          renderOwner={<UserItem className="mr-0" email={props.ownerEmail} />}
+          renderOwner={props.renderOwner}
         />
         <DialogFooter>{props.renderDialogFooter}</DialogFooter>
       </DialogContent>

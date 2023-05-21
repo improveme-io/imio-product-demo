@@ -197,7 +197,14 @@ const FeedbackRequest: NextPage = () => {
                       } ${feedbackRequest.data?.owner.lastName ?? ""}`}
                       paragraph={formValues.paragraph}
                       feedbackItems={formValues.feedbackItems}
-                      ownerEmail={feedbackRequest.data?.owner.email}
+                      renderOwner={
+                        <UserItem
+                          firstName={feedbackRequest.data?.owner.firstName}
+                          lastName={feedbackRequest.data?.owner.lastName}
+                          email={feedbackRequest.data?.owner.email}
+                          className="mr-0"
+                        />
+                      }
                       renderDialogTrigger={
                         <Button size="lg">
                           <StepForwardIcon className="mr-2" />
@@ -249,7 +256,7 @@ const FeedbackRequest: NextPage = () => {
                     firstName={feedbackRequest.data?.owner.firstName}
                     lastName={feedbackRequest.data?.owner.lastName}
                     email={feedbackRequest.data?.owner.email}
-                    className="mr-2"
+                    className="mr-0"
                   />
                   is requesting Your feedback:
                 </div>
