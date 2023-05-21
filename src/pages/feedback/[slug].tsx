@@ -6,9 +6,9 @@ import { Form, FieldArray, FieldArrayItem } from "houseform";
 import {
   SaveIcon,
   StepForwardIcon,
-  PuzzleIcon,
   PlusSquareIcon,
   Loader2Icon,
+  SendIcon,
 } from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
@@ -36,6 +36,7 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import ReactMarkdown from "react-markdown";
+import { cn } from "~/utils/style";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -202,7 +203,13 @@ const FeedbackRequest: NextPage = () => {
                   <FeedbackItemSection feedbackItems={feedbackItems} />
                   <footer className="flex justify-end pb-16 pl-8 pt-8">
                     <FeedbackRequestDialog
-                      title={formValues.title}
+                      title={cn([
+                        "Author",
+                        formValues.title,
+                        "for",
+                        feedbackRequest.data?.owner.firstName,
+                        feedbackRequest.data?.owner.lastName,
+                      ])}
                       paragraph={formValues.paragraph}
                       feedbackItems={formValues.feedbackItems}
                       ownerEmail={feedbackRequest.data?.owner.email}
@@ -330,7 +337,16 @@ const FeedbackRequest: NextPage = () => {
     return (
       <>
         <PageHead title="Author Feedback Request" />
-        <Header isSmall={isScrolled} title={feedbackRequest.data?.title} />
+        <Header
+          isSmall={isScrolled}
+          title={cn([
+            "Author",
+            feedbackRequest.data?.title,
+            "for",
+            feedbackRequest.data?.owner.firstName,
+            feedbackRequest.data?.owner.lastName,
+          ])}
+        />
         <MainLayout app>
           <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
             <Card className="mb-16 mt-2">
@@ -345,19 +361,19 @@ const FeedbackRequest: NextPage = () => {
                   <p className="mx-2">is requesting Your feedback:</p>
                 </div>
                 <CardContent className="flex items-center px-0">
-                  <ReactMarkdown className="mt-8 max-w-2xl leading-6 prose">
+                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
                     {feedbackRequest.data?.paragraph}
                   </ReactMarkdown>
                 </CardContent>
               </CardHeader>
             </Card>
-            <Form<{ authoringItems: AuthoringForm }>
-              onSubmit={(values) => {
-                authorUpdate.mutate({ items: values.authoringItems });
-              }}
-            >
-              {({ submit }) => (
-                <section className="pb-8">
+            <section className="pb-8">
+              <Form<{ authoringItems: AuthoringForm }>
+                onSubmit={(values) => {
+                  authorUpdate.mutate({ items: values.authoringItems });
+                }}
+              >
+                {({ submit }) => (
                   <FieldArray<AuthoringFormItem>
                     name="authoringItems"
                     initialValue={authoringItems?.map((afi) => ({
@@ -383,7 +399,7 @@ const FeedbackRequest: NextPage = () => {
                                   {({ value, setValue, onBlur, errors }) => {
                                     return (
                                       <>
-                                        <Label className="mb-8 block max-w-3xl text-xl">
+                                        <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
                                           {authoringItem.prompt}
                                         </Label>
                                         <Textarea
@@ -397,9 +413,10 @@ const FeedbackRequest: NextPage = () => {
                                             onBlur();
                                           }}
                                           className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
-                                      />
+                                        />
                                         {errors.map((error) => (
                                           <p
+                                            className="relative -top-16 rounded-md bg-red-100 px-3 py-2 text-red-500"
                                             key={`authoring-item-${authoringItem.id}-error-${error}`}
                                           >
                                             {error}
@@ -413,26 +430,29 @@ const FeedbackRequest: NextPage = () => {
                             );
                           })}
                         </ul>
-                        <Button
-                          // disabled={authoringItems.some(
-                          //   (feedbackItem) => !isAuthoringItem(feedbackItem)
-                          // )}
-                          variant="default"
-                          size={"lg"}
-                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                          onClick={submit}
-                        >
-                          <span className="mr-2">
-                            <PlusSquareIcon size={20} />
-                          </span>
-                          Give Feedback
-                        </Button>
+                        <footer className="flex items-center justify-end pb-16 pl-8 pt-8">
+                          <p className="mr-5">Are You done?</p>
+                          <Button
+                            // disabled={authoringItems.some(
+                            //   (feedbackItem) => !isAuthoringItem(feedbackItem)
+                            // )}
+                            variant="default"
+                            size={"lg"}
+                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                            onClick={submit}
+                          >
+                            <span className="mr-2">
+                              <SendIcon size={20} />
+                            </span>
+                            Send Feedback
+                          </Button>
+                        </footer>
                       </>
                     )}
                   </FieldArray>
-                </section>
-              )}
-            </Form>
+                )}
+              </Form>
+            </section>
           </div>
         </MainLayout>
       </>

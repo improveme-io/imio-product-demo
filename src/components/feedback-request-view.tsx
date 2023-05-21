@@ -2,7 +2,6 @@
 
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import Image from "next/image";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import ReactMarkdown from "react-markdown";
 
