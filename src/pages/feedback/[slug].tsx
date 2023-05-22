@@ -14,7 +14,7 @@ import {
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 
 import { Calendar } from "~/components/ui/calendar";
 import {
