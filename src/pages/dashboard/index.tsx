@@ -25,6 +25,7 @@ const Dashboard: NextPage = () => {
   const deleteFeedback = api.feedback.delete.useMutation();
   const authoredFeedbacks = api.feedback.authoredByUser.useQuery();
   const createForm = api.form.createForm.useMutation();
+  const authoringFeedback = api.feedback.authoring.useMutation();
 
   const handleRequestFeedback = () => {
     createForm.mutate(
@@ -37,6 +38,26 @@ const Dashboard: NextPage = () => {
         },
       }
     );
+  };
+
+  const handleAuthorFeedback = (params: {
+    authorClerkUserId?: string;
+    feedbackRequestId: string;
+  }) => {
+    if (params.authorClerkUserId) {
+      authoringFeedback.mutate(
+        {
+          authorClerkUserId: params.authorClerkUserId,
+          requestId: params.feedbackRequestId,
+          state: "start",
+        },
+        {
+          onSuccess: (data) => {
+            router.push(`/feedback/${data.slug}`);
+          },
+        }
+      );
+    }
   };
 
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
@@ -94,11 +115,16 @@ const Dashboard: NextPage = () => {
                 <Contribution
                   key={fr.id}
                   slug={fr.slug}
-                  done={fr.status === "DONE"}
                   requesterFirstName={fr.owner.firstName}
                   requesterLastName={fr.owner.lastName}
                   requestName={fr.title}
                   email={fr.owner.email}
+                  onAuthor={() => {
+                    handleAuthorFeedback({
+                      authorClerkUserId: clerkUser.user?.id,
+                      feedbackRequestId: fr.id,
+                    });
+                  }}
                 />
               );
             })}

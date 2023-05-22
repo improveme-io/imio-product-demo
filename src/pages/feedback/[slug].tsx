@@ -10,11 +10,14 @@ import {
   SendIcon,
   CalendarClockIcon,
   CalendarIcon,
+  EyeIcon,
+  Circle,
+  MailCheckIcon,
 } from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
-import { format, isFuture, isPast } from "date-fns";
+import { format, isPast } from "date-fns";
 
 import { Calendar } from "~/components/ui/calendar";
 import {
@@ -77,7 +80,9 @@ const FeedbackRequest: NextPage = () => {
       slug: router.query.slug as string,
       authorId: currentViewer.data?.id,
     },
-    { enabled: !!router.query.slug && !!currentViewer.data?.id }
+    {
+      enabled: !!router.query.slug && !!currentViewer.data?.id,
+    }
   );
 
   // ~ form ~
@@ -87,7 +92,8 @@ const FeedbackRequest: NextPage = () => {
     },
   });
   const saveForm = api.form.saveForm.useMutation();
-  const authorUpdate = api.form.authorUpdate.useMutation({
+  const authorSave = api.form.authorSave.useMutation();
+  const authorSubmit = api.form.authorSubmit.useMutation({
     onSuccess: async () => {
       await router.push("/dashboard");
     },
@@ -409,6 +415,17 @@ const FeedbackRequest: NextPage = () => {
                                 lastName={authorFI.author.lastName}
                                 email={authorFI.author.email}
                               />
+
+                              {feedbackRequest.data?.authorsStarted
+                                .map((a) => a.id)
+                                .includes(authorFI.author.id) && (
+                                <EyeIcon className="mr-2" />
+                              )}
+                              {feedbackRequest.data?.authorsFinished
+                                .map((a) => a.id)
+                                .includes(authorFI.author.id) && (
+                                <MailCheckIcon className="ml-2" />
+                              )}
                             </div>
                             {feedbackRequest.data?.deadline &&
                               isPast(feedbackRequest.data?.deadline) && (
@@ -442,74 +459,113 @@ const FeedbackRequest: NextPage = () => {
     return (
       <>
         <PageHead title="Author Feedback Request" />
-        <Header
-          isSmall={isScrolled}
-          title={cn([
-            "Author",
-            feedbackRequest.data?.title,
-            "for",
-            feedbackRequest.data?.owner.firstName,
-            feedbackRequest.data?.owner.lastName,
-          ])}
-        />
-        <MainLayout app>
-          <div className="flex w-full flex-col pb-8 sm:px-8">
-            <Card className="mb-16 mt-2">
-              <CardHeader className="mr-3">
-                <div className="flex items-center">
-                  <UserItem
-                    className="mr-0"
-                    firstName={feedbackRequest.data?.owner.firstName}
-                    lastName={feedbackRequest.data?.owner.lastName}
-                    email={feedbackRequest.data?.owner.email}
-                  />
-                  <p className="mx-2">is requesting Your feedback</p>
-                </div>
-                <CardContent className="flex items-center px-0">
-                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
-                    {feedbackRequest.data?.paragraph ?? ""}
-                  </ReactMarkdown>
-                </CardContent>
-              </CardHeader>
-            </Card>
-            {feedbackRequest.data?.deadline && (
-              <Card className="mb-16 mt-2">
-                <CardHeader className="mr-3">
-                  <div className="flex items-center">
-                    <CalendarClockIcon className="mr-2" />
-                    Reveal Date
-                  </div>
-                  <CardContent className="flex items-center px-0">
-                    <ReactMarkdown className="mt-8 max-w-2xl leading-6">
-                      {format(feedbackRequest.data?.deadline, "PPP")}
-                    </ReactMarkdown>
-                    {isPast(feedbackRequest.data?.deadline) && (
-                      <p>
-                        It is past the reveal date, but you can still submit
-                        your feedback.
-                      </p>
-                    )}
-                  </CardContent>
-                </CardHeader>
-              </Card>
-            )}
-            <section className="pb-8">
-              <Form<{ authoringItems: AuthoringForm }>
-                onSubmit={(values) => {
-                  authorUpdate.mutate({ items: values.authoringItems });
-                }}
-              >
-                {({ submit }) => (
-                  <FieldArray<AuthoringFormItem>
-                    name="authoringItems"
-                    initialValue={authoringItems?.map((afi) => ({
-                      id: afi.id,
-                      prompt: afi.prompt ?? "",
-                      payload: afi.payload ?? "",
-                    }))}
+
+        <Form<{ authoringItems: AuthoringForm }>
+          onSubmit={(values) => {
+            if (feedbackRequest.data?.id) {
+              authorSubmit.mutate({
+                items: values.authoringItems,
+                requestId: feedbackRequest.data?.id,
+              });
+            }
+          }}
+        >
+          {({ submit, isDirty, setIsDirty }) => (
+            <FieldArray<AuthoringFormItem>
+              name="authoringItems"
+              initialValue={authoringItems?.map((afi) => ({
+                id: afi.id,
+                prompt: afi.prompt ?? "",
+                payload: afi.payload ?? "",
+              }))}
+            >
+              {({ value: authoringItems }) => (
+                <>
+                  <Header
+                    isSmall={isScrolled}
+                    title={cn([
+                      "Author",
+                      feedbackRequest.data?.title,
+                      "for",
+                      feedbackRequest.data?.owner.firstName,
+                      feedbackRequest.data?.owner.lastName,
+                    ])}
                   >
-                    {({ value: authoringItems }) => (
-                      <>
+                    <Button
+                      disabled={!isDirty || authorSave.isLoading}
+                      variant={isDirty ? "default" : "secondary"}
+                      className="transition-all duration-300"
+                      size={isScrolled ? "sm" : "lg"}
+                      onClick={() => {
+                        if (feedbackRequest.data) {
+                          authorSave.mutate(
+                            {
+                              items: authoringItems,
+                              requestId: feedbackRequest.data?.id,
+                            },
+                            {
+                              onSuccess: () => {
+                                setIsDirty(false);
+                                // TODO: invalidate cache instead
+                                void feedbackRequest.refetch();
+                              },
+                            }
+                          );
+                        }
+                      }}
+                    >
+                      {saveForm.isLoading ? (
+                        <Loader2Icon className="mr-2 animate-spin" size="25" />
+                      ) : (
+                        <SaveIcon className="mr-2" size="20" />
+                      )}
+                      Save
+                    </Button>
+                  </Header>
+
+                  <MainLayout app>
+                    {/* <div className="flex w-full  flex-col px-8 pb-8"> */}
+                    <div className="flex w-full flex-col pb-8 sm:px-8">
+                      <Card className="mb-16 mt-2">
+                        <CardHeader className="mr-3">
+                          <div className="flex items-center">
+                            <UserItem
+                              className="mr-0"
+                              firstName={feedbackRequest.data?.owner.firstName}
+                              lastName={feedbackRequest.data?.owner.lastName}
+                              email={feedbackRequest.data?.owner.email}
+                            />
+                            <p className="mx-2">is requesting Your feedback</p>
+                          </div>
+                          <CardContent className="flex items-center px-0">
+                            <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                              {feedbackRequest.data?.paragraph ?? ""}
+                            </ReactMarkdown>
+                          </CardContent>
+                        </CardHeader>
+                      </Card>
+                      {feedbackRequest.data?.deadline && (
+                        <Card className="mb-16 mt-2">
+                          <CardHeader className="mr-3">
+                            <div className="flex items-center">
+                              <CalendarClockIcon className="mr-2" />
+                              Reveal Date
+                            </div>
+                            <CardContent className="flex items-center px-0">
+                              <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                                {format(feedbackRequest.data?.deadline, "PPP")}
+                              </ReactMarkdown>
+                              {isPast(feedbackRequest.data?.deadline) && (
+                                <p>
+                                  It is past the reveal date, but you can still
+                                  submit your feedback.
+                                </p>
+                              )}
+                            </CardContent>
+                          </CardHeader>
+                        </Card>
+                      )}
+                      <section className="pb-8">
                         <ul>
                           {authoringItems.map((authoringItem, index) => {
                             return (
@@ -603,14 +659,14 @@ const FeedbackRequest: NextPage = () => {
                             }
                           />
                         </footer>
-                      </>
-                    )}
-                  </FieldArray>
-                )}
-              </Form>
-            </section>
-          </div>
-        </MainLayout>
+                      </section>
+                    </div>
+                  </MainLayout>
+                </>
+              )}
+            </FieldArray>
+          )}
+        </Form>
       </>
     );
   }

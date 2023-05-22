@@ -18,6 +18,8 @@ enum Status {
   DONE
 }
 
+// TODO: introduce "Feedback" model, which is a container for one owner-author relationship, with feedback items as substance
+// it could have it's own state, like "requested", "authoring", "pending", "done"
 model FeedbackRequest {
   id        String    @id @default(cuid())
   // TODO: move this to nanoid, when it is supported by Prisma (https://github.com/prisma/prisma/issues/17199)
@@ -25,15 +27,18 @@ model FeedbackRequest {
   status    Status    @default(CREATING)
   title     String?   @db.Text
   paragraph String?   @db.Text
+  // TODO: rename this to revealDate
   deadline  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
 
-  ownerId       String
-  owner         User           @relation("owner", fields: [ownerId], references: [id])
-  authors       User[]
-  feedbackItems FeedbackItem[]
-  formSave      FormSave?
+  ownerId         String
+  owner           User           @relation("owner", fields: [ownerId], references: [id])
+  authors         User[]
+  authorsStarted  User[]         @relation("startedAuthors")
+  authorsFinished User[]         @relation("finishedAuthors")
+  feedbackItems   FeedbackItem[]
+  formSave        FormSave?
 
   @@index([ownerId])
   @@index([slug])
@@ -81,8 +86,6 @@ model TempFeedbackItem {
   @@index([formSaveId])
 }
 
-// TODO: needs an index to indicate ordering
-// TODO: how do we solve the public/private problem? --> maybe generate a set of Feedback items that do not have an author, which would be the public ones
 model FeedbackItem {
   id        String   @id @default(cuid())
   prompt    String?  @db.Text
@@ -112,8 +115,10 @@ model User {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
 
-  requestsOwned    FeedbackRequest[] @relation("owner")
-  itemsOwned       FeedbackItem[]    @relation("owner")
-  requestsAuthored FeedbackRequest[]
-  itemsAuthored    FeedbackItem[]
+  requestsOwned             FeedbackRequest[] @relation("owner")
+  itemsOwned                FeedbackItem[]    @relation("owner")
+  requestsAuthored          FeedbackRequest[]
+  requestsStartedAuthoring  FeedbackRequest[] @relation("startedAuthors")
+  requestsFinishedAuthoring FeedbackRequest[] @relation("finishedAuthors")
+  itemsAuthored             FeedbackItem[]
 }

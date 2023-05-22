@@ -4,7 +4,8 @@ import { createTRPCRouter, protectedProcedure } from "~/lib/trpc";
 import {
   feedbackRequestSchema,
   feedbackUpdateSchema,
-  authorUpdate,
+  authorSubmit,
+  authorSave,
 } from "~/utils/validation";
 
 // TODO: use transactions
@@ -167,9 +168,35 @@ export const formRouter = createTRPCRouter({
       });
     }),
 
-  authorUpdate: protectedProcedure
-    .input(z.object({ items: authorUpdate }))
-    .mutation(({ ctx, input }) => {
+  authorSave: protectedProcedure
+    .input(z.object({ items: authorSave, requestId: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.$transaction(
+        input.items.map((item) =>
+          ctx.prisma.feedbackItem.update({
+            where: { id: item.id },
+            data: { payload: item.payload },
+          })
+        )
+      );
+    }),
+
+  authorSubmit: protectedProcedure
+    .input(z.object({ items: authorSubmit, requestId: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.feedbackRequest.update({
+        where: {
+          id: input.requestId,
+        },
+        data: {
+          authorsFinished: {
+            connect: {
+              clerkUserId: ctx.auth.userId,
+            },
+          },
+        },
+      });
+
       return ctx.prisma.$transaction(
         input.items.map((item) =>
           ctx.prisma.feedbackItem.update({
