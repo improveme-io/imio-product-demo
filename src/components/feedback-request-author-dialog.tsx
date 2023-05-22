@@ -45,7 +45,7 @@ export const FeedbackRequestAuthorDialog = (
               <CardHeader className="mr-3">
                 <div className="flex items-center">
                   {props.renderOwner}
-                  <p>will see the following.</p>
+                  <p className="mx-2">will see the following.</p>
                 </div>
               </CardHeader>
             </Card>
