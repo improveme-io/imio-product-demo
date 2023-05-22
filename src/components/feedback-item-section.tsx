@@ -1,5 +1,6 @@
 import { type ChangeEvent } from "react";
 import { FieldArray, FieldArrayItem } from "houseform";
+import * as Scroll from "react-scroll";
 
 import {
   PuzzleIcon,
@@ -48,15 +49,16 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
     },
   ];
 
+  const scroll = Scroll.animateScroll;
+
   const templates = [
     {
       name: "UVA: Management and Leadership in the Digital Age",
       description:
         "Mandatory questions for the group work feedback. Please use this.",
       prompts: [
-        "What aspects of my contributions to the group project do you think were particularly helpful or effective?",
-        "How could I have better aligned my contributions with the goals of the project?",
-        "Did you observe any missed opportunities where my skills or knowledge could have been better utilized for the success of the project?",
+        "What aspects of my contributions to the group project do you think were particularly helpful or effective? Please provide specific examples.",
+        "From your perspective, what areas or aspects of the project do you think I could have done even better? Please provide specific examples.",
       ],
       highlight: true,
     },
@@ -95,7 +97,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                   <PuzzleIcon className="mr-2" />
                   Feedback Items
                 </h2>
-                <p className="px-3 py-1 pl-8 sm:w-4/6">
+                <p className="mb-8 px-6 py-1 pl-8 sm:w-4/6">
                   Feedback authors will be presented with Feedback Items
                   (Questions). Use the templates below to create your Request as
                   quickly as possible, or add own your own.
@@ -150,6 +152,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                           }
                           size={"lg"}
                           onClick={() => {
+                            scroll.scrollToBottom();
                             templateItem.prompts.map((_) =>
                               addToFeedbackItems({ prompt: _ })
                             );

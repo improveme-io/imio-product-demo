@@ -63,7 +63,7 @@ export const feedbackUpdateSchema = z.object({
 
 export const payloadSchema = z
   .string()
-  .min(140, "* That's less than half a tweet! Please write a bit more.");
+  .min(120, "* That's less than half a tweet! Please write a bit more.");
 export const authoringItem = z.object({
   id: z.string().cuid(),
   prompt: z.string(),

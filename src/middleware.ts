@@ -6,7 +6,7 @@ const publicRoutes = [
   "/legal/privacy-policy",
   "/legal/anti-discrimination-policy",
   "/legal/terms-and-conditions",
-  "/uva-course",
+  "/uva",
   "/api/webhooks/clerk",
 ];
 

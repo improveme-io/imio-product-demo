@@ -50,19 +50,19 @@ const feedbackItems = [
 
 const howtoItems = [
   {
-    image: "/uva-course/screenshot01.png",
+    image: "/uva/screenshot01.png",
     text: "Click the Start Collecting Feedback Now button to log in or sign up to improveme.io",
   },
   {
-    image: "/uva-course/screenshot02.png",
+    image: "/uva/screenshot02.png",
     text: "Enter your name and university e-mail.",
   },
   {
-    image: "/uva-course/screenshot03.png",
+    image: "/uva/screenshot03.png",
     text: "Fill out the Feedback Request form. Add all group members you are recieving feedback from as Authors with their e-mail address and name.",
   },
   {
-    image: "/uva-course/screenshot04.png",
+    image: "/uva/screenshot04.png",
     text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
   },
 ];
@@ -122,7 +122,9 @@ const Home: NextPage = () => {
         </h1>
         <div className="md:grid md:grid-cols-2">
           <div>
-            <h3 className="mb-7 text-xl">UVA | Business Negotiation 101</h3>
+            <h3 className="mb-7 text-xl">
+              UVA | Management and Leadership in the Digital Age
+            </h3>
             <p className="mb-8 text-lg">
               Now it is time to put into practice what we learned in Week 3
               about giving feedback! Being able to give and receive feedback is
@@ -174,8 +176,7 @@ const Home: NextPage = () => {
                 Dr. Brooke Gazdag
               </h3>
               <p className="text-md mb-4 md:max-w-lg">Associate Professor</p>
-              <p className="text-md mb-2 md:max-w-lg">bgazdag@uva.nl</p>
-              <p className="text-md mb-8 md:max-w-lg">+49232312312</p>
+              <p className="text-md mb-2 md:max-w-lg">b.a.gazdag@uva.nl</p>
             </div>
           </div>
         </div>
