@@ -468,7 +468,6 @@ const FeedbackRequest: NextPage = () => {
     return (
       <>
         <PageHead title="Author Feedback Request" />
-
         <Form<{ authoringItems: AuthoringForm }>
           onSubmit={(values) => {
             if (feedbackRequest.data?.id) {

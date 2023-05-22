@@ -28,6 +28,7 @@ export const Contribution = (props: ContributionProps) => {
             lastName={props.requesterLastName}
             email={props.email}
           />
+
           {props.hasFinished && (
             <CheckIcon className="ml-auto h-5 w-5 text-green-500" />
           )}
@@ -35,6 +36,7 @@ export const Contribution = (props: ContributionProps) => {
       </CardHeader>
       <CardContent className="flex h-full flex-col justify-between">
         <Label className="text-md">{props.requestName}</Label>
+
         {!props.hasFinished && (
           <Button
             variant="default"

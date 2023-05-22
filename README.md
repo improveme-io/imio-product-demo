@@ -14,6 +14,7 @@ Run `pnpm dev` to start up the development server.
 
 ## Deployment
 
+
 We have 2 environments:
 
 - `dev` --> local, preview, staging

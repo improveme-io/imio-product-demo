@@ -33,6 +33,7 @@ export const FeedbackRequestAuthorDialog = (
     <Dialog>
       <DialogTrigger asChild>{props.renderDialogTrigger}</DialogTrigger>
       {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
+
       <DialogContent className="h-full overflow-y-scroll bg-stone-50 sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
         <section>
           <div className="mx-auto max-w-4xl">
@@ -49,7 +50,6 @@ export const FeedbackRequestAuthorDialog = (
                 </div>
               </CardHeader>
             </Card>
-
             <ul>
               {/* collect unique owner feedback items */}
               {props.feedbackItems.map(
@@ -75,7 +75,6 @@ export const FeedbackRequestAuthorDialog = (
             </ul>
           </div>
         </section>
-
         <DialogFooter className="gap-4">
           <DialogClose asChild>
             <Button variant="outline" size="lg">
