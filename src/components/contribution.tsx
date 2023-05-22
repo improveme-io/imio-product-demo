@@ -13,8 +13,8 @@ type ContributionProps = {
   slug: string;
   email: string | null;
   requestName: string | null;
-  requesterInitials: string;
-  requesterName: string;
+  requesterFirstName?: string;
+  requesterLastName?: string;
   done: boolean;
 };
 export const Contribution = (props: ContributionProps) => {
@@ -22,7 +22,11 @@ export const Contribution = (props: ContributionProps) => {
     <Card className="group flex flex-col">
       <CardHeader>
         <CardTitle className="text-md flex items-center justify-between font-normal">
-          <UserItem initials={props.requesterInitials} email={props.email} />
+          <UserItem
+            firstName={props.requesterFirstName}
+            lastName={props.requesterLastName}
+            email={props.email}
+          />
           {props.done ? (
             <CheckIcon className="ml-auto h-5 w-5 text-green-500" />
           ) : (
@@ -30,8 +34,8 @@ export const Contribution = (props: ContributionProps) => {
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col">
-        <Label>{props.requestName}</Label>
+      <CardContent className="flex h-full flex-col justify-between">
+        <Label className="text-md">{props.requestName}</Label>
         <Button
           asChild
           variant={props.done ? "outline" : "default"}

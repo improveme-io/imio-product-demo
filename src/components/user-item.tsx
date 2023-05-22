@@ -7,8 +7,8 @@ type UserItemProps = {
   email: string | null | undefined;
   initials?: string;
   name?: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | null;
+  lastName?: string | null;
   className?: string;
 };
 

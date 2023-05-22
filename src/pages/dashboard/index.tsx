@@ -59,14 +59,6 @@ const Dashboard: NextPage = () => {
         title={`Hello, ${clerkUser.user?.firstName ?? "You"}`}
       >
         <Button
-          className="mr-2 transition-all duration-300 hover:bg-stone-200"
-          size={isScrolled ? "sm" : "lg"}
-          variant={"ghost"}
-          disabled
-        >
-          Settings
-        </Button>
-        <Button
           disabled={createForm.isLoading}
           className="transition-all duration-300"
           size={isScrolled ? "sm" : "lg"}
@@ -84,9 +76,18 @@ const Dashboard: NextPage = () => {
         <h2 className="mb-4 flex items-center text-xl">
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
+          <Badge className="ml-4 bg-stone-400 hover:bg-stone-400">
+            {authoredFeedbacks.isSuccess && authoredFeedbacks.data.length}
+          </Badge>
         </h2>
         {/* FIXME: make it consistent and add section to other places as well or remove it here */}
         <section className="grid grid-cols-3 gap-4">
+          {authoredFeedbacks.data?.length === 0 && (
+            <div className="flex h-40 w-full items-center justify-center rounded-lg bg-stone-100 p-6 text-center text-stone-400">
+              Noone has requested feedback from you yet. Incoming Requests will
+              appear here.
+            </div>
+          )}
           {authoredFeedbacks.isSuccess &&
             authoredFeedbacks.data.map((fr) => {
               return (
@@ -94,9 +95,9 @@ const Dashboard: NextPage = () => {
                   key={fr.id}
                   slug={fr.slug}
                   done={fr.status === "DONE"}
+                  requesterFirstName={fr.owner.firstName}
+                  requesterLastName={fr.owner.lastName}
                   requestName={fr.title}
-                  requesterInitials={"<RN>"}
-                  requesterName={"fr.owner.name"}
                   email={fr.owner.email}
                 />
               );
@@ -105,11 +106,18 @@ const Dashboard: NextPage = () => {
         <h2 className="mb-4 mt-8 flex items-center text-xl">
           <LeafIcon className="mr-2" size={"20"} />
           Feedback Requested by You
-          <Badge className="ml-4">
+          <Badge className="ml-4 bg-stone-400 hover:bg-stone-400">
             {ownedFeedbacks.isSuccess && ownedFeedbacks.data.length}
           </Badge>
         </h2>
+        {ownedFeedbacks.data?.length === 0 && (
+          <div className="flex h-40 w-full items-center justify-center rounded-lg bg-stone-100 p-6 text-center text-stone-400">
+            You have not requested feedback yet. Click the button in the top
+            right corner to get started.
+          </div>
+        )}
         {ownedFeedbacks.isSuccess &&
+          ownedFeedbacks.data.length != 0 &&
           ownedFeedbacks.data.map((fr) => {
             // TODO: make this re-useable, it is also used in the [slug] page
             const title = fr?.formSave ? fr?.formSave.title : fr?.title;
@@ -137,11 +145,15 @@ const Dashboard: NextPage = () => {
                 key={fr.slug}
                 slug={fr.slug}
                 canEdit={fr.status === "CREATING"}
+                created={fr.createdAt}
                 title={title ?? ""}
                 paragraph={paragraph ?? ""}
                 feedbackItems={feedbackItems}
                 ownerEmail={fr.owner.email}
+                disabled={deleteFeedback.isLoading}
                 authors={authors.map((a, i) => ({
+                  firstName: a.firstName ?? "",
+                  lastName: a.lastName ?? "",
                   email: a.email ?? "",
                   id: `fake-author-${i}`,
                 }))}
@@ -163,6 +175,9 @@ const Dashboard: NextPage = () => {
           <SproutIcon size={"20"} className="mr-2" />
           Feedback Requests Shared With You
         </h2>
+        <div className="flex h-40 w-full items-center justify-center rounded-lg bg-stone-100 p-6 text-center text-stone-400">
+          There are no Requests Shared with You yet.
+        </div>
       </MainLayout>
     </>
   );
