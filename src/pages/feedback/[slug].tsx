@@ -257,6 +257,7 @@ const FeedbackRequest: NextPage = () => {
                                     onSelect={(day) => {
                                       setValue(day);
                                     }}
+                                    disabled={(date) => isPast(date)}
                                   />
                                 </PopoverContent>
                               </Popover>
