@@ -2,7 +2,7 @@ import React from "react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
-import { Form, FieldArray, FieldArrayItem } from "houseform";
+import { Form, FieldArray, FieldArrayItem, Field } from "houseform";
 import {
   SaveIcon,
   StepForwardIcon,
@@ -14,7 +14,7 @@ import {
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 
 import { Calendar } from "~/components/ui/calendar";
 import {
@@ -29,6 +29,7 @@ import {
   payloadSchema,
   type AuthoringForm,
   type AuthoringFormItem,
+  deadlineSchema,
 } from "~/utils/validation";
 import { LogoSplash } from "~/components/logo-splash";
 import { GeneralError, UnathorizedError } from "~/components/error-screens";
@@ -99,6 +100,9 @@ const FeedbackRequest: NextPage = () => {
   const paragraph = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.paragraph
     : feedbackRequest.data?.paragraph;
+  const deadline = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.deadline
+    : feedbackRequest.data?.deadline;
   const authors = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.authors
     : feedbackRequest.data?.authors.map((user) => ({
@@ -124,8 +128,6 @@ const FeedbackRequest: NextPage = () => {
   // TODO: this causes a re-render on every scroll event, investigate if it's possible to avoid
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
-
-  const [date, setDate] = React.useState<Date>();
 
   // TODO: we should have a better way of hydrating the form with the data from the feedback... maybe SSR would be better here?
   // can't use placeholderData because we have different views based on the status
@@ -159,6 +161,7 @@ const FeedbackRequest: NextPage = () => {
                   ownerId: currentViewer.data.id,
                   title: values.title,
                   authors: values.authors,
+                  deadline: values.deadline,
                   paragraph: values.paragraph,
                   feedbackItems: values.feedbackItems,
                 });
@@ -180,6 +183,7 @@ const FeedbackRequest: NextPage = () => {
                             requestId: feedbackRequest.data?.id,
                             title: formValues.title,
                             authors: formValues.authors,
+                            deadline: formValues.deadline,
                             paragraph: formValues.paragraph,
                             feedbackItems: formValues.feedbackItems,
                           },
@@ -208,51 +212,64 @@ const FeedbackRequest: NextPage = () => {
                     <CardContent className="px-6 pb-8 pt-6">
                       <FeedbackAuthorSection authors={authors} />
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
-                      <div className="mt-12 justify-between">
-                        <h2 className="mb-4 flex w-full text-xl">
-                          <CalendarClockIcon className="mr-2" />
-                          Reveal Date
-                        </h2>
-                        <div className="flex flex-col">
-                          <Label className="mb-4">
-                            Before this date, incoming Feedback won&apos;t be
-                            visible to you.
-                          </Label>
+                      {/* TODO: do this typing for the other fields as well */}
+                      <Field<FormValues["deadline"]>
+                        name="deadline"
+                        initialValue={deadline}
+                        onSubmitValidate={deadlineSchema}
+                        onChangeValidate={deadlineSchema}
+                      >
+                        {/* TODO: error handling */}
+                        {({ value, setValue }) => (
+                          <div className="mt-12 justify-between">
+                            <h2 className="mb-4 flex w-full text-xl">
+                              <CalendarClockIcon className="mr-2" />
+                              Reveal Date
+                            </h2>
+                            <div className="flex flex-col">
+                              <Label className="mb-4">
+                                Before this date, incoming Feedback won&apos;t
+                                be visible to you.
+                              </Label>
 
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "w-[280px] justify-start text-left font-normal",
-                                  !date && "text-muted-foreground"
-                                )}
-                              >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? (
-                                  format(date, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={setDate}
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <p className="mt-5 max-w-lg text-sm">
-                            This can be useful if you are doing feedback in a
-                            group or if you are requesting feedback from
-                            multiple people and want to see their contributions
-                            at once.
-                          </p>
-                        </div>
-                      </div>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-[280px] justify-start text-left font-normal",
+                                      !value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {value ? (
+                                      format(value, "PPP")
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    initialFocus
+                                    mode="single"
+                                    selected={value ?? undefined}
+                                    onSelect={(day) => {
+                                      setValue(day);
+                                    }}
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <p className="mt-5 max-w-lg text-sm">
+                                This can be useful if you are doing feedback in
+                                a group or if you are requesting feedback from
+                                multiple people and want to see their
+                                contributions at once.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </Field>
                     </CardContent>
                   </Card>
                   <FeedbackItemSection feedbackItems={feedbackItems} />

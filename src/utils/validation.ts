@@ -4,6 +4,8 @@ export const feedbackTitleSchema = z.string().nonempty("* Required");
 
 export const feedbackParagraphSchema = z.string().nonempty("* Required");
 
+export const deadlineSchema = z.date().nullish();
+
 export const emailSchema = z.string().email("* Required.");
 export const nameSchema = z.string().min(1, "* Required.");
 export const authorSchema = z.object({
@@ -25,6 +27,7 @@ export function isFeedbackItem(value: unknown): value is FeedbackItemForm {
 export const formSchema = z.object({
   title: feedbackTitleSchema,
   paragraph: feedbackParagraphSchema,
+  deadline: deadlineSchema,
   authors: z.array(authorSchema).min(1, "* Required."),
   feedbackItems: z.array(feedbackItemSchema).min(1, "* Required."),
 });
@@ -39,6 +42,7 @@ export const feedbackUpdateSchema = z.object({
   requestId: z.string().cuid(),
   title: z.string().optional(),
   paragraph: z.string().optional(),
+  deadline: z.date().nullish(),
   authors: z
     .array(
       z.object({
