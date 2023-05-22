@@ -111,8 +111,17 @@ const Dashboard: NextPage = () => {
           )}
           {authoredFeedbacks.isSuccess &&
             authoredFeedbacks.data.map((fr) => {
+              const hasStarted = fr.authorsStarted
+                .map((a) => a.clerkUserId)
+                .includes(clerkUser.user?.id ?? "");
+              const hasFinished = fr.authorsFinished
+                .map((a) => a.clerkUserId)
+                .includes(clerkUser.user?.id ?? "");
+
               return (
                 <Contribution
+                  hasStarted={hasStarted}
+                  hasFinished={hasFinished}
                   key={fr.id}
                   slug={fr.slug}
                   requesterFirstName={fr.owner.firstName}

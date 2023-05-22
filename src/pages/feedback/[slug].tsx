@@ -120,6 +120,10 @@ const FeedbackRequest: NextPage = () => {
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
 
+  const authorHasFinished = feedbackRequest.data?.authorsFinished
+    .map((a) => a.clerkUserId)
+    .includes(clerkUser.user?.id ?? "");
+
   // ~ auth checks ~
   // TODO: move these checks to the server, also break up slug to only return the data that the viewer is allowed to see
   const viewerIsAuthor =
@@ -584,7 +588,9 @@ const FeedbackRequest: NextPage = () => {
                                         <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
                                           {authoringItem.prompt}
                                         </Label>
+                                        {/* KRISTOF */}
                                         <Textarea
+                                          disabled={authorHasFinished}
                                           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                                           value={value}
                                           placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
@@ -646,6 +652,7 @@ const FeedbackRequest: NextPage = () => {
                             }
                             renderDialogFooter={
                               <Button
+                                disabled={authorHasFinished}
                                 variant="default"
                                 size={"lg"}
                                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
