@@ -73,7 +73,7 @@ const Dashboard: NextPage = () => {
         </Button>
       </Header>
       <MainLayout app>
-        <h2 className="mb-4 flex items-center text-xl">
+        <h2 className="mb-8 flex items-center text-xl sm:mb-4">
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
           <Badge className="ml-4 bg-stone-400 hover:bg-stone-400">
@@ -103,7 +103,7 @@ const Dashboard: NextPage = () => {
               );
             })}
         </section>
-        <h2 className="mb-4 mt-8 flex items-center text-xl">
+        <h2 className="mb-8 mt-8 flex items-center text-xl sm:mb-4">
           <LeafIcon className="mr-2" size={"20"} />
           Feedback Requested by You
           <Badge className="ml-4 bg-stone-400 hover:bg-stone-400">
@@ -170,7 +170,7 @@ const Dashboard: NextPage = () => {
               />
             );
           })}
-        <h2 className="mb-4 mt-8 flex text-xl">
+        <h2 className="mb-8 mt-8 flex text-xl sm:mb-4">
           <SproutIcon size={"20"} className="mr-2" />
           Feedback Requests Shared With You
         </h2>
