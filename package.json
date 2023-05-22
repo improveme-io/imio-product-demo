@@ -52,6 +52,7 @@
     "react-day-picker": "^8.7.1",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.7",
+    "react-scroll": "^1.8.9",
     "react-use": "^17.4.0",
     "superjson": "1.12.2",
     "tailwind-merge": "^1.12.0",
