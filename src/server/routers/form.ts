@@ -25,7 +25,8 @@ export const formRouter = createTRPCRouter({
           formSave: {
             create: {
               title: input.title,
-              paragraph: "",
+              paragraph:
+                "I really enjoyed working with you on the project. I'm very eager to learn from my experiences and hope you'll support me on that journey. Thank you in advance for your thoughtful input!",
               deadline: undefined,
               authors: {
                 create: [
