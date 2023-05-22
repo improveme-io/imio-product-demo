@@ -11,7 +11,6 @@ import {
   CalendarClockIcon,
   CalendarIcon,
   EyeIcon,
-  Circle,
   MailCheckIcon,
 } from "lucide-react";
 import { useWindowScroll } from "react-use";
@@ -413,7 +412,7 @@ const FeedbackRequest: NextPage = () => {
                             key={authorFI.id}
                             className="mb-12 mt-8 grid w-full grid-cols-4"
                           >
-                            <div className="w-full">
+                            <div className="flex w-full items-start">
                               <UserItem
                                 firstName={authorFI.author.firstName}
                                 lastName={authorFI.author.lastName}
@@ -432,16 +431,22 @@ const FeedbackRequest: NextPage = () => {
                               )}
                             </div>
                             {feedbackRequest.data?.deadline &&
-                              isPast(feedbackRequest.data?.deadline) && (
+                              isPast(feedbackRequest.data?.deadline) &&
+                              feedbackRequest.data?.authorsFinished
+                                .map((a) => a.id)
+                                .includes(authorFI.author.id) && (
                                 <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
-                            {!feedbackRequest.data?.deadline && (
-                              <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
-                                {authorFI.payload ?? ""}
-                              </ReactMarkdown>
-                            )}
+                            {!feedbackRequest.data?.deadline &&
+                              feedbackRequest.data?.authorsFinished
+                                .map((a) => a.id)
+                                .includes(authorFI.author.id) && (
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                  {authorFI.payload ?? ""}
+                                </ReactMarkdown>
+                              )}
                           </li>
                         ))}
                     </div>
