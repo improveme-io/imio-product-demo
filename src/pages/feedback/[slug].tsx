@@ -11,7 +11,6 @@ import {
   CalendarClockIcon,
   CalendarIcon,
   EyeIcon,
-  Circle,
   MailCheckIcon,
 } from "lucide-react";
 import { useWindowScroll } from "react-use";
@@ -119,6 +118,10 @@ const FeedbackRequest: NextPage = () => {
   const feedbackItems = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.feedbackItems
     : feedbackRequest.data?.feedbackItems.map((fi) => ({ prompt: fi.prompt }));
+
+  const authorHasFinished = feedbackRequest.data?.authorsFinished
+    .map((a) => a.clerkUserId)
+    .includes(clerkUser.user?.id ?? "");
 
   // ~ auth checks ~
   // TODO: move these checks to the server, also break up slug to only return the data that the viewer is allowed to see
@@ -409,7 +412,7 @@ const FeedbackRequest: NextPage = () => {
                             key={authorFI.id}
                             className="mb-12 mt-8 grid w-full grid-cols-4"
                           >
-                            <div className="w-full">
+                            <div className="flex w-full items-start">
                               <UserItem
                                 firstName={authorFI.author.firstName}
                                 lastName={authorFI.author.lastName}
@@ -428,16 +431,22 @@ const FeedbackRequest: NextPage = () => {
                               )}
                             </div>
                             {feedbackRequest.data?.deadline &&
-                              isPast(feedbackRequest.data?.deadline) && (
+                              isPast(feedbackRequest.data?.deadline) &&
+                              feedbackRequest.data?.authorsFinished
+                                .map((a) => a.id)
+                                .includes(authorFI.author.id) && (
                                 <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
-                            {!feedbackRequest.data?.deadline && (
-                              <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
-                                {authorFI.payload ?? ""}
-                              </ReactMarkdown>
-                            )}
+                            {!feedbackRequest.data?.deadline &&
+                              feedbackRequest.data?.authorsFinished
+                                .map((a) => a.id)
+                                .includes(authorFI.author.id) && (
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                  {authorFI.payload ?? ""}
+                                </ReactMarkdown>
+                              )}
                           </li>
                         ))}
                     </div>
@@ -584,7 +593,9 @@ const FeedbackRequest: NextPage = () => {
                                         <Label className="mb-8 block max-w-3xl font-serif text-xl font-normal">
                                           {authoringItem.prompt}
                                         </Label>
+                                        {/* KRISTOF */}
                                         <Textarea
+                                          disabled={authorHasFinished}
                                           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                                           value={value}
                                           placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
@@ -646,6 +657,7 @@ const FeedbackRequest: NextPage = () => {
                             }
                             renderDialogFooter={
                               <Button
+                                disabled={authorHasFinished}
                                 variant="default"
                                 size={"lg"}
                                 // eslint-disable-next-line @typescript-eslint/no-misused-promises

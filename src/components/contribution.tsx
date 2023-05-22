@@ -9,12 +9,14 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 
 type ContributionProps = {
+  hasStarted?: boolean;
+  hasFinished?: boolean;
   slug: string;
   email: string | null;
   requestName: string | null;
   requesterFirstName?: string;
   requesterLastName?: string;
-  onAuthor?: () => void;
+  onAuthor: () => void;
 };
 export const Contribution = (props: ContributionProps) => {
   return (
@@ -26,26 +28,26 @@ export const Contribution = (props: ContributionProps) => {
             lastName={props.requesterLastName}
             email={props.email}
           />
-          {!props.onAuthor && (
+          {props.hasFinished && (
             <CheckIcon className="ml-auto h-5 w-5 text-green-500" />
           )}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex h-full flex-col justify-between">
         <Label className="text-md">{props.requestName}</Label>
-        {props.onAuthor && (
+        {!props.hasFinished && (
           <Button
             variant="default"
             onClick={() => {
-              props.onAuthor?.();
+              props.onAuthor();
             }}
             className="mt-4"
           >
             <EditIcon className="mr-2" />
-            Author Feedback
+            {props.hasStarted ? "Continue Authoring" : "Author Feedback"}
           </Button>
         )}
-        {!props.onAuthor && (
+        {props.hasFinished && (
           <Button
             asChild
             variant={"outline"}

@@ -33,6 +33,8 @@ export const feedbackRouter = createTRPCRouter({
         owner: true,
         authors: true,
         feedbackItems: true,
+        authorsStarted: true,
+        authorsFinished: true,
         _count: true,
       },
       orderBy: { updatedAt: "desc" },
