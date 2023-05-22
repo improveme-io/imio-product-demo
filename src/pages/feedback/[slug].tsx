@@ -3,10 +3,25 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
 import { Form, FieldArray, FieldArrayItem } from "houseform";
-import { SaveIcon, StepForwardIcon, Loader2Icon, SendIcon } from "lucide-react";
+import {
+  SaveIcon,
+  StepForwardIcon,
+  Loader2Icon,
+  SendIcon,
+  CalendarClockIcon,
+  CalendarIcon,
+} from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
+import { format } from "date-fns";
+
+import { Calendar } from "~/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 
 import { api } from "~/utils/api";
 import {
@@ -110,6 +125,8 @@ const FeedbackRequest: NextPage = () => {
   const { y } = useWindowScroll();
   const isScrolled = y > 0;
 
+  const [date, setDate] = React.useState<Date>();
+
   // TODO: we should have a better way of hydrating the form with the data from the feedback... maybe SSR would be better here?
   // can't use placeholderData because we have different views based on the status
   // maybe a set of nice skeleton components for now would be good
@@ -191,6 +208,51 @@ const FeedbackRequest: NextPage = () => {
                     <CardContent className="px-6 pb-8 pt-6">
                       <FeedbackAuthorSection authors={authors} />
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
+                      <div className="mt-12 justify-between">
+                        <h2 className="mb-4 flex w-full text-xl">
+                          <CalendarClockIcon className="mr-2" />
+                          Reveal Date
+                        </h2>
+                        <div className="flex flex-col">
+                          <Label className="mb-4">
+                            Before this date, incoming Feedback won&apos;t be
+                            visible to you.
+                          </Label>
+
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-[280px] justify-start text-left font-normal",
+                                  !date && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? (
+                                  format(date, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <p className="mt-5 max-w-lg text-sm">
+                            This can be useful if you are doing feedback in a
+                            group or if you are requesting feedback from
+                            multiple people and want to see their contributions
+                            at once.
+                          </p>
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                   <FeedbackItemSection feedbackItems={feedbackItems} />
