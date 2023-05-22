@@ -36,9 +36,9 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
   return (
     <Card className="group mb-8">
       <CardHeader>
-        <div className="flex flex-col items-center justify-between sm:flex-row">
+        <div className="flex flex-col justify-between sm:flex-row sm:items-center">
           <CardTitle>{props.title}</CardTitle>
-          <div className="justify-end gap-3 transition-opacity duration-300 group-hover:opacity-100 sm:flex pointerdevice:pointerdevice:opacity-0">
+          <div className="mt-3 flex flex-col items-end justify-end gap-3 transition-opacity duration-300 group-hover:opacity-100 sm:mt-0 sm:flex-row sm:items-center pointerdevice:pointerdevice:opacity-0">
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
