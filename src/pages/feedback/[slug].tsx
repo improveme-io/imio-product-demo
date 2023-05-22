@@ -208,7 +208,7 @@ const FeedbackRequest: NextPage = () => {
                 </Header>
                 <MainLayout app>
                   <FeedbackTitleSection title={title} />
-                  <Card className="my-12">
+                  <Card className="sm:my-12">
                     <CardContent className="px-6 pb-8 pt-6">
                       <FeedbackAuthorSection authors={authors} />
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
