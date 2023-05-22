@@ -16,7 +16,7 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        props.isSmall ? "min-h-50 bg-opacity-70 py-2" : "py-8",
+        props.isSmall ? "min-h-[4em] bg-opacity-70 py-2" : "py-8",
         "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500"
       )}
     >
@@ -36,7 +36,7 @@ export const Header = (props: HeaderProps) => {
           </Link>{" "}
           <h1
             className={cn(
-              "group mr-auto flex font-serif text-3xl tracking-tight transition-transform duration-300 delay-500",
+              "group ml-2 mr-auto flex font-serif text-3xl tracking-tight transition-transform duration-300 delay-500 sm:ml-0",
               props.isSmall && "hidden sm:flex sm:-translate-y-16",
               !props.isSmall && "-translate-y-0"
             )}

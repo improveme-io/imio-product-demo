@@ -105,7 +105,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                     <Card
                       key={index}
                       className={cn(
-                        ["sm:my-4 flex flex-col"],
+                        ["my-4 flex flex-col"],
                         templateItem.highlight ? "" : "bg-stone-100"
                       )}
                     >

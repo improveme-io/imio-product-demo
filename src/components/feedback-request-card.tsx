@@ -34,7 +34,7 @@ type FeedbackRequestCardProps = {
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
   return (
-    <Card className="group mb-8">
+    <Card className="group mb-8 sm:my-2">
       <CardHeader>
         <div className="flex flex-col justify-between sm:flex-row sm:items-center">
           <CardTitle>{props.title}</CardTitle>

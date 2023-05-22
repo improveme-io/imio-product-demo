@@ -30,7 +30,9 @@ export const FeedbackRequestDialog = (props: FeedbackRequestDialogProps) => {
           feedbackItems={props.feedbackItems}
           renderOwner={props.renderOwner}
         />
-        <DialogFooter>{props.renderDialogFooter}</DialogFooter>
+        <DialogFooter className="gap-4">
+          {props.renderDialogFooter}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

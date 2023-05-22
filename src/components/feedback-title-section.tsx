@@ -21,8 +21,8 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
     >
       {({ value, setValue, errors }) => (
         <>
-          <div className="flex flex-row">
-            <h1 className="mt-8 w-full text-2xl">
+          <div className="mb-8 mt-8 flex flex-row sm:mb-0">
+            <h1 className="w-full text-2xl">
               {isEditing && (
                 <div className="flex flex-row items-center">
                   <Input

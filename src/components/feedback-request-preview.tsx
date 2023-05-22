@@ -15,10 +15,10 @@ type FeedbackRequestPreviewProps = {
 export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
   return (
     <section>
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto sm:max-w-4xl">
         <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">{props.title}</h1>
       </div>
-      <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
+      <div className="mx-auto flex max-w-4xl flex-col pb-8 sm:px-8">
         <Card className="mb-16 mt-2">
           <CardHeader className="mr-3">
             <div className="flex items-center">

@@ -299,14 +299,14 @@ const FeedbackRequest: NextPage = () => {
                         </Button>
                       }
                       renderDialogFooter={
-                        <div className="mt-auto flex items-center">
+                        <>
                           <DialogClose asChild>
                             <Button
                               variant="outline"
                               size="lg"
-                              className="mr-4"
+                              className="mr-4 w-full"
                             >
-                              Back to Authoring
+                              Back to Feedback Request
                             </Button>
                           </DialogClose>
                           <Button
@@ -322,7 +322,7 @@ const FeedbackRequest: NextPage = () => {
                             Request Feedback
                           </Button>
                           {errors.length > 0 && <p>* There are errors</p>}
-                        </div>
+                        </>
                       }
                     />
                   </footer>
@@ -453,7 +453,7 @@ const FeedbackRequest: NextPage = () => {
           ])}
         />
         <MainLayout app>
-          <div className="flex w-full  flex-col px-8 pb-8">
+          <div className="flex w-full flex-col pb-8 sm:px-8">
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
@@ -556,8 +556,10 @@ const FeedbackRequest: NextPage = () => {
                             );
                           })}
                         </ul>
-                        <footer className="flex items-center justify-end pb-16 pl-8 pt-8">
-                          <p className="mr-5">Ready to send it?</p>
+                        <footer className="flex flex-col items-center justify-end pb-16 pl-8 pt-8 sm:flex-row">
+                          <p className="mb-5 mr-0 sm:mb-0 sm:mr-5">
+                            Ready to send it?
+                          </p>
                           <FeedbackRequestAuthorDialog
                             title={feedbackRequest.data?.title}
                             // paragraph={formValues.paragraph}
