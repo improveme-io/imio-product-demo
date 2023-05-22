@@ -37,7 +37,7 @@ export const FeedbackParagraphSection = (
             </Label>
             <Textarea
               value={value}
-              placeholder="Thanks for filling out my feedback from. Being able to give and receive feedback is essential to effective teamwork and personal and professional growth. Remember, receiving feedback is an opportunity for growth and improvement, so approach these questions with an open mind and a willingness to learn from your teammates' perspectives. Please answer the questions below and always provide specific examples."
+              placeholder="I really enjoyed working with you on the project. I'm very eager to learn from my experiences and hope you'll support me on that journey. Thank you in advance for your thoughtful input!"
               onChange={(e) => {
                 setValue(e.target.value);
               }}
