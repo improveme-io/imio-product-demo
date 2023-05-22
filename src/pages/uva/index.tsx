@@ -50,19 +50,19 @@ const feedbackItems = [
 
 const howtoItems = [
   {
-    image: "/uva-course/screenshot01.png",
+    image: "/uva/screenshot01.png",
     text: "Click the Start Collecting Feedback Now button to log in or sign up to improveme.io",
   },
   {
-    image: "/uva-course/screenshot02.png",
+    image: "/uva/screenshot02.png",
     text: "Enter your name and university e-mail.",
   },
   {
-    image: "/uva-course/screenshot03.png",
+    image: "/uva/screenshot03.png",
     text: "Fill out the Feedback Request form. Add all group members you are recieving feedback from as Authors with their e-mail address and name.",
   },
   {
-    image: "/uva-course/screenshot04.png",
+    image: "/uva/screenshot04.png",
     text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
   },
 ];
