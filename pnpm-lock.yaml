@@ -61,6 +61,9 @@ dependencies:
   '@trpc/server':
     specifier: ^10.25.0
     version: 10.25.0
+  '@types/react-scroll':
+    specifier: ^1.8.7
+    version: 1.8.7
   class-variance-authority:
     specifier: ^0.5.3
     version: 0.5.3(typescript@5.0.4)
@@ -1325,6 +1328,12 @@ packages:
     dependencies:
       '@types/react': 18.2.6
     dev: true
+
+  /@types/react-scroll@1.8.7:
+    resolution: {integrity: sha512-BB8g+hQL7OtBPWg/NcES6p5u6vduZonGl1BxrsGUwcefE53pfI0pFDd1lRFndgEUE6whYdFfhD+j0sZZT/6brQ==}
+    dependencies:
+      '@types/react': 18.2.6
+    dev: false
 
   /@types/react@18.2.6:
     resolution: {integrity: sha512-wRZClXn//zxCFW+ye/D2qY65UsYP1Fpex2YXorHc8awoNamkMZSvBxwxdYVInsHOZZd2Ppq8isnSzJL5Mpf8OA==}
