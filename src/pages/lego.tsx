@@ -201,7 +201,7 @@ const UserItem = (fallbackUserName: string, userName: string) => {
 const EditButton = () => {
   return (
     <Button
-      className="ml-5 opacity-0 group-hover:opacity-100"
+      className="ml-5 group-hover:opacity-100 pointerdevice:opacity-0"
       variant={"ghost"}
       size={"sm"}
     >
@@ -325,7 +325,7 @@ const Contribution = (
       {done ? (
         <Button
           variant={"outline"}
-          className="mt-4 opacity-0 hover:bg-slate-50 group-hover:opacity-100"
+          className="mt-4 hover:bg-slate-50 group-hover:opacity-100 pointerdevice:opacity-0"
         >
           <ViewIcon className="mr-2" />
           View
@@ -411,7 +411,7 @@ const FeedbackRequestItem = (requestName: string) => {
     <Card className="mb-8">
       <div className="flex justify-between">
         <h3 className="flex text-xl">{name}</h3>
-        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
+        <div className="flex justify-end gap-3 group-hover:opacity-100 pointerdevice:opacity-0">
           <Button variant={"ghost"} className="text-red-500">
             <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
             Delete
@@ -446,7 +446,7 @@ const FeedbackItem = () => {
         <h3 className="flex text-xl">
           What do you wish Mihaly would do more of in the future or keep doing?
         </h3>
-        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100">
+        <div className="flex justify-end gap-3 group-hover:opacity-100 pointerdevice:opacity-0">
           <Button variant={"outline"}>
             <EditIcon className="mr-2 h-4 w-4" />
             Edit

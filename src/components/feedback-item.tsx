@@ -75,7 +75,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                 {currentPrompt ? currentPrompt : "Untitled Feedback Item"}
               </span>
               <Button
-                className="ml-auto opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="ml-auto transition-opacity duration-300 group-hover:opacity-100 pointerdevice:opacity-0"
                 variant={"outline"}
                 onClick={() => {
                   setIsEditing(true);
@@ -110,7 +110,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
           <Button
             variant={"ghost"}
             onClick={props.onRemove}
-            className="ml-auto text-red-500 opacity-0 transition-opacity duration-300 hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
+            className="ml-auto text-red-500 transition-opacity duration-300 hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 pointerdevice:opacity-0"
           >
             <TrashIcon className="mr-2 h-4 w-4" />
             Remove

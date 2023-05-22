@@ -16,7 +16,7 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        props.isSmall ? "bg-opacity-70 py-2" : "py-8",
+        props.isSmall ? "min-h-50 bg-opacity-70 py-2" : "py-8",
         "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500"
       )}
     >
