@@ -14,7 +14,7 @@ import {
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
-import { format } from "date-fns";
+import { format, isFuture, isPast } from "date-fns";
 
 import { Calendar } from "~/components/ui/calendar";
 import {
@@ -343,7 +343,6 @@ const FeedbackRequest: NextPage = () => {
             <h1 className="pb-8 pt-16 font-serif text-3xl">
               {feedbackRequest.data?.title}
             </h1>
-            {/* DEADLINE */}
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
@@ -362,8 +361,22 @@ const FeedbackRequest: NextPage = () => {
                 </CardContent>
               </CardHeader>
             </Card>
+            {feedbackRequest.data?.deadline && (
+              <Card className="mb-16 mt-2">
+                <CardHeader className="mr-3">
+                  <div className="flex items-center">
+                    <CalendarClockIcon className="mr-2" />
+                    Reveal Date
+                  </div>
+                  <CardContent className="flex items-center px-0">
+                    <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                      {format(feedbackRequest.data?.deadline, "PPP")}
+                    </ReactMarkdown>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            )}
             <ul>
-              {/* collect unique owner feedback items */}
               {feedbackRequest.data?.feedbackItems
                 ?.filter((item) => {
                   return item.authorId === item.ownerId;
@@ -396,9 +409,17 @@ const FeedbackRequest: NextPage = () => {
                                 email={authorFI.author.email}
                               />
                             </div>
-                            <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
-                              {authorFI.payload ?? ""}
-                            </ReactMarkdown>
+                            {feedbackRequest.data?.deadline &&
+                              isPast(feedbackRequest.data?.deadline) && (
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                  {authorFI.payload ?? ""}
+                                </ReactMarkdown>
+                              )}
+                            {!feedbackRequest.data?.deadline && (
+                              <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                {authorFI.payload ?? ""}
+                              </ReactMarkdown>
+                            )}
                           </li>
                         ))}
                     </div>
@@ -450,6 +471,27 @@ const FeedbackRequest: NextPage = () => {
                 </CardContent>
               </CardHeader>
             </Card>
+            {feedbackRequest.data?.deadline && (
+              <Card className="mb-16 mt-2">
+                <CardHeader className="mr-3">
+                  <div className="flex items-center">
+                    <CalendarClockIcon className="mr-2" />
+                    Reveal Date
+                  </div>
+                  <CardContent className="flex items-center px-0">
+                    <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                      {format(feedbackRequest.data?.deadline, "PPP")}
+                    </ReactMarkdown>
+                    {isPast(feedbackRequest.data?.deadline) && (
+                      <p>
+                        It is past the reveal date, but you can still submit
+                        your feedback.
+                      </p>
+                    )}
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            )}
             <section className="pb-8">
               <Form<{ authoringItems: AuthoringForm }>
                 onSubmit={(values) => {
