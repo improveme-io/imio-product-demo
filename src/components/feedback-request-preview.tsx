@@ -23,7 +23,7 @@ export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
           <CardHeader className="mr-3">
             <div className="flex items-center">
               {props.renderOwner}
-              <p className="mx-2">is requesting Your feedback.</p>
+              <p className="mx-2">is requesting Your feedback</p>
             </div>
             <CardContent className="flex items-center px-0">
               <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">

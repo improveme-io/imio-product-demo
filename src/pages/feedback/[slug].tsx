@@ -353,7 +353,7 @@ const FeedbackRequest: NextPage = () => {
                     email={feedbackRequest.data?.owner.email}
                     className="mr-0"
                   />
-                  <p className="mx-2">is requesting Your feedback.</p>
+                  <p className="mx-2">is requesting Your feedback</p>
                 </div>
                 <CardContent className="flex items-center px-0">
                   <ReactMarkdown className="mt-8 max-w-2xl leading-6">
@@ -463,7 +463,7 @@ const FeedbackRequest: NextPage = () => {
                     lastName={feedbackRequest.data?.owner.lastName}
                     email={feedbackRequest.data?.owner.email}
                   />
-                  <p className="mx-2">is requesting Your feedback:</p>
+                  <p className="mx-2">is requesting Your feedback</p>
                 </div>
                 <CardContent className="flex items-center px-0">
                   <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
