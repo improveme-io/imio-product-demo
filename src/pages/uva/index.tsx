@@ -122,7 +122,9 @@ const Home: NextPage = () => {
         </h1>
         <div className="md:grid md:grid-cols-2">
           <div>
-            <h3 className="mb-7 text-xl">UVA | Business Negotiation 101</h3>
+            <h3 className="mb-7 text-xl">
+              UVA | Management and Leadership in the Digital Age
+            </h3>
             <p className="mb-8 text-lg">
               Now it is time to put into practice what we learned in Week 3
               about giving feedback! Being able to give and receive feedback is
@@ -174,8 +176,7 @@ const Home: NextPage = () => {
                 Dr. Brooke Gazdag
               </h3>
               <p className="text-md mb-4 md:max-w-lg">Associate Professor</p>
-              <p className="text-md mb-2 md:max-w-lg">bgazdag@uva.nl</p>
-              <p className="text-md mb-8 md:max-w-lg">+49232312312</p>
+              <p className="text-md mb-2 md:max-w-lg">b.a.gazdag@uva.nl</p>
             </div>
           </div>
         </div>
