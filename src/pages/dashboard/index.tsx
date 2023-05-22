@@ -158,7 +158,6 @@ const Dashboard: NextPage = () => {
                   id: `fake-author-${i}`,
                 }))}
                 onDelete={() => {
-                  console.log("delete");
                   deleteFeedback.mutate(
                     { requestId: fr.id },
                     {

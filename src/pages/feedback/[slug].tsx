@@ -2,11 +2,26 @@ import React from "react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAuth } from "@clerk/nextjs";
-import { Form, FieldArray, FieldArrayItem } from "houseform";
-import { SaveIcon, StepForwardIcon, Loader2Icon, SendIcon } from "lucide-react";
+import { Form, FieldArray, FieldArrayItem, Field } from "houseform";
+import {
+  SaveIcon,
+  StepForwardIcon,
+  Loader2Icon,
+  SendIcon,
+  CalendarClockIcon,
+  CalendarIcon,
+} from "lucide-react";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
+import { format, isFuture, isPast } from "date-fns";
+
+import { Calendar } from "~/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 
 import { api } from "~/utils/api";
 import {
@@ -14,6 +29,7 @@ import {
   payloadSchema,
   type AuthoringForm,
   type AuthoringFormItem,
+  deadlineSchema,
 } from "~/utils/validation";
 import { LogoSplash } from "~/components/logo-splash";
 import { GeneralError, UnathorizedError } from "~/components/error-screens";
@@ -84,6 +100,9 @@ const FeedbackRequest: NextPage = () => {
   const paragraph = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.paragraph
     : feedbackRequest.data?.paragraph;
+  const deadline = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.deadline
+    : feedbackRequest.data?.deadline;
   const authors = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.authors
     : feedbackRequest.data?.authors.map((user) => ({
@@ -142,6 +161,7 @@ const FeedbackRequest: NextPage = () => {
                   ownerId: currentViewer.data.id,
                   title: values.title,
                   authors: values.authors,
+                  deadline: values.deadline,
                   paragraph: values.paragraph,
                   feedbackItems: values.feedbackItems,
                 });
@@ -163,6 +183,7 @@ const FeedbackRequest: NextPage = () => {
                             requestId: feedbackRequest.data?.id,
                             title: formValues.title,
                             authors: formValues.authors,
+                            deadline: formValues.deadline,
                             paragraph: formValues.paragraph,
                             feedbackItems: formValues.feedbackItems,
                           },
@@ -191,6 +212,65 @@ const FeedbackRequest: NextPage = () => {
                     <CardContent className="px-6 pb-8 pt-6">
                       <FeedbackAuthorSection authors={authors} />
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
+                      {/* TODO: do this typing for the other fields as well */}
+                      <Field<FormValues["deadline"]>
+                        name="deadline"
+                        initialValue={deadline}
+                        onSubmitValidate={deadlineSchema}
+                        onChangeValidate={deadlineSchema}
+                      >
+                        {/* TODO: error handling */}
+                        {({ value, setValue }) => (
+                          <div className="mt-12 justify-between">
+                            <h2 className="mb-4 flex w-full text-xl">
+                              <CalendarClockIcon className="mr-2" />
+                              Reveal Date
+                            </h2>
+                            <div className="flex flex-col">
+                              <Label className="mb-4">
+                                Before this date, incoming Feedback won&apos;t
+                                be visible to you.
+                              </Label>
+
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-[280px] justify-start text-left font-normal",
+                                      !value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {value ? (
+                                      format(value, "PPP")
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    initialFocus
+                                    mode="single"
+                                    selected={value ?? undefined}
+                                    onSelect={(day) => {
+                                      setValue(day);
+                                    }}
+                                    disabled={(date) => isPast(date)}
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <p className="mt-5 max-w-lg text-sm">
+                                This can be useful if you are doing feedback in
+                                a group or if you are requesting feedback from
+                                multiple people and want to see their
+                                contributions at once.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </Field>
                     </CardContent>
                   </Card>
                   <FeedbackItemSection feedbackItems={feedbackItems} />
@@ -210,7 +290,10 @@ const FeedbackRequest: NextPage = () => {
                         />
                       }
                       renderDialogTrigger={
-                        <Button size="lg">
+                        <Button
+                          disabled={formValues.feedbackItems?.length === 0}
+                          size="lg"
+                        >
                           <StepForwardIcon className="mr-2" />
                           Preview Feedback Request…
                         </Button>
@@ -261,7 +344,6 @@ const FeedbackRequest: NextPage = () => {
             <h1 className="pb-8 pt-16 font-serif text-3xl">
               {feedbackRequest.data?.title}
             </h1>
-            {/* DEADLINE */}
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
@@ -271,7 +353,7 @@ const FeedbackRequest: NextPage = () => {
                     email={feedbackRequest.data?.owner.email}
                     className="mr-0"
                   />
-                  is requesting Your feedback:
+                  <p className="mx-2">is requesting Your feedback</p>
                 </div>
                 <CardContent className="flex items-center px-0">
                   <ReactMarkdown className="mt-8 max-w-2xl leading-6">
@@ -280,8 +362,22 @@ const FeedbackRequest: NextPage = () => {
                 </CardContent>
               </CardHeader>
             </Card>
+            {feedbackRequest.data?.deadline && (
+              <Card className="mb-16 mt-2">
+                <CardHeader className="mr-3">
+                  <div className="flex items-center">
+                    <CalendarClockIcon className="mr-2" />
+                    Reveal Date
+                  </div>
+                  <CardContent className="flex items-center px-0">
+                    <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                      {format(feedbackRequest.data?.deadline, "PPP")}
+                    </ReactMarkdown>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            )}
             <ul>
-              {/* collect unique owner feedback items */}
               {feedbackRequest.data?.feedbackItems
                 ?.filter((item) => {
                   return item.authorId === item.ownerId;
@@ -314,9 +410,17 @@ const FeedbackRequest: NextPage = () => {
                                 email={authorFI.author.email}
                               />
                             </div>
-                            <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
-                              {authorFI.payload ?? ""}
-                            </ReactMarkdown>
+                            {feedbackRequest.data?.deadline &&
+                              isPast(feedbackRequest.data?.deadline) && (
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                  {authorFI.payload ?? ""}
+                                </ReactMarkdown>
+                              )}
+                            {!feedbackRequest.data?.deadline && (
+                              <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                {authorFI.payload ?? ""}
+                              </ReactMarkdown>
+                            )}
                           </li>
                         ))}
                     </div>
@@ -359,7 +463,7 @@ const FeedbackRequest: NextPage = () => {
                     lastName={feedbackRequest.data?.owner.lastName}
                     email={feedbackRequest.data?.owner.email}
                   />
-                  <p className="mx-2">is requesting Your feedback:</p>
+                  <p className="mx-2">is requesting Your feedback</p>
                 </div>
                 <CardContent className="flex items-center px-0">
                   <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
@@ -368,6 +472,27 @@ const FeedbackRequest: NextPage = () => {
                 </CardContent>
               </CardHeader>
             </Card>
+            {feedbackRequest.data?.deadline && (
+              <Card className="mb-16 mt-2">
+                <CardHeader className="mr-3">
+                  <div className="flex items-center">
+                    <CalendarClockIcon className="mr-2" />
+                    Reveal Date
+                  </div>
+                  <CardContent className="flex items-center px-0">
+                    <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                      {format(feedbackRequest.data?.deadline, "PPP")}
+                    </ReactMarkdown>
+                    {isPast(feedbackRequest.data?.deadline) && (
+                      <p>
+                        It is past the reveal date, but you can still submit
+                        your feedback.
+                      </p>
+                    )}
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            )}
             <section className="pb-8">
               <Form<{ authoringItems: AuthoringForm }>
                 onSubmit={(values) => {

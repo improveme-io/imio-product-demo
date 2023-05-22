@@ -40,11 +40,12 @@ model FeedbackRequest {
 }
 
 model FormSave {
-  id        String   @id @default(cuid())
-  title     String?  @db.Text
-  paragraph String?  @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id        String    @id @default(cuid())
+  title     String?   @db.Text
+  paragraph String?   @db.Text
+  deadline  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
 
   feedbackRequestId String             @unique
   feedbackRequest   FeedbackRequest    @relation(fields: [feedbackRequestId], references: [id], onDelete: Cascade)

@@ -25,6 +25,7 @@ export const formRouter = createTRPCRouter({
             create: {
               title: input.title,
               paragraph: "",
+              deadline: undefined,
               authors: {
                 create: [
                   {
@@ -52,12 +53,12 @@ export const formRouter = createTRPCRouter({
           feedbackRequestId: input.requestId,
         },
       });
+
       // create new temp data
       return ctx.prisma.formSave.create({
         data: {
           feedbackRequestId: input.requestId,
           title: input.title,
-          paragraph: input.paragraph,
           authors: {
             create: input.authors?.map((author) => ({
               email: author.email ?? "",
@@ -65,6 +66,8 @@ export const formRouter = createTRPCRouter({
               lastName: author.lastName ?? "",
             })),
           },
+          deadline: input.deadline,
+          paragraph: input.paragraph,
           feedbackItems: {
             create: input.feedbackItems?.map((fi) => ({
               prompt: fi.prompt ?? "",
@@ -145,6 +148,7 @@ export const formRouter = createTRPCRouter({
           status: "REQUESTED",
           title: input.title,
           paragraph: input.paragraph,
+          deadline: input.deadline,
           authors: {
             connect: authors.map((author) => ({
               id: author.id,

@@ -14,4 +14,15 @@ Run `pnpm dev` to start up the development server.
 
 ## Deployment
 
-We work on the `main` branch, which is our development environment. By creating a merge request to the `production` branch, we automatically deploy to our domain.
+We have 2 environments:
+
+- `dev` --> local, preview, staging
+  - clerk `development` instance
+  - planetscale `dev` database branch
+  - auto-deployed by merging to `main` git branch
+- `production` --> production
+  - clerk `production` instance
+  - planetscale `main` database branch
+  - auto-deployed by merging to `production` git branch
+
+WARNING local dev, preview branches and staging shares one environment both for auth and for data. If you change anything,it will affect everyone and all of the environments.
