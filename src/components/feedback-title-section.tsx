@@ -21,8 +21,8 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
     >
       {({ value, setValue, errors }) => (
         <>
-          <div className="flex flex-row">
-            <h1 className="mt-8 w-full text-2xl">
+          <div className="mb-8 mt-8 flex flex-row sm:mb-0">
+            <h1 className="w-full text-2xl">
               {isEditing && (
                 <div className="flex flex-row items-center">
                   <Input
@@ -50,7 +50,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                   className="group"
                 >
                   <span>{value}</span>
-                  <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="transition-opacity duration-300 group-hover:opacity-100 pointerdevice:opacity-0">
                     <EditButton />
                   </span>
                 </div>

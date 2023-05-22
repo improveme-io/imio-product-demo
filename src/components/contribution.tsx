@@ -43,7 +43,7 @@ export const Contribution = (props: ContributionProps) => {
             "mt-4",
             // props.done && "bg-green-500 text-white" : "bg-blue-500 text-white"
             props.done &&
-              "opacity-0 transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100"
+              "transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100 pointerdevice:opacity-0"
           )}
         >
           <Link href={`/feedback/${props.slug}`}>

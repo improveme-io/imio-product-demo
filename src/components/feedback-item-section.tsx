@@ -95,12 +95,12 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                   <PuzzleIcon className="mr-2" />
                   Feedback Items
                 </h2>
-                <p className="w-4/6 px-3 py-1 pl-8">
+                <p className="px-3 py-1 pl-8 sm:w-4/6">
                   Feedback authors will be presented with Feedback Items
                   (Questions). Use the templates below to create your Request as
                   quickly as possible, or add own your own.
                 </p>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="gap-4 sm:grid sm:grid-cols-3">
                   {templates.map((templateItem, index) => (
                     <Card
                       key={index}

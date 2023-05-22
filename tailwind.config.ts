@@ -21,6 +21,9 @@ export default {
         serif: ["Space Grotesk"],
         mono: ["DM Mono"],
       },
+      screens: {
+        pointerdevice: { raw: "(hover)" },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

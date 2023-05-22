@@ -73,7 +73,7 @@ const Dashboard: NextPage = () => {
         </Button>
       </Header>
       <MainLayout app>
-        <h2 className="mb-4 flex items-center text-xl">
+        <h2 className="mb-8 flex items-center text-xl sm:mb-4">
           <InboxIcon className="mr-2" size={"20"} />
           Your Contributions
           <Badge className="ml-4 bg-stone-400 hover:bg-stone-400">
@@ -81,7 +81,7 @@ const Dashboard: NextPage = () => {
           </Badge>
         </h2>
         {/* FIXME: make it consistent and add section to other places as well or remove it here */}
-        <section className="grid grid-cols-3 gap-4">
+        <section className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-4">
           {authoredFeedbacks.data?.length === 0 && (
             <div className="flex h-40 w-full items-center justify-center rounded-lg bg-stone-100 p-6 text-center text-stone-400">
               Noone has requested feedback from you yet. Incoming Requests will
@@ -103,7 +103,7 @@ const Dashboard: NextPage = () => {
               );
             })}
         </section>
-        <h2 className="mb-4 mt-8 flex items-center text-xl">
+        <h2 className="mb-8 mt-12 flex items-center text-xl sm:mb-4">
           <LeafIcon className="mr-2" size={"20"} />
           Feedback Requested by You
           <Badge className="ml-4 bg-stone-400 hover:bg-stone-400">
@@ -170,7 +170,7 @@ const Dashboard: NextPage = () => {
               />
             );
           })}
-        <h2 className="mb-4 mt-8 flex text-xl">
+        <h2 className="mb-8 mt-8 flex text-xl sm:mb-4">
           <SproutIcon size={"20"} className="mr-2" />
           Feedback Requests Shared With You
         </h2>
