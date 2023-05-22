@@ -272,7 +272,10 @@ const FeedbackRequest: NextPage = () => {
                         />
                       }
                       renderDialogTrigger={
-                        <Button size="lg">
+                        <Button
+                          disabled={formValues.feedbackItems?.length === 0}
+                          size="lg"
+                        >
                           <StepForwardIcon className="mr-2" />
                           Preview Feedback Request…
                         </Button>

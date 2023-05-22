@@ -25,8 +25,8 @@ export function isFeedbackItem(value: unknown): value is FeedbackItemForm {
 export const formSchema = z.object({
   title: feedbackTitleSchema,
   paragraph: feedbackParagraphSchema,
-  authors: z.array(authorSchema),
-  feedbackItems: z.array(feedbackItemSchema),
+  authors: z.array(authorSchema).min(1, "* Required."),
+  feedbackItems: z.array(feedbackItemSchema).min(1, "* Required."),
 });
 
 export const feedbackRequestSchema = formSchema.extend({
@@ -59,7 +59,7 @@ export const feedbackUpdateSchema = z.object({
 
 export const payloadSchema = z
   .string()
-  .min(3, "* That's less than half a tweet! Please write a bit more.");
+  .min(140, "* That's less than half a tweet! Please write a bit more.");
 export const authoringItem = z.object({
   id: z.string().cuid(),
   prompt: z.string(),
