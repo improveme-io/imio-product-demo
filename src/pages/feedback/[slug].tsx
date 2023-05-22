@@ -274,7 +274,7 @@ const FeedbackRequest: NextPage = () => {
                     </CardContent>
                   </Card>
                   <FeedbackItemSection feedbackItems={feedbackItems} />
-                  <footer className="flex justify-end pb-16 pl-8 pt-8">
+                  <footer className="flex justify-end pb-16 pt-8 sm:pl-8">
                     <FeedbackRequestDialog
                       title={`Author ${formValues.title ?? ""} for ${
                         feedbackRequest.data?.owner.firstName ?? ""

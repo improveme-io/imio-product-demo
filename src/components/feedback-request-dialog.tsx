@@ -23,7 +23,7 @@ export const FeedbackRequestDialog = (props: FeedbackRequestDialogProps) => {
     <Dialog>
       <DialogTrigger asChild>{props.renderDialogTrigger}</DialogTrigger>
       {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
-      <DialogContent className="inset-10 overflow-y-scroll bg-stone-50 sm:h-auto sm:w-auto sm:max-w-none">
+      <DialogContent className="h-full overflow-y-scroll bg-stone-50 sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
         <FeedbackRequestPreview
           title={props.title}
           paragraph={props.paragraph}

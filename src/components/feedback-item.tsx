@@ -30,10 +30,10 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
     props.prompt
   );
   const [isEditing, setIsEditing] = React.useState(props.editing);
-  const cardTitleClassNames = "flex w-full leading-7 h-20 items-start";
+  const cardTitleClassNames = "flex w-full leading-7 min-h-20 items-start";
 
   return (
-    <Card className="group mt-6 animate-in slide-in-from-left duration-500">
+    <Card className="group mt-6 animate-in slide-in-from-left duration-500 sm:mt-6">
       <CardHeader>
         <div className="relative flex items-center justify-between">
           {isEditing ? (
@@ -88,11 +88,11 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
           )}
         </div>
       </CardHeader>
-      <CardContent className=" mt-4 flex flex-grow flex-col">
+      <CardContent className="mt-4 flex flex-grow flex-col">
         <Label className="mb-2">Type</Label>
-        <div className="flex">
+        <div className="flex flex-col sm:flex-row">
           <Select defaultValue="PROSE">
-            <SelectTrigger disabled className="w-96">
+            <SelectTrigger disabled className="sm:w-96">
               <SelectValue placeholder="Select Feedback Item Type…" />
             </SelectTrigger>
             <SelectContent>
@@ -103,7 +103,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               <SelectItem value="VIDEO">Video</SelectItem>
             </SelectContent>
           </Select>
-          <p className="w-96 px-3 py-1 text-xs">
+          <p className="pt-3 text-xs sm:w-96 sm:px-3 sm:py-1 sm:pt-0">
             The author will be shown the prompt you have defined and will be
             asked to answer in prose at a minimum of 240 characters.
           </p>
