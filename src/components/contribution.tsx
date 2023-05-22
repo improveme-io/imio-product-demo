@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { EditIcon, ViewIcon, CheckIcon } from "lucide-react";
 
-import { cn } from "~/utils/style";
 import { UserItem } from "~/components/user-item";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
@@ -15,7 +14,7 @@ type ContributionProps = {
   requestName: string | null;
   requesterFirstName?: string;
   requesterLastName?: string;
-  done: boolean;
+  onAuthor?: () => void;
 };
 export const Contribution = (props: ContributionProps) => {
   return (
@@ -27,39 +26,37 @@ export const Contribution = (props: ContributionProps) => {
             lastName={props.requesterLastName}
             email={props.email}
           />
-          {props.done ? (
+          {!props.onAuthor && (
             <CheckIcon className="ml-auto h-5 w-5 text-green-500" />
-          ) : (
-            <></>
           )}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex h-full flex-col justify-between">
         <Label className="text-md">{props.requestName}</Label>
-        <Button
-          asChild
-          variant={props.done ? "outline" : "default"}
-          className={cn(
-            "mt-4",
-            // props.done && "bg-green-500 text-white" : "bg-blue-500 text-white"
-            props.done &&
-              "transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100 pointerdevice:opacity-0"
-          )}
-        >
-          <Link href={`/feedback/${props.slug}`}>
-            {props.done ? (
-              <>
-                <ViewIcon className="mr-2" />
-                View
-              </>
-            ) : (
-              <>
-                <EditIcon className="mr-2" />
-                Author Feedback
-              </>
-            )}
-          </Link>
-        </Button>
+        {props.onAuthor && (
+          <Button
+            variant="default"
+            onClick={() => {
+              props.onAuthor?.();
+            }}
+            className="mt-4"
+          >
+            <EditIcon className="mr-2" />
+            Author Feedback
+          </Button>
+        )}
+        {!props.onAuthor && (
+          <Button
+            asChild
+            variant={"outline"}
+            className="transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100 pointerdevice:opacity-0"
+          >
+            <Link href={`/feedback/${props.slug}`}>
+              <ViewIcon className="mr-2" />
+              View
+            </Link>
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

@@ -76,9 +76,15 @@ export function isAuthoringItem(value: unknown): value is AuthoringFormItem {
 export const authoringForm = z.array(authoringItem);
 export type AuthoringForm = z.infer<typeof authoringForm>;
 
-export const authorUpdate = z.array(
+export const authorSubmit = z.array(
   z.object({
     id: z.string().cuid(),
     payload: payloadSchema,
+  })
+);
+export const authorSave = z.array(
+  z.object({
+    id: z.string().cuid(),
+    payload: z.string(),
   })
 );

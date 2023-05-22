@@ -60,6 +60,8 @@ export const feedbackRouter = createTRPCRouter({
         include: {
           owner: true,
           authors: true,
+          authorsStarted: true,
+          authorsFinished: true,
           feedbackItems: {
             include: {
               author: true,
@@ -74,28 +76,6 @@ export const feedbackRouter = createTRPCRouter({
           },
           _count: true,
         },
-      });
-    }),
-
-  setStatus: protectedProcedure
-    .input(
-      z.object({
-        slug: z.string().cuid(),
-        // TODO: get the enum from prisma
-        status: z.enum([
-          "CREATING",
-          "REQUESTED",
-          "AUTHORING",
-          "PENDING",
-          "DONE",
-        ]),
-      })
-    )
-    .mutation(({ ctx, input }) => {
-      // TODO: make sure the caller is an author
-      return ctx.prisma.feedbackRequest.update({
-        where: { slug: input.slug },
-        data: { status: input.status },
       });
     }),
 
@@ -128,5 +108,60 @@ export const feedbackRouter = createTRPCRouter({
           where: { id: input.requestId },
         }),
       ]);
+    }),
+
+  authoring: protectedProcedure
+    .input(
+      z.object({
+        requestId: z.string().cuid(),
+        authorClerkUserId: z.string(),
+        state: z.enum(["start", "finish"]),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const feedback = await ctx.prisma.feedbackRequest.findUnique({
+        where: { id: input.requestId },
+        include: { authors: true },
+      });
+
+      if (!feedback) {
+        throw new Error("Feedback request not found");
+      }
+
+      const author = feedback.authors.find(
+        (author) => author.clerkUserId === input.authorClerkUserId
+      );
+
+      if (!author) {
+        throw new Error(
+          "You are not authorized to change the authoring status of this feedback request"
+        );
+      }
+
+      if (input.state === "start") {
+        return ctx.prisma.feedbackRequest.update({
+          select: { slug: true },
+          where: { id: input.requestId },
+          data: {
+            authorsStarted: {
+              connect: { id: author.id },
+            },
+          },
+        });
+      }
+
+      if (input.state === "finish") {
+        return ctx.prisma.feedbackRequest.update({
+          select: { slug: true },
+          where: { id: input.requestId },
+          data: {
+            authorsFinished: {
+              connect: { id: author.id },
+            },
+          },
+        });
+      }
+
+      throw new Error("Invalid state");
     }),
 });
