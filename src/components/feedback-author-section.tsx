@@ -65,7 +65,10 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           }}
                         />
                         {errors.map((error) => (
-                          <p key={`authors[${index}].email-${error}`}>
+                          <p
+                            className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                            key={`authors[${index}].email-${error}`}
+                          >
                             {error}
                           </p>
                         ))}
@@ -90,7 +93,10 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           onBlur={onBlur}
                         />
                         {errors.map((error) => (
-                          <p key={`authors[${index}].firstName-${error}`}>
+                          <p
+                            className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                            key={`authors[${index}].firstName-${error}`}
+                          >
                             {error}
                           </p>
                         ))}
@@ -115,7 +121,10 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                           onBlur={onBlur}
                         />
                         {errors.map((error) => (
-                          <p key={`authors[${index}].lastName-${error}`}>
+                          <p
+                            className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                            key={`authors[${index}].lastName-${error}`}
+                          >
                             {error}
                           </p>
                         ))}

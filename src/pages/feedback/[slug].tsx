@@ -229,7 +229,7 @@ const FeedbackRequest: NextPage = () => {
                         onChangeValidate={deadlineSchema}
                       >
                         {/* TODO: error handling */}
-                        {({ value, setValue }) => (
+                        {({ value, setValue, errors }) => (
                           <div className="mt-12 justify-between">
                             <h2 className="mb-4 flex w-full text-xl">
                               <CalendarClockIcon className="mr-2" />
@@ -240,7 +240,6 @@ const FeedbackRequest: NextPage = () => {
                                 Before this date, incoming Feedback won&apos;t
                                 be visible to you.
                               </Label>
-
                               <Popover>
                                 <PopoverTrigger asChild>
                                   <Button
@@ -276,6 +275,14 @@ const FeedbackRequest: NextPage = () => {
                                 multiple people and want to see their
                                 contributions at once.
                               </p>
+                              {errors.map((error) => (
+                                <p
+                                  className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                  key={`deadline-${error}`}
+                                >
+                                  {error}
+                                </p>
+                              ))}
                             </div>
                           </div>
                         )}
