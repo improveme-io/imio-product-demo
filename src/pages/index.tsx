@@ -291,8 +291,8 @@ const Home: NextPage = () => {
                 Mihaly: Software Development
               </h3>
               <p className="text-md mb-8 md:max-w-lg">
-                Mihaly Füredi loves to code and code loves Mihaly. He has a
-                background in linguistics, sprinkled with a few years in
+                Mihaly Furedi loves to code and code loves Mihaly Furedi. He has
+                a background in linguistics, sprinkled with a few years in
                 physics, but along the way he fell in love, and has been working
                 as a full-stack engineer for the past 7 years.
                 <br />
