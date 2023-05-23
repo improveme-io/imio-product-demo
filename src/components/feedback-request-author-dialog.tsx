@@ -36,20 +36,20 @@ export const FeedbackRequestAuthorDialog = (
 
       <DialogContent className="h-full overflow-y-scroll bg-stone-50 sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
         <section>
+          <Card className="mb-16 mt-6 sm:mx-12 sm:mt-3">
+            <CardHeader className="mr-3">
+              <div className="flex flex-col sm:flex-row sm:items-center">
+                {props.renderOwner}
+                <p className="mx-2">will see the following.</p>
+              </div>
+            </CardHeader>
+          </Card>
           <div className="mx-auto max-w-4xl">
             <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">
               {props.title}
             </h1>
           </div>
           <div className="mx-auto flex max-w-4xl flex-col px-8 pb-8">
-            <Card className="mb-16 mt-2">
-              <CardHeader className="mr-3">
-                <div className="flex items-center">
-                  {props.renderOwner}
-                  <p className="mx-2">will see the following.</p>
-                </div>
-              </CardHeader>
-            </Card>
             <ul>
               {/* collect unique owner feedback items */}
               {props.feedbackItems.map(

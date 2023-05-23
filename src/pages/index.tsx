@@ -170,12 +170,12 @@ const Home: NextPage = () => {
             />
             <p className="mb-8 text-lg md:max-w-lg">
               After sharing your request, you can sit back and wait for the
-              feedback to come in. Once you receive feedback, you can manage it
-              easily view it on the improveme.io platform. As you continue
-              collecting feedback over time, you will have all your feedback in
-              one place - no matter where you worked or with whom. You can then
-              better identify areas for improvement and have a clearer picture
-              of your progress to keep you motivated and growing!
+              feedback to come in. Once you receive feedback, view it on the
+              improveme.io platform. As you continue collecting feedback over
+              time, you will have all your feedback in one place - no matter
+              where you worked or with whom. You can then better identify areas
+              for improvement and have a clearer picture of your progress to
+              keep you motivated and growing!
             </p>
           </div>
           <div className="flex flex-wrap md:col-span-2">
@@ -267,7 +267,7 @@ const Home: NextPage = () => {
                 love with the code somewhere along the way, and has been working
                 as a full-stack engineer for the past 6 years.
                 <br />
-                He started his career as at Prezi, where he worked on the
+                He started his career at Prezi, where he worked on the
                 automation and tooling for Prezi&apos;s go-to-market teams.
                 After 4 years, he started to explore the freelance space and his
                 focus shifted more and more to the front-end side of things.
