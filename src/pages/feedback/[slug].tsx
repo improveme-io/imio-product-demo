@@ -10,13 +10,19 @@ import {
   SendIcon,
   CalendarClockIcon,
   CalendarIcon,
-  EyeIcon,
-  MailCheckIcon,
+  CheckIcon,
+  PencilIcon,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
-import { format, isPast } from "date-fns";
+import { format, isBefore, startOfToday, isPast } from "date-fns";
 
 import { Calendar } from "~/components/ui/calendar";
 import {
@@ -229,7 +235,7 @@ const FeedbackRequest: NextPage = () => {
                         onChangeValidate={deadlineSchema}
                       >
                         {/* TODO: error handling */}
-                        {({ value, setValue }) => (
+                        {({ value, setValue, errors }) => (
                           <div className="mt-12 justify-between">
                             <h2 className="mb-4 flex w-full text-xl">
                               <CalendarClockIcon className="mr-2" />
@@ -240,7 +246,6 @@ const FeedbackRequest: NextPage = () => {
                                 Before this date, incoming Feedback won&apos;t
                                 be visible to you.
                               </Label>
-
                               <Popover>
                                 <PopoverTrigger asChild>
                                   <Button
@@ -266,7 +271,9 @@ const FeedbackRequest: NextPage = () => {
                                     onSelect={(day) => {
                                       setValue(day);
                                     }}
-                                    disabled={(date) => isPast(date)}
+                                    disabled={(date) =>
+                                      isBefore(date, startOfToday())
+                                    }
                                   />
                                 </PopoverContent>
                               </Popover>
@@ -276,6 +283,14 @@ const FeedbackRequest: NextPage = () => {
                                 multiple people and want to see their
                                 contributions at once.
                               </p>
+                              {errors.map((error) => (
+                                <p
+                                  className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                  key={`deadline-${error}`}
+                                >
+                                  {error}
+                                </p>
+                              ))}
                             </div>
                           </div>
                         )}
@@ -356,37 +371,25 @@ const FeedbackRequest: NextPage = () => {
             <Card className="mb-16 mt-2">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
-                  <UserItem
-                    firstName={feedbackRequest.data?.owner.firstName}
-                    lastName={feedbackRequest.data?.owner.lastName}
-                    email={feedbackRequest.data?.owner.email}
-                    className="mr-0"
-                  />
-                  <p className="mx-2">is requesting Your feedback</p>
+                  <p className="mx-2">You are requesting feedback:</p>
                 </div>
-                <CardContent className="flex items-center px-0">
-                  <ReactMarkdown className="mt-8 max-w-2xl leading-6">
+                <CardContent className="flex flex-col items-start px-0">
+                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
                     {feedbackRequest.data?.paragraph ?? ""}
                   </ReactMarkdown>
+                  {feedbackRequest.data?.deadline && (
+                    <div className="mt-12 flex items-center">
+                      <CalendarClockIcon className="mr-2" size={16} />
+                      <Label>
+                        Feedback will become visible on{" "}
+                        {format(feedbackRequest.data?.deadline, "PPP")}
+                      </Label>
+                    </div>
+                  )}
                 </CardContent>
               </CardHeader>
             </Card>
-            {feedbackRequest.data?.deadline && (
-              <Card className="mb-16 mt-2">
-                <CardHeader className="mr-3">
-                  <div className="flex items-center">
-                    <CalendarClockIcon className="mr-2" />
-                    Reveal Date
-                  </div>
-                  <CardContent className="flex items-center px-0">
-                    <ReactMarkdown className="mt-8 max-w-2xl leading-6">
-                      {format(feedbackRequest.data?.deadline, "PPP")}
-                    </ReactMarkdown>
-                  </CardContent>
-                </CardHeader>
-              </Card>
-            )}
-            <ul>
+            <ul className="mt-12">
               {feedbackRequest.data?.feedbackItems
                 ?.filter((item) => {
                   return item.authorId === item.ownerId;
@@ -412,23 +415,60 @@ const FeedbackRequest: NextPage = () => {
                             key={authorFI.id}
                             className="mb-12 mt-8 grid w-full grid-cols-4"
                           >
-                            <div className="flex w-full items-start">
+                            <div className="flex w-full flex-col items-start">
                               <UserItem
                                 firstName={authorFI.author.firstName}
                                 lastName={authorFI.author.lastName}
                                 email={authorFI.author.email}
                               />
-
-                              {feedbackRequest.data?.authorsStarted
-                                .map((a) => a.id)
-                                .includes(authorFI.author.id) && (
-                                <EyeIcon className="mr-2" />
-                              )}
-                              {feedbackRequest.data?.authorsFinished
-                                .map((a) => a.id)
-                                .includes(authorFI.author.id) && (
-                                <MailCheckIcon className="ml-2" />
-                              )}
+                              <div className="mt-5 flex w-full justify-start">
+                                {feedbackRequest.data?.authorsStarted
+                                  .map((a) => a.id)
+                                  .includes(authorFI.author.id) && (
+                                  <TooltipProvider>
+                                    <Tooltip>
+                                      <TooltipTrigger>
+                                        {" "}
+                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-sky-300 bg-white">
+                                          <PencilIcon
+                                            className="text-sky-50"
+                                            size={16}
+                                          />
+                                        </div>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        <p>
+                                          {authorFI.author.firstName} has
+                                          started to author your feedback.
+                                        </p>
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  </TooltipProvider>
+                                )}
+                                {feedbackRequest.data?.authorsFinished
+                                  .map((a) => a.id)
+                                  .includes(authorFI.author.id) && (
+                                  <TooltipProvider>
+                                    <Tooltip>
+                                      <TooltipTrigger>
+                                        {" "}
+                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-green-400 bg-white">
+                                          <CheckIcon
+                                            className="text-green-50"
+                                            size={16}
+                                          />
+                                        </div>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        <p>
+                                          {authorFI.author.firstName} has
+                                          finished authoring.
+                                        </p>
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  </TooltipProvider>
+                                )}
+                              </div>
                             </div>
                             {feedbackRequest.data?.deadline &&
                               isPast(feedbackRequest.data?.deadline) &&
@@ -467,7 +507,7 @@ const FeedbackRequest: NextPage = () => {
 
     return (
       <>
-        <PageHead title="Author Feedback Request" />
+        <PageHead title="Author Feedback" />
         <Form<{ authoringItems: AuthoringForm }>
           onSubmit={(values) => {
             if (feedbackRequest.data?.id) {
@@ -545,35 +585,27 @@ const FeedbackRequest: NextPage = () => {
                             />
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
-                          <CardContent className="flex items-center px-0">
+                          <CardContent className="flex flex-col items-start px-0">
                             <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
                               {feedbackRequest.data?.paragraph ?? ""}
                             </ReactMarkdown>
+                            {feedbackRequest.data?.deadline && (
+                              <div className="mt-12 flex items-center">
+                                <CalendarClockIcon className="mr-2" size={16} />
+                                <Label>
+                                  If submitted, Your feedback will become
+                                  visible on{" "}
+                                  {format(
+                                    feedbackRequest.data?.deadline,
+                                    "PPP"
+                                  )}
+                                </Label>
+                              </div>
+                            )}
                           </CardContent>
                         </CardHeader>
                       </Card>
-                      {feedbackRequest.data?.deadline && (
-                        <Card className="mb-16 mt-2">
-                          <CardHeader className="mr-3">
-                            <div className="flex items-center">
-                              <CalendarClockIcon className="mr-2" />
-                              Reveal Date
-                            </div>
-                            <CardContent className="flex items-center px-0">
-                              <ReactMarkdown className="mt-8 max-w-2xl leading-6">
-                                {format(feedbackRequest.data?.deadline, "PPP")}
-                              </ReactMarkdown>
-                              {isPast(feedbackRequest.data?.deadline) && (
-                                <p>
-                                  It is past the reveal date, but you can still
-                                  submit your feedback.
-                                </p>
-                              )}
-                            </CardContent>
-                          </CardHeader>
-                        </Card>
-                      )}
-                      <section className="pb-8">
+                      <section className="mt-12 pb-8">
                         <ul>
                           {authoringItems.map((authoringItem, index) => {
                             return (

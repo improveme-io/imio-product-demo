@@ -148,35 +148,62 @@ const Home: NextPage = () => {
               How it works
             </h2>
             <p className="mb-8 text-lg md:max-w-lg">
-              To use the app, simply sign up for an account and start your
-              journey of continuous improvement. Once you&apos;ve created your
-              account, you can create a feedback request in just a few clicks.
-              This request can be customized to suit your specific needs and can
-              be shared with your peers at your convenience.
+              <b className="font-medium">
+                To use the app, simply sign up for an account and start your
+                journey of continuous improvement
+              </b>
+              <br />
+              <br />
+              Once you&apos;ve created your account, you can create a feedback
+              request in just a few clicks. This request can be customized to
+              suit your specific needs and can be shared with your peers at your
+              convenience.
             </p>
             <Image
               className=""
-              src="/UI-Illustration-1.png"
-              width={1260}
-              height={1010}
-              alt="Illustration of the UI of the app, showing the Dashboard"
+              src="/UI-Illustration-1.png?20230523"
+              width={1481}
+              height={1019}
+              alt="Illustration of the UI of the app, showing the a Feedback Request"
             />
             <Image
               className=""
-              src="/UI-Illustration-2.png"
-              width={1260}
+              src="/UI-Illustration-2.png?20230523"
+              width={1481}
+              height={1010}
+              alt="Illustration of the UI of the app, showing a screen with feedback being authored"
+            />
+            <p className="mb-8 text-lg md:max-w-lg">
+              <b className="font-medium">
+                People you reach out to can sign up and start authoring the
+                feedback you have requested.
+              </b>
+              <br />
+              <br />
+              Remember, receiving feedback is an opportunity for growth and
+              improvement, so approach these questions with an open mind and a
+              willingness to learn from your other perspectives.
+            </p>
+            <p className="mb-8 text-lg md:max-w-lg">
+              <b className="font-medium">
+                After sharing your request, you can sit back and wait for the
+                feedback to come in.
+              </b>
+              <br />
+              <br />
+              As you continue collecting feedback over time, you will have all
+              your feedback in one place - no matter where you worked or with
+              whom. You can then better identify areas for improvement and have
+              a clearer picture of your progress to keep you motivated and
+              growing!
+            </p>
+            <Image
+              className=""
+              src="/UI-Illustration-3.png?20230523"
+              width={1481}
               height={1010}
               alt="Illustration of the UI of the app, showing a screen with sample feedback"
             />
-            <p className="mb-8 text-lg md:max-w-lg">
-              After sharing your request, you can sit back and wait for the
-              feedback to come in. Once you receive feedback, you can manage it
-              easily view it on the improveme.io platform. As you continue
-              collecting feedback over time, you will have all your feedback in
-              one place - no matter where you worked or with whom. You can then
-              better identify areas for improvement and have a clearer picture
-              of your progress to keep you motivated and growing!
-            </p>
           </div>
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Our Team</h2>
@@ -267,7 +294,7 @@ const Home: NextPage = () => {
                 love with the code somewhere along the way, and has been working
                 as a full-stack engineer for the past 6 years.
                 <br />
-                He started his career as at Prezi, where he worked on the
+                He started his career at Prezi, where he worked on the
                 automation and tooling for Prezi&apos;s go-to-market teams.
                 After 4 years, he started to explore the freelance space and his
                 focus shifted more and more to the front-end side of things.

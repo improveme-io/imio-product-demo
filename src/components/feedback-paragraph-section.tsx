@@ -47,7 +47,12 @@ export const FeedbackParagraphSection = (
               className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
             />
             {errors.map((error) => (
-              <p key={`paragraph-${error}`}>{error}</p>
+              <p
+                className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                key={`paragraph-${error}`}
+              >
+                {error}
+              </p>
             ))}
           </>
         )}
