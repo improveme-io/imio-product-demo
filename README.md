@@ -25,4 +25,4 @@ We have 2 environments:
   - planetscale `main` database branch
   - auto-deployed by merging to `production` git branch
 
-WARNING local dev, preview branches and staging shares one environment both for auth and for data. If you change anything,it will affect everyone and all of the environments.
+WARNING local dev, preview branches and staging shares one environment both for auth and for data. If you change anything, it will affect everyone and all of these environments.
