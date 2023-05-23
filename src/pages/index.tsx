@@ -303,9 +303,8 @@ const Home: NextPage = () => {
                 focus shifted more and more to the front-end side of things.
                 <br />
                 <br />
-                Mihaly is a big fan of the modern TypeScript/React community and
-                the new wave serverless eco-system, keeping a close eye on big
-                language models and transformers.
+                Mihaly likes to explore new trends in building the web, and
+                keeps a close eye on big language models.
               </p>
             </div>
           </div>
