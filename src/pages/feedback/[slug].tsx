@@ -16,7 +16,7 @@ import {
 import { useWindowScroll } from "react-use";
 import { type z } from "zod";
 import { useUser } from "@clerk/nextjs";
-import { format, isPast } from "date-fns";
+import { format, isBefore, startOfToday } from "date-fns";
 
 import { Calendar } from "~/components/ui/calendar";
 import {
@@ -265,7 +265,9 @@ const FeedbackRequest: NextPage = () => {
                                     onSelect={(day) => {
                                       setValue(day);
                                     }}
-                                    disabled={(date) => isPast(date)}
+                                    disabled={(date) =>
+                                      isBefore(date, startOfToday())
+                                    }
                                   />
                                 </PopoverContent>
                               </Popover>
