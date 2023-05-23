@@ -256,7 +256,8 @@ const Home: NextPage = () => {
                 Dr. Brooke Gazdag is a dedicated researcher and trainer who has
                 spent the past decade helping others improve their leadership
                 and negotiation skills to enhance their personal and
-                professional lives. <br />
+                professional lives.
+                <br />
                 <br />
                 Originally from Western New York, she moved to Munich, Germany
                 in 2012 and currently resides in Hamburg. When she is not
@@ -264,7 +265,8 @@ const Home: NextPage = () => {
                 Dr. Gazdag conducts negotiation training and leadership
                 development workshops. She finds joy in the creative process of
                 planning new training and working with diverse groups, and
-                welcomes collaboration opportunities. <br />
+                welcomes collaboration opportunities.
+                <br />
                 <br />
                 Brooke enjoys working with a broad range of audiences, including
                 working professionals and undergraduate students. In 2019, she
@@ -289,19 +291,21 @@ const Home: NextPage = () => {
                 Mihaly: Software Development
               </h3>
               <p className="text-md mb-8 md:max-w-lg">
-                Mihaly Füredi was born in Boston but resides in Budapest. He has
-                a background in physics and theoretical linguistics, but fell in
-                love with the code somewhere along the way, and has been working
-                as a full-stack engineer for the past 6 years.
+                Mihaly Füredi loves to code and code loves Mihaly. He has a
+                background in linguistics, sprinkled with a few years in
+                physics, but along the way he fell in love, and has been working
+                as a full-stack engineer for the past 7 years.
+                <br />
                 <br />
                 He started his career at Prezi, where he worked on the
-                automation and tooling for Prezi&apos;s go-to-market teams.
-                After 4 years, he started to explore the freelance space and his
+                automation and tooling for Prezi&apos;s go-to-market teams. 4
+                years later, he decided to explore the freelance space while his
                 focus shifted more and more to the front-end side of things.
                 <br />
-                He is a big fan of modern TypeScript/React and the new wave
-                serverless eco-system, keeping a close eye on big language
-                models and transformers.
+                <br />
+                Mihaly is a big fan of the modern TypeScript/React community and
+                the new wave serverless eco-system, keeping a close eye on big
+                language models and transformers.
               </p>
             </div>
           </div>
