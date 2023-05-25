@@ -27,8 +27,8 @@ We have 2 environments:
 
 WARNING local dev, preview branches and staging shares one environment both for auth and for data. If you change anything, it will affect everyone and all of these environments.
 
-
 ## Frontend Development Notes
+
 add components with command:
 `pnpm run add-ui`
 
@@ -42,20 +42,20 @@ icons:
 https://lucide.dev/
 structure inside `src/` folder:
 ├── components
-│   ├── ui
-│   │   ├── alert-dialog.tsx
-│   │   ├── button.tsx
-│   │   ├── dropdown-menu.tsx
-│   │   └── ...
-│   ├── main-nav.tsx
-│   ├── page-header.tsx
-│   └── ...
+│ ├── ui
+│ │ ├── alert-dialog.tsx
+│ │ ├── button.tsx
+│ │ ├── dropdown-menu.tsx
+│ │ └── ...
+│ ├── main-nav.tsx
+│ ├── page-header.tsx
+│ └── ...
 ├── hooks
 ├── lib
-│   └── utils.ts
+│ └── utils.ts
 ├── pages
 ├── styles
-│   └── globals.css
+│ └── globals.css
 the `components/ui` folder is where you put the "atoms"
 the `components` folder is where you put the more specific or more complex stuff
 the `pages` folder is how you organize your pages and define the routes
@@ -65,15 +65,18 @@ the `lib` folder is where you put your "utility" functions
 the `hooks` folder is where you put your custom react hooks
 WARNING: if you create a new page, you need to be logged in to see it, all routes are protected
 workflow:
+
 1. run the `pnpm run add-ui` command and specify `/src/components/shadcn` as the folder
-NOTE: some components are native to react and don't need to be installed`
+   NOTE: some components are native to react and don't need to be installed`
 2. copy-paste component code to a new file in the `src/components/ui` folder
 3. (optional) modify the component to fit your needs
 4. import into page with `import { Accordion, ... } from "~/components/ui/accordion"`
 
 ## NOTE:
+
 please use the following coding style for your components:
-```type FooProps = {
+
+````type FooProps = {
   foo: string;
   bar: string;
 }
@@ -87,3 +90,4 @@ export const Foo = (props: FooProps) => {
 }```
 and when you use it:
 `<Foo foo="foo" bar="bar" />`
+````
