@@ -429,7 +429,7 @@ const FeedbackRequest: NextPage = () => {
                                     <Tooltip>
                                       <TooltipTrigger>
                                         {" "}
-                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-sky-300 bg-white">
+                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-sky-300">
                                           <PencilIcon
                                             className="text-sky-50"
                                             size={16}
@@ -452,7 +452,7 @@ const FeedbackRequest: NextPage = () => {
                                     <Tooltip>
                                       <TooltipTrigger>
                                         {" "}
-                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-green-400 bg-white">
+                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-green-400">
                                           <CheckIcon
                                             className="text-green-50"
                                             size={16}
