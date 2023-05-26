@@ -92,13 +92,18 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           <Label>Authors</Label>
           <div className="mt-2 flex">
             {props.authors.map((author) => (
-              // TODO: initials function
-              <UserItem
-                key={author.id}
-                firstName={author.firstName}
-                lastName={author.lastName}
-                email={author.email}
-              />
+              <>
+                {author.firstName.length != 0 &&
+                  author.lastName.length != 0 &&
+                  author.email.length != 0 && (
+                    <UserItem
+                      key={author.id}
+                      firstName={author.firstName}
+                      lastName={author.lastName}
+                      email={author.email}
+                    />
+                  )}
+              </>
             ))}
           </div>
           <Label className="mt-4 font-normal text-stone-500">
