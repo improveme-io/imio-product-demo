@@ -32,7 +32,7 @@ export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
             </CardContent>
           </CardHeader>
         </Card>
-        <ul>
+        <ul className="mt-12">
           {props.feedbackItems?.map((item, index) => (
             <li key={`feedback-item-${index}`} className="mt-4 max-w-4xl">
               <Label className="mb-8 block max-w-3xl text-xl">
