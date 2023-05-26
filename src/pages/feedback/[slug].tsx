@@ -328,12 +328,13 @@ const FeedbackRequest: NextPage = () => {
                             <Button
                               variant="outline"
                               size="lg"
-                              className="mr-4 w-full"
+                              className="w-full sm:w-auto"
                             >
                               Back to Feedback Request
                             </Button>
                           </DialogClose>
                           <Button
+                            className="w-full sm:w-auto"
                             disabled={errors.length > 0 || submitForm.isLoading}
                             variant={
                               errors.length > 0 ? "destructive" : "default"
