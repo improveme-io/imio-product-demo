@@ -30,7 +30,7 @@ export const FeedbackRequestDialog = (props: FeedbackRequestDialogProps) => {
           feedbackItems={props.feedbackItems}
           renderOwner={props.renderOwner}
         />
-        <DialogFooter className="gap-4">
+        <DialogFooter className="flex-wrap gap-4">
           {props.renderDialogFooter}
         </DialogFooter>
       </DialogContent>

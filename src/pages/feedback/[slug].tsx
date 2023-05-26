@@ -336,9 +336,6 @@ const FeedbackRequest: NextPage = () => {
                           <Button
                             className="w-full sm:w-auto"
                             disabled={errors.length > 0 || submitForm.isLoading}
-                            variant={
-                              errors.length > 0 ? "destructive" : "default"
-                            }
                             size="lg"
                             // eslint-disable-next-line @typescript-eslint/no-misused-promises
                             onClick={submit}
@@ -346,7 +343,12 @@ const FeedbackRequest: NextPage = () => {
                             <StepForwardIcon className="mr-2" />
                             Request Feedback
                           </Button>
-                          {errors.length > 0 && <p>* There are errors</p>}
+                          {errors.length > 0 && (
+                            <p className="relative rounded-md bg-red-100 px-3 py-2 text-red-500">
+                              There seem to be things missing. Please check if
+                              you have provided all necessary data.
+                            </p>
+                          )}
                         </>
                       }
                     />
