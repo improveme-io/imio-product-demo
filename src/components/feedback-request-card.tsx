@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { UserItem } from "./user-item";
 import Link from "next/link";
-
+import format from "date-fns/format";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -29,7 +29,7 @@ type FeedbackRequestCardProps = {
   canEdit?: boolean;
   onDelete?: () => void;
   disabled?: boolean;
-  created?: Date;
+  created: number | Date;
 };
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
@@ -107,7 +107,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
             ))}
           </div>
           <Label className="mt-4 font-normal text-stone-500">
-            Created {props.created?.toString()}
+            Created {format(props.created, "PPP")}
           </Label>
         </div>
       </CardContent>
