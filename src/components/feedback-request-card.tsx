@@ -18,6 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
 } from "~/components/ui/alert-dialog";
+import { cn } from "~/utils/style";
 
 type FeedbackRequestCardProps = {
   slug: string;
@@ -34,10 +35,18 @@ type FeedbackRequestCardProps = {
 
 export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
   return (
-    <Card className="group mb-8 sm:my-2">
+    <Card
+      className={cn([
+        "group mb-8 sm:my-2",
+        props.canEdit ? "hover:bg-white sm:bg-neutral-100" : "",
+      ])}
+    >
       <CardHeader>
         <div className="flex flex-col justify-between sm:flex-row sm:items-center">
-          <CardTitle>{props.title}</CardTitle>
+          <CardTitle>
+            {props.canEdit && <span className="text-stone-500">[Draft:]</span>}{" "}
+            {props.title}
+          </CardTitle>
           <div className="mt-3 flex flex-col items-end justify-end gap-3 transition-opacity duration-300 group-hover:opacity-100 sm:mt-0 sm:flex-row sm:items-center pointerdevice:pointerdevice:opacity-0">
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -88,7 +97,12 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
         </div>
       </CardHeader>
       <CardContent className="flex gap-4">
-        <div className="mb-4 flex flex-grow flex-col">
+        <div
+          className={cn([
+            "mb-4 flex flex-grow flex-col",
+            props.canEdit ? "opacity-50" : "",
+          ])}
+        >
           <Label>Authors</Label>
           <div className="mt-2 flex">
             {props.authors.map((author) => (
