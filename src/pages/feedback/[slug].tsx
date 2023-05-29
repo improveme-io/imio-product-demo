@@ -377,7 +377,7 @@ const FeedbackRequest: NextPage = () => {
                   <p className="mx-2">You are requesting feedback:</p>
                 </div>
                 <CardContent className="flex flex-col items-start px-0">
-                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert">
                     {feedbackRequest.data?.paragraph ?? ""}
                   </ReactMarkdown>
                   {feedbackRequest.data?.deadline && (
