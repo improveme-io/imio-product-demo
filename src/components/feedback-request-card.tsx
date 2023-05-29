@@ -37,7 +37,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
   return (
     <Card
       className={cn([
-        "group mb-8 sm:my-2",
+        "group mb-8 transition sm:my-2",
         props.canEdit ? "hover:bg-white sm:bg-neutral-100" : "",
       ])}
     >
