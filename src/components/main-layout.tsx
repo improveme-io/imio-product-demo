@@ -7,6 +7,25 @@ type MainLayoutProps = {
 
 export const MainLayout = (props: MainLayoutProps) => {
   const isApp = props.app;
+  //localStorage.theme === 'dark' || (!('theme' in localStorage) &&
+  if (
+    isApp &&
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    document.documentElement.classList.add("dark");
+  } else if (typeof window !== "undefined") {
+    document.documentElement.classList.remove("dark");
+  }
+  // TODO: Implement LocalStorage
+  // // Whenever the user explicitly chooses light mode
+  // localStorage.theme = 'light'
+
+  // // Whenever the user explicitly chooses dark mode
+  // localStorage.theme = 'dark'
+
+  // // Whenever the user explicitly chooses to respect the OS preference
+  // localStorage.removeItem('theme')
 
   return (
     <main
