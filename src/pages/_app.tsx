@@ -36,6 +36,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <ClerkProvider
       {...pageProps}
       appearance={{
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         baseTheme: darkMode ? dark : light,
       }}
     >
