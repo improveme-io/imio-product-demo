@@ -53,7 +53,7 @@ export const Contribution = (props: ContributionProps) => {
           <Button
             asChild
             variant={"outline"}
-            className="mt-4 transition-opacity duration-300 hover:bg-slate-50 group-hover:opacity-100 pointerdevice:opacity-0"
+            className="mt-4 transition-opacity duration-300 hover:bg-stone-50 group-hover:opacity-100 dark:hover:bg-stone-50 dark:hover:text-stone-950 pointerdevice:opacity-0"
           >
             <Link href={`/feedback/${props.slug}`}>
               <ViewIcon className="mr-2" />

@@ -26,7 +26,7 @@ export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
               <p className="mx-2">is requesting Your feedback</p>
             </div>
             <CardContent className="flex items-center px-0">
-              <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+              <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert">
                 {props.paragraph ?? ""}
               </ReactMarkdown>
             </CardContent>
@@ -41,7 +41,7 @@ export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
               <Textarea
                 disabled
                 placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
-                className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
+                className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
               />
             </li>
           ))}

@@ -16,8 +16,10 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        props.isSmall ? "min-h-[4em] bg-opacity-70 py-2" : "py-8",
-        "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500"
+        props.isSmall
+          ? "min-h-[4em] bg-opacity-70 py-2 dark:bg-opacity-70"
+          : "py-8",
+        "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500 dark:bg-stone-950 "
       )}
     >
       <div className="flex w-full flex-col justify-between sm:flex-row">

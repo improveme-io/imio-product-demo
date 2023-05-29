@@ -38,7 +38,9 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
     <Card
       className={cn([
         "group mb-8 transition sm:my-2",
-        props.canEdit ? "hover:bg-white sm:bg-neutral-100" : "",
+        props.canEdit
+          ? "bg-neutral-100 hover:bg-white dark:bg-neutral-800"
+          : "",
       ])}
     >
       <CardHeader>
@@ -52,14 +54,14 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
               <AlertDialogTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="text-red-500 hover:bg-red-100 hover:text-red-500"
+                  className="text-red-500 hover:bg-red-100 hover:text-red-500 dark:hover:bg-destructive dark:hover:text-red-50"
                   disabled={props.disabled}
                 >
-                  <TrashIcon className="mr-2 h-4 w-4 text-red-500" />
+                  <TrashIcon className="mr-2 h-4 w-4" />
                   Delete
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="bg-white">
+              <AlertDialogContent className="bg-card">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>

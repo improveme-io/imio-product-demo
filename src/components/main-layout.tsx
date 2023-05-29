@@ -12,7 +12,7 @@ export const MainLayout = (props: MainLayoutProps) => {
     <main
       className={cn(
         isApp ? "" : "md:pl-32",
-        "container flex min-h-screen w-full flex-col gap-x-8 bg-stone-50 px-8 py-8 sm:px-16"
+        "container flex min-h-screen w-full flex-col gap-x-8 bg-background px-8 py-8  sm:px-16"
       )}
     >
       {props.children}

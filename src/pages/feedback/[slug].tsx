@@ -478,7 +478,7 @@ const FeedbackRequest: NextPage = () => {
                               feedbackRequest.data?.authorsFinished
                                 .map((a) => a.id)
                                 .includes(authorFI.author.id) && (
-                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert ">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
@@ -486,7 +486,7 @@ const FeedbackRequest: NextPage = () => {
                               feedbackRequest.data?.authorsFinished
                                 .map((a) => a.id)
                                 .includes(authorFI.author.id) && (
-                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert ">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
@@ -589,7 +589,7 @@ const FeedbackRequest: NextPage = () => {
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
                           <CardContent className="flex flex-col items-start px-0">
-                            <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                            <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert ">
                               {feedbackRequest.data?.paragraph ?? ""}
                             </ReactMarkdown>
                             {feedbackRequest.data?.deadline && (
@@ -639,7 +639,7 @@ const FeedbackRequest: NextPage = () => {
                                           onBlur={() => {
                                             onBlur();
                                           }}
-                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
+                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
                                         />
                                         {errors.map((error) => (
                                           <p
