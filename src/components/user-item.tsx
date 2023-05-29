@@ -7,7 +7,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "~/components/ui/tooltip";
 import { MailIcon } from "lucide-react";
 
 type UserItemProps = {
