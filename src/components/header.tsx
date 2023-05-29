@@ -28,9 +28,19 @@ export const Header = (props: HeaderProps) => {
             <Image
               className={cn([
                 props.isSmall && "translate-y-3 sm:translate-y-0",
-                "mr-4 transition-all duration-300",
+                "mr-4 hidden transition-all duration-300 dark:inline",
               ])}
-              src="/Logo.svg"
+              src={"/Logo-dark.svg"}
+              width={props.isSmall ? 78 / 3 : 78 / 2}
+              height={props.isSmall ? 60 / 3 : 60 / 2}
+              alt="improveme.io logo"
+            />
+            <Image
+              className={cn([
+                props.isSmall && "translate-y-3 sm:translate-y-0",
+                "mr-4 inline transition-all duration-300 dark:hidden",
+              ])}
+              src={"/Logo.svg"}
               width={props.isSmall ? 78 / 3 : 78 / 2}
               height={props.isSmall ? 60 / 3 : 60 / 2}
               alt="improveme.io logo"
