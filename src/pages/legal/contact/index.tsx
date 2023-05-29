@@ -18,11 +18,18 @@ const PrivacyPolicy: NextPage = () => {
   return (
     <>
       <PageHead title="Home" />
-      <header className="flex justify-between bg-stone-50 px-8 py-8">
+      <header className="flex justify-between bg-background px-8 py-8">
         <Link href="/">
           <Image
-            className=""
+            className="inline dark:hidden"
             src="/HeroLogo.svg"
+            width={312 / 2}
+            height={153 / 2}
+            alt="improveme.io logo"
+          />
+          <Image
+            className="hidden dark:inline"
+            src="/HeroLogo-dark.svg"
             width={312 / 2}
             height={153 / 2}
             alt="improveme.io logo"
@@ -62,7 +69,7 @@ const PrivacyPolicy: NextPage = () => {
           </SignedOut>
         </div>
       </header>
-      <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-stone-50 px-8 py-8 sm:px-16 md:pl-32">
+      <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-background px-8 py-8 sm:px-16 md:pl-32">
         <h1 className="my-12 font-serif text-4xl">Contact & Legal</h1>
         <div className="flex items-start">
           <div className="mb-20 md:w-4/6">

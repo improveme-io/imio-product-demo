@@ -9,7 +9,7 @@ export const MainLayout = (props: MainLayoutProps) => {
   const isApp = props.app;
   //localStorage.theme === 'dark' || (!('theme' in localStorage) &&
   if (
-    isApp &&
+    // isApp &&
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
   ) {

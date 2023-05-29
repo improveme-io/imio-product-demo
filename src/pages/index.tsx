@@ -26,10 +26,17 @@ const Home: NextPage = () => {
   return (
     <>
       <PageHead title="Home" />
-      <header className="flex justify-between bg-stone-50 px-8 py-8">
+      <header className="flex justify-between bg-background px-8 py-8">
         <Image
-          className=""
+          className="inline dark:hidden"
           src="/HeroLogo.svg"
+          width={312 / 2}
+          height={153 / 2}
+          alt="improveme.io logo"
+        />
+        <Image
+          className="hidden dark:inline"
+          src="/HeroLogo-dark.svg"
           width={312 / 2}
           height={153 / 2}
           alt="improveme.io logo"
@@ -86,7 +93,7 @@ const Home: NextPage = () => {
               <Button
                 asChild
                 size={"lg"}
-                className="grow-0 px-10 py-8 text-lg text-white"
+                className="grow-0 px-10 py-8 text-lg text-white dark:bg-sky-300 dark:text-stone-950 dark:hover:bg-sky-500"
               >
                 <Link href="/dashboard">Start Collecting Feedback Now</Link>
               </Button>
@@ -99,7 +106,7 @@ const Home: NextPage = () => {
               >
                 <Button
                   size={"lg"}
-                  className="grow-0 px-10 py-8 text-lg text-white"
+                  className="grow-0 px-10 py-8 text-lg text-white dark:bg-sky-300 dark:text-stone-950 dark:hover:bg-sky-500"
                 >
                   Start Collecting Feedback Now
                 </Button>
@@ -310,8 +317,8 @@ const Home: NextPage = () => {
           </div>
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Pricing</h2>
-            <p className="mb-8 mr-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl md:max-w-lg">
-              $0
+            <p className="mb-8 mr-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl text-green-900 md:max-w-lg">
+              <span className="-ml-1">$0</span>
             </p>
             <p className="mb-8 text-lg md:max-w-lg">
               Just use it and enjoy it. Right now, improveme.io is just a
@@ -321,7 +328,7 @@ const Home: NextPage = () => {
               pricing.
             </p>
             <Image
-              className="mx-auto w-1/4 "
+              className="mx-auto w-1/4"
               src="/PricingGraphic.png"
               width={350}
               height={505}
