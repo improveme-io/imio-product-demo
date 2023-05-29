@@ -1,12 +1,11 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import { dark, light } from "@clerk/themes";
+import { dark } from "@clerk/themes";
 
 import { type AppType } from "next/app";
 
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   let darkMode = false;
@@ -37,7 +36,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       {...pageProps}
       appearance={{
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        baseTheme: darkMode ? dark : light,
+        baseTheme: darkMode ? dark : undefined,
       }}
     >
       <Component {...pageProps} />
