@@ -106,7 +106,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           ])}
         >
           <Label>Authors</Label>
-          <div className="mt-2 flex">
+          <div className="flex flex-wrap">
             {props.authors.map((author) => (
               <>
                 {author.firstName.length != 0 &&
@@ -117,6 +117,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                       firstName={author.firstName}
                       lastName={author.lastName}
                       email={author.email}
+                      className="mt-2"
                     />
                   )}
               </>
