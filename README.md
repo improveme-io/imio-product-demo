@@ -72,7 +72,7 @@ workflow:
 3. (optional) modify the component to fit your needs
 4. import into page with `import { Accordion, ... } from "~/components/ui/accordion"`
 
-## NOTE:
+### NOTE:
 
 please use the following coding style for your components:
 

@@ -38,9 +38,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
     <Card
       className={cn([
         "group mb-8 transition sm:my-2",
-        props.canEdit
-          ? "bg-neutral-100 hover:bg-white dark:bg-neutral-800"
-          : "",
+        props.canEdit && "bg-neutral-100 hover:bg-white dark:bg-neutral-800",
       ])}
     >
       <CardHeader>
@@ -102,12 +100,13 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
         <div
           className={cn([
             "mb-4 flex flex-grow flex-col",
-            props.canEdit ? "opacity-50" : "",
+            props.canEdit ?? "opacity-50",
           ])}
         >
           <Label>Authors</Label>
           <div className="flex flex-wrap">
             {props.authors.map((author) => (
+              // TODO: create reusable function
               <>
                 {author.firstName.length != 0 &&
                   author.lastName.length != 0 &&

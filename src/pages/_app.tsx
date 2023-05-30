@@ -8,10 +8,9 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
+  // TODO: Dark Mode v2 LocalStorage, menu no page reload https://github.com/improveme-io/imio/issues/97
   let darkMode = false;
-  //localStorage.theme === 'dark' || (!('theme' in localStorage) &&
   if (
-    // isApp &&
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
   ) {
@@ -21,15 +20,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     document.documentElement.classList.remove("dark");
     darkMode = false;
   }
-  // TODO: Implement LocalStorage
-  // // Whenever the user explicitly chooses light mode
-  // localStorage.theme = 'light'
-
-  // // Whenever the user explicitly chooses dark mode
-  // localStorage.theme = 'dark'
-
-  // // Whenever the user explicitly chooses to respect the OS preference
-  // localStorage.removeItem('theme')
 
   return (
     <ClerkProvider
