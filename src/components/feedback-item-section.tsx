@@ -108,7 +108,9 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                       key={index}
                       className={cn(
                         ["my-4 flex flex-col"],
-                        templateItem.highlight ? "" : "bg-stone-100"
+                        templateItem.highlight
+                          ? ""
+                          : "bg-stone-100 dark:bg-stone-800"
                       )}
                     >
                       <CardHeader className="pb-1">
@@ -199,7 +201,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
               <Separator className="mb-3 mt-5" />
 
               <Button
-                className="mb-12 mt-4 bg-white"
+                className="light:bg-white mb-12 mt-4 "
                 disabled={feedbackItems.some(
                   (feedbackItem) => !isFeedbackItem(feedbackItem)
                 )}

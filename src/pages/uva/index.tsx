@@ -74,10 +74,17 @@ const Home: NextPage = () => {
     <>
       <Toaster />
       <PageHead title="Home" />
-      <header className="flex justify-between bg-stone-50 px-8 py-8">
+      <header className="flex justify-between bg-background px-8 py-8">
         <Image
-          className=""
+          className="inline dark:hidden"
           src="/HeroLogo.svg"
+          width={312 / 2}
+          height={153 / 2}
+          alt="improveme.io logo"
+        />
+        <Image
+          className="hidden dark:inline"
+          src="/HeroLogo-dark.svg"
           width={312 / 2}
           height={153 / 2}
           alt="improveme.io logo"
@@ -117,6 +124,13 @@ const Home: NextPage = () => {
         </div>
       </header>
       <MainLayout>
+        <div className="my-8">
+          <FeatureCard
+            Icon={FileWarningIcon}
+            title="Some users are experiencing delay in recieving feedback requests"
+            paragraph="[May 30th, 18.13 GMT+2] Due to a technical problem, there may be a delay in recieving feedback requests. You can still log in and use improveme.io. No data is lost and everything will be back to normal shorty – we'll keep you posted. – the improveme.io team"
+          />
+        </div>
         <h1 className="mb-12 mt-0 font-serif text-4xl">
           Welcome to Group Work Peer Feedback
         </h1>
@@ -143,7 +157,7 @@ const Home: NextPage = () => {
               <Button
                 asChild
                 size={"lg"}
-                className="mb-32 mt-16 grow-0 px-10 py-8 text-lg text-white"
+                className="mb-32 mt-16 grow-0 px-10 py-8 text-lg text-white dark:bg-sky-300 dark:text-stone-950 dark:hover:bg-sky-500"
               >
                 <Link href="/dashboard">Start Collecting Feedback Now</Link>
               </Button>
@@ -156,7 +170,7 @@ const Home: NextPage = () => {
               >
                 <Button
                   size={"lg"}
-                  className="grow-0px-10 mb-32 mt-16 py-8 text-lg text-white"
+                  className="mb-32 mt-16 grow-0 px-10 py-8 text-lg text-white dark:bg-sky-300 dark:text-stone-950 dark:hover:bg-sky-500"
                 >
                   Start Collecting Feedback Now
                 </Button>
@@ -296,7 +310,14 @@ const Home: NextPage = () => {
             </h2>
             <p className="mb-8 mr-8 h-24 w-24 md:max-w-lg">
               <Image
-                className="mx-auto"
+                className="mx-auto hidden dark:inline"
+                src="/Logo-dark.svg"
+                width={78}
+                height={60}
+                alt="improveme.io logo"
+              />
+              <Image
+                className="mx-auto inline dark:hidden"
                 src="/Logo.svg"
                 width={78}
                 height={60}
