@@ -128,7 +128,7 @@ const Home: NextPage = () => {
           <FeatureCard
             Icon={FileWarningIcon}
             title="Some users are experiencing delay in recieving feedback requests"
-            paragraph="[May 30th, 18.13 GMT+2] Due to a technical problem, there may be a delay in recieving feedback requests. You can still log in and use the app. No data is lost and everything will be back to normal shorty – we'll keep you posted. – the improveme.io team"
+            paragraph="[May 30th, 18.13 GMT+2] Due to a technical problem, there may be a delay in recieving feedback requests. You can still log in and use improveme.io. No data is lost and everything will be back to normal shorty – we'll keep you posted. – the improveme.io team"
           />
         </div>
         <h1 className="mb-12 mt-0 font-serif text-4xl">
