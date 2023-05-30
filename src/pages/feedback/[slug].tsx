@@ -328,16 +328,14 @@ const FeedbackRequest: NextPage = () => {
                             <Button
                               variant="outline"
                               size="lg"
-                              className="mr-4 w-full"
+                              className="w-full sm:w-auto"
                             >
                               Back to Feedback Request
                             </Button>
                           </DialogClose>
                           <Button
+                            className="w-full sm:w-auto"
                             disabled={errors.length > 0 || submitForm.isLoading}
-                            variant={
-                              errors.length > 0 ? "destructive" : "default"
-                            }
                             size="lg"
                             // eslint-disable-next-line @typescript-eslint/no-misused-promises
                             onClick={submit}
@@ -345,7 +343,12 @@ const FeedbackRequest: NextPage = () => {
                             <StepForwardIcon className="mr-2" />
                             Request Feedback
                           </Button>
-                          {errors.length > 0 && <p>* There are errors</p>}
+                          {errors.length > 0 && (
+                            <p className="relative rounded-md bg-red-100 px-3 py-2 text-red-500">
+                              There seem to be things missing. Please check if
+                              you have provided all necessary data.
+                            </p>
+                          )}
                         </>
                       }
                     />
@@ -374,7 +377,7 @@ const FeedbackRequest: NextPage = () => {
                   <p className="mx-2">You are requesting feedback:</p>
                 </div>
                 <CardContent className="flex flex-col items-start px-0">
-                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert">
                     {feedbackRequest.data?.paragraph ?? ""}
                   </ReactMarkdown>
                   {feedbackRequest.data?.deadline && (
@@ -429,7 +432,7 @@ const FeedbackRequest: NextPage = () => {
                                     <Tooltip>
                                       <TooltipTrigger>
                                         {" "}
-                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-sky-300 bg-white">
+                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-sky-300">
                                           <PencilIcon
                                             className="text-sky-50"
                                             size={16}
@@ -452,7 +455,7 @@ const FeedbackRequest: NextPage = () => {
                                     <Tooltip>
                                       <TooltipTrigger>
                                         {" "}
-                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-green-400 bg-white">
+                                        <div className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg bg-green-400">
                                           <CheckIcon
                                             className="text-green-50"
                                             size={16}
@@ -475,7 +478,7 @@ const FeedbackRequest: NextPage = () => {
                               feedbackRequest.data?.authorsFinished
                                 .map((a) => a.id)
                                 .includes(authorFI.author.id) && (
-                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert ">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
@@ -483,7 +486,7 @@ const FeedbackRequest: NextPage = () => {
                               feedbackRequest.data?.authorsFinished
                                 .map((a) => a.id)
                                 .includes(authorFI.author.id) && (
-                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert ">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
@@ -586,7 +589,7 @@ const FeedbackRequest: NextPage = () => {
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
                           <CardContent className="flex flex-col items-start px-0">
-                            <ReactMarkdown className="prose mt-8 max-w-2xl leading-6">
+                            <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert ">
                               {feedbackRequest.data?.paragraph ?? ""}
                             </ReactMarkdown>
                             {feedbackRequest.data?.deadline && (
@@ -636,7 +639,7 @@ const FeedbackRequest: NextPage = () => {
                                           onBlur={() => {
                                             onBlur();
                                           }}
-                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200"
+                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
                                         />
                                         {errors.map((error) => (
                                           <p

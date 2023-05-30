@@ -16,8 +16,9 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        props.isSmall ? "min-h-[4em] bg-opacity-70 py-2" : "py-8",
-        "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500"
+        props.isSmall && "min-h-[4em] bg-opacity-70 py-2 dark:bg-opacity-70",
+        !props.isSmall && "py-8",
+        "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500 dark:bg-stone-950 "
       )}
     >
       <div className="flex w-full flex-col justify-between sm:flex-row">
@@ -26,9 +27,19 @@ export const Header = (props: HeaderProps) => {
             <Image
               className={cn([
                 props.isSmall && "translate-y-3 sm:translate-y-0",
-                "mr-4 transition-all duration-300",
+                "mr-4 hidden transition-all duration-300 dark:inline",
               ])}
-              src="/Logo.svg"
+              src={"/Logo-dark.svg"}
+              width={props.isSmall ? 78 / 3 : 78 / 2}
+              height={props.isSmall ? 60 / 3 : 60 / 2}
+              alt="improveme.io logo"
+            />
+            <Image
+              className={cn([
+                props.isSmall && "translate-y-3 sm:translate-y-0",
+                "mr-4 inline transition-all duration-300 dark:hidden",
+              ])}
+              src={"/Logo.svg"}
               width={props.isSmall ? 78 / 3 : 78 / 2}
               height={props.isSmall ? 60 / 3 : 60 / 2}
               alt="improveme.io logo"

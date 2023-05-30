@@ -19,11 +19,18 @@ const AntiDiscriminationPolicy: NextPage = () => {
     <>
       <PageHead title="Home" />
       {/* TODO(kristof): this should be one component, it is used in 5-6 different places, we could call it `<LandingHeader />` and re-name our existing `<Header />` to `<AppHeader />` or restructure the existing `<Header />` in a way that it works for both the landing page and inside the app */}
-      <header className="flex justify-between bg-stone-50 px-8 py-8">
+      <header className="flex justify-between bg-background px-8 py-8">
         <Link href="/">
           <Image
-            className=""
+            className="inline dark:hidden"
             src="/HeroLogo.svg"
+            width={312 / 2}
+            height={153 / 2}
+            alt="improveme.io logo"
+          />
+          <Image
+            className="hidden dark:inline"
+            src="/HeroLogo-dark.svg"
             width={312 / 2}
             height={153 / 2}
             alt="improveme.io logo"
@@ -63,7 +70,7 @@ const AntiDiscriminationPolicy: NextPage = () => {
           </SignedOut>
         </div>
       </header>
-      <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-stone-50 px-8 py-8 sm:px-16 md:pl-32">
+      <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-background px-8 py-8 sm:px-16 md:pl-32">
         <h1 className="my-12 font-serif text-4xl">
           Anti-Discrimination Policy
         </h1>

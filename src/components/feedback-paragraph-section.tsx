@@ -44,7 +44,7 @@ export const FeedbackParagraphSection = (
               onBlur={() => {
                 onBlur();
               }}
-              className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200"
+              className="mt-2 h-96 font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
             />
             {errors.map((error) => (
               <p

@@ -34,7 +34,7 @@ export const FeedbackRequestAuthorDialog = (
       <DialogTrigger asChild>{props.renderDialogTrigger}</DialogTrigger>
       {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
 
-      <DialogContent className="h-full overflow-y-scroll bg-stone-50 sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
+      <DialogContent className="h-full overflow-y-scroll bg-background sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
         <section>
           <Card className="mb-16 mt-6 sm:mx-12 sm:mt-3">
             <CardHeader className="mr-3">
@@ -64,7 +64,7 @@ export const FeedbackRequestAuthorDialog = (
                     <div className="mb-32 w-full">
                       <li className="mb-12 mt-8 grid w-full grid-cols-4">
                         <div className="w-full">{props.renderAuthor}</div>
-                        <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7">
+                        <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert">
                           {item.payload ?? ""}
                         </ReactMarkdown>
                       </li>

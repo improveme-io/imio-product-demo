@@ -9,9 +9,9 @@
     font-family: 'DM Mono', monospace;
     font-family: 'DM Sans', sans-serif;
     --font-sans: 'DM Sans';
-    --font-serif: 'Space Grotesk'
+    --font-serif: 'Space Grotesk';
 
-    --background: 0 0% 100%;
+    --background: 60 9% 98%;
     --foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -44,32 +44,32 @@
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    --background: 24 10% 10%;
+    --foreground: 0 0% 100%;
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: 0 0% 32%;
+    --muted-foreground: 0 0% 100%;
 
     --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+    --popover-foreground: 0 0% 100%;
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: 0 0% 25%;
+    --card-foreground: 0 0% 100%;
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+    --border: 33 5% 32%;
+    --input: 33 5% 32%;
 
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 1.2%;
 
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 202 80% 24%;
+    --secondary-foreground: 0 0% 100%;
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 25 5% 45%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 35%;
+    --destructive-foreground: 0 0% 100%;
 
     --ring: 216 34% 17%;
 
@@ -79,7 +79,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-stone-50 text-foreground;
+    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
