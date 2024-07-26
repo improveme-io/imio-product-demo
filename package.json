@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "v22.2.0"
+    "node": "v20.16.0"
   },
-  "packageManager": "pnpm@9.1.2+sha512.127dc83b9ea10c32be65d22a8efb4a65fb952e8fefbdfded39bdc3c97efc32d31b48b00420df2c1187ace28c921c902f0cb5a134a4d032b8b5295cbfa2c681e2",
+  "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "format": "pnpm format:check --write",
