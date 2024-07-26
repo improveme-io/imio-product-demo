@@ -8,40 +8,27 @@ Run `pnpm i` in the project root. If you don't yet have `pnpm` set up, [refer to
 
 Ask for the `.env` file from @robotkutya.
 
-Open a secure connection to PlanetScale with `pscale connect imio dev --port 3309 --org improveme-io`. If you don't yet have `pscale` set up, [refer to the docs](https://github.com/planetscale/cli#installation).
+~~Open a secure connection to PlanetScale with `pscale connect imio dev --port 3309 --org improveme-io`. If you don't yet have `pscale` set up, [refer to the docs](https://github.com/planetscale/cli#installation).~~
+TBD: currently migrating to Vercel's hosted Postgres
 
 Run `pnpm dev` to start up the development server.
 
 ## Deployment
 
-We have 2 environments:
+We use a baic Vercel workflow with promotions for prod deployment
 
-- `dev` --> local, preview, staging
-  - clerk `development` instance
-  - planetscale `dev` database branch
-  - auto-deployed by merging to `dev` git branch
-- `production` --> production
-  - clerk `production` instance
-  - planetscale `main` database branch
-  - auto-deployed by merging to `main` git branch
+- Every commit pushed to the main branch will trigger a Production Deployment instead of the usual Preview Deployment.
+- Production deployments will need to be [manually promoted](https://vercel.com/docs/deployments/managing-deployments#promote-deployment-to-production).
 
-WARNING local dev, preview branches and staging shares one environment both for auth and for data. If you change anything, it will affect everyone and all of these environments.
+WARNING local dev and preview branches sharee one environment both for auth and for data. If you change something, it will affect everyone and all of these environments.
 
 ## Frontend Development Notes
 
-we are using shadcn's component library (which is not a component library)
-https://ui.shadcn.com/docs#what-do-you-mean-by-not-a-component-library
+- We are using the [shadcn/ui component library](https://ui.shadcn.com/docs#what-do-you-mean-by-not-a-component-library)
+- styling is handled by [Tailwind CSS](https://tailwindcss.com/)
+- our icon set is [Lucide Icons](https://lucide.dev/)
 
-the underlying real component library
-https://www.radix-ui.com/
-
-styling is handled by
-https://tailwindcss.com/
-
-our icon set
-https://lucide.dev/
-
-structure inside `src/` folder
+- structure inside `src/` folder
 
 ```bash
 ├── components
@@ -84,15 +71,15 @@ Please use the following coding style for your components:
 
 ```ts
 type FooProps = {
-  foo: string;
-  bar: string;
+  title: string;
+  text: string;
 };
 
 export const Foo = (props: FooProps) => {
   return (
     <div>
-      <h1>props.foo</h1>
-      <p>props.bar</p>
+      <h1>props.title</h1>
+      <p>props.text</p>
     </div>
   );
 };
