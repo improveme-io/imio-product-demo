@@ -212,6 +212,8 @@ const Home: NextPage = () => {
               alt="Illustration of the UI of the app, showing a screen with sample feedback"
             />
           </div>
+          {/* 
+          Comment out Brooke until further notice
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Our Team</h2>
             <div className="mb-16 w-full pr-16 md:w-1/2 lg:w-1/3">
@@ -314,7 +316,7 @@ const Home: NextPage = () => {
                 keeps a close eye on big language models.
               </p>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Pricing</h2>
             <p className="mb-8 mr-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl text-green-900 md:max-w-lg">
