@@ -6,12 +6,10 @@ export const Footer = () => {
     <footer className="flex justify-between bg-stone-600 px-8 py-8">
       <div className="w-1/3">
         <p className="text-xs text-stone-800">
-          improveme.io is private passion project of Reuven I. Kristof Gatter
+          improveme.io is a private passion project of Reuven I. Kristof Gatter
           and Mihaly Furedi. Scientific support provided by Dr. Brooke Gazdag.
         </p>
-        <p className="text-xs text-stone-800">
-          We proudly run on Vercel and Planetscale.
-        </p>
+        <p className="text-xs text-stone-800">We proudly run on Vercel.</p>
       </div>
       <div className="w-2/3 text-right">
         <Button asChild className="text-stone-50" variant={"link"}>
