@@ -27,7 +27,7 @@ import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
 import { Toaster } from "~/components/ui/toaster";
 
-const feedbackItems = [
+const feedbackItemSamples = [
   "I found your contributions to be particularly helpful or effective when...",
   "Your contributions made a significant impact on the project by...",
   "I found your ideas and insights to be especially valuable because...",
@@ -167,7 +167,7 @@ const Home: NextPage = () => {
           <h2 className="col-span-2 mb-12 mt-16 font-serif text-3xl">
             Useful Prompts
           </h2>
-          {feedbackItems.map((item, index) => (
+          {feedbackItemSamples.map((item, index) => (
             <Card key={index} className="flex flex-col justify-between">
               <CardHeader className="flex flex-row space-y-0">
                 <div className="ml-0 mr-1 mt-1 w-10 shrink-0">

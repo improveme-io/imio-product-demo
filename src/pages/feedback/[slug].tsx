@@ -588,7 +588,7 @@ const FeedbackRequest: NextPage = () => {
                             />
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
-                          <CardContent className="flex flex-col items-start px-0">
+                          <CardContent className="flex flex-col items-start px-0 pb-0">
                             <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert ">
                               {feedbackRequest.data?.paragraph ?? ""}
                             </ReactMarkdown>
@@ -605,6 +605,17 @@ const FeedbackRequest: NextPage = () => {
                                 </Label>
                               </div>
                             )}
+                            <p className="mb-0 mt-2">
+                              Not sure what to write? Check out our{" "}
+                              <a
+                                className="hover:text-underline text-sky-700 hover:text-sky-500"
+                                href="/tips"
+                                target="blank"
+                              >
+                                Tips Page
+                              </a>
+                              .
+                            </p>
                           </CardContent>
                         </CardHeader>
                       </Card>
