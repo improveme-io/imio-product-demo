@@ -10,7 +10,6 @@ import {
 import {
   MessageCircle,
   LayoutDashboardIcon,
-  FileWarningIcon,
   Check,
   CircleSlashed,
   HelpCircle,
@@ -28,7 +27,7 @@ import { Footer } from "~/components/www/footer";
 import { MainLayout } from "~/components/main-layout";
 import { Toaster } from "~/components/ui/toaster";
 
-const feedbackItems = [
+const feedbackItemSamples = [
   "I found your contributions to be particularly helpful or effective when...",
   "Your contributions made a significant impact on the project by...",
   "I found your ideas and insights to be especially valuable because...",
@@ -46,25 +45,6 @@ const feedbackItems = [
   "It would have been helpful if you could have provided input on...",
   "I think the project would have benefited from your involvement in...",
   "I wanted to see more of your contribution in terms of...",
-];
-
-const howtoItems = [
-  {
-    image: "/uva/screenshot01.png",
-    text: "Click the Start Collecting Feedback Now button to log in or sign up to improveme.io",
-  },
-  {
-    image: "/uva/screenshot02.png",
-    text: "Enter your name and university e-mail.",
-  },
-  {
-    image: "/uva/screenshot03.png",
-    text: "Fill out the Feedback Request form. Add all group members you are recieving feedback from as Authors with their e-mail address and name.",
-  },
-  {
-    image: "/uva/screenshot04.png",
-    text: "Click the Review Feedback Request button to get a preview of the feedback form your group members will see. Click Request Feedback to finish inviting them to giving you feedback. We have preloaded the standard questions for you, but if you want to ask something more from your teammates, feel free to add more questions.",
-  },
 ];
 
 const Home: NextPage = () => {
@@ -124,81 +104,13 @@ const Home: NextPage = () => {
         </div>
       </header>
       <MainLayout>
-        <div className="my-8">
-          <FeatureCard
-            Icon={FileWarningIcon}
-            title="Some users are experiencing delay in recieving feedback requests"
-            paragraph="[May 30th, 18.13 GMT+2] Due to a technical problem, there may be a delay in recieving feedback requests. You can still log in and use improveme.io. No data is lost and everything will be back to normal shorty – we'll keep you posted. – the improveme.io team"
-          />
-        </div>
         <h1 className="mb-12 mt-0 font-serif text-4xl">
-          Welcome to Group Work Peer Feedback
+          Tips for Writing Constructive Feedback
         </h1>
-        <div className="md:grid md:grid-cols-2">
-          <div>
-            <h3 className="mb-7 text-xl">
-              UVA | Management and Leadership in the Digital Age
-            </h3>
-            <p className="mb-8 text-lg">
-              Now it is time to put into practice what we learned in Week 3
-              about giving feedback! Being able to give and receive feedback is
-              essential to effective teamwork and personal and professional
-              growth. Now you have the opportunity to practice!
-            </p>
-            <FeatureCard
-              Icon={FileWarningIcon}
-              title="IMPORTANT INFORMATION"
-              paragraph="Your
-            grade will be based on completing this task NOT on what the team
-            members write about you. If you have major problems with one of
-            your team members, tell us immediately."
-            />
-            <SignedIn>
-              <Button
-                asChild
-                size={"lg"}
-                className="mb-32 mt-16 grow-0 px-10 py-8 text-lg text-white dark:bg-sky-300 dark:text-stone-950 dark:hover:bg-sky-500"
-              >
-                <Link href="/dashboard">Start Collecting Feedback Now</Link>
-              </Button>
-            </SignedIn>
-            <SignedOut>
-              <SignUpButton
-                mode="modal"
-                afterSignInUrl="/dashboard"
-                afterSignUpUrl="/dashboard"
-              >
-                <Button
-                  size={"lg"}
-                  className="mb-32 mt-16 grow-0 px-10 py-8 text-lg text-white dark:bg-sky-300 dark:text-stone-950 dark:hover:bg-sky-500"
-                >
-                  Start Collecting Feedback Now
-                </Button>
-              </SignUpButton>
-            </SignedOut>
-          </div>
-          <div className="mb-16 flex w-full px-16">
-            <div className="ml-auto">
-              <Image
-                className="mb-8 mr-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
-                src="/PortraitBrooke.png"
-                width={350}
-                height={350}
-                alt="Portrait photo of Dr. Brooke Gazdag"
-              />
-              <h3 className="mb-4    mt-12 w-full font-serif text-2xl">
-                Dr. Brooke Gazdag
-              </h3>
-              <p className="text-md mb-4 md:max-w-lg">Associate Professor</p>
-              <p className="text-md mb-2 md:max-w-lg">b.a.gazdag@uva.nl</p>
-            </div>
-          </div>
-        </div>
         <div className="gap-8 md:grid md:grid-cols-2 ">
+          {/*
+          NOTE: we might put this video back once Brooke is officially on board again!
           <div className="md:col-span-2">
-            <h2 className="mb-12 font-serif text-3xl">
-              How to give and recieve feedback
-            </h2>
             <iframe
               className="w-full rounded-md shadow-lg"
               width={560 * 2}
@@ -206,14 +118,9 @@ const Home: NextPage = () => {
               src="https://www.youtube.com/embed/fVHMsbWMa6s"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            ></iframe>
-            <p className="mt-16 text-lg font-medium md:max-w-lg">
-              Remember, receiving feedback is an opportunity for growth and
-              improvement, so approach these questions with an open mind and a
-              willingness to learn from your teammates&apos; perspectives.
-              Always provide specific examples.
-            </p>
+            ></iframe> 
           </div>
+          */}
           <h3 className="mb-0 mt-8 text-xl md:col-span-2">
             1. Orient the situation
           </h3>
@@ -260,7 +167,7 @@ const Home: NextPage = () => {
           <h2 className="col-span-2 mb-12 mt-16 font-serif text-3xl">
             Useful Prompts
           </h2>
-          {feedbackItems.map((item, index) => (
+          {feedbackItemSamples.map((item, index) => (
             <Card key={index} className="flex flex-col justify-between">
               <CardHeader className="flex flex-row space-y-0">
                 <div className="ml-0 mr-1 mt-1 w-10 shrink-0">
@@ -286,24 +193,6 @@ const Home: NextPage = () => {
               </CardContent>
             </Card>
           ))}
-          <div className="gap-8 md:col-span-2 md:grid md:grid-cols-2">
-            <h2 className="col-span-2 mb-12 mt-16 w-full font-serif text-3xl">
-              How it works
-            </h2>
-            {howtoItems.map((item, index) => (
-              <>
-                <p className="mb-8 text-lg md:max-w-lg">{item.text}</p>
-                <Image
-                  className=""
-                  src={item.image}
-                  width={1533}
-                  height={1048}
-                  key={index}
-                  alt="Illustration of the UI of the app, showing the Dashboard"
-                />
-              </>
-            ))}
-          </div>
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">
               About improveme.io
