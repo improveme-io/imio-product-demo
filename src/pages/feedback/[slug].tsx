@@ -58,6 +58,7 @@ import { DialogClose } from "~/components/ui/dialog";
 import ReactMarkdown from "react-markdown";
 import { cn } from "~/utils/style";
 import { FeedbackRequestAuthorDialog } from "~/components/feedback-request-author-dialog";
+import Link from "next/link";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -607,13 +608,13 @@ const FeedbackRequest: NextPage = () => {
                             )}
                             <p className="mb-0 mt-2">
                               Not sure what to write? Check out our{" "}
-                              <a
+                              <Link
                                 className="hover:text-underline text-sky-700 hover:text-sky-500"
                                 href="/tips"
                                 target="blank"
                               >
                                 Tips Page
-                              </a>
+                              </Link>
                               .
                             </p>
                           </CardContent>
