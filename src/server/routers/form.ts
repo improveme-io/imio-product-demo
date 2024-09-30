@@ -117,10 +117,6 @@ export const formRouter = createTRPCRouter({
         authors.map(async (author) => {
           await clerkClient.invitations.createInvitation({
             emailAddress: author.email,
-            // NOTE: `env.mjs` is configured to throw an error if `CLERK_REDIRECT_URL` is not set
-            redirectUrl: `${process.env.CLERK_REDIRECT_URL!}/${
-              input.requestId
-            }`,
             publicMetadata: {
               firstName: author.firstName,
               lastName: author.lastName,
