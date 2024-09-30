@@ -117,9 +117,11 @@ export const formRouter = createTRPCRouter({
         authors.map(async (author) => {
           await clerkClient.invitations.createInvitation({
             emailAddress: author.email,
+            redirectUrl: `${process.env.CLERK_REDIRECT_URL}/${input.requestId}`,
             publicMetadata: {
               firstName: author.firstName,
               lastName: author.lastName,
+              inviter_name: `${ctx.auth.user?.firstName} ${ctx.auth.user?.lastName} requested your feedback:<br\><br\>${input.paragraph}<br\><br\>${ctx.auth.user?.firstName} ${ctx.auth.user?.lastName}\n\nhehe`,
             },
           });
         })
