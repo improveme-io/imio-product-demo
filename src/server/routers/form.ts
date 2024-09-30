@@ -63,7 +63,7 @@ export const formRouter = createTRPCRouter({
           title: input.title,
           authors: {
             create: input.authors?.map((author) => ({
-              email: author.email ?? "",
+              email: author.email?.toLowerCase() ?? "",
               firstName: author.firstName ?? "",
               lastName: author.lastName ?? "",
             })),
@@ -88,11 +88,11 @@ export const formRouter = createTRPCRouter({
         input.authors.map((author) =>
           ctx.prisma.user.upsert({
             where: {
-              email: author.email,
+              email: author.email.toLowerCase(),
             },
             update: {},
             create: {
-              email: author.email,
+              email: author.email.toLowerCase(),
               firstName: author.firstName,
               lastName: author.lastName,
             },
@@ -101,10 +101,11 @@ export const formRouter = createTRPCRouter({
       );
 
       // query authors
+      // FIXME: Shouldn't the transaction above alrady return the users? This query seems to be redundant. Let's check the Prisma docs.
       const authors = await ctx.prisma.user.findMany({
         where: {
           email: {
-            in: input.authors.map((author) => author.email),
+            in: input.authors.map((author) => author.email.toLowerCase()),
           },
         },
       });
