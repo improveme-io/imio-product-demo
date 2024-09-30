@@ -14,7 +14,6 @@ const server = z.object({
   POSTGRES_PASSWORD: z.string(),
   POSTGRES_DATABASE: z.string(),
   CLERK_SECRET_KEY: z.string().min(1),
-  CLERK_REDIRECT_URL: z.string().min(1),
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
@@ -43,7 +42,6 @@ const processEnv = {
   POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
   POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-  CLERK_REDIRECT_URL: process.env.CLERK_REDIRECT_URL,
   NODE_ENV: process.env.NODE_ENV,
   // client
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
