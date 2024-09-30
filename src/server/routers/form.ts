@@ -117,11 +117,26 @@ export const formRouter = createTRPCRouter({
         authors.map(async (author) => {
           await clerkClient.invitations.createInvitation({
             emailAddress: author.email,
-            redirectUrl: `${process.env.CLERK_REDIRECT_URL}/${input.requestId}`,
+            // NOTE: `env.mjs` is configured to throw an error if `CLERK_REDIRECT_URL` is not set
+            redirectUrl: `${process.env.CLERK_REDIRECT_URL!}/${
+              input.requestId
+            }`,
             publicMetadata: {
               firstName: author.firstName,
               lastName: author.lastName,
-              inviter_name: `${ctx.auth.user?.firstName} ${ctx.auth.user?.lastName} requested your feedback:<br\><br\>${input.paragraph}<br\><br\>${ctx.auth.user?.firstName} ${ctx.auth.user?.lastName}\n\nhehe`,
+              // NOTE: Clerk is configured to require a first and last name, so we can safely assume that it exists
+              // FIXME: Why is `SignedInAuthObject` possibly undefined? Ignoring the ESLint error for now
+              // eslint-disable-next-line  @typescript-eslint/no-non-null-asserted-optional-chain
+              inviter_name: `${ctx.auth.user?.firstName!} ${
+                // eslint-disable-next-line  @typescript-eslint/no-non-null-asserted-optional-chain
+                ctx.auth.user?.lastName!
+              } requested your feedback:<br\><br\>${
+                input.paragraph
+                // eslint-disable-next-line  @typescript-eslint/no-non-null-asserted-optional-chain
+              }<br\><br\>${ctx.auth.user?.firstName!} ${
+                // eslint-disable-next-line  @typescript-eslint/no-non-null-asserted-optional-chain
+                ctx.auth.user?.lastName!
+              }\n\nhehe`,
             },
           });
         })
