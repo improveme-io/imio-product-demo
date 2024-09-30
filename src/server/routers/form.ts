@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { clerkClient } from "@clerk/nextjs/server";
+
 import { createTRPCRouter, protectedProcedure } from "~/lib/trpc";
 import {
   feedbackRequestSchema,
@@ -109,6 +111,19 @@ export const formRouter = createTRPCRouter({
           },
         },
       });
+
+      // send invitations to authors
+      await Promise.all(
+        authors.map(async (author) => {
+          await clerkClient.invitations.createInvitation({
+            emailAddress: author.email,
+            publicMetadata: {
+              firstName: author.firstName,
+              lastName: author.lastName,
+            },
+          });
+        })
+      );
 
       // ~ feedback items ~
       // zip into one big list that can be passed on to prisma
