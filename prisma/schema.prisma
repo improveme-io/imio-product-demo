@@ -64,6 +64,7 @@ model TempUser {
   email     String
   firstName String
   lastName  String
+  profileImageUrl String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -111,6 +112,7 @@ model User {
   firstName       String
   lastName        String
   profileImageUrl String?
+  hasImage        Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
 
