@@ -127,6 +127,7 @@ const Dashboard: NextPage = () => {
                   requesterFirstName={fr.owner.firstName}
                   requesterLastName={fr.owner.lastName}
                   requestName={fr.title}
+                  requesterProfileImageUrl={fr.owner.profileImageUrl ?? ""}
                   email={fr.owner.email}
                   onAuthor={() => {
                     handleAuthorFeedback({

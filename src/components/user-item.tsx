@@ -17,6 +17,7 @@ type UserItemProps = {
   firstName?: string | null;
   lastName?: string | null;
   className?: string;
+  profileImageUrl?: string;
 };
 
 export const UserItem = (props: UserItemProps) => {
@@ -35,7 +36,7 @@ export const UserItem = (props: UserItemProps) => {
           {" "}
           <div className={cn("mr-6 inline-flex items-center", props.className)}>
             <Avatar className="mr-2 text-xs">
-              <AvatarImage></AvatarImage>
+              <AvatarImage src={props.profileImageUrl}></AvatarImage>
               <AvatarFallback>{renderedInitials}</AvatarFallback>
             </Avatar>
             {renderedUsername}

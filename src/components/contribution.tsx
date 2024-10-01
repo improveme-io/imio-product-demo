@@ -16,6 +16,7 @@ type ContributionProps = {
   requestName: string | null;
   requesterFirstName?: string;
   requesterLastName?: string;
+  requesterProfileImageUrl?: string | null;
   onAuthor: () => void;
 };
 export const Contribution = (props: ContributionProps) => {
@@ -27,6 +28,7 @@ export const Contribution = (props: ContributionProps) => {
             firstName={props.requesterFirstName}
             lastName={props.requesterLastName}
             email={props.email}
+            profileImageUrl={props.requesterProfileImageUrl}
           />
 
           {props.hasFinished && (
