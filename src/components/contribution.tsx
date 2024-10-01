@@ -28,7 +28,7 @@ export const Contribution = (props: ContributionProps) => {
             firstName={props.requesterFirstName}
             lastName={props.requesterLastName}
             email={props.email}
-            profileImageUrl={props.requesterProfileImageUrl}
+            profileImageUrl={props.requesterProfileImageUrl ?? ""}
           />
 
           {props.hasFinished && (
