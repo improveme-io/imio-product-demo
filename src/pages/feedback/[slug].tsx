@@ -691,7 +691,10 @@ const FeedbackRequest: NextPage = () => {
                               <UserItem
                                 firstName={clerkUser.user?.firstName}
                                 lastName={clerkUser.user?.lastName}
-                                email="yourfakeemail@email.com"
+                                email={
+                                  clerkUser.user?.primaryEmailAddress
+                                    ?.emailAddress
+                                }
                                 className="mr-1"
                               />
                             }
