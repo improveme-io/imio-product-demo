@@ -26,7 +26,13 @@ type FeedbackRequestCardProps = {
   paragraph: string;
   feedbackItems: { prompt: string | null }[];
   ownerEmail: string;
-  authors: { firstName: string; lastName: string; email: string; id: string }[];
+  authors: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    id: string;
+    profileImageUrl: string | null;
+  }[];
   canEdit?: boolean;
   onDelete?: () => void;
   disabled?: boolean;
@@ -116,6 +122,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                       firstName={author.firstName}
                       lastName={author.lastName}
                       email={author.email}
+                      profileImageUrl={author}
                       className="mt-2"
                     />
                   )}

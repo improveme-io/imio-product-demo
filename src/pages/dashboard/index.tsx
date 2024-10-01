@@ -168,6 +168,7 @@ const Dashboard: NextPage = () => {
                   email: user.email,
                   lastName: user.lastName,
                   firstName: user.firstName,
+                  profileImageUrl: user.profileImageUrl ?? "",
                 }));
 
             const feedbackItems = fr?.formSave
@@ -192,6 +193,7 @@ const Dashboard: NextPage = () => {
                   lastName: a.lastName ?? "",
                   email: a.email ?? "",
                   id: `fake-author-${i}`,
+                  profileImageUrl: a.profileImageUrl ?? "",
                 }))}
                 onDelete={() => {
                   deleteFeedback.mutate(

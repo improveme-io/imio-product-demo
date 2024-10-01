@@ -311,6 +311,9 @@ const FeedbackRequest: NextPage = () => {
                           firstName={feedbackRequest.data?.owner.firstName}
                           lastName={feedbackRequest.data?.owner.lastName}
                           email={feedbackRequest.data?.owner.email}
+                          profileImageUrl={
+                            feedbackRequest.data?.owner.profileImageUrl ?? ""
+                          }
                           className="mr-0"
                         />
                       }
@@ -424,6 +427,9 @@ const FeedbackRequest: NextPage = () => {
                                 firstName={authorFI.author.firstName}
                                 lastName={authorFI.author.lastName}
                                 email={authorFI.author.email}
+                                profileImageUrl={
+                                  authorFI.author.profileImageUrl ?? ""
+                                }
                               />
                               <div className="mt-5 flex w-full justify-start">
                                 {feedbackRequest.data?.authorsStarted
@@ -586,6 +592,10 @@ const FeedbackRequest: NextPage = () => {
                               firstName={feedbackRequest.data?.owner.firstName}
                               lastName={feedbackRequest.data?.owner.lastName}
                               email={feedbackRequest.data?.owner.email}
+                              profileImageUrl={
+                                feedbackRequest.data?.owner.profileImageUrl ??
+                                ""
+                              }
                             />
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
@@ -684,6 +694,10 @@ const FeedbackRequest: NextPage = () => {
                                 }
                                 lastName={feedbackRequest.data?.owner.lastName}
                                 email={feedbackRequest.data?.owner.email}
+                                profileImageUrl={
+                                  feedbackRequest.data?.owner.profileImageUrl ??
+                                  ""
+                                }
                                 className="mr-1"
                               />
                             }
@@ -694,6 +708,9 @@ const FeedbackRequest: NextPage = () => {
                                 email={
                                   clerkUser.user?.primaryEmailAddress
                                     ?.emailAddress
+                                }
+                                profileImageUrl={
+                                  clerkUser.user?.profileImageUrl
                                 }
                                 className="mr-1"
                               />
