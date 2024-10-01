@@ -32,11 +32,11 @@ A Feedback Request has different Views associated with it, all contorlled by `sr
 
  #### 	Presentation View
 
-This is the a ready-only view seen by an *Owner* if the state of the Feedback Request is **`REQUESTED`**, **`AUTHORING`**, **`PENDING`** or **`DONE`**. It can also be seen by *Authors* when the preview is shown for a Feedback Request they are authoring.
+This is a ready-only view seen by an *Owner* if the state of the Feedback Request is **`REQUESTED`**, **`AUTHORING`**, **`PENDING`** or **`DONE`**. It can also be seen when the Feedback Request is **`CREATING`** as a preview.
 
 #### Creation View
 
-This is the view seen by an *Owner* if the Feedback Request still has the state **`CREATING`**
+This is the view seen by an *Owner* right after creating a new Feedback Request as long as it has the state **`CREATING`**. This view contains the forms that allow the *Owner* to edit the Feedback Request.
 
 #### Authoring View
 
