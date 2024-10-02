@@ -1,26 +1,22 @@
 # improveme.io
 
-This is the app.
+We have a client-side React app on top of the Next.js metaframework and Vercel's serverless infrastructure. Authentication is handled by Clerk, which is a backend-as-a-service (BaaS) solution. We use Prisma as our ORM, and Vercel's hosted Postgres as our database.
+
+Live and deployed at [https://improveme.io](https://improveme.io).
 
 ## Setup
 
-Run `pnpm i` in the project root. If you don't yet have `pnpm` set up, [refer to the docs](https://pnpm.io/installation#using-homebrew).
+Have `nvm` installed, see [docs](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating).
 
-Ask for the `.env` file from @robotkutya.
+Go to the project root and run `nvm use` and then `corepack enable`. This configures the Node.js version used by our project and enables the `pnpm` package manager for it with the version specified in our `package.json`. If you don't have something installed yet, follow the prompts after issuing these commands. Finally, run `pnpm i` in the project root to install our project'sdependencies.
 
-~~Open a secure connection to PlanetScale with `pscale connect imio dev --port 3309 --org improveme-io`. If you don't yet have `pscale` set up, [refer to the docs](https://github.com/planetscale/cli#installation).~~
-TBD: currently migrating to Vercel's hosted Postgres
+Ask for the `.env` file from @robotkutya. You can now run `pnpm dev` to start up the development server.
 
-Run `pnpm dev` to start up the development server.
+## Deployment / Worklow / Environments
 
-## Deployment
+We use a baic Vercel workflow with automatic promotions. Every commit pushed to the main branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment. With our data and our auth, we don not differentiate between a local dev environment and staging/preview environments.
 
-We use a baic Vercel workflow with promotions for prod deployment
-
-- Every commit pushed to the main branch will trigger a Production Deployment instead of the usual Preview Deployment.
-- Production deployments will need to be [manually promoted](https://vercel.com/docs/deployments/managing-deployments#promote-deployment-to-production).
-
-WARNING local dev and preview branches sharee one environment both for auth and for data. If you change something, it will affect everyone and all of these environments.
+To nuke and re-seed the development/preview environment, run `pnpx prisma db push --force-reset && npx prisma db seed` from the terminal. Please note that this will delete all data in the development/preview environment. It will also delete all users from Clerk's development environment.
 
 ## Frontend Development Notes
 
