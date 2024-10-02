@@ -17,8 +17,10 @@
     "dev": "next dev -p 1337",
     "start": "next start",
     "postinstall": "prisma generate",
-    "seed": "tsx prisma/seed.ts",
     "add-ui": "pnpx shadcn-ui add"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.17.1",
