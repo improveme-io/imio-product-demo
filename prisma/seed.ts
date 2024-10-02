@@ -57,34 +57,15 @@ async function wipeClerk() {
   }
 }
 
-/**
- * This function is intended to be run as a script via the `pnpx prisma db push --force-reset && npx prisma db seed` command. It purges all users from Clerk's Development environment, forcefully resets our DB, and then creates a few test users.
- *
- * The following email aliases are set up in FastMail, so we can receive emails to them:
- *
- * * Daniel Smith – daniel.smith81@improveme.io
- *
- * * Emily Johnson – emily.johnson92@improveme.io
- *
- * * Anna Lee –  anna.lee89@improveme.io
- *
- * * James Wilson – james.wilson75@improveme.io <-- currently unused for testing
- *
- * * Maria Garcia – maria.garcia87@improveme.io <-- currently unused for testing
- *
- */
-async function main() {
-  // ~ wipe dev tenant
-  await wipeClerk();
-
-  // ~ generate test users
+async function createTestData() {
+  // ~ Clerk users
+  // first email address in array is used for the primary email address
   const clerkUserDanielSmith = await clerkClient.users.createUser({
     emailAddress: ["daniel.smith81@improveme.io"],
     firstName: "Daniel",
     lastName: "Smith",
   });
   const clerkUserEmilyJohnson = await clerkClient.users.createUser({
-    // NOTE: first email address is used as the primary email address
     emailAddress: ["emily.johnson92@improveme.io"],
     firstName: "Emily",
     lastName: "Johnson",
@@ -100,7 +81,7 @@ async function main() {
     clerkUserAnnaLee,
   });
 
-  // ~ users
+  // ~ DB users
   const prismaUserDanielSmith = await prisma.user.create({
     data: clerkUserSchema.parse(clerkUserDanielSmith),
   });
@@ -238,6 +219,27 @@ async function main() {
     whatWentWellAnnaLee,
     whatToImproveAnnaLee,
   });
+}
+
+/**
+ * This function is intended to be run as a script via the `pnpx prisma db push --force-reset && npx prisma db seed` command. It purges all users from Clerk's Development environment, forcefully resets our DB, and then creates a few test users.
+ *
+ * The following email aliases are set up in FastMail, so we can receive emails to them:
+ *
+ * * Daniel Smith – daniel.smith81@improveme.io
+ *
+ * * Emily Johnson – emily.johnson92@improveme.io
+ *
+ * * Anna Lee –  anna.lee89@improveme.io
+ *
+ * * James Wilson – james.wilson75@improveme.io <-- currently unused for testing
+ *
+ * * Maria Garcia – maria.garcia87@improveme.io <-- currently unused for testing
+ *
+ */
+async function main() {
+  await wipeClerk();
+  await createTestData();
 }
 
 try {
