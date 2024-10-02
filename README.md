@@ -16,7 +16,7 @@ Ask for the `.env` file from @robotkutya. You can now run `pnpm dev` to start up
 
 We use a baic Vercel workflow with automatic promotions. Every commit pushed to the main branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment. With our data and our auth, we don not differentiate between a local dev environment and staging/preview environments.
 
-To nuke and re-seed the development/preview environment, run `pnpx prisma db push --force-reset && npx prisma db seed` from the terminal. Please note that this will delete all data in the development/preview environment. It will also delete all users from Clerk's development environment.
+To nuke and re-seed the development/preview environment, run `pnpm exec prisma db push --force-reset && pnpm exec prisma db seed` from the terminal. Please note that this will delete all data in the development/preview environment. It will also delete all users from Clerk's development environment.
 
 ## Frontend Development Notes
 

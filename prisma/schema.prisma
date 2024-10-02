@@ -106,10 +106,10 @@ model FeedbackItem {
 
 model User {
   id              String   @id @default(cuid())
+  clerkUserId     String?  @unique
   email           String   @unique
   firstName       String
   lastName        String
-  clerkUserId     String?  @unique
   profileImageUrl String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt

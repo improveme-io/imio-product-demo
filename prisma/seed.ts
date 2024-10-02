@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, type Prisma } from "@prisma/client";
 import { createClerkClient } from "@clerk/backend";
 import { z } from "zod";
 
@@ -18,12 +18,15 @@ const clerkUserSchema = z
       emailAddress: z.string(),
     }),
   })
-  .transform((o) => ({
-    email: o.primaryEmailAddress.emailAddress,
-    id: o.id,
-    firstName: o.firstName,
-    lastName: o.lastName,
-  }));
+  .transform((o) => {
+    const user: Prisma.UserCreateInput = {
+      clerkUserId: o.id,
+      email: o.primaryEmailAddress.emailAddress,
+      firstName: o.firstName,
+      lastName: o.lastName,
+    };
+    return user;
+  });
 
 async function wipeClerk() {
   let counter = 1;
@@ -75,11 +78,6 @@ async function main() {
   await wipeClerk();
 
   // ~ generate test users
-  const clerkUserAnnaLee = await clerkClient.users.createUser({
-    emailAddress: ["anna.lee89@improveme.io"],
-    firstName: "Anna",
-    lastName: "Lee",
-  });
   const clerkUserDanielSmith = await clerkClient.users.createUser({
     emailAddress: ["daniel.smith81@improveme.io"],
     firstName: "Daniel",
@@ -91,21 +89,26 @@ async function main() {
     firstName: "Emily",
     lastName: "Johnson",
   });
+  const clerkUserAnnaLee = await clerkClient.users.createUser({
+    emailAddress: ["anna.lee89@improveme.io"],
+    firstName: "Anna",
+    lastName: "Lee",
+  });
   console.log("Created new test users in Clerk...", {
-    clerkUserAnnaLee,
     clerkUserDanielSmith,
     clerkUserEmilyJohnson,
+    clerkUserAnnaLee,
   });
 
   // ~ users
-  const prismaUserAnnaLee = await prisma.user.create({
-    data: clerkUserSchema.parse(clerkUserAnnaLee),
-  });
   const prismaUserDanielSmith = await prisma.user.create({
     data: clerkUserSchema.parse(clerkUserDanielSmith),
   });
   const prismaUserEmilyJohnson = await prisma.user.create({
     data: clerkUserSchema.parse(clerkUserEmilyJohnson),
+  });
+  const prismaUserAnnaLee = await prisma.user.create({
+    data: clerkUserSchema.parse(clerkUserAnnaLee),
   });
 
   // ~ feedbacks
