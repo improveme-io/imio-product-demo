@@ -1,6 +1,6 @@
 # improveme.io
 
-We have a client-side React app on top of the Next.js metaframework and Vercel's serverless infrastructure. Authentication is handled by Clerk, which is a backend-as-a-service (BaaS) solution. We use Prisma as our ORM, and Vercel's hosted Postgres as our database.
+We have a client-side React app on top of the Next.js metaframework and Vercel's serverless infrastructure. Authentication is handled by Clerk, which is a backend-as-a-service (BaaS) solution. We use Prisma as our ORM, and Neon's branching database.
 
 Live and deployed at [https://improveme.io](https://improveme.io).
 
@@ -14,9 +14,9 @@ Ask for the `.env` file from @robotkutya. You can now run `pnpm dev` to start up
 
 ## Deployment / Worklow / Environments
 
-We use a baic Vercel workflow with automatic promotions. Every commit pushed to the main branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment. With our data and our auth, we don not differentiate between a local dev environment and staging/preview environments.
+We use a basic Vercel workflow with automatic promotions. Every commit pushed to the main branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment. Preview deployments use a copy of the production database and use the "Production" Clerk environment.
 
-To nuke and re-seed the development/preview environment, run `pnpm exec prisma db push --force-reset && pnpm exec prisma db seed` from the terminal. Please note that this will delete all data in the development/preview environment. It will also delete all users from Clerk's development environment.
+Local development uses the "Development" Clerk environment and the `vercel-dev` Neon db branch. This DB branch should be reset to the latest version of the `main` branch when you want an up-to-date version of the database fo your local development environment. When making changes related to data, you should branch off of the `main` DB branch and update your connection string in the `.env` file to point to that branch. You can then run `pnpm db push` into that development branch as you work on your changes. This development branch will be automatically merged back into the `main` branch when you are ready to deploy your changes, with the help of the Neon-Vercel integration.
 
 ## Frontend Development Notes
 
