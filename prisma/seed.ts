@@ -1,6 +1,7 @@
 import { PrismaClient, type Prisma } from "@prisma/client";
 import { createClerkClient } from "@clerk/backend";
 import { z } from "zod";
+import { setTimeout } from "timers/promises";
 
 !process.env.SKIP_ENV_VALIDATION && (await import("../src/env.mjs"));
 
@@ -53,7 +54,10 @@ async function wipeClerk() {
       { deletedClerkUsers }
     );
 
-    counter = totalCount;
+    // avoid hitting Clerk's rate limiter
+    await setTimeout(1000, () => {
+      counter = totalCount;
+    });
   }
 }
 
