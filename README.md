@@ -10,15 +10,19 @@ Have `nvm` installed, see [docs](https://github.com/nvm-sh/nvm?tab=readme-ov-fil
 
 Go to the project root and run `nvm use` and then `corepack enable`. This configures the Node.js version used by our project and enables the `pnpm` package manager for it with the version specified in our `package.json`. If you don't have something installed yet, follow the prompts after issuing these commands. Finally, run `pnpm i` in the project root to install our project'sdependencies.
 
-You will need to open a secure connection for our app's webhook to handle Clerk events. Please ask for an so ask for an ngrok auth token from @robotkutya. You can install ngrok on a Mac with `brew install ngrok/ngrok/ngrok` and then add your token with `ngrok config <AUTH_TOKEN>`. You can now open a secure connection with `ngrok http --url=gentle-chow-present.ngrok-free.app 1337`.
+You will need to open a secure connection for Clerk webhook events. Please ask for an ngrok auth token from @robotkutya. You can install ngrok on a Mac with `brew install ngrok/ngrok/ngrok` (this is not a typo, yes, it is `ngrok/ngrok/ngrok`) and then add your token with `ngrok config <AUTH_TOKEN>`. You can now open a secure connection between our Clerk webhook and your local development server with `ngrok http --url=gentle-chow-present.ngrok-free.app 1337`.
 
 Please ask for a `.env` file from @robotkutya, then place it in the project root. You can now start up the development server with `pnpm dev`.
 
-## Deployment / Worklow / Environments
+## Deployment / Environments / Workflow
 
-We use a basic Vercel workflow with automatic promotions. Every commit pushed to the main branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment. Preview deployments use a copy of the production database and use the "Production" Clerk environment.
+We use a basic Vercel workflow with automatic promotions. Every commit pushed to `main` branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment for said branch. Preview deployments use a copy of the production database and use the "Production" Clerk environment.
 
-Local development uses the "Development" Clerk environment and the `vercel-dev` Neon db branch. This DB branch should be reset to the latest version of the `main` branch when you want an up-to-date version of the database fo your local development environment. When making changes related to data, you should branch off of the `main` DB branch and update your connection string in the `.env` file to point to that branch. You can then run `pnpm db push` into that development branch as you work on your changes. This development branch will be automatically merged back into the `main` branch when you are ready to deploy your changes, with the help of the Neon-Vercel integration.
+The local development server uses the "Development" Clerk environment and the `vercel-dev` Neon db branch. You need to establish a secure connection to handle Clerk webhook events locally. See the Setup section above for instructions on how to do this.
+
+Preview branches use the "Production" Clerk environment and a database branch that is automatically branched off of `main` and created for each preview branch. When in the context of a Preview deployment, changes made to the Clerk user (e.g. updating a name, changing the avatar or email address) will also make changes to live production data, please be conscious of this. When needed, you can always reset the preview database branch to the latest version of the `main` branch via the Neon UI console or the Neon CLI tool.
+
+Currently we don't handle database migrations, it is a work in progress.
 
 ## Frontend Development Notes
 
