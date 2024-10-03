@@ -10,7 +10,9 @@ Have `nvm` installed, see [docs](https://github.com/nvm-sh/nvm?tab=readme-ov-fil
 
 Go to the project root and run `nvm use` and then `corepack enable`. This configures the Node.js version used by our project and enables the `pnpm` package manager for it with the version specified in our `package.json`. If you don't have something installed yet, follow the prompts after issuing these commands. Finally, run `pnpm i` in the project root to install our project'sdependencies.
 
-Ask for the `.env` file from @robotkutya. You can now run `pnpm dev` to start up the development server.
+You will need to open a secure connection for our app's webhook to handle Clerk events. Please ask for an so ask for an ngrok auth token from @robotkutya. You can install ngrok on a Mac with `brew install ngrok/ngrok/ngrok` and then add your token with `ngrok config <AUTH_TOKEN>`. You can now open a secure connection with `ngrok http --url=gentle-chow-present.ngrok-free.app 1337`.
+
+Please ask for a `.env` file from @robotkutya, then place it in the project root. You can now start up the development server with `pnpm dev`.
 
 ## Deployment / Worklow / Environments
 
