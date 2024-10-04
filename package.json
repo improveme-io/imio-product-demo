@@ -16,6 +16,7 @@
     "build": "next build",
     "dev": "next dev -p 1337",
     "start": "next start",
+    "clerk-tunnel": "ngrok http --url=gentle-chow-present.ngrok-free.app 1337",
     "postinstall": "prisma generate",
     "add-ui": "pnpx shadcn-ui add"
   },
