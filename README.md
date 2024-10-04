@@ -1,26 +1,28 @@
 # improveme.io
 
-This is the app.
+We have a client-side React app on top of the Next.js metaframework and Vercel's serverless infrastructure. Authentication is handled by Clerk, which is a backend-as-a-service (BaaS) solution. We use Prisma as our ORM, and Neon's branching database.
+
+Live and deployed at [https://improveme.io](https://improveme.io).
 
 ## Setup
 
-Run `pnpm i` in the project root. If you don't yet have `pnpm` set up, [refer to the docs](https://pnpm.io/installation#using-homebrew).
+Have `nvm` installed, see [docs](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating). Alternatively, you can use [fnm](https://github.com/Schniz/fnm#shell-setup).
 
-Ask for the `.env` file from @robotkutya.
+Go to the project root and run `nvm use` (or `fnm use`) and then `corepack enable`. This configures the Node.js version used by our project and enables the `pnpm` package manager for it with the version specified in our `package.json`. If you don't have something installed yet, follow the prompts after issuing these commands. Finally, run `pnpm i` in the project root to install our project'sdependencies.
 
-~~Open a secure connection to PlanetScale with `pscale connect imio dev --port 3309 --org improveme-io`. If you don't yet have `pscale` set up, [refer to the docs](https://github.com/planetscale/cli#installation).~~
-TBD: currently migrating to Vercel's hosted Postgres
+You will need to open a secure connection for Clerk webhook events. Please ask for an ngrok auth token from @robotkutya. You can install ngrok on a Mac with `brew install ngrok/ngrok/ngrok` (this is not a typo, yes, it is `ngrok/ngrok/ngrok`) and then add your token with `ngrok config <AUTH_TOKEN>`. You can now open a secure connection between our Clerk webhook and your local development server with `ngrok http --url=gentle-chow-present.ngrok-free.app 1337`. This is saved as a named script in our `package.json` as the `clerk-tunnel` command.
 
-Run `pnpm dev` to start up the development server.
+Please ask for a `.env` file from @robotkutya, then place it in the project root. You can now start up the development server with `pnpm dev`.
 
-## Deployment
+## Deployment / Environments / Workflow
 
-We use a baic Vercel workflow with promotions for prod deployment
+We use a basic Vercel workflow with automatic promotions. Every commit pushed to `main` branch will trigger a Production Deployment. Every commit pushed to any other branch will trigger a Preview Deployment for said branch. Preview deployments use a copy of the production database and use the "Production" Clerk environment.
 
-- Every commit pushed to the main branch will trigger a Production Deployment instead of the usual Preview Deployment.
-- Production deployments will need to be [manually promoted](https://vercel.com/docs/deployments/managing-deployments#promote-deployment-to-production).
+The local development server uses the "Development" Clerk environment and the `vercel-dev` Neon db branch. You need to establish a secure connection to handle Clerk webhook events locally. See the Setup section above for instructions on how to do this.
 
-WARNING local dev and preview branches sharee one environment both for auth and for data. If you change something, it will affect everyone and all of these environments.
+Preview branches use the "Production" Clerk environment and a database branch that is automatically branched off of `main` and created for each preview branch. When in the context of a Preview deployment, changes made to the Clerk user (e.g. updating a name, changing the avatar or email address) will also make changes to live production data, please be conscious of this. When needed, you can always reset the preview database branch to the latest version of the `main` branch via the Neon UI console or the Neon CLI tool.
+
+Currently we don't handle database migrations, it is a work in progress.
 
 ## Frontend Development Notes
 

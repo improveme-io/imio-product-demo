@@ -2,10 +2,10 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "astro-build.astro-vscode",
     "bradlc.vscode-tailwindcss",
-    "unifiedjs.vscode-mdx",
     "Prisma.prisma",
-    "yoavbls.pretty-ts-errors"
+    "yoavbls.pretty-ts-errors",
+    "crystal-spider.jsdoc-generator",
+    "github.vscode-github-actions"
   ]
 }

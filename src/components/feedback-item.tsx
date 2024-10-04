@@ -44,7 +44,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
               />
               <Input
                 autoFocus
-                className="relative -top-1 text-lg"
+                className="relative -top-1 text-lg dark:placeholder-stone-500"
                 type="text"
                 value={props.prompt}
                 onChange={(e) => {

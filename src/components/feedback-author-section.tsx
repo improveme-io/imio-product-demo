@@ -56,6 +56,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                         <Input
                           type="email"
                           placeholder="todd@burchik.com"
+                          className="dark:placeholder-stone-500"
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
@@ -86,6 +87,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                         <Input
                           type="text"
                           placeholder="Todd"
+                          className="dark:placeholder-stone-500"
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
@@ -114,6 +116,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                         <Input
                           type="text"
                           placeholder="Burchik"
+                          className="dark:placeholder-gray-500"
                           value={value}
                           onChange={(e) => {
                             setValue(e.target.value);
