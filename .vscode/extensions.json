@@ -5,6 +5,7 @@
     "bradlc.vscode-tailwindcss",
     "Prisma.prisma",
     "yoavbls.pretty-ts-errors",
-    "crystal-spider.jsdoc-generator"
+    "crystal-spider.jsdoc-generator",
+    "github.vscode-github-actions"
   ]
 }
