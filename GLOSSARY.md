@@ -12,7 +12,7 @@ A Feedback Session has different states, depending how far along it is in the pr
 
 - **`CREATING`** – The Feedback Session is a draft and has not been shared, no author has been notified. In this state, both _Feedback Items_ and _Authors_ can be added and removed at will by the _Owner_.
 
-- **`REQUESTED`** – The _Owner_ has requested the feedback from the _Author(s)_. This means that the Request is now visible on the _Authors_' dashboards in the "Your Contribution" section and they can start responding to the request. Once the Feedback Session is in this state, the list of *Authors* and _Feedback Items_ is finalized and cannot be changed.
+- **`REQUESTED`** – The _Owner_ has requested the feedback from the _Author(s)_. This means that the Request is now visible on the _Authors_' dashboards in the "Your Contribution" section and they can start responding to the request. Once the Feedback Session is in this state, the list of _Authors_ and _Feedback Items_ is finalized and cannot be changed.
 
 - **`AUTHORING`** – Same as **`REQUESTED`**, but at least one of the Authors has opened the Feedback Session and has started to create a _Payload_ for at least one of the _Feedback Items_.
 
