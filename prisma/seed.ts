@@ -2,6 +2,10 @@ import { PrismaClient, type Prisma } from "@prisma/client";
 import { createClerkClient } from "@clerk/backend";
 import { z } from "zod";
 import { setTimeout } from "timers/promises";
+import dotenv from "dotenv";
+
+// Load environment variables from .env.local
+dotenv.config({ path: ".env.local" });
 
 !process.env.SKIP_ENV_VALIDATION && (await import("../src/env.mjs"));
 
@@ -68,16 +72,19 @@ async function createTestData() {
     emailAddress: ["daniel.smith81@improveme.io"],
     firstName: "Daniel",
     lastName: "Smith",
+    password: "Daniel.Smith~p455w0rd",
   });
   const clerkUserEmilyJohnson = await clerkClient.users.createUser({
     emailAddress: ["emily.johnson92@improveme.io"],
     firstName: "Emily",
     lastName: "Johnson",
+    password: "Emily.Johnson~p455w0rd",
   });
   const clerkUserAnnaLee = await clerkClient.users.createUser({
     emailAddress: ["anna.lee89@improveme.io"],
     firstName: "Anna",
     lastName: "Lee",
+    password: "Anna.Lee~p455w0rd",
   });
   console.log("Created new test users in Clerk...", {
     clerkUserDanielSmith,
