@@ -65,6 +65,41 @@ async function wipeClerk() {
   }
 }
 
+async function wipeDatabase() {
+  console.log("Wiping database...");
+
+  // Delete in correct order to handle foreign key constraints
+  const deletedFeedbackItems = await prisma.feedbackItem.deleteMany();
+  console.log(`Deleted ${deletedFeedbackItems.count} feedback items...`);
+
+  const deletedFeedbackRequests = await prisma.feedbackRequest.deleteMany();
+  console.log(`Deleted ${deletedFeedbackRequests.count} feedback requests...`);
+
+  const deletedUsers = await prisma.user.deleteMany();
+  console.log(`Deleted ${deletedUsers.count} users...`);
+
+  // Force a reset using raw SQL to ensure all data is gone
+  await prisma.$executeRaw`TRUNCATE TABLE "FeedbackItem" CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "FeedbackRequest" CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE`;
+  console.log("Executed TRUNCATE commands...");
+
+  // Verify the database is actually empty
+  const remainingUsers = await prisma.user.count();
+  const remainingRequests = await prisma.feedbackRequest.count();
+  const remainingItems = await prisma.feedbackItem.count();
+
+  console.log(
+    `Verification - Users: ${remainingUsers}, Requests: ${remainingRequests}, Items: ${remainingItems}`
+  );
+
+  if (remainingUsers > 0 || remainingRequests > 0 || remainingItems > 0) {
+    throw new Error("Database cleanup failed - some records still exist");
+  }
+
+  console.log("Database is now empty. Wiped all data from database...");
+}
+
 async function createTestData() {
   // ~ Clerk users
   // first email address in array is used for the primary email address
@@ -73,18 +108,21 @@ async function createTestData() {
     firstName: "Daniel",
     lastName: "Smith",
     password: "Daniel.Smith~p455w0rd",
+    skipPasswordChecks: true, // Skip password validation for seed data
   });
   const clerkUserEmilyJohnson = await clerkClient.users.createUser({
     emailAddress: ["emily.johnson92@improveme.io"],
     firstName: "Emily",
     lastName: "Johnson",
     password: "Emily.Johnson~p455w0rd",
+    skipPasswordChecks: true,
   });
   const clerkUserAnnaLee = await clerkClient.users.createUser({
     emailAddress: ["anna.lee89@improveme.io"],
     firstName: "Anna",
     lastName: "Lee",
     password: "Anna.Lee~p455w0rd",
+    skipPasswordChecks: true,
   });
   console.log("Created new test users in Clerk...", {
     clerkUserDanielSmith,
@@ -92,16 +130,51 @@ async function createTestData() {
     clerkUserAnnaLee,
   });
 
-  // ~ DB users
-  const prismaUserDanielSmith = await prisma.user.create({
-    data: clerkUserSchema.parse(clerkUserDanielSmith),
+  // Wait a moment for webhooks to process
+  console.log("Waiting for webhooks to process...");
+  await setTimeout(3000);
+
+  // ~ DB users - Check if they were already created by webhooks
+  console.log("Checking if users were created by webhooks...");
+
+  let prismaUserDanielSmith = await prisma.user.findUnique({
+    where: { clerkUserId: clerkUserDanielSmith.id },
   });
-  const prismaUserEmilyJohnson = await prisma.user.create({
-    data: clerkUserSchema.parse(clerkUserEmilyJohnson),
+
+  if (!prismaUserDanielSmith) {
+    console.log("Creating Daniel in database manually...");
+    prismaUserDanielSmith = await prisma.user.create({
+      data: clerkUserSchema.parse(clerkUserDanielSmith),
+    });
+  } else {
+    console.log("Daniel was already created by webhook");
+  }
+
+  let prismaUserEmilyJohnson = await prisma.user.findUnique({
+    where: { clerkUserId: clerkUserEmilyJohnson.id },
   });
-  const prismaUserAnnaLee = await prisma.user.create({
-    data: clerkUserSchema.parse(clerkUserAnnaLee),
+
+  if (!prismaUserEmilyJohnson) {
+    console.log("Creating Emily in database manually...");
+    prismaUserEmilyJohnson = await prisma.user.create({
+      data: clerkUserSchema.parse(clerkUserEmilyJohnson),
+    });
+  } else {
+    console.log("Emily was already created by webhook");
+  }
+
+  let prismaUserAnnaLee = await prisma.user.findUnique({
+    where: { clerkUserId: clerkUserAnnaLee.id },
   });
+
+  if (!prismaUserAnnaLee) {
+    console.log("Creating Anna in database manually...");
+    prismaUserAnnaLee = await prisma.user.create({
+      data: clerkUserSchema.parse(clerkUserAnnaLee),
+    });
+  } else {
+    console.log("Anna was already created by webhook");
+  }
 
   // ~ feedbacks
   const feedbackRequest100Days = await prisma.feedbackRequest.create({
@@ -250,6 +323,12 @@ async function createTestData() {
  */
 async function main() {
   await wipeClerk();
+  await wipeDatabase();
+
+  // Add a delay to ensure all cleanup operations are complete
+  console.log("Waiting 2 seconds for cleanup to complete...");
+  await setTimeout(2000);
+
   await createTestData();
 }
 
