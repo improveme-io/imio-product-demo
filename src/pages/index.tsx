@@ -220,7 +220,7 @@ const Home: NextPage = () => {
                 src="/PortraitKristof.png"
                 width={350}
                 height={350}
-                alt="Portrait photo of Dr. Brooke Gazdag"
+                alt="Portrait photo of Kristof Gatter"
               />
               <h3 className="my-12 w-full font-serif text-2xl">
                 Kristof: Product Design and Management
@@ -254,7 +254,7 @@ const Home: NextPage = () => {
                 src="/PortraitMisi.png"
                 width={350}
                 height={350}
-                alt="Portrait photo of Dr. Brooke Gazdag"
+                alt="Portrait photo of Mihaly Furedi"
               />
               <h3 className="my-12 w-full font-serif text-2xl">
                 Mihaly: Software Development
