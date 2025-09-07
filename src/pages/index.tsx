@@ -308,9 +308,11 @@ const Home: NextPage = () => {
                 was awarded a Teaching Award by her students while working as an
                 Assistant Professor at the Ludwig-Maximilians-Universität
                 München (University of Munich) in the Munich School of
-                Management. In her current role as Associate Professor of Management and Academic Director of Executive Education at Kühne Logistics University (KLU), she has been able to
-                innovate and integrate digital learning tools to enhance the
-                learning experience for her students.
+                Management. In her current role as Associate Professor of
+                Management and Academic Director of Executive Education at Kühne
+                Logistics University (KLU), she has been able to innovate and
+                integrate digital learning tools to enhance the learning
+                experience for her students.
               </p>
             </div>
           </div>

@@ -108,8 +108,6 @@ const Home: NextPage = () => {
           Tips for Writing Constructive Feedback
         </h1>
         <div className="gap-8 md:grid md:grid-cols-2 ">
-          {/*
-          NOTE: we might put this video back once Brooke is officially on board again!
           <div className="md:col-span-2">
             <iframe
               className="w-full rounded-md shadow-lg"
@@ -118,9 +116,8 @@ const Home: NextPage = () => {
               src="https://www.youtube.com/embed/fVHMsbWMa6s"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            ></iframe> 
+            ></iframe>
           </div>
-          */}
           <h3 className="mb-0 mt-8 text-xl md:col-span-2">
             1. Orient the situation
           </h3>
@@ -163,7 +160,6 @@ const Home: NextPage = () => {
             paragraph="Ask an open–ended question"
             title="“What do you think how the meeting went?"
           />
-
           <h2 className="col-span-2 mb-12 mt-16 font-serif text-3xl">
             Useful Prompts
           </h2>
