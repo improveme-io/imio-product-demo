@@ -276,6 +276,43 @@ const Home: NextPage = () => {
                 keeps a close eye on big language models.
               </p>
             </div>
+            <div className="mb-16 w-full pr-16 md:w-1/2 lg:w-1/3">
+              <Image
+                className="mb-8 mr-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
+                src="/PortraitBrooke.png"
+                width={350}
+                height={350}
+                alt="Portrait photo of Dr. Brooke Gazdag"
+              />
+              <h3 className="my-12 w-full font-serif text-2xl">
+                Brooke: Organizational Psychology
+              </h3>
+              <p className="text-md mb-8 md:max-w-lg">
+                Dr. Brooke Gazdag is a dedicated researcher and trainer who has
+                spent the past decade helping others improve their leadership
+                and negotiation skills to enhance their personal and
+                professional lives.
+                <br />
+                <br />
+                Originally from Western New York, she moved to Munich, Germany
+                in 2012 and currently resides in Hamburg. When she is not
+                conducting research on negotiation, leadership, or diversity,
+                Dr. Gazdag conducts negotiation training and leadership
+                development workshops. She finds joy in the creative process of
+                planning new training and working with diverse groups, and
+                welcomes collaboration opportunities.
+                <br />
+                <br />
+                Brooke enjoys working with a broad range of audiences, including
+                working professionals and undergraduate students. In 2019, she
+                was awarded a Teaching Award by her students while working as an
+                Assistant Professor at the Ludwig-Maximilians-Universität
+                München (University of Munich) in the Munich School of
+                Management. In her current role as Associate Professor of Management and Academic Director of Executive Education at Kühne Logistics University (KLU), she has been able to
+                innovate and integrate digital learning tools to enhance the
+                learning experience for her students.
+              </p>
+            </div>
           </div>
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Pricing</h2>
