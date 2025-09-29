@@ -34,6 +34,7 @@ export const formSchema = z.object({
 
 export const feedbackRequestSchema = formSchema.extend({
   requestId: z.string().cuid(),
+  slug: z.string().cuid(),
   ownerId: z.string().cuid(),
 });
 

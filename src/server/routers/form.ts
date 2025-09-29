@@ -1,6 +1,9 @@
 import { z } from "zod";
 
-import { clerkClient } from "@clerk/nextjs/server";
+import { Resend } from "resend";
+import { FeedbackRequested } from "../../components/email/feedback-requested";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 import { createTRPCRouter, protectedProcedure } from "~/lib/trpc";
 import {
@@ -9,6 +12,7 @@ import {
   authorSubmit,
   authorSave,
 } from "~/utils/validation";
+import { getBaseURL } from "../utils";
 
 // TODO: use transactions
 // https://www.prisma.io/docs/concepts/components/prisma-client/transactions#batchbulk-operations
@@ -112,16 +116,29 @@ export const formRouter = createTRPCRouter({
         },
       });
 
-      // send invitations to authors
+      const owner = await ctx.prisma.user.findUnique({
+        where: { id: input.ownerId },
+      });
+      // send invitations to authors (via Resend)
       await Promise.all(
-        authors.map((author) => {
-          void clerkClient.invitations.createInvitation({
-            emailAddress: author.email,
-            publicMetadata: {
-              firstName: author.firstName,
-              lastName: author.lastName,
-            },
+        authors.map(async (author) => {
+          const emailComponent = FeedbackRequested({
+            authorFirstName: author.firstName,
+            ownerFirstName: owner?.firstName ?? "",
+            feedbackUrl: encodeURI(`${getBaseURL()}/feedback/${input.slug}`),
           });
+          console.debug(emailComponent);
+
+          const { error } = await resend.emails.send({
+            from: "improveme.io <no-reply@mail.improveme.io>",
+            to: author.email,
+            subject: `${owner?.firstName ?? ""} is asking for your feedback`,
+            react: emailComponent,
+          });
+
+          if (error) {
+            console.error(`Failed to send email to ${author.email}`, error);
+          }
         })
       );
 
