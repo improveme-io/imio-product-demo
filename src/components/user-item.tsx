@@ -35,7 +35,7 @@ export const UserItem = (props: UserItemProps) => {
           {" "}
           <div className={cn("mr-6 inline-flex items-center", props.className)}>
             <Avatar className="mr-2 text-xs">
-              <AvatarImage></AvatarImage>
+              <AvatarImage />
               <AvatarFallback>{renderedInitials}</AvatarFallback>
             </Avatar>
             {renderedUsername}
