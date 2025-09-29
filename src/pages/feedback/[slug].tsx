@@ -311,6 +311,10 @@ const FeedbackRequest: NextPage = () => {
                           firstName={feedbackRequest.data?.owner.firstName}
                           lastName={feedbackRequest.data?.owner.lastName}
                           email={feedbackRequest.data?.owner.email}
+                          profileImageUrl={
+                            feedbackRequest.data?.owner.profileImageUrl ??
+                            undefined
+                          }
                           className="mr-0"
                         />
                       }
@@ -424,6 +428,9 @@ const FeedbackRequest: NextPage = () => {
                                 firstName={authorFI.author.firstName}
                                 lastName={authorFI.author.lastName}
                                 email={authorFI.author.email}
+                                profileImageUrl={
+                                  authorFI.author.profileImageUrl ?? undefined
+                                }
                               />
                               <div className="mt-5 flex w-full justify-start">
                                 {feedbackRequest.data?.authorsStarted
@@ -586,6 +593,10 @@ const FeedbackRequest: NextPage = () => {
                               firstName={feedbackRequest.data?.owner.firstName}
                               lastName={feedbackRequest.data?.owner.lastName}
                               email={feedbackRequest.data?.owner.email}
+                              profileImageUrl={
+                                feedbackRequest.data?.owner.profileImageUrl ??
+                                undefined
+                              }
                             />
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
@@ -683,14 +694,23 @@ const FeedbackRequest: NextPage = () => {
                                   feedbackRequest.data?.owner.firstName
                                 }
                                 lastName={feedbackRequest.data?.owner.lastName}
+                                profileImageUrl={
+                                  feedbackRequest.data?.owner.profileImageUrl ??
+                                  undefined
+                                }
                                 email={feedbackRequest.data?.owner.email}
                                 className="mr-1"
                               />
                             }
                             renderAuthor={
                               <UserItem
-                                firstName={clerkUser.user?.firstName}
-                                lastName={clerkUser.user?.lastName}
+                                firstName={
+                                  clerkUser.user?.firstName ?? undefined
+                                }
+                                lastName={clerkUser.user?.lastName ?? undefined}
+                                profileImageUrl={
+                                  clerkUser.user?.profileImageUrl
+                                }
                                 email="yourfakeemail@email.com"
                                 className="mr-1"
                               />

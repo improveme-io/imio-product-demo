@@ -26,7 +26,13 @@ type FeedbackRequestCardProps = {
   paragraph: string;
   feedbackItems: { prompt: string | null }[];
   ownerEmail: string;
-  authors: { firstName: string; lastName: string; email: string; id: string }[];
+  authors: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    id: string;
+    profileImageUrl?: string;
+  }[];
   canEdit?: boolean;
   onDelete?: () => void;
   disabled?: boolean;
@@ -106,7 +112,6 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
           <Label>Authors</Label>
           <div className="flex flex-wrap">
             {props.authors.map((author) => (
-              // TODO: create reusable function
               <>
                 {author.firstName.length != 0 &&
                   author.lastName.length != 0 &&
@@ -115,6 +120,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
                       key={author.id}
                       firstName={author.firstName}
                       lastName={author.lastName}
+                      profileImageUrl={author.profileImageUrl}
                       email={author.email}
                       className="mt-2"
                     />

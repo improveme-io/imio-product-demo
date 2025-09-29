@@ -126,8 +126,9 @@ const Dashboard: NextPage = () => {
                   slug={fr.slug}
                   requesterFirstName={fr.owner.firstName}
                   requesterLastName={fr.owner.lastName}
-                  requestName={fr.title}
-                  email={fr.owner.email}
+                  requestName={fr.title ?? ""}
+                  requesterProfileUrl={fr.owner.profileImageUrl ?? undefined}
+                  requesterEmail={fr.owner.email}
                   onAuthor={() => {
                     handleAuthorFeedback({
                       authorClerkUserId: clerkUser.user?.id,
@@ -162,11 +163,15 @@ const Dashboard: NextPage = () => {
               : fr?.paragraph;
 
             const authors = fr?.formSave
-              ? fr?.formSave.authors
+              ? fr?.formSave.authors.map((a) => ({
+                  ...a,
+                  profileImageUrl: undefined,
+                }))
               : fr?.authors.map((user) => ({
                   email: user.email,
                   lastName: user.lastName,
                   firstName: user.firstName,
+                  profileImageUrl: user.profileImageUrl ?? undefined,
                 }));
 
             const feedbackItems = fr?.formSave
@@ -187,10 +192,11 @@ const Dashboard: NextPage = () => {
                 ownerEmail={fr.owner.email}
                 disabled={deleteFeedback.isLoading}
                 authors={authors.map((a, i) => ({
-                  firstName: a.firstName ?? "",
-                  lastName: a.lastName ?? "",
-                  email: a.email ?? "",
+                  firstName: a.firstName,
+                  lastName: a.lastName,
+                  email: a.email,
                   id: `fake-author-${i}`,
+                  profileImageUrl: a.profileImageUrl,
                 }))}
                 onDelete={() => {
                   deleteFeedback.mutate(
