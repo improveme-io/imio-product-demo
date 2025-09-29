@@ -11,11 +11,12 @@ import {
 import { MailIcon } from "lucide-react";
 
 type UserItemProps = {
-  email: string | null | undefined;
+  email: string | undefined;
   initials?: string;
   name?: string;
-  firstName?: string | null;
-  lastName?: string | null;
+  firstName?: string;
+  lastName?: string;
+  profileImageUrl?: string;
   className?: string;
 };
 
@@ -35,7 +36,7 @@ export const UserItem = (props: UserItemProps) => {
           {" "}
           <div className={cn("mr-6 inline-flex items-center", props.className)}>
             <Avatar className="mr-2 text-xs">
-              <AvatarImage />
+              <AvatarImage src={props.profileImageUrl} />
               <AvatarFallback>{renderedInitials}</AvatarFallback>
             </Avatar>
             {renderedUsername}

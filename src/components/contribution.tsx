@@ -12,10 +12,11 @@ type ContributionProps = {
   hasStarted?: boolean;
   hasFinished?: boolean;
   slug: string;
-  email: string | null;
-  requestName: string | null;
+  requesterEmail: string;
+  requestName: string;
   requesterFirstName?: string;
   requesterLastName?: string;
+  requesterProfileUrl?: string;
   onAuthor: () => void;
 };
 export const Contribution = (props: ContributionProps) => {
@@ -26,7 +27,8 @@ export const Contribution = (props: ContributionProps) => {
           <UserItem
             firstName={props.requesterFirstName}
             lastName={props.requesterLastName}
-            email={props.email}
+            email={props.requesterEmail}
+            profileImageUrl={props.requesterProfileUrl}
           />
 
           {props.hasFinished && (
