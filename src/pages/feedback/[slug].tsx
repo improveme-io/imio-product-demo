@@ -174,6 +174,7 @@ const FeedbackRequest: NextPage = () => {
               if (feedbackRequest.data && currentViewer.data) {
                 submitForm.mutate({
                   requestId: feedbackRequest.data.id,
+                  slug: feedbackRequest.data.slug,
                   ownerId: currentViewer.data.id,
                   title: values.title,
                   authors: values.authors,

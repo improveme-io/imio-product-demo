@@ -9,7 +9,8 @@ const server = z.object({
   DATABASE_URL: z.string().url(),
   CLERK_SECRET_KEY: z.string().min(1),
   WEBHOOK_SECRET: z.string().min(1),
-  NODE_ENV: z.enum(["development", "test", "production"]),
+  RESEND_API_KEY: z.string().min(1),
+  NODE_ENV: z.enum(["development", "production"]),
 });
 
 /**
@@ -32,6 +33,7 @@ const processEnv = {
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   WEBHOOK_SECRET: process.env.WEBHOOK_SECRET,
   NODE_ENV: process.env.NODE_ENV,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
   // client
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
