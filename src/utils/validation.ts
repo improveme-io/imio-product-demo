@@ -6,6 +6,8 @@ export const feedbackParagraphSchema = z.string().nonempty("* Required");
 
 export const deadlineSchema = z.date().nullish();
 
+export const is360Schema = z.boolean().default(false);
+
 export const emailSchema = z.string().email("* Required.");
 export const nameSchema = z.string().min(1, "* Required.");
 export const authorSchema = z.object({
@@ -30,12 +32,14 @@ export const formSchema = z.object({
   deadline: deadlineSchema,
   authors: z.array(authorSchema).min(1, "* Required."),
   feedbackItems: z.array(feedbackItemSchema).min(1, "* Required."),
+  is360: is360Schema,
 });
 
 export const feedbackRequestSchema = formSchema.extend({
   requestId: z.string().cuid(),
   slug: z.string().cuid(),
   ownerId: z.string().cuid(),
+  is360: z.boolean(),
 });
 
 // FIXME: this is horrible double bookkeeping, maybe there's a better way?
@@ -44,6 +48,7 @@ export const feedbackUpdateSchema = z.object({
   title: z.string().optional(),
   paragraph: z.string().optional(),
   deadline: z.date().nullish(),
+  is360: is360Schema,
   authors: z
     .array(
       z.object({
