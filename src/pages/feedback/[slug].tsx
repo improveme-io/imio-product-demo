@@ -12,6 +12,7 @@ import {
   CalendarIcon,
   CheckIcon,
   PencilIcon,
+  Atom,
 } from "lucide-react";
 import {
   Tooltip,
@@ -38,6 +39,7 @@ import {
   type AuthoringForm,
   type AuthoringFormItem,
   deadlineSchema,
+  is360Schema,
 } from "~/utils/validation";
 import { LogoSplash } from "~/components/logo-splash";
 import { GeneralError, UnathorizedError } from "~/components/error-screens";
@@ -59,6 +61,7 @@ import ReactMarkdown from "react-markdown";
 import { cn } from "~/utils/style";
 import { FeedbackRequestAuthorDialog } from "~/components/feedback-request-author-dialog";
 import Link from "next/link";
+import { Checkbox } from "~/components/ui/checkbox";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -181,6 +184,7 @@ const FeedbackRequest: NextPage = () => {
                   deadline: values.deadline,
                   paragraph: values.paragraph,
                   feedbackItems: values.feedbackItems,
+                  is360: values.is360,
                 });
               }
             }}
@@ -295,6 +299,56 @@ const FeedbackRequest: NextPage = () => {
                               ))}
                             </div>
                           </div>
+                        )}
+                      </Field>
+                      <Field<FormValues["is360"]>
+                        name="is360"
+                        initialValue={false}
+                        onSubmitValidate={is360Schema}
+                        onChangeValidate={is360Schema}
+                      >
+                        {({ value, setValue, onBlur, errors }) => (
+                          <>
+                            <div className="mt-12 justify-between">
+                              <h2 className="mb-4 flex w-full text-xl">
+                                <Atom className="mr-2" />
+                                Group Session
+                              </h2>
+                              <div className="flex flex-col">
+                                <div className="flex items-center gap-4">
+                                  <Checkbox
+                                    onBlur={onBlur}
+                                    checked={value}
+                                    onCheckedChange={(checked) =>
+                                      setValue(checked === true)
+                                    }
+                                  />
+                                  <Label className="mb-4">
+                                    Involve your teammates in a group session
+                                    and make it 360&deg;.
+                                  </Label>
+                                </div>
+
+                                {errors.map((error) => (
+                                  <p
+                                    className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                    key={`is360-${error}`}
+                                  >
+                                    {error}
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+
+                            {errors.map((error) => (
+                              <p
+                                className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                key={`paragraph-${error}`}
+                              >
+                                {error}
+                              </p>
+                            ))}
+                          </>
                         )}
                       </Field>
                     </CardContent>
