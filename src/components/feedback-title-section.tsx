@@ -38,7 +38,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                       }
                     }}
                     onBlur={() => setIsEditing(false)}
-                    className="flex-grow text-2xl"
+                    className="grow text-2xl"
                   />
                 </div>
               )}

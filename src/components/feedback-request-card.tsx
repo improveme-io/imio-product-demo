@@ -105,7 +105,7 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
       <CardContent className="flex gap-4">
         <div
           className={cn([
-            "mb-4 flex flex-grow flex-col",
+            "mb-4 flex grow flex-col",
             props.canEdit ?? "opacity-50",
           ])}
         >

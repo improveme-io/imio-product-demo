@@ -88,7 +88,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
           )}
         </div>
       </CardHeader>
-      <CardContent className="mt-4 flex flex-grow flex-col">
+      <CardContent className="mt-4 flex grow flex-col">
         <Label className="mb-2">Type</Label>
         <div className="flex flex-col sm:flex-row">
           <Select defaultValue="PROSE">
