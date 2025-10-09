@@ -102,8 +102,8 @@ export const formRouter = createTRPCRouter({
               firstName: author.firstName,
               lastName: author.lastName,
             },
-          })
-        )
+          }),
+        ),
       );
 
       // query authors
@@ -139,13 +139,13 @@ export const formRouter = createTRPCRouter({
           if (error) {
             console.error(`Failed to send email to ${author.email}`, error);
           }
-        })
+        }),
       );
 
       // ~ feedback items ~
       // zip into one big list that can be passed on to prisma
       const feedbackItemAuthorPairs = authors.flatMap((a) =>
-        input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi }))
+        input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi })),
       );
       // create feedback items
       // ownerId
@@ -169,8 +169,8 @@ export const formRouter = createTRPCRouter({
         fis.map((data) =>
           ctx.prisma.feedbackItem.create({
             data,
-          })
-        )
+          }),
+        ),
       );
 
       // ~ feedback request ~
@@ -210,8 +210,8 @@ export const formRouter = createTRPCRouter({
           ctx.prisma.feedbackItem.update({
             where: { id: item.id },
             data: { payload: item.payload },
-          })
-        )
+          }),
+        ),
       );
     }),
 
@@ -236,8 +236,8 @@ export const formRouter = createTRPCRouter({
           ctx.prisma.feedbackItem.update({
             where: { id: item.id },
             data: { payload: item.payload },
-          })
-        )
+          }),
+        ),
       );
     }),
 });

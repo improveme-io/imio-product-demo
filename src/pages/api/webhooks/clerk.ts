@@ -14,7 +14,7 @@ export const config = {
 // TODO: handle delete event
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
@@ -65,7 +65,7 @@ export default async function handler(
   try {
     if (type === "user.created") {
       const primaryEmail = data.email_addresses.find(
-        (email) => email.id === data.primary_email_address_id
+        (email) => email.id === data.primary_email_address_id,
       )?.email_address as string;
       await prisma.user.upsert({
         where: { email: primaryEmail },
@@ -85,7 +85,7 @@ export default async function handler(
       });
     } else if (type === "user.updated") {
       const primaryEmail = data.email_addresses.find(
-        (email) => email.id === data.primary_email_address_id
+        (email) => email.id === data.primary_email_address_id,
       )?.email_address as string;
       // get existing user with clerkUserId
       const existingUserWithClerkId = await prisma.user.findUnique({
@@ -155,7 +155,7 @@ export default async function handler(
               connect: feedbackRequestsAuthoredByNonClerkUser.map(
                 (request) => ({
                   id: request.id,
-                })
+                }),
               ),
             },
             itemsAuthored: {
