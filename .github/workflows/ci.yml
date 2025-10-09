@@ -83,9 +83,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Prune Store
-        run: pnpm store prune
-
       - name: Install dependencies
         run: pnpm install
 
