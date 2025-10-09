@@ -169,8 +169,8 @@ importers:
         specifier: ^20.14.13
         version: 20.14.13
       '@types/prettier':
-        specifier: ^2.7.2
-        version: 2.7.2
+        specifier: ^3.0.0
+        version: 3.0.0
       '@types/react':
         specifier: ^18.2.6
         version: 18.2.6
@@ -1150,8 +1150,9 @@ packages:
   '@types/pg@8.11.6':
     resolution: {integrity: sha512-/2WmmBXHLsfRqzfHW7BNZ8SbYzE8OSk7i3WjFYvfgRHj7S1xj+16Je5fUKv3lVdVzk/zn9TXOqf+avFCFIE0yQ==}
 
-  '@types/prettier@2.7.2':
-    resolution: {integrity: sha512-KufADq8uQqo1pYKVIYzfKbJfBAc0sOeXqGbFaSpv8MRmC/zXgowNZmFcbngndGk922QDmOASEXUZCaY48gs4cg==}
+  '@types/prettier@3.0.0':
+    resolution: {integrity: sha512-mFMBfMOz8QxhYVbuINtswBp9VL2b4Y0QqYHwqLz3YbgtfAcat2Dl6Y1o4e22S/OVE6Ebl9m7wWiMT2lSbAs1wA==}
+    deprecated: This is a stub types definition. prettier provides its own type definitions, so you do not need this installed.
 
   '@types/prop-types@15.7.5':
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -4359,7 +4360,9 @@ snapshots:
       pg-protocol: 1.7.0
       pg-types: 4.0.2
 
-  '@types/prettier@2.7.2': {}
+  '@types/prettier@3.0.0':
+    dependencies:
+      prettier: 3.6.2
 
   '@types/prop-types@15.7.5': {}
 
