@@ -13,7 +13,7 @@ env:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     name: ESLint
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
       - run: pnpm run lint
 
   prettier:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     name: Prettier
     steps:
       - uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
       - run: pnpm format:check
 
   tsc:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     name: Typechecker
     steps:
       - uses: actions/checkout@v4
