@@ -10,7 +10,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "format": "pnpm format:check --write",
-    "format:check": "prettier --check --plugin-search-dir=. **/*.{cjs,mjs,ts,tsx,md,json} --ignore-path .gitignore --ignore-unknown --no-error-on-unmatched-pattern",
+    "format:check": "pnpm exec prettier --check '**/*.{cjs,mjs,ts,tsx,md,json}' --ignore-path .gitignore --ignore-unknown --no-error-on-unmatched-pattern",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "build": "next build",
