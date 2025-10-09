@@ -8,7 +8,7 @@ import { cn } from "~/utils/style";
 
 // TODO: this looks weird, why use `cva` when there are no variants?
 const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
 );
 
 const Label = React.forwardRef<

@@ -22,7 +22,7 @@ type UserItemProps = {
 
 export const UserItem = (props: UserItemProps) => {
   const renderedUsername = [props.firstName ?? "", props.lastName ?? ""].join(
-    " "
+    " ",
   );
   const initials = [
     Array.from(props.firstName ?? "")[0],

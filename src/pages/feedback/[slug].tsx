@@ -75,7 +75,7 @@ const FeedbackRequest: NextPage = () => {
     },
     {
       enabled: !!clerkSession.userId,
-    }
+    },
   );
 
   // ~ feedback ~
@@ -88,7 +88,7 @@ const FeedbackRequest: NextPage = () => {
     },
     {
       enabled: !!router.query.slug && !!currentViewer.data?.id,
-    }
+    },
   );
 
   // ~ form ~
@@ -210,7 +210,7 @@ const FeedbackRequest: NextPage = () => {
                               // TODO: invalidate cache instead
                               void feedbackRequest.refetch();
                             },
-                          }
+                          },
                         );
                       }
                     }}
@@ -226,7 +226,7 @@ const FeedbackRequest: NextPage = () => {
                 <MainLayout app>
                   <FeedbackTitleSection title={title} />
                   <Card className="sm:my-12">
-                    <CardContent className="px-6 pb-8 pt-6">
+                    <CardContent className="px-6 pt-6 pb-8">
                       <FeedbackAuthorSection authors={authors} />
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
                       {/* TODO: do this typing for the other fields as well */}
@@ -254,7 +254,7 @@ const FeedbackRequest: NextPage = () => {
                                     variant={"outline"}
                                     className={cn(
                                       "w-[280px] justify-start text-left font-normal",
-                                      !value && "text-muted-foreground"
+                                      !value && "text-muted-foreground",
                                     )}
                                   >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -300,7 +300,7 @@ const FeedbackRequest: NextPage = () => {
                     </CardContent>
                   </Card>
                   <FeedbackItemSection feedbackItems={feedbackItems} />
-                  <footer className="flex justify-end pb-16 pt-8 sm:pl-8">
+                  <footer className="flex justify-end pt-8 pb-16 sm:pl-8">
                     <FeedbackRequestDialog
                       title={`Author ${formValues.title ?? ""} for ${
                         feedbackRequest.data?.owner.firstName ?? ""
@@ -374,16 +374,16 @@ const FeedbackRequest: NextPage = () => {
         <Header isSmall={isScrolled} title={"Feedback Request"} />
         <MainLayout app>
           <div className="flex max-w-4xl flex-col px-8 pb-8">
-            <h1 className="pb-8 pt-16 font-serif text-3xl">
+            <h1 className="pt-16 pb-8 font-serif text-3xl">
               {feedbackRequest.data?.title}
             </h1>
-            <Card className="mb-16 mt-2">
+            <Card className="mt-2 mb-16">
               <CardHeader className="mr-3">
                 <div className="flex items-center">
                   <p className="mx-2">You are requesting feedback:</p>
                 </div>
                 <CardContent className="flex flex-col items-start px-0">
-                  <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert">
+                  <ReactMarkdown className="prose dark:prose-invert mt-8 max-w-2xl leading-6">
                     {feedbackRequest.data?.paragraph ?? ""}
                   </ReactMarkdown>
                   {feedbackRequest.data?.deadline && (
@@ -422,7 +422,7 @@ const FeedbackRequest: NextPage = () => {
                         .map((authorFI) => (
                           <li
                             key={authorFI.id}
-                            className="mb-12 mt-8 grid w-full grid-cols-4"
+                            className="mt-8 mb-12 grid w-full grid-cols-4"
                           >
                             <div className="flex w-full flex-col items-start">
                               <UserItem
@@ -487,7 +487,7 @@ const FeedbackRequest: NextPage = () => {
                               feedbackRequest.data?.authorsFinished
                                 .map((a) => a.id)
                                 .includes(authorFI.author.id) && (
-                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert ">
+                                <ReactMarkdown className="prose dark:prose-invert col-span-3 w-full max-w-2xl text-lg leading-7">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
@@ -495,7 +495,7 @@ const FeedbackRequest: NextPage = () => {
                               feedbackRequest.data?.authorsFinished
                                 .map((a) => a.id)
                                 .includes(authorFI.author.id) && (
-                                <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert ">
+                                <ReactMarkdown className="prose dark:prose-invert col-span-3 w-full max-w-2xl text-lg leading-7">
                                   {authorFI.payload ?? ""}
                                 </ReactMarkdown>
                               )}
@@ -569,7 +569,7 @@ const FeedbackRequest: NextPage = () => {
                                 // TODO: invalidate cache instead
                                 void feedbackRequest.refetch();
                               },
-                            }
+                            },
                           );
                         }
                       }}
@@ -586,7 +586,7 @@ const FeedbackRequest: NextPage = () => {
                   <MainLayout app>
                     {/* <div className="flex w-full  flex-col px-8 pb-8"> */}
                     <div className="flex w-full flex-col pb-8 sm:px-8">
-                      <Card className="mb-16 mt-2">
+                      <Card className="mt-2 mb-16">
                         <CardHeader className="mr-3">
                           <div className="flex items-center">
                             <UserItem
@@ -602,7 +602,7 @@ const FeedbackRequest: NextPage = () => {
                             <p className="mx-2">is requesting Your feedback</p>
                           </div>
                           <CardContent className="flex flex-col items-start px-0 pb-0">
-                            <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert ">
+                            <ReactMarkdown className="prose dark:prose-invert mt-8 max-w-2xl leading-6">
                               {feedbackRequest.data?.paragraph ?? ""}
                             </ReactMarkdown>
                             {feedbackRequest.data?.deadline && (
@@ -613,12 +613,12 @@ const FeedbackRequest: NextPage = () => {
                                   visible on{" "}
                                   {format(
                                     feedbackRequest.data?.deadline,
-                                    "PPP"
+                                    "PPP",
                                   )}
                                 </Label>
                               </div>
                             )}
-                            <p className="mb-0 mt-2">
+                            <p className="mt-2 mb-0">
                               Not sure what to write? Check out our{" "}
                               <Link
                                 className="hover:text-underline text-sky-700 hover:text-sky-500"
@@ -663,7 +663,7 @@ const FeedbackRequest: NextPage = () => {
                                           onBlur={() => {
                                             onBlur();
                                           }}
-                                          className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
+                                          className="mt-2 mb-20 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
                                         />
                                         {errors.map((error) => (
                                           <p
@@ -681,8 +681,8 @@ const FeedbackRequest: NextPage = () => {
                             );
                           })}
                         </ul>
-                        <footer className="flex flex-col items-center justify-end pb-16 pl-8 pt-8 sm:flex-row">
-                          <p className="mb-5 mr-0 sm:mb-0 sm:mr-5">
+                        <footer className="flex flex-col items-center justify-end pt-8 pb-16 pl-8 sm:flex-row">
+                          <p className="mr-0 mb-5 sm:mr-5 sm:mb-0">
                             Ready to send it?
                           </p>
                           <FeedbackRequestAuthorDialog

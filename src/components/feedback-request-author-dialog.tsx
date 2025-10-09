@@ -27,16 +27,16 @@ type FeedbackRequestAuthorDialogProps = {
 };
 
 export const FeedbackRequestAuthorDialog = (
-  props: FeedbackRequestAuthorDialogProps
+  props: FeedbackRequestAuthorDialogProps,
 ) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{props.renderDialogTrigger}</DialogTrigger>
       {/* TODO: it is transparent without setting a background, investigate our UI library configuration */}
 
-      <DialogContent className="h-full overflow-y-scroll bg-background sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
+      <DialogContent className="bg-background h-full overflow-y-scroll sm:inset-10 sm:h-auto sm:w-auto sm:max-w-none">
         <section>
-          <Card className="mb-16 mt-6 sm:mx-12 sm:mt-3">
+          <Card className="mt-6 mb-16 sm:mx-12 sm:mt-3">
             <CardHeader className="mr-3">
               <div className="flex flex-col sm:flex-row sm:items-center">
                 {props.renderOwner}
@@ -45,7 +45,7 @@ export const FeedbackRequestAuthorDialog = (
             </CardHeader>
           </Card>
           <div className="mx-auto max-w-4xl">
-            <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">
+            <h1 className="px-8 pt-16 pb-8 font-serif text-3xl">
               {props.title}
             </h1>
           </div>
@@ -62,15 +62,15 @@ export const FeedbackRequestAuthorDialog = (
                       {item.prompt}
                     </Label>
                     <div className="mb-32 w-full">
-                      <li className="mb-12 mt-8 grid w-full grid-cols-4">
+                      <li className="mt-8 mb-12 grid w-full grid-cols-4">
                         <div className="w-full">{props.renderAuthor}</div>
-                        <ReactMarkdown className="prose col-span-3 w-full max-w-2xl text-lg leading-7 dark:prose-invert">
+                        <ReactMarkdown className="prose dark:prose-invert col-span-3 w-full max-w-2xl text-lg leading-7">
                           {item.payload ?? ""}
                         </ReactMarkdown>
                       </li>
                     </div>
                   </div>
-                )
+                ),
               )}
             </ul>
           </div>

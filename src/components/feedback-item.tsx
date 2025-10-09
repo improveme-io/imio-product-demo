@@ -27,13 +27,13 @@ type FeedbackItemProps = {
 // TODO: this needs to be broken up and moved into the section component
 export const FeedbackItem = (props: FeedbackItemProps) => {
   const [currentPrompt, setCurrentPrompt] = React.useState<string | null>(
-    props.prompt
+    props.prompt,
   );
   const [isEditing, setIsEditing] = React.useState(props.editing);
   const cardTitleClassNames = "flex w-full leading-7 min-h-20 items-start";
 
   return (
-    <Card className="group mt-6 animate-in slide-in-from-left duration-500 sm:mt-6">
+    <Card className="group animate-in slide-in-from-left mt-6 duration-500 sm:mt-6">
       <CardHeader>
         <div className="relative flex items-center justify-between">
           {isEditing ? (
@@ -75,7 +75,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
                 {currentPrompt ? currentPrompt : "Untitled Feedback Item"}
               </span>
               <Button
-                className="ml-auto transition-opacity duration-300 group-hover:opacity-100 pointerdevice:opacity-0"
+                className="pointerdevice:opacity-0 ml-auto transition-opacity duration-300 group-hover:opacity-100"
                 variant={"outline"}
                 onClick={() => {
                   setIsEditing(true);
@@ -110,7 +110,7 @@ export const FeedbackItem = (props: FeedbackItemProps) => {
           <Button
             variant={"ghost"}
             onClick={props.onRemove}
-            className="ml-auto text-red-500 transition-opacity duration-300 hover:bg-red-50 hover:text-red-500 group-hover:opacity-100 pointerdevice:opacity-0"
+            className="pointerdevice:opacity-0 ml-auto text-red-500 transition-opacity duration-300 group-hover:opacity-100 hover:bg-red-50 hover:text-red-500"
           >
             <TrashIcon className="mr-2 h-4 w-4" />
             Remove

@@ -51,7 +51,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                     onBlurValidate={emailSchema}
                   >
                     {({ value, setValue, onBlur, errors }) => (
-                      <div className="mb-6 mr-6 flex grow flex-col md:mb-0">
+                      <div className="mr-6 mb-6 flex grow flex-col md:mb-0">
                         <Label className="mb-2">E-Mail Address</Label>
                         <Input
                           type="email"
@@ -82,7 +82,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                     onBlurValidate={nameSchema}
                   >
                     {({ value, setValue, onBlur, errors }) => (
-                      <div className="mb-6 mr-6 flex grow flex-col md:mb-0">
+                      <div className="mr-6 mb-6 flex grow flex-col md:mb-0">
                         <Label className="mb-2">First Name</Label>
                         <Input
                           type="text"
@@ -111,7 +111,7 @@ export const FeedbackAuthorSection = (props: FeedbackAuthorSectionProps) => {
                     onBlurValidate={nameSchema}
                   >
                     {({ value, setValue, onBlur, errors }) => (
-                      <div className="mb-6 mr-6 flex grow flex-col md:mb-0">
+                      <div className="mr-6 mb-6 flex grow flex-col md:mb-0">
                         <Label className="mb-2">Last Name</Label>
                         <Input
                           type="text"

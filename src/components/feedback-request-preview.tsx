@@ -16,17 +16,17 @@ export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
   return (
     <section>
       <div className="mx-auto sm:max-w-4xl">
-        <h1 className="px-8 pb-8 pt-16 font-serif text-3xl">{props.title}</h1>
+        <h1 className="px-8 pt-16 pb-8 font-serif text-3xl">{props.title}</h1>
       </div>
       <div className="mx-auto flex max-w-4xl flex-col pb-8 sm:px-8">
-        <Card className="mb-16 mt-2">
+        <Card className="mt-2 mb-16">
           <CardHeader className="mr-3">
             <div className="flex items-center">
               {props.renderOwner}
               <p className="mx-2">is requesting Your feedback</p>
             </div>
             <CardContent className="flex items-center px-0">
-              <ReactMarkdown className="prose mt-8 max-w-2xl leading-6 dark:prose-invert">
+              <ReactMarkdown className="prose dark:prose-invert mt-8 max-w-2xl leading-6">
                 {props.paragraph ?? ""}
               </ReactMarkdown>
             </CardContent>
@@ -41,7 +41,7 @@ export const FeedbackRequestPreview = (props: FeedbackRequestPreviewProps) => {
               <Textarea
                 disabled
                 placeholder="Type Your Answer here, for example: I found your contributions to be particularly helpful or effective when..."
-                className="mb-20 mt-2 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
+                className="mt-2 mb-20 h-96 bg-white font-mono text-xl placeholder:text-stone-200 dark:bg-transparent dark:placeholder:text-stone-500"
               />
             </li>
           ))}

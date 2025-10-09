@@ -53,12 +53,12 @@ export const FeedbackRequestCard = (props: FeedbackRequestCardProps) => {
             {props.canEdit && <span className="text-stone-500">[Draft:]</span>}{" "}
             {props.title}
           </CardTitle>
-          <div className="mt-3 flex flex-col items-end justify-end gap-3 transition-opacity duration-300 group-hover:opacity-100 sm:mt-0 sm:flex-row sm:items-center pointerdevice:pointerdevice:opacity-0">
+          <div className="pointerdevice:pointerdevice:opacity-0 mt-3 flex flex-col items-end justify-end gap-3 transition-opacity duration-300 group-hover:opacity-100 sm:mt-0 sm:flex-row sm:items-center">
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="text-red-500 hover:bg-red-100 hover:text-red-500 dark:hover:bg-destructive dark:hover:text-red-50"
+                  className="dark:hover:bg-destructive text-red-500 hover:bg-red-100 hover:text-red-500 dark:hover:text-red-50"
                   disabled={props.disabled}
                 >
                   <TrashIcon className="mr-2 h-4 w-4" />

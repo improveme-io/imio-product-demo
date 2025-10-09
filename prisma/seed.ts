@@ -48,14 +48,14 @@ async function wipeClerk() {
     const deletedClerkUsers = await Promise.all(
       clerkUsersToDelete.map((cU) => {
         return clerkClient.users.deleteUser(cU.id);
-      })
+      }),
     );
 
     console.log(
       "There are ",
       totalCount,
       "users left in Clerk. Deletied a batch of users...",
-      { deletedClerkUsers }
+      { deletedClerkUsers },
     );
 
     // avoid hitting Clerk's rate limiter
@@ -90,7 +90,7 @@ async function wipeDatabase() {
   const remainingItems = await prisma.feedbackItem.count();
 
   console.log(
-    `Verification - Users: ${remainingUsers}, Requests: ${remainingRequests}, Items: ${remainingItems}`
+    `Verification - Users: ${remainingUsers}, Requests: ${remainingRequests}, Items: ${remainingItems}`,
   );
 
   if (remainingUsers > 0 || remainingRequests > 0 || remainingItems > 0) {

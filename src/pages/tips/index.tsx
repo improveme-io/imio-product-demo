@@ -54,7 +54,7 @@ const Home: NextPage = () => {
     <>
       <Toaster />
       <PageHead title="Home" />
-      <header className="flex justify-between bg-background px-8 py-8">
+      <header className="bg-background flex justify-between px-8 py-8">
         <Image
           className="inline dark:hidden"
           src="/HeroLogo.svg"
@@ -104,10 +104,10 @@ const Home: NextPage = () => {
         </div>
       </header>
       <MainLayout>
-        <h1 className="mb-12 mt-0 font-serif text-4xl">
+        <h1 className="mt-0 mb-12 font-serif text-4xl">
           Tips for Writing Constructive Feedback
         </h1>
-        <div className="gap-8 md:grid md:grid-cols-2 ">
+        <div className="gap-8 md:grid md:grid-cols-2">
           <div className="md:col-span-2">
             <iframe
               className="w-full rounded-md shadow-lg"
@@ -118,7 +118,7 @@ const Home: NextPage = () => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             ></iframe>
           </div>
-          <h3 className="mb-0 mt-8 text-xl md:col-span-2">
+          <h3 className="mt-8 mb-0 text-xl md:col-span-2">
             1. Orient the situation
           </h3>
           <FeatureCard
@@ -131,7 +131,7 @@ const Home: NextPage = () => {
             paragraph="Bad"
             title="“always when you…”"
           />
-          <h3 className="mb-0 mt-12 text-xl md:col-span-2">
+          <h3 className="mt-12 mb-0 text-xl md:col-span-2">
             2. Share the Objective Behavior
           </h3>
           <FeatureCard
@@ -144,7 +144,7 @@ const Home: NextPage = () => {
             paragraph="Bad. Goal is to agree on the behaviour, not to denote value to it. "
             title="“It was rude how you were interrupting others during the meeting”"
           />
-          <h3 className="mb-0 mt-12 text-xl md:col-span-2">
+          <h3 className="mt-12 mb-0 text-xl md:col-span-2">
             3. Share the Subjective Impact
           </h3>
           <FeatureCard
@@ -152,7 +152,7 @@ const Home: NextPage = () => {
             paragraph="You can start using adjectives again."
             title="“…it disrupted the flow of the conversation”, “…made me feel like I lost control of the meeting”"
           />
-          <h3 className="mb-0 mt-12 text-xl md:col-span-2">
+          <h3 className="mt-12 mb-0 text-xl md:col-span-2">
             4. Pass the Accountability
           </h3>
           <FeatureCard
@@ -160,13 +160,13 @@ const Home: NextPage = () => {
             paragraph="Ask an open–ended question"
             title="“What do you think how the meeting went?"
           />
-          <h2 className="col-span-2 mb-12 mt-16 font-serif text-3xl">
+          <h2 className="col-span-2 mt-16 mb-12 font-serif text-3xl">
             Useful Prompts
           </h2>
           {feedbackItemSamples.map((item, index) => (
             <Card key={index} className="flex flex-col justify-between">
               <CardHeader className="flex flex-row space-y-0">
-                <div className="ml-0 mr-1 mt-1 w-10 shrink-0">
+                <div className="mt-1 mr-1 ml-0 w-10 shrink-0">
                   <MessageCircle />
                 </div>
                 <CardTitle className="mt-0 leading-7">{item}</CardTitle>
@@ -193,7 +193,7 @@ const Home: NextPage = () => {
             <h2 className="my-12 w-full font-serif text-3xl">
               About improveme.io
             </h2>
-            <p className="mb-8 mr-8 h-24 w-24 md:max-w-lg">
+            <p className="mr-8 mb-8 h-24 w-24 md:max-w-lg">
               <Image
                 className="mx-auto hidden dark:inline"
                 src="/Logo-dark.svg"

@@ -16,9 +16,9 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        props.isSmall && "min-h-[4em] bg-opacity-70 py-2 dark:bg-opacity-70",
+        props.isSmall && "bg-opacity-70 dark:bg-opacity-70 min-h-[4em] py-2",
         !props.isSmall && "py-8",
-        "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500 dark:bg-stone-950 "
+        "sticky top-0 z-40 flex flex-col overflow-hidden bg-stone-100 px-8 transition-all duration-500 dark:bg-stone-950",
       )}
     >
       <div className="flex w-full flex-col justify-between sm:flex-row">
@@ -47,9 +47,9 @@ export const Header = (props: HeaderProps) => {
           </Link>{" "}
           <h1
             className={cn(
-              "group ml-2 mr-auto flex font-serif text-3xl tracking-tight transition-transform duration-300 delay-500 sm:ml-0",
+              "group mr-auto ml-2 flex font-serif text-3xl tracking-tight transition-transform delay-500 duration-300 sm:ml-0",
               props.isSmall && "hidden sm:flex sm:-translate-y-16",
-              !props.isSmall && "-translate-y-0"
+              !props.isSmall && "-translate-y-0",
             )}
           >
             {props.title}
@@ -59,13 +59,13 @@ export const Header = (props: HeaderProps) => {
           className={cn(
             props.isSmall
               ? "-mt-3 translate-x-12 sm:mt-3 sm:translate-x-0"
-              : "mt-3 ",
-            "transition-translate flex items-center text-right duration-300 sm:mx-0 sm:ml-auto sm:mr-6 sm:mt-0"
+              : "mt-3",
+            "transition-translate flex items-center text-right duration-300 sm:mx-0 sm:mt-0 sm:mr-6 sm:ml-auto",
           )}
         >
           {props.children}
         </div>
-        <div className="absolute right-3 top-3 mt-1 flex flex-col items-end sm:relative sm:right-auto sm:top-auto">
+        <div className="absolute top-3 right-3 mt-1 flex flex-col items-end sm:relative sm:top-auto sm:right-auto">
           <UserButton />
         </div>
       </div>
