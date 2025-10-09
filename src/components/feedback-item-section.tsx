@@ -91,7 +91,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
           remove: removeFromFeedbackItems,
         }) => (
           <>
-            <div className="mt-8 flex flex-col-reverse ">
+            <div className="mt-8 flex flex-col-reverse">
               <div className="mr-8 w-full">
                 <h2 className="mb-4 flex items-center text-xl">
                   <PuzzleIcon className="mr-2" />
@@ -110,7 +110,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                         ["my-4 flex flex-col"],
                         templateItem.highlight
                           ? ""
-                          : "bg-stone-100 dark:bg-stone-800"
+                          : "bg-stone-100 dark:bg-stone-800",
                       )}
                     >
                       <CardHeader className="pb-1">
@@ -147,7 +147,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                         <Button
                           className="w-full"
                           disabled={feedbackItems.some(
-                            (feedbackItem) => !isFeedbackItem(feedbackItem)
+                            (feedbackItem) => !isFeedbackItem(feedbackItem),
                           )}
                           variant={
                             templateItem.highlight ? "default" : "outline"
@@ -156,7 +156,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                           onClick={() => {
                             scroll.scrollToBottom();
                             templateItem.prompts.map((_) =>
-                              addToFeedbackItems({ prompt: _ })
+                              addToFeedbackItems({ prompt: _ }),
                             );
                           }}
                         >
@@ -181,7 +181,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                             prompt={value}
                             editing={false}
                             onChange={(
-                              event: ChangeEvent<HTMLInputElement>
+                              event: ChangeEvent<HTMLInputElement>,
                             ) => {
                               setValue(event.target.value);
                             }}
@@ -198,12 +198,12 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
               </div>
             </div>
             <div>
-              <Separator className="mb-3 mt-5" />
+              <Separator className="mt-5 mb-3" />
 
               <Button
-                className="light:bg-white mb-12 mt-4 "
+                className="light:bg-white mt-4 mb-12"
                 disabled={feedbackItems.some(
-                  (feedbackItem) => !isFeedbackItem(feedbackItem)
+                  (feedbackItem) => !isFeedbackItem(feedbackItem),
                 )}
                 variant={"outline"}
                 size={"lg"}

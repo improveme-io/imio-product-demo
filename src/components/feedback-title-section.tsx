@@ -21,7 +21,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
     >
       {({ value, setValue, errors }) => (
         <>
-          <div className="mb-8 mt-8 flex flex-row sm:mb-0">
+          <div className="mt-8 mb-8 flex flex-row sm:mb-0">
             <h1 className="w-full text-2xl">
               {isEditing && (
                 <div className="flex flex-row items-center">
@@ -38,7 +38,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                       }
                     }}
                     onBlur={() => setIsEditing(false)}
-                    className="flex-grow text-2xl"
+                    className="grow text-2xl"
                   />
                 </div>
               )}
@@ -50,7 +50,7 @@ export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
                   className="group"
                 >
                   <span>{value}</span>
-                  <span className="transition-opacity duration-300 group-hover:opacity-100 pointerdevice:opacity-0">
+                  <span className="pointerdevice:opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <EditButton />
                   </span>
                 </div>

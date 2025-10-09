@@ -18,7 +18,7 @@ const PrivacyPolicy: NextPage = () => {
   return (
     <>
       <PageHead title="Home" />
-      <header className="flex justify-between bg-background px-8 py-8">
+      <header className="bg-background flex justify-between px-8 py-8">
         <Link href="/">
           <Image
             className="inline dark:hidden"
@@ -69,7 +69,7 @@ const PrivacyPolicy: NextPage = () => {
           </SignedOut>
         </div>
       </header>
-      <main className="container flex min-h-screen w-full flex-col gap-x-8 bg-background px-8 py-8 sm:px-16 md:pl-32">
+      <main className="bg-background container flex min-h-screen w-full flex-col gap-x-8 px-8 py-8 sm:px-16 md:pl-32">
         <h1 className="my-12 font-serif text-4xl">Contact & Legal</h1>
         <div className="flex items-start">
           <div className="mb-20 md:w-4/6">

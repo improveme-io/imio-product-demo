@@ -50,14 +50,14 @@ export const feedbackUpdateSchema = z.object({
         email: z.string().optional(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
-      })
+      }),
     )
     .optional(),
   feedbackItems: z
     .array(
       z.object({
         prompt: z.string().optional(),
-      })
+      }),
     )
     .optional(),
 });
@@ -81,11 +81,11 @@ export const authorSubmit = z.array(
   z.object({
     id: z.string().cuid(),
     payload: payloadSchema,
-  })
+  }),
 );
 export const authorSave = z.array(
   z.object({
     id: z.string().cuid(),
     payload: z.string(),
-  })
+  }),
 );

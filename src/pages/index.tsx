@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   return (
     <>
       <PageHead title="Home" />
-      <header className="flex justify-between bg-background px-8 py-8">
+      <header className="bg-background flex justify-between px-8 py-8">
         <Image
           className="inline dark:hidden"
           src="/HeroLogo.svg"
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
             alt="Graphic depicting three people giving each other feedback in the cloud"
           />
         </div>
-        <div className="grid gap-8 md:grid-cols-2 ">
+        <div className="grid gap-8 md:grid-cols-2">
           <div className="md:col-span-2">
             <h2 className="mb-12 font-serif text-3xl">Keep it forever.</h2>
             <p className="mb-16 text-lg md:max-w-lg">
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
             paragraph="We guide the feedback givers so you can get feedback that you can actually use. Many of us have given feedback before… but was it any good? This is then also an added bonus for people you ask for feedback: They learn something, too! So don't be shy - ask away!"
           />
           <div className="gap-8 md:col-span-2 md:grid md:grid-cols-2">
-            <h2 className="col-span-2 mb-12 mt-16 w-full font-serif text-3xl">
+            <h2 className="col-span-2 mt-16 mb-12 w-full font-serif text-3xl">
               How it works
             </h2>
             <p className="mb-8 text-lg md:max-w-lg">
@@ -216,7 +216,7 @@ const Home: NextPage = () => {
             <h2 className="my-12 w-full font-serif text-3xl">Our Team</h2>
             <div className="mb-16 w-full pr-16 md:w-1/2 lg:w-1/3">
               <Image
-                className="mb-8 mr-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
+                className="mr-8 mb-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
                 src="/PortraitKristof.png"
                 width={350}
                 height={350}
@@ -250,7 +250,7 @@ const Home: NextPage = () => {
             </div>
             <div className="mb-16 w-full pr-16 md:w-1/2 lg:w-1/3">
               <Image
-                className="mb-8 mr-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
+                className="mr-8 mb-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
                 src="/PortraitMisi.png"
                 width={350}
                 height={350}
@@ -278,7 +278,7 @@ const Home: NextPage = () => {
             </div>
             <div className="mb-16 w-full pr-16 md:w-1/2 lg:w-1/3">
               <Image
-                className="mb-8 mr-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
+                className="mr-8 mb-8 h-40 w-40 rounded-full bg-green-200 text-3xl md:max-w-lg"
                 src="/PortraitBrooke.png"
                 width={350}
                 height={350}
@@ -318,7 +318,7 @@ const Home: NextPage = () => {
           </div>
           <div className="flex flex-wrap md:col-span-2">
             <h2 className="my-12 w-full font-serif text-3xl">Pricing</h2>
-            <p className="mb-8 mr-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl text-green-900 md:max-w-lg">
+            <p className="mr-8 mb-8 h-24 w-24 rounded-full bg-green-200 px-8 py-8 text-3xl text-green-900 md:max-w-lg">
               <span className="-ml-1">$0</span>
             </p>
             <p className="mb-8 text-lg md:max-w-lg">

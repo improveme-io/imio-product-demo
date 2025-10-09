@@ -46,12 +46,12 @@ export const feedbackRouter = createTRPCRouter({
       z.object({
         slug: z.string().cuid(),
         authorId: z.string().cuid().optional(),
-      })
+      }),
     )
     .query(({ ctx, input }) => {
       if (!input.authorId) {
         throw new Error(
-          "not implemented -- we will query the empty feedback items in this case... or all of them... or something..."
+          "not implemented -- we will query the empty feedback items in this case... or all of them... or something...",
         );
       }
 
@@ -98,7 +98,7 @@ export const feedbackRouter = createTRPCRouter({
       // check that the owner is making the request
       if (caller?.id !== feedback?.owner.id) {
         throw new Error(
-          "You are not authorized to delete this feedback request"
+          "You are not authorized to delete this feedback request",
         );
       }
 
@@ -118,7 +118,7 @@ export const feedbackRouter = createTRPCRouter({
         requestId: z.string().cuid(),
         authorClerkUserId: z.string(),
         state: z.enum(["start", "finish"]),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const feedback = await ctx.prisma.feedbackRequest.findUnique({
@@ -131,12 +131,12 @@ export const feedbackRouter = createTRPCRouter({
       }
 
       const author = feedback.authors.find(
-        (author) => author.clerkUserId === input.authorClerkUserId
+        (author) => author.clerkUserId === input.authorClerkUserId,
       );
 
       if (!author) {
         throw new Error(
-          "You are not authorized to change the authoring status of this feedback request"
+          "You are not authorized to change the authoring status of this feedback request",
         );
       }
 

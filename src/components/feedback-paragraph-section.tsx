@@ -13,7 +13,7 @@ type FeedbackParagraphSectionProps = {
 };
 
 export const FeedbackParagraphSection = (
-  props: FeedbackParagraphSectionProps
+  props: FeedbackParagraphSectionProps,
 ) => {
   return (
     <>

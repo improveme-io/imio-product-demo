@@ -85,6 +85,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      
+      - name: Debug
+        run: pnpm exec prettier --write --log-level debug src/components/shadcn/use-toast.ts
 
       - run: pnpm format:check
 
