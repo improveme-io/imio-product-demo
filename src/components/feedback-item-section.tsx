@@ -150,7 +150,7 @@ export const FeedbackItemSection = (props: FeedbackItemSectionProps) => {
                             (feedbackItem) => !isFeedbackItem(feedbackItem),
                           )}
                           variant={
-                            templateItem.highlight ? "default" : "outline-solid"
+                            templateItem.highlight ? "default" : "outline"
                           }
                           size={"lg"}
                           onClick={() => {

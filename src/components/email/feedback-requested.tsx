@@ -10,6 +10,12 @@ import {
 } from "@react-email/components";
 import appTailwindConfig from "../../../tailwind.config";
 
+// Remove or adjust darkMode property for react-email compatibility
+const emailTailwindConfig = {
+  ...appTailwindConfig,
+  darkMode: undefined,
+};
+
 interface Props {
   authorFirstName: string;
   ownerFirstName: string;
@@ -23,7 +29,7 @@ export function FeedbackRequested({
 }: Props) {
   return (
     <Html>
-      <Tailwind config={appTailwindConfig}>
+      <Tailwind config={emailTailwindConfig}>
         <Body className="bg-gray-100 p-8">
           <Container className="rounded-md bg-white p-6">
             <Heading className="mb-4 text-2xl font-bold text-pink-500">
