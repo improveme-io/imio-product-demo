@@ -131,7 +131,7 @@ export const formRouter = createTRPCRouter({
       );
 
       if (input.is360) {
-        const createdRequests = await ctx.prisma.$transaction(
+        await ctx.prisma.$transaction(
           participants.map((participant) => {
             const otherAuthors = participants.filter(
               (p) => p.id !== participant.id,
@@ -192,7 +192,6 @@ export const formRouter = createTRPCRouter({
 
         return {
           mode: "360",
-          createdCount: createdRequests.length,
           participants: participants.map((p) => p.email),
         };
       } else {
@@ -266,9 +265,8 @@ export const formRouter = createTRPCRouter({
         });
 
         return {
-          mode: "one-to-many",
-          updatedRequestId: updatedRequest.id,
-          authorCount: authors.length,
+          mode: "simple",
+          participants: participants.map((p) => p.email),
         };
       }
     }),
