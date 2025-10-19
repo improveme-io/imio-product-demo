@@ -42,12 +42,12 @@ export function FeedbackRequested({
                 alt="improveme.io"
                 width={312 / 2}
                 src="https://www.improveme.io/HeroLogo.png"
-                className="mb-15"
+                className="mb-10"
               />
 
               <div className="flex">
                 {ownerProfilePicURL && (
-                  <div className="mr-8 h-10 w-10 overflow-clip rounded-full">
+                  <div className="mr-4 h-10 w-10 overflow-clip rounded-full">
                     <Img
                       className="[margin:0_auto] w-10"
                       src={ownerProfilePicURL}
