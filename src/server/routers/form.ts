@@ -162,28 +162,27 @@ export const formRouter = createTRPCRouter({
           }),
         );
 
-        await Promise.all(
-          participants.map(async (p) => {
-            const emailComponent = FeedbackRequestedBatch({
-              authorFirstName: p.firstName,
-              ownerFirstName: owner.firstName,
-              ownerProfilePicURL: owner.profileImageUrl ?? undefined,
-              sessionIntro: input.paragraph,
-              feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
-            });
-
-            const { error } = await resend.emails.send({
-              from: "improveme.io <no-reply@mail.improveme.io>",
-              to: p.email,
-              subject: `You've been added to a 360° feedback session`,
-              react: emailComponent,
-            });
-
-            if (error) {
-              console.error(`Failed to send 360° e‑mail to ${p.email}`, error);
-            }
+        const batchPayload = participants.map((p) => ({
+          from: "improveme.io <no-reply@mail.improveme.io>",
+          to: p.email,
+          subject: "You've been added to a 360° feedback session",
+          react: FeedbackRequested({
+            authorFirstName: p.firstName,
+            ownerFirstName: owner.firstName,
+            ownerProfilePicURL: owner.profileImageUrl ?? undefined,
+            sessionIntro: input.paragraph,
+            feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
           }),
-        );
+        }));
+
+        try {
+          const response = await resend.batch.send(batchPayload);
+          if (response.error) {
+            console.error("Batch send error:", response.error);
+          }
+        } catch (error) {
+          console.error("Failed to send batch 360° emails:", error);
+        }
 
         await ctx.prisma.formSave.delete({
           where: { feedbackRequestId: input.requestId },
