@@ -10,7 +10,7 @@ type FeedBackTitleSectionProps = {
 };
 
 export const FeedbackTitleSection = (props: FeedBackTitleSectionProps) => {
-  const [isEditing, setIsEditing] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(true);
 
   return (
     <Field<string>
