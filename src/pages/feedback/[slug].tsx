@@ -250,17 +250,18 @@ const FeedbackRequest: NextPage = () => {
                                 Group Session
                               </h2>
                               <div className="flex flex-col">
-                                <div className="flex gap-4">
+                                <div className="flex items-center gap-4">
                                   <Checkbox
+                                    id="group-session"
                                     onBlur={onBlur}
                                     checked={value}
                                     onCheckedChange={(checked) =>
                                       setValue(checked === true)
                                     }
                                   />
-                                  <Label className="mb-4">
-                                    Involve your teammates in a group session
-                                    and make it 360&deg;.
+                                  <Label htmlFor="group-session">
+                                    Turn this into a group session where all
+                                    authors give and receive feedback.
                                   </Label>
                                 </div>
                                 {errors.map((error) => (
