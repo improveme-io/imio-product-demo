@@ -167,6 +167,10 @@ export const formRouter = createTRPCRouter({
               authorFirstName: p.firstName,
               ownerFirstName: owner?.firstName ?? "",
               feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
+              ownerProfilePicURL: owner.profileImageUrl
+                ? encodeURI(owner.profileImageUrl)
+                : undefined,
+              sessionIntro: input.paragraph,
             });
 
             const { error } = await resend.emails.send({
@@ -228,6 +232,10 @@ export const formRouter = createTRPCRouter({
             authorFirstName: author.firstName,
             ownerFirstName: owner?.firstName ?? "",
             feedbackUrl: encodeURI(`${getBaseURL()}/feedback/${input.slug}`),
+            ownerProfilePicURL: owner.profileImageUrl
+              ? encodeURI(owner.profileImageUrl)
+              : undefined,
+            sessionIntro: input.paragraph,
           });
 
           const { error } = await resend.emails.send({

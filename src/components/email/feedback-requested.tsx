@@ -41,6 +41,7 @@ export function FeedbackRequested({
               <Img
                 alt="improveme.io"
                 width={312 / 2}
+                height={153 / 2}
                 src="https://www.improveme.io/HeroLogo.png"
                 className="mb-10"
               />
