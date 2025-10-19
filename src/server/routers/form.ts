@@ -12,7 +12,8 @@ import {
   authorSubmit,
   authorSave,
 } from "~/utils/validation";
-import { getBaseURL } from "../utils";
+import { assertDefined, getBaseURL } from "../utils";
+import { FeedbackRequestedBatch } from "~/components/email/feedback-requested-batch";
 
 // TODO: use transactions
 // https://www.prisma.io/docs/concepts/components/prisma-client/transactions#batchbulk-operations
@@ -55,14 +56,12 @@ export const formRouter = createTRPCRouter({
   saveForm: protectedProcedure
     .input(feedbackUpdateSchema)
     .mutation(async ({ ctx, input }) => {
-      // clear existing temp data
       await ctx.prisma.formSave.delete({
         where: {
           feedbackRequestId: input.requestId,
         },
       });
 
-      // create new temp data
       return ctx.prisma.formSave.create({
         data: {
           feedbackRequestId: input.requestId,
@@ -89,45 +88,48 @@ export const formRouter = createTRPCRouter({
   submitForm: protectedProcedure
     .input(feedbackRequestSchema)
     .mutation(async ({ ctx, input }) => {
-      // Upsert all users (authors)
       await ctx.prisma.$transaction(
-        input.authors.map((author) =>
+        input.authors.map((a) =>
           ctx.prisma.user.upsert({
-            where: { email: author.email.toLowerCase() },
+            where: { email: a.email.toLowerCase() },
             update: {},
             create: {
-              email: author.email.toLowerCase(),
-              firstName: author.firstName,
-              lastName: author.lastName,
+              email: a.email.toLowerCase(),
+              firstName: a.firstName,
+              lastName: a.lastName,
             },
           }),
         ),
       );
 
-      // Get actual user records (authors)
       const authors = await ctx.prisma.user.findMany({
         where: {
-          email: {
-            in: input.authors.map((a) => a.email.toLowerCase()),
-          },
+          email: { in: input.authors.map((a) => a.email.toLowerCase()) },
         },
       });
 
-      const owner = await ctx.prisma.user.findUnique({
-        where: { id: input.ownerId },
-      });
-
-      if (!owner) throw new Error(`Owner not found for id ${input.ownerId}`);
+      const owner = assertDefined(
+        await ctx.prisma.user.findUnique({
+          where: { id: input.ownerId },
+        }),
+        `Owner with id ${input.ownerId} not found`,
+      );
 
       if (authors.length !== input.authors.length) {
-        throw new Error("Author mismatch – some could not be found or created");
+        const missing = input.authors
+          .map((a) => a.email.toLowerCase())
+          .filter((e) => !authors.some((dbAuthor) => dbAuthor.email === e));
+        throw new Error(
+          `The following authors could not be found or created: ${missing.join(
+            ", ",
+          )}`,
+        );
       }
 
-      const participants = [owner, ...authors];
+      const participants = [owner, ...authors].map((p) =>
+        assertDefined(p, `Missing participant`),
+      );
 
-      // \===========================================================
-      // === 360° FULL GRAPH GENERATION
-      // \===========================================================
       if (input.is360) {
         const createdRequests = await ctx.prisma.$transaction(
           participants.map((participant) => {
@@ -160,17 +162,14 @@ export const formRouter = createTRPCRouter({
           }),
         );
 
-        // Send one email to each participant
         await Promise.all(
           participants.map(async (p) => {
-            const emailComponent = FeedbackRequested({
+            const emailComponent = FeedbackRequestedBatch({
               authorFirstName: p.firstName,
-              ownerFirstName: owner?.firstName ?? "",
-              feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
-              ownerProfilePicURL: owner.profileImageUrl
-                ? encodeURI(owner.profileImageUrl)
-                : undefined,
+              ownerFirstName: owner.firstName,
+              ownerProfilePicURL: owner.profileImageUrl ?? undefined,
               sessionIntro: input.paragraph,
+              feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
             });
 
             const { error } = await resend.emails.send({
@@ -181,7 +180,7 @@ export const formRouter = createTRPCRouter({
             });
 
             if (error) {
-              console.error(`Failed to send 360° email to ${p.email}`, error);
+              console.error(`Failed to send 360° e‑mail to ${p.email}`, error);
             }
           }),
         );
@@ -190,86 +189,87 @@ export const formRouter = createTRPCRouter({
           where: { feedbackRequestId: input.requestId },
         });
 
-        return createdRequests;
-      }
+        return {
+          mode: "360",
+          createdCount: createdRequests.length,
+          participants: participants.map((p) => p.email),
+        };
+      } else {
+        const feedbackItemAuthorPairs = authors.flatMap((a) =>
+          input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi })),
+        );
 
-      // \===========================================================
-      // === DEFAULT (non-360) FLOW
-      // \===========================================================
-
-      // Old logic preserved (owner -> authors)
-      const feedbackItemAuthorPairs = authors.flatMap((a) =>
-        input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi })),
-      );
-
-      const fis = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
-        prompt: feedbackItem.prompt,
-        requestId: input.requestId,
-        ownerId: input.ownerId,
-        authorId: author.id,
-      }));
-
-      for (const fi of input.feedbackItems) {
-        fis.push({
-          prompt: fi.prompt,
+        const fis = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
+          prompt: feedbackItem.prompt,
           requestId: input.requestId,
           ownerId: input.ownerId,
-          authorId: input.ownerId,
-        });
-      }
+          authorId: author.id,
+        }));
 
-      const feedbackItems = await ctx.prisma.$transaction(
-        fis.map((data) =>
-          ctx.prisma.feedbackItem.create({
-            data,
+        for (const fi of input.feedbackItems) {
+          fis.push({
+            prompt: fi.prompt,
+            requestId: input.requestId,
+            ownerId: input.ownerId,
+            authorId: input.ownerId,
+          });
+        }
+
+        const feedbackItems = await ctx.prisma.$transaction(
+          fis.map((data) =>
+            ctx.prisma.feedbackItem.create({
+              data,
+            }),
+          ),
+        );
+
+        await Promise.all(
+          authors.map(async (author) => {
+            const emailComponent = FeedbackRequested({
+              authorFirstName: author.firstName,
+              ownerFirstName: owner.firstName,
+              ownerProfilePicURL: owner.profileImageUrl ?? undefined,
+              sessionIntro: input.paragraph,
+              feedbackUrl: encodeURI(`${getBaseURL()}/feedback/${input.slug}`),
+            });
+
+            const { error } = await resend.emails.send({
+              from: "improveme.io <no-reply@mail.improveme.io>",
+              to: author.email,
+              subject: `${owner.firstName} is asking for your feedback`,
+              react: emailComponent,
+            });
+
+            if (error) {
+              console.error(`Failed to send email to ${author.email}`, error);
+            }
           }),
-        ),
-      );
+        );
 
-      await Promise.all(
-        authors.map(async (author) => {
-          const emailComponent = FeedbackRequested({
-            authorFirstName: author.firstName,
-            ownerFirstName: owner?.firstName ?? "",
-            feedbackUrl: encodeURI(`${getBaseURL()}/feedback/${input.slug}`),
-            ownerProfilePicURL: owner.profileImageUrl
-              ? encodeURI(owner.profileImageUrl)
-              : undefined,
-            sessionIntro: input.paragraph,
-          });
-
-          const { error } = await resend.emails.send({
-            from: "improveme.io <no-reply@mail.improveme.io>",
-            to: author.email,
-            subject: `${owner?.firstName ?? ""} is asking for your feedback`,
-            react: emailComponent,
-          });
-
-          if (error) {
-            console.error(`Failed to send email to ${author.email}`, error);
-          }
-        }),
-      );
-
-      return ctx.prisma.feedbackRequest.update({
-        where: { id: input.requestId },
-        data: {
-          status: "REQUESTED",
-          title: input.title,
-          paragraph: input.paragraph,
-          deadline: input.deadline,
-          is360: input.is360,
-          authors: {
-            connect: authors.map((author) => ({ id: author.id })),
+        const updatedRequest = await ctx.prisma.feedbackRequest.update({
+          where: { id: input.requestId },
+          data: {
+            status: "REQUESTED",
+            title: input.title,
+            paragraph: input.paragraph,
+            deadline: input.deadline,
+            is360: input.is360,
+            authors: {
+              connect: authors.map((a) => ({ id: a.id })),
+            },
+            feedbackItems: {
+              connect: feedbackItems.map((fi) => ({ id: fi.id })),
+            },
+            formSave: { delete: true },
           },
-          feedbackItems: {
-            connect: feedbackItems.map((fi) => ({ id: fi.id })),
-          },
-          formSave: {
-            delete: true,
-          },
-        },
-      });
+        });
+
+        return {
+          mode: "one-to-many",
+          updatedRequestId: updatedRequest.id,
+          authorCount: authors.length,
+        };
+      }
     }),
 
   authorSave: protectedProcedure
