@@ -75,6 +75,7 @@ export const formRouter = createTRPCRouter({
             })),
           },
           deadline: input.deadline,
+          is360: input.is360,
           paragraph: input.paragraph,
           feedbackItems: {
             create: input.feedbackItems?.map((fi) => ({
@@ -189,6 +190,7 @@ export const formRouter = createTRPCRouter({
             title: input.title,
             paragraph: input.paragraph,
             deadline: input.deadline,
+            is360: input.is360,
             authors: {
               connect: authors.map((author) => ({
                 id: author.id,

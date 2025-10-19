@@ -118,6 +118,9 @@ const FeedbackRequest: NextPage = () => {
   const deadline = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.deadline
     : feedbackRequest.data?.deadline;
+  const is360 = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.is360
+    : feedbackRequest.data?.is360;
   const authors = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.authors
     : feedbackRequest.data?.authors.map((user) => ({
@@ -205,6 +208,7 @@ const FeedbackRequest: NextPage = () => {
                             title: formValues.title,
                             authors: formValues.authors,
                             deadline: formValues.deadline,
+                            is360: formValues.is360,
                             paragraph: formValues.paragraph,
                             feedbackItems: formValues.feedbackItems,
                           },
@@ -232,6 +236,55 @@ const FeedbackRequest: NextPage = () => {
                   <Card className="sm:my-12">
                     <CardContent className="px-6 pt-6 pb-8">
                       <FeedbackAuthorSection authors={authors} />
+                      <Field<FormValues["is360"]>
+                        name="is360"
+                        initialValue={is360 ?? false}
+                        onSubmitValidate={is360Schema}
+                        onChangeValidate={is360Schema}
+                      >
+                        {({ value, setValue, onBlur, errors }) => (
+                          <>
+                            <div className="mt-12 justify-between">
+                              <h2 className="mb-4 flex w-full text-xl">
+                                <Atom className="mr-2" />
+                                Group Session
+                              </h2>
+                              <div className="flex flex-col">
+                                <div className="flex gap-4">
+                                  <Checkbox
+                                    onBlur={onBlur}
+                                    checked={value}
+                                    onCheckedChange={(checked) =>
+                                      setValue(checked === true)
+                                    }
+                                  />
+                                  <Label className="mb-4">
+                                    Involve your teammates in a group session
+                                    and make it 360&deg;.
+                                  </Label>
+                                </div>
+                                {errors.map((error) => (
+                                  <p
+                                    className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                    key={`is360-${error}`}
+                                  >
+                                    {error}
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+
+                            {errors.map((error) => (
+                              <p
+                                className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                key={`paragraph-${error}`}
+                              >
+                                {error}
+                              </p>
+                            ))}
+                          </>
+                        )}
+                      </Field>
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
                       {/* TODO: do this typing for the other fields as well */}
                       <Field<FormValues["deadline"]>
@@ -299,56 +352,6 @@ const FeedbackRequest: NextPage = () => {
                               ))}
                             </div>
                           </div>
-                        )}
-                      </Field>
-                      <Field<FormValues["is360"]>
-                        name="is360"
-                        initialValue={false}
-                        onSubmitValidate={is360Schema}
-                        onChangeValidate={is360Schema}
-                      >
-                        {({ value, setValue, onBlur, errors }) => (
-                          <>
-                            <div className="mt-12 justify-between">
-                              <h2 className="mb-4 flex w-full text-xl">
-                                <Atom className="mr-2" />
-                                Group Session
-                              </h2>
-                              <div className="flex flex-col">
-                                <div className="flex items-center gap-4">
-                                  <Checkbox
-                                    onBlur={onBlur}
-                                    checked={value}
-                                    onCheckedChange={(checked) =>
-                                      setValue(checked === true)
-                                    }
-                                  />
-                                  <Label className="mb-4">
-                                    Involve your teammates in a group session
-                                    and make it 360&deg;.
-                                  </Label>
-                                </div>
-
-                                {errors.map((error) => (
-                                  <p
-                                    className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
-                                    key={`is360-${error}`}
-                                  >
-                                    {error}
-                                  </p>
-                                ))}
-                              </div>
-                            </div>
-
-                            {errors.map((error) => (
-                              <p
-                                className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
-                                key={`paragraph-${error}`}
-                              >
-                                {error}
-                              </p>
-                            ))}
-                          </>
                         )}
                       </Field>
                     </CardContent>

@@ -4,7 +4,7 @@ export const feedbackTitleSchema = z.string().nonempty("* Required");
 
 export const feedbackParagraphSchema = z.string().nonempty("* Required");
 
-export const deadlineSchema = z.date().nullish();
+export const deadlineSchema = z.coerce.date().nullable().optional();
 
 export const is360Schema = z.boolean().default(false);
 
@@ -47,7 +47,7 @@ export const feedbackUpdateSchema = z.object({
   requestId: z.string().cuid(),
   title: z.string().optional(),
   paragraph: z.string().optional(),
-  deadline: z.date().nullish(),
+  deadline: z.coerce.date().nullable().optional(),
   is360: is360Schema,
   authors: z
     .array(

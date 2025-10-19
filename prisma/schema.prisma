@@ -28,6 +28,7 @@ model FeedbackRequest {
   paragraph String?   @db.Text
   // TODO: rename this to revealDate
   deadline  DateTime?
+  is360     Boolean?  @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
 
@@ -48,6 +49,7 @@ model FormSave {
   title     String?   @db.Text
   paragraph String?   @db.Text
   deadline  DateTime?
+  is360     Boolean?  @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
 
