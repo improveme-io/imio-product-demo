@@ -53,7 +53,7 @@ Currently we don't handle database migrations, it is a work in progress.
 the `components/ui` folder is where you put the "atoms"
 the `components` folder is where you put the more specific or more complex stuff
 the `pages` folder is how you organize your pages and define the routes
-(see e.g. `localhost:3000/feedback/create` vs `localhost:3000/lego` vs `localhost:3000/`)
+(see e.g. `localhost:1337/feedback/create` vs `localhost:1337/lego` vs `localhost:1337/`)
 the `styles` folder is where you put your global styles (don't touch this, use `tailwind.config.js` instead)
 the `lib` folder is where you put your "utility" functions
 the `hooks` folder is where you put your custom react hooks
