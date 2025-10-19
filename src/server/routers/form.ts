@@ -162,18 +162,20 @@ export const formRouter = createTRPCRouter({
           }),
         );
 
-        const batchPayload = participants.map((p) => ({
-          from: "improveme.io <no-reply@mail.improveme.io>",
-          to: p.email,
-          subject: "You've been added to a 360° feedback session",
-          react: FeedbackRequested({
-            authorFirstName: p.firstName,
-            ownerFirstName: owner.firstName,
-            ownerProfilePicURL: owner.profileImageUrl ?? undefined,
-            sessionIntro: input.paragraph,
-            feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
-          }),
-        }));
+        const batchPayload = participants
+          .filter((p) => p.id !== owner.id)
+          .map((p) => ({
+            from: "improveme.io <no-reply@mail.improveme.io>",
+            to: p.email,
+            subject: `${owner.firstName} added you to a group feedback session`,
+            react: FeedbackRequested({
+              authorFirstName: p.firstName,
+              ownerFirstName: owner.firstName,
+              ownerProfilePicURL: owner.profileImageUrl ?? undefined,
+              sessionIntro: input.paragraph,
+              feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
+            }),
+          }));
 
         try {
           const response = await resend.batch.send(batchPayload);
