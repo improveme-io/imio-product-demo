@@ -47,7 +47,7 @@ export function FeedbackRequested({
 
               <div className="flex">
                 {ownerProfilePicURL && (
-                  <div className="h-10 w-10 overflow-clip rounded-full">
+                  <div className="mr-8 h-10 w-10 overflow-clip rounded-full">
                     <Img
                       className="[margin:0_auto] w-10"
                       src={ownerProfilePicURL}
@@ -55,7 +55,7 @@ export function FeedbackRequested({
                   </div>
                 )}
 
-                <Heading className="mt-1 mb-0 ml-3 text-2xl">
+                <Heading className="mt-1 mb-0 text-2xl">
                   {ownerFirstName} has requested your feedback.
                 </Heading>
               </div>
