@@ -249,8 +249,14 @@ const FeedbackRequest: NextPage = () => {
                                 <Atom className="mr-2" />
                                 Group Session
                               </h2>
+                              <p className="my-5 max-w-lg text-sm">
+                                All participants in a Group Session are brought
+                                together to share feedback. Each person provides
+                                feedback about all other authors, and in turn
+                                receives feedback from everyone else.
+                              </p>
                               <div className="flex flex-col">
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-3">
                                   <Checkbox
                                     id="group-session"
                                     onBlur={onBlur}
@@ -260,8 +266,8 @@ const FeedbackRequest: NextPage = () => {
                                     }
                                   />
                                   <Label htmlFor="group-session">
-                                    Turn this into a group session where all
-                                    authors give and receive feedback.
+                                    Include all authors in a group feedback
+                                    session
                                   </Label>
                                 </div>
                                 {errors.map((error) => (
