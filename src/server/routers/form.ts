@@ -12,7 +12,8 @@ import {
   authorSubmit,
   authorSave,
 } from "~/utils/validation";
-import { getBaseURL } from "../utils";
+import { assertDefined, getBaseURL } from "../utils";
+import { FeedbackRequestedBatch } from "~/components/email/feedback-requested-batch";
 
 // TODO: use transactions
 // https://www.prisma.io/docs/concepts/components/prisma-client/transactions#batchbulk-operations
@@ -55,14 +56,12 @@ export const formRouter = createTRPCRouter({
   saveForm: protectedProcedure
     .input(feedbackUpdateSchema)
     .mutation(async ({ ctx, input }) => {
-      // clear existing temp data
       await ctx.prisma.formSave.delete({
         where: {
           feedbackRequestId: input.requestId,
         },
       });
 
-      // create new temp data
       return ctx.prisma.formSave.create({
         data: {
           feedbackRequestId: input.requestId,
@@ -75,6 +74,7 @@ export const formRouter = createTRPCRouter({
             })),
           },
           deadline: input.deadline,
+          is360: input.is360,
           paragraph: input.paragraph,
           feedbackItems: {
             create: input.feedbackItems?.map((fi) => ({
@@ -88,118 +88,187 @@ export const formRouter = createTRPCRouter({
   submitForm: protectedProcedure
     .input(feedbackRequestSchema)
     .mutation(async ({ ctx, input }) => {
-      // ~ authors ~
-      // create authors
       await ctx.prisma.$transaction(
-        input.authors.map((author) =>
+        input.authors.map((a) =>
           ctx.prisma.user.upsert({
-            where: {
-              email: author.email.toLowerCase(),
-            },
+            where: { email: a.email.toLowerCase() },
             update: {},
             create: {
-              email: author.email.toLowerCase(),
-              firstName: author.firstName,
-              lastName: author.lastName,
+              email: a.email.toLowerCase(),
+              firstName: a.firstName,
+              lastName: a.lastName,
             },
           }),
         ),
       );
 
-      // query authors
-      // FIXME: Shouldn't the transaction above alrady return the users? This query seems to be redundant. Let's check the Prisma docs.
       const authors = await ctx.prisma.user.findMany({
         where: {
-          email: {
-            in: input.authors.map((author) => author.email.toLowerCase()),
-          },
+          email: { in: input.authors.map((a) => a.email.toLowerCase()) },
         },
       });
 
-      const owner = await ctx.prisma.user.findUnique({
-        where: { id: input.ownerId },
-      });
-      // send invitations to authors (via Resend)
-      await Promise.all(
-        authors.map(async (author) => {
-          const emailComponent = FeedbackRequested({
-            authorFirstName: author.firstName,
-            ownerFirstName: owner?.firstName ?? "",
-            feedbackUrl: encodeURI(`${getBaseURL()}/feedback/${input.slug}`),
-          });
-          console.debug(emailComponent);
-
-          const { error } = await resend.emails.send({
-            from: "improveme.io <no-reply@mail.improveme.io>",
-            to: author.email,
-            subject: `${owner?.firstName ?? ""} is asking for your feedback`,
-            react: emailComponent,
-          });
-
-          if (error) {
-            console.error(`Failed to send email to ${author.email}`, error);
-          }
+      const owner = assertDefined(
+        await ctx.prisma.user.findUnique({
+          where: { id: input.ownerId },
         }),
+        `Owner with id ${input.ownerId} not found`,
       );
 
-      // ~ feedback items ~
-      // zip into one big list that can be passed on to prisma
-      const feedbackItemAuthorPairs = authors.flatMap((a) =>
-        input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi })),
+      if (authors.length !== input.authors.length) {
+        const missing = input.authors
+          .map((a) => a.email.toLowerCase())
+          .filter((e) => !authors.some((dbAuthor) => dbAuthor.email === e));
+        throw new Error(
+          `The following authors could not be found or created: ${missing.join(
+            ", ",
+          )}`,
+        );
+      }
+
+      const participants = [owner, ...authors].map((p) =>
+        assertDefined(p, `Missing participant`),
       );
-      // create feedback items
-      // ownerId
-      const fis = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
-        prompt: feedbackItem.prompt,
-        requestId: input.requestId,
-        ownerId: input.ownerId,
-        authorId: author.id,
-      }));
-      // include owner as author --> these are special, "empty" feedback items used for displaying the feedback items on the frontend without exposing the author
-      for (const fi of input.feedbackItems) {
-        fis.push({
-          prompt: fi.prompt,
+
+      if (input.is360) {
+        await ctx.prisma.$transaction(
+          participants.map((participant) => {
+            const otherAuthors = participants.filter(
+              (p) => p.id !== participant.id,
+            );
+
+            return ctx.prisma.feedbackRequest.create({
+              data: {
+                status: "REQUESTED",
+                title: input.title,
+                paragraph: input.paragraph,
+                deadline: input.deadline,
+                is360: true,
+                owner: { connect: { id: participant.id } },
+                authors: {
+                  connect: otherAuthors.map((a) => ({ id: a.id })),
+                },
+                feedbackItems: {
+                  create: otherAuthors.flatMap((a) =>
+                    input.feedbackItems.map((fi) => ({
+                      prompt: fi.prompt,
+                      owner: { connect: { id: participant.id } },
+                      author: { connect: { id: a.id } },
+                    })),
+                  ),
+                },
+              },
+            });
+          }),
+        );
+
+        const batchPayload = participants
+          .filter((p) => p.id !== owner.id)
+          .map((p) => ({
+            from: "improveme.io <no-reply@mail.improveme.io>",
+            to: p.email,
+            subject: `${owner.firstName} added you to a group feedback session`,
+            react: FeedbackRequested({
+              authorFirstName: p.firstName,
+              ownerFirstName: owner.firstName,
+              ownerProfilePicURL: owner.profileImageUrl ?? undefined,
+              sessionIntro: input.paragraph,
+              feedbackUrl: encodeURI(`${getBaseURL()}/dashboard`),
+            }),
+          }));
+
+        try {
+          const response = await resend.batch.send(batchPayload);
+          if (response.error) {
+            console.error("Batch send error:", response.error);
+          }
+        } catch (error) {
+          console.error("Failed to send batch 360° emails:", error);
+        }
+
+        await ctx.prisma.formSave.delete({
+          where: { feedbackRequestId: input.requestId },
+        });
+
+        return {
+          mode: "360",
+          participants: participants.map((p) => p.email),
+        };
+      } else {
+        const feedbackItemAuthorPairs = authors.flatMap((a) =>
+          input.feedbackItems.map((fi) => ({ author: a, feedbackItem: fi })),
+        );
+
+        const fis = feedbackItemAuthorPairs.map(({ author, feedbackItem }) => ({
+          prompt: feedbackItem.prompt,
           requestId: input.requestId,
           ownerId: input.ownerId,
-          authorId: input.ownerId,
-        });
-      }
-      // create feedback items
-      const feedbackItems = await ctx.prisma.$transaction(
-        fis.map((data) =>
-          ctx.prisma.feedbackItem.create({
-            data,
-          }),
-        ),
-      );
+          authorId: author.id,
+        }));
 
-      // ~ feedback request ~
-      // create feedback request
-      return ctx.prisma.feedbackRequest.update({
-        where: {
-          id: input.requestId,
-        },
-        data: {
-          status: "REQUESTED",
-          title: input.title,
-          paragraph: input.paragraph,
-          deadline: input.deadline,
-          authors: {
-            connect: authors.map((author) => ({
-              id: author.id,
-            })),
+        for (const fi of input.feedbackItems) {
+          fis.push({
+            prompt: fi.prompt,
+            requestId: input.requestId,
+            ownerId: input.ownerId,
+            authorId: input.ownerId,
+          });
+        }
+
+        const feedbackItems = await ctx.prisma.$transaction(
+          fis.map((data) =>
+            ctx.prisma.feedbackItem.create({
+              data,
+            }),
+          ),
+        );
+
+        await Promise.all(
+          authors.map(async (author) => {
+            const emailComponent = FeedbackRequested({
+              authorFirstName: author.firstName,
+              ownerFirstName: owner.firstName,
+              ownerProfilePicURL: owner.profileImageUrl ?? undefined,
+              sessionIntro: input.paragraph,
+              feedbackUrl: encodeURI(`${getBaseURL()}/feedback/${input.slug}`),
+            });
+
+            const { error } = await resend.emails.send({
+              from: "improveme.io <no-reply@mail.improveme.io>",
+              to: author.email,
+              subject: `${owner.firstName} is asking for your feedback`,
+              react: emailComponent,
+            });
+
+            if (error) {
+              console.error(`Failed to send email to ${author.email}`, error);
+            }
+          }),
+        );
+
+        const updatedRequest = await ctx.prisma.feedbackRequest.update({
+          where: { id: input.requestId },
+          data: {
+            status: "REQUESTED",
+            title: input.title,
+            paragraph: input.paragraph,
+            deadline: input.deadline,
+            is360: input.is360,
+            authors: {
+              connect: authors.map((a) => ({ id: a.id })),
+            },
+            feedbackItems: {
+              connect: feedbackItems.map((fi) => ({ id: fi.id })),
+            },
+            formSave: { delete: true },
           },
-          feedbackItems: {
-            connect: feedbackItems.map((fi) => ({
-              id: fi.id,
-            })),
-          },
-          // ~ clean up save ~
-          formSave: {
-            delete: true,
-          },
-        },
-      });
+        });
+
+        return {
+          mode: "simple",
+          participants: participants.map((p) => p.email),
+        };
+      }
     }),
 
   authorSave: protectedProcedure

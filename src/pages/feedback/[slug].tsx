@@ -12,6 +12,7 @@ import {
   CalendarIcon,
   CheckIcon,
   PencilIcon,
+  Atom,
 } from "lucide-react";
 import {
   Tooltip,
@@ -38,6 +39,7 @@ import {
   type AuthoringForm,
   type AuthoringFormItem,
   deadlineSchema,
+  is360Schema,
 } from "~/utils/validation";
 import { LogoSplash } from "~/components/logo-splash";
 import { GeneralError, UnathorizedError } from "~/components/error-screens";
@@ -59,6 +61,7 @@ import ReactMarkdown from "react-markdown";
 import { cn } from "~/utils/style";
 import { FeedbackRequestAuthorDialog } from "~/components/feedback-request-author-dialog";
 import Link from "next/link";
+import { Checkbox } from "~/components/ui/checkbox";
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -115,6 +118,9 @@ const FeedbackRequest: NextPage = () => {
   const deadline = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.deadline
     : feedbackRequest.data?.deadline;
+  const is360 = feedbackRequest.data?.formSave
+    ? feedbackRequest.data?.formSave.is360
+    : feedbackRequest.data?.is360;
   const authors = feedbackRequest.data?.formSave
     ? feedbackRequest.data?.formSave.authors
     : feedbackRequest.data?.authors.map((user) => ({
@@ -181,6 +187,7 @@ const FeedbackRequest: NextPage = () => {
                   deadline: values.deadline,
                   paragraph: values.paragraph,
                   feedbackItems: values.feedbackItems,
+                  is360: values.is360,
                 });
               }
             }}
@@ -201,6 +208,7 @@ const FeedbackRequest: NextPage = () => {
                             title: formValues.title,
                             authors: formValues.authors,
                             deadline: formValues.deadline,
+                            is360: formValues.is360,
                             paragraph: formValues.paragraph,
                             feedbackItems: formValues.feedbackItems,
                           },
@@ -228,6 +236,62 @@ const FeedbackRequest: NextPage = () => {
                   <Card className="sm:my-12">
                     <CardContent className="px-6 pt-6 pb-8">
                       <FeedbackAuthorSection authors={authors} />
+                      <Field<FormValues["is360"]>
+                        name="is360"
+                        initialValue={is360 ?? false}
+                        onSubmitValidate={is360Schema}
+                        onChangeValidate={is360Schema}
+                      >
+                        {({ value, setValue, onBlur, errors }) => (
+                          <>
+                            <div className="mt-12 justify-between">
+                              <h2 className="mb-4 flex w-full text-xl">
+                                <Atom className="mr-2" />
+                                Group Session
+                              </h2>
+                              <p className="my-5 max-w-lg text-sm">
+                                All participants in a Group Session are brought
+                                together to share feedback. Each person provides
+                                feedback about all other authors, and in turn
+                                receives feedback from everyone else.
+                              </p>
+                              <div className="flex flex-col">
+                                <div className="flex items-center gap-3">
+                                  <Checkbox
+                                    id="group-session"
+                                    onBlur={onBlur}
+                                    checked={value}
+                                    onCheckedChange={(checked) =>
+                                      setValue(checked === true)
+                                    }
+                                  />
+                                  <Label htmlFor="group-session">
+                                    Include all authors in a group feedback
+                                    session
+                                  </Label>
+                                </div>
+                                {errors.map((error) => (
+                                  <p
+                                    className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                    key={`is360-${error}`}
+                                  >
+                                    {error}
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+
+                            {errors.map((error) => (
+                              <p
+                                className="mt-3 rounded-md bg-red-100 px-3 py-2 text-red-500"
+                                key={`paragraph-${error}`}
+                              >
+                                {error}
+                              </p>
+                            ))}
+                          </>
+                        )}
+                      </Field>
                       <FeedbackParagraphSection paragraph={paragraph ?? ""} />
                       {/* TODO: do this typing for the other fields as well */}
                       <Field<FormValues["deadline"]>

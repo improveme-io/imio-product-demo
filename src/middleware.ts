@@ -7,7 +7,7 @@ const publicRoutes = [
   "/legal/anti-discrimination-policy",
   "/legal/terms-and-conditions",
   "/uva",
-  "/email-preview",
+  "/email-previews/",
   "/api/webhooks/clerk",
 ];
 

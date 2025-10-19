@@ -25,7 +25,7 @@ interface Props {
   sessionIntro?: string;
 }
 
-export function FeedbackRequested({
+export function FeedbackRequestedBatch({
   authorFirstName,
   ownerFirstName,
   feedbackUrl,
@@ -57,7 +57,7 @@ export function FeedbackRequested({
                 )}
 
                 <Heading className="mt-1 mb-0 text-2xl">
-                  {ownerFirstName} has requested your feedback.
+                  {ownerFirstName} has added you to a feedback session.
                 </Heading>
               </div>
 
